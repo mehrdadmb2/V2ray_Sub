@@ -7,6 +7,6 @@ https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/3289f29bc1a1c765bff55ff7f
 ```
 - Irancell :
 ```
-Irancell.txt
+https://github.com/mehrdadmb2/V2ray_Sub/raw/c5c15b973798ade53750ca1b6cb45458151f3d57/Sub_Config(Mix).txt
 ```
 
