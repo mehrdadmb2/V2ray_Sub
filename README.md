@@ -9,4 +9,7 @@ https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/3289f29bc1a1c765bff55ff7f
 ```
 https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Irancell.txt
 ```
-
+- MCI :
+```
+https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Mci.txt
+```
