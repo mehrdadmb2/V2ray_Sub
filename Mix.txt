@@ -1,4 +1,3 @@
-vless://1cefef91-9e28-46f1-a0af-876953aee9a0@104.17.147.22:2086?path=%2Ftelegram-%40ASinTech%2Ctelegram-%40ASinTech%2Ctelegram-%40ASinTech%2Ctelegram-%40ASinTech%2Ctelegram-%40ASinTech%2Ctelegram-%40ASinTech%2Ctelegram-%40ASinTech%2Ctelegram-%40ASinTech%2Ctelegram-%40ASinTech%2Ctelegram-%40ASinTech%2Ctelegram-%40ASinTech%2Ctelegram-%40ASinTech%3Fed%3D2560&security=&encryption=none&host=a.hostdl.xyZ.&type=httpupgrade#%40a
-trojan://telegram-id-directvpn@52.50.140.6:22222?security=tls&alpn=http%2F1.1&headerType=&type=tcp&sni=trojan.burgerip.co.uk#%40b
-trojan://telegram-id-privatevpns@15.237.79.116:22222?security=tls&alpn=http%2F1.1&headerType=&type=tcp&sni=trojan.burgerip.co.uk#%40c
+ss://YWVzLTI1Ni1nY206ZzVNZUQ2RnQzQ1dsSklk@54.37.18.75:5004#%401
+vless://02be5968-d5c1-41f9-9515-3ea043b7aac3@104.26.13.31:443?path=%2Fws%2F&security=tls&alpn=h2%2Chttp%2F1.1&encryption=none&host=server19.aibox.tv&fp=chrome&type=ws&sni=server19.aibox.tv#%402
 vmess://eyJhZGQiOiI5Mi42MC43NC4xNDgiLCJhaWQiOiIwIiwiYWxwbiI6IiIsImZwIjoiIiwiaG9zdCI6ImxheDIuaWJnZncudG9wIiwiaWQiOiJlODhiODVjNi05M2I0LTQ3ZjYtYjNmYi0yYzU1ZGNiMTI4OWYiLCJuZXQiOiJ3cyIsInBhdGgiOiIvZHlhanZ3cyIsInBvcnQiOiI4NDQzIiwicHMiOiJASG9wZV9OZXQtam9pbi11cy1vbi1UZWxlZ3JhbSIsInNjeSI6ImF1dG8iLCJzbmkiOiIiLCJ0bHMiOiJ0bHMiLCJ0eXBlIjoibm9uZSIsInYiOiIyIn0=
