@@ -15,7 +15,7 @@ Manage your V2ray connections with the following pre-configured links:
 
 - **Mix** :
   ```
-  https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/3289f29bc1a1c765bff55ff7fa33c29f0bc3b7fd/Sub_Config(Mix).txt
+  https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt
   ```
 - **Irancell** :
   ```
