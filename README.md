@@ -1,17 +1,17 @@
-# ✨ V2ray_Sub: مدیریت اشتراک‌های V2ray 🔗
+# ✨ V2ray_Sub: V2ray Subscription Management 🔗
 
 [![License](https://img.shields.io/github/license/mehrdadmb2/V2ray_Sub?style=flat-square)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/mehrdadmb2/V2ray_Sub?style=flat-square)](https://github.com/mehrdadmb2/V2ray_Sub/stargazers)
 [![Issues](https://img.shields.io/github/issues/mehrdadmb2/V2ray_Sub?style=flat-square)](https://github.com/mehrdadmb2/V2ray_Sub/issues)
 [![Forks](https://img.shields.io/github/forks/mehrdadmb2/V2ray_Sub?style=flat-square)](https://github.com/mehrdadmb2/V2ray_Sub/network/members)
 
-**V2ray_Sub** ابزاری برای مدیریت لینک‌های اشتراک V2ray است. این ابزار روند به‌روزرسانی، سازماندهی و بهینه‌سازی اشتراک‌های شما را خودکار کرده و تجربه‌ای بدون قطعی را ارائه می‌دهد.
+**V2ray_Sub** is a tool for managing V2ray subscription links. It automates the process of updating, organizing, and optimizing your subscriptions, ensuring an uninterrupted experience.
 
 ---
 
-## 🌍 لیست اشتراک‌ها
+## 🇮🇷 🌍 لیست اشتراک‌ها | Subscription List
 
-برای مدیریت اتصالات V2ray خود می‌توانید از لینک‌های زیر استفاده کنید:
+Manage your V2ray connections using the links below:
 
 - **Mix**:
   ```
@@ -26,84 +26,80 @@
   https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Mci.txt
   ```
 
-## 📌 ویژگی‌ها
+## 📌 ویژگی‌ها | Features
 
-- 🔄 **به‌روزرسانی خودکار اشتراک‌ها**
-- 🗂 **مدیریت چندین اشتراک به‌صورت همزمان**
-- 🛠 **بهینه برای مصرف کم منابع سیستم**
+- 🔄 **Automatic Subscription Updates**
+- 🗂 **Manage Multiple Subscriptions Simultaneously**
+- 🛠 **Optimized for Low System Resource Usage**
 
 ---
 
-## 🚀 راه‌اندازی اولیه
+## 🚀 راه‌اندازی اولیه | Getting Started
 
-برای استفاده از **V2ray_Sub**، مراحل زیر را دنبال کنید:
+Follow these steps to use **V2ray_Sub**:
 
-### 1️⃣ دانلود و نصب 
+### 1️⃣ دانلود و نصب | Download & Install
 ```bash
  git clone https://github.com/mehrdadmb2/V2ray_Sub.git
  cd V2ray_Sub
 ```
 
-### 2️⃣ نصب پیش‌نیازها
+### 2️⃣ نصب پیش‌نیازها | Install Requirements
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3️⃣ اجرای برنامه
+### 3️⃣ اجرای برنامه | Run the Program
 ```bash
 python v2ray_sub_manager.py
 ```
 
 ---
 
-## 📲 راهنمای اضافه کردن اشتراک به V2rayNG (اندروید)
+## 📲 راهنمای اضافه کردن اشتراک به V2rayNG (اندروید) | Adding Subscription to V2rayNG (Android)
 
-### 1️⃣ **اجرای برنامه V2rayNG**
-برنامه **V2rayNG** را باز کنید.
-[![Opening V2rayNG](Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang.jpg)
+### 1️⃣ **اجرای برنامه V2rayNG | Open V2rayNG**
+[![Opening V2rayNG](Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit-small.jpg)](Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang.jpg)
 
-### 2️⃣ **ورود به منوی اشتراک‌ها**
-روی گزینه "Subscribe" کلیک کنید.
-[![Click on Subscribe](Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang.jpg)
+### 2️⃣ **ورود به منوی اشتراک‌ها | Open Subscription Menu**
+[![Click on Subscribe](Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit-small.jpg)](Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang.jpg)
 
-### 3️⃣ **افزودن اشتراک جدید**
-روی آیکون `+` کلیک کنید.
-[![Click on Plus](Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang.jpg)
+### 3️⃣ **افزودن اشتراک جدید | Add a New Subscription**
+[![Click on Plus](Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit-small.jpg)](Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang.jpg)
 
-### 4️⃣ **وارد کردن اطلاعات اشتراک**
-- یک نام برای اشتراک بنویسید.
-- لینک اشتراک را وارد کنید.
-- گزینه **Auto Update** را فعال کنید.
-[![Enter Subscription Details](Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang.jpg)
+### 4️⃣ **وارد کردن اطلاعات اشتراک | Enter Subscription Details**
+- **Enter a name for the subscription**
+- **Paste the subscription link**
+- **Enable Auto Update**
+[![Enter Subscription Details](Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit-small.jpg)](Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang.jpg)
 
-### 5️⃣ **به‌روزرسانی اشتراک**
-روی سه نقطه بالا کلیک کرده و "Update Subscription" را انتخاب کنید.
-[![Click on Update Subscription](Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang.jpg)
+### 5️⃣ **به‌روزرسانی اشتراک | Update Subscription**
+[![Click on Update Subscription](Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit-small.jpg)](Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang.jpg)
 
-### ✅ **اشتراک شما اضافه شد!**
-[![Subscription Updated](Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg)
+### ✅ **اشتراک شما اضافه شد! | Subscription Added!**
+[![Subscription Updated](Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang-edit-small.jpg)](Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg)
 
-> 💡 **نکته:** همواره اشتراک‌های خود را به‌روزرسانی کنید تا از سرورهای فعال بهره ببرید.
+> 💡 **نکته | Note:** Always update your subscriptions to use active servers.
 
 ---
 
-## 🤝 همکاری در پروژه
+## 🤝 همکاری در پروژه | Contribute to the Project
 
-💡 علاقه‌مند به بهبود **V2ray_Sub** هستید؟
-1. ریپازیتوری را فورک کنید و شاخه جدیدی ایجاد کنید.
-2. تغییرات خود را اعمال کرده و تست کنید.
-3. درخواست **Pull Request** ارسال کنید.
+💡 Want to improve **V2ray_Sub**?
+1. **Fork the repository** and create a new branch.
+2. **Make and test your changes.**
+3. **Submit a Pull Request.**
 
 ---
 
-## 📝 مجوز
+## 📝 مجوز | License
 
-این پروژه تحت مجوز **MIT** منتشر شده است. برای اطلاعات بیشتر فایل [LICENSE](LICENSE) را بررسی کنید.
+This project is released under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
-## 📩 ارتباط با ما
+## 📩 ارتباط با ما | Contact Us
 
-📧 **ایمیل:** [game.developer.mb@gmail.com](mailto:game.developer.mb@gmail.com)
+📧 **Email:** [game.developer.mb@gmail.com](mailto:game.developer.mb@gmail.com)
 
-🌐 **گیت‌هاب:** [mehrdadmb2](https://github.com/mehrdadmb2)
+🌐 **GitHub:** [mehrdadmb2](https://github.com/mehrdadmb2)
 
-> ایجاد شده با ❤️ توسط [Mehrdad](https://github.com/mehrdadmb2) 👨‍💻
+> Developed with ❤️ by [Mehrdad](https://github.com/mehrdadmb2) 👨‍💻
