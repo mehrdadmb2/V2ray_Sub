@@ -1,112 +1,109 @@
-# ✨ V2ray_Sub: V2ray Subscription Manager 🔗
+# ✨ V2ray_Sub: مدیریت اشتراک‌های V2ray 🔗
 
 [![License](https://img.shields.io/github/license/mehrdadmb2/V2ray_Sub?style=flat-square)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/mehrdadmb2/V2ray_Sub?style=flat-square)](https://github.com/mehrdadmb2/V2ray_Sub/stargazers)
 [![Issues](https://img.shields.io/github/issues/mehrdadmb2/V2ray_Sub?style=flat-square)](https://github.com/mehrdadmb2/V2ray_Sub/issues)
 [![Forks](https://img.shields.io/github/forks/mehrdadmb2/V2ray_Sub?style=flat-square)](https://github.com/mehrdadmb2/V2ray_Sub/network/members)
 
-**V2ray_Sub** is a dedicated tool for managing V2ray subscription links with ease. It simplifies the process of keeping your V2ray subscriptions up to date, organized, and optimized for an uninterrupted connection experience.
+**V2ray_Sub** ابزاری برای مدیریت لینک‌های اشتراک V2ray است. این ابزار روند به‌روزرسانی، سازماندهی و بهینه‌سازی اشتراک‌های شما را خودکار کرده و تجربه‌ای بدون قطعی را ارائه می‌دهد.
 
 ---
 
-## 🌐 Available Subscriptions
+## 🌍 لیست اشتراک‌ها
 
-Manage your V2ray connections with the following pre-configured links:
+برای مدیریت اتصالات V2ray خود می‌توانید از لینک‌های زیر استفاده کنید:
 
-- **Mix** :
+- **Mix**:
   ```
   https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt
   ```
-- **Irancell** :
+- **Irancell**:
   ```
   https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Irancell.txt
   ```
-- **MCI** :
+- **MCI**:
   ```
   https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Mci.txt
   ```
 
-## 📌 Key Features
+## 📌 ویژگی‌ها
 
-- 🔄 **Automatic Subscription Updates**: Keep your V2ray configurations updated without manual effort.
-- 🗂 **Subscription Management**: Handle multiple subscriptions seamlessly and switch as needed.
-- 🛠️ **Efficient Resource Use**: Optimized for minimal resource consumption while maintaining robust functionality.
-
-## 🚀 Getting Started
-
-To get started with **V2ray_Sub**, follow these steps:
-
-1. **Clone the Repository**:
-
-    ```bash
-    git clone https://github.com/mehrdadmb2/V2ray_Sub.git
-    cd V2ray_Sub
-    ```
-
-2. **Install Dependencies**:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3. **Run the Program**:
-
-    ```bash
-    python v2ray_sub_manager.py
-    ```
-
-## 📚 Usage Instructions
-
-### 📲 Adding Subscription to V2rayNG
-If you're using **V2rayNG** on Android, follow these steps to add a new subscription:
-
-1. **Open V2rayNG**: Launch the V2rayNG application on your device.
-   ![Opening V2rayNG](Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg)
-
-2. **Access Subscription Menu**: Tap on the "Subscribe" option in the menu.
-   ![Click on Subscribe](Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit.jpg)
-
-3. **Add New Subscription**: Click on the `+` icon at the top left corner to add a new subscription.
-   ![Click on Plus](Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit.jpg)
-
-4. **Enter Subscription Details**:
-   - Enter a custom name for the subscription.
-   - Paste the subscription link from the list above.
-   - Enable the "Auto Update" option for automatic updates.
-   - Save the settings.
-   ![Enter Subscription Details](Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit.jpg)
-
-5. **Update Subscription**:
-   - Click on the three dots at the top right corner.
-   ![Click on Three Dots](Pic/Screenshot_2025-02-27-14-46-08-943_com.v2ray.ang-edit.jpg)
-   - Select "Update Subscription".
-   ![Click on Update Subscription](Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit.jpg)
-
-6. **Subscription Added**: Your new subscription links will be automatically imported and ready to use.
-   ![Subscription Updated](Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg)
-
-> **Note**: Make sure your dependencies are updated regularly for the best performance.
-
-## 🤝 Contributing
-
-Want to help make **V2ray_Sub** better? Contributions are welcome!
-
-1. Fork the repository and create a new branch.
-2. Make your changes, test thoroughly, and submit a pull request.
-3. Be sure to include a detailed description of your changes.
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📩 Contact
-
-For any questions or suggestions, feel free to reach out:
-
-- **Email**: [game.developer.mb@gmail.com](mailto:game.developer.mb@gmail.com)
-- **GitHub**: [mehrdadmb2](https://github.com/mehrdadmb2)
+- 🔄 **به‌روزرسانی خودکار اشتراک‌ها**
+- 🗂 **مدیریت چندین اشتراک به‌صورت همزمان**
+- 🛠 **بهینه برای مصرف کم منابع سیستم**
 
 ---
 
-> Created with ❤️ by [Mehrdad](https://github.com/mehrdadmb2) 👨‍💻
+## 🚀 راه‌اندازی اولیه
 
+برای استفاده از **V2ray_Sub**، مراحل زیر را دنبال کنید:
+
+### 1️⃣ دانلود و نصب 
+```bash
+ git clone https://github.com/mehrdadmb2/V2ray_Sub.git
+ cd V2ray_Sub
+```
+
+### 2️⃣ نصب پیش‌نیازها
+```bash
+pip install -r requirements.txt
+```
+
+### 3️⃣ اجرای برنامه
+```bash
+python v2ray_sub_manager.py
+```
+
+---
+
+## 📲 راهنمای اضافه کردن اشتراک به V2rayNG (اندروید)
+
+### 1️⃣ **اجرای برنامه V2rayNG**
+برنامه **V2rayNG** را باز کنید.
+[![Opening V2rayNG](Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang.jpg)
+
+### 2️⃣ **ورود به منوی اشتراک‌ها**
+روی گزینه "Subscribe" کلیک کنید.
+[![Click on Subscribe](Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang.jpg)
+
+### 3️⃣ **افزودن اشتراک جدید**
+روی آیکون `+` کلیک کنید.
+[![Click on Plus](Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang.jpg)
+
+### 4️⃣ **وارد کردن اطلاعات اشتراک**
+- یک نام برای اشتراک بنویسید.
+- لینک اشتراک را وارد کنید.
+- گزینه **Auto Update** را فعال کنید.
+[![Enter Subscription Details](Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang.jpg)
+
+### 5️⃣ **به‌روزرسانی اشتراک**
+روی سه نقطه بالا کلیک کرده و "Update Subscription" را انتخاب کنید.
+[![Click on Update Subscription](Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang.jpg)
+
+### ✅ **اشتراک شما اضافه شد!**
+[![Subscription Updated](Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang-edit.jpg)](Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg)
+
+> 💡 **نکته:** همواره اشتراک‌های خود را به‌روزرسانی کنید تا از سرورهای فعال بهره ببرید.
+
+---
+
+## 🤝 همکاری در پروژه
+
+💡 علاقه‌مند به بهبود **V2ray_Sub** هستید؟
+1. ریپازیتوری را فورک کنید و شاخه جدیدی ایجاد کنید.
+2. تغییرات خود را اعمال کرده و تست کنید.
+3. درخواست **Pull Request** ارسال کنید.
+
+---
+
+## 📝 مجوز
+
+این پروژه تحت مجوز **MIT** منتشر شده است. برای اطلاعات بیشتر فایل [LICENSE](LICENSE) را بررسی کنید.
+
+## 📩 ارتباط با ما
+
+📧 **ایمیل:** [game.developer.mb@gmail.com](mailto:game.developer.mb@gmail.com)
+
+🌐 **گیت‌هاب:** [mehrdadmb2](https://github.com/mehrdadmb2)
+
+> ایجاد شده با ❤️ توسط [Mehrdad](https://github.com/mehrdadmb2) 👨‍💻
