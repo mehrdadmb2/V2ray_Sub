@@ -59,23 +59,23 @@ python v2ray_sub_manager.py
 ## 📲 راهنمای اضافه کردن اشتراک به V2rayNG (اندروید) | Adding Subscription to V2rayNG (Android)
 
 ### 1️⃣ **اجرای برنامه V2rayNG | Open V2rayNG**
-<img src="Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang.jpg" width="300">
+<img src="Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg" width="300">
 
 ### 2️⃣ **ورود به منوی اشتراک‌ها | Open Subscription Menu**
-<img src="Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang.jpg" width="300">
+<img src="Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit.jpg" width="300">
 
 ### 3️⃣ **افزودن اشتراک جدید | Add a New Subscription**
-<img src="Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang.jpg" width="300">
+<img src="Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit.jpg" width="300">
 
 ### 4️⃣ **وارد کردن اطلاعات اشتراک | Enter Subscription Details**
 - **نامی برای اشتراک وارد کنید**
 - **لینک اشتراک را جای‌گذاری کنید**
 - **گزینه Auto Update را فعال کنید**
 
-<img src="Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang.jpg" width="300">
+<img src="Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit.jpg" width="300">
 
 ### 5️⃣ **به‌روزرسانی اشتراک | Update Subscription**
-<img src="Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang.jpg" width="300">
+<img src="Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit.jpg" width="300">
 
 ### ✅ **اشتراک شما اضافه شد! | Subscription Added!**
 <img src="Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg" width="300">
