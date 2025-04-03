@@ -1,89 +1,71 @@
-V2ray | Vmess | Trojan | Vless, [3/31/2025 6:30 PM]
-TROJAN 🇩🇪 (S114) TCP
-trojan://telegram-id-privatevpns@3.127.179.35:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S114)🇩🇪t.me/PrivateVPNs
- 📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
-🌐 @PrivateVPNs
-
-V2ray | Vmess | Trojan | Vless, [3/31/2025 7:20 PM]
-TROJAN 🇨🇵 (S115) TCP
-trojan://telegram-id-privatevpns@13.38.242.52:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S115)🇨🇵t.me/PrivateVPNs
- 📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
-🌐 @PrivateVPNs
-
-V2ray | Vmess | Trojan | Vless, [3/31/2025 9:00 PM]
-TROJAN 🇨🇵 (S116) TCP
-trojan://telegram-id-privatevpns@35.181.208.81:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S116)🇨🇵t.me/PrivateVPNs
- 📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
-🌐 @PrivateVPNs
-
-V2ray | Vmess | Trojan | Vless, [3/31/2025 9:30 PM]
-TROJAN 🇬🇧 (S117) TCP
-trojan://telegram-id-privatevpns@18.132.214.228:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S117)🇬🇧t.me/PrivateVPNs
- 📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
-🌐 @PrivateVPNs
-
-V2ray | Vmess | Trojan | Vless, [3/31/2025 10:00 PM]
-TROJAN 🇬🇧 (S118) TCP
-trojan://telegram-id-privatevpns@18.134.27.169:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S118)🇬🇧t.me/PrivateVPNs
- 📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
-🌐 @PrivateVPNs
-
-V2ray | Vmess | Trojan | Vless, [3/31/2025 10:50 PM]
-TROJAN 🇨🇮 (S119) TCP
-trojan://telegram-id-privatevpns@18.202.87.205:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S119)🇨🇮t.me/PrivateVPNs
- 📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
-🌐 @PrivateVPNs
-
-V2ray | Vmess | Trojan | Vless, [3/31/2025 11:16 PM]
+V2ray | Vmess | Trojan | Vless, [4/2/2025 11:18 AM]
 TROJAN 🇨🇮 (S120) TCP
-trojan://telegram-id-privatevpns@99.81.107.176:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S120)🇨🇮t.me/PrivateVPNs
+trojan://telegram-id-privatevpns@34.254.116.215:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S120)🇨🇮t.me/PrivateVPNs
  📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
 🌐 @PrivateVPNs
 
-V2ray | Vmess | Trojan | Vless, [4/1/2025 11:16 AM]
-TROJAN 🇨🇮 (S120) TCP
-trojan://telegram-id-privatevpns@99.81.107.176:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S120)🇨🇮t.me/PrivateVPNs
- 📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
-🌐 @PrivateVPNs
-
-V2ray | Vmess | Trojan | Vless, [4/1/2025 4:30 PM]
+V2ray | Vmess | Trojan | Vless, [4/2/2025 4:30 PM]
 TROJAN 🇸🇪 (S111) TCP
-trojan://telegram-id-privatevpns@13.53.55.207:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S111)🇸🇪t.me/PrivateVPNs
+trojan://telegram-id-privatevpns@51.21.13.167:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S111)🇸🇪t.me/PrivateVPNs
  📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
 🌐 @PrivateVPNs
 
-V2ray | Vmess | Trojan | Vless, [4/1/2025 5:30 PM]
+V2ray | Vmess | Trojan | Vless, [4/2/2025 5:30 PM]
 TROJAN 🇸🇪 (S112) TCP
-trojan://telegram-id-privatevpns@51.20.16.164:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S112)🇸🇪t.me/PrivateVPNs
+trojan://telegram-id-privatevpns@16.170.122.230:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S112)🇸🇪t.me/PrivateVPNs
  📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
 🌐 @PrivateVPNs
 
-V2ray | Vmess | Trojan | Vless, [4/1/2025 6:00 PM]
+V2ray | Vmess | Trojan | Vless, [4/2/2025 6:00 PM]
 TROJAN 🇩🇪 (S113) TCP
-trojan://telegram-id-privatevpns@18.159.217.6:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S113)🇩🇪t.me/PrivateVPNs
+trojan://telegram-id-privatevpns@35.158.81.171:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S113)🇩🇪t.me/PrivateVPNs
  📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
 🌐 @PrivateVPNs
 
-V2ray | Vmess | Trojan | Vless, [4/1/2025 6:30 PM]
+V2ray | Vmess | Trojan | Vless, [4/2/2025 6:30 PM]
 TROJAN 🇩🇪 (S114) TCP
-trojan://telegram-id-privatevpns@63.177.135.99:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S114)🇩🇪t.me/PrivateVPNs
+trojan://telegram-id-privatevpns@3.127.187.143:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S114)🇩🇪t.me/PrivateVPNs
  📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
 🌐 @PrivateVPNs
 
-V2ray | Vmess | Trojan | Vless, [4/1/2025 7:22 PM]
+V2ray | Vmess | Trojan | Vless, [4/2/2025 7:23 PM]
 TROJAN 🇨🇵 (S115) TCP
-trojan://telegram-id-privatevpns@13.38.187.179:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S115)🇨🇵t.me/PrivateVPNs
+trojan://telegram-id-privatevpns@35.180.183.189:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S115)🇨🇵t.me/PrivateVPNs
  📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
 🌐 @PrivateVPNs
 
-V2ray | Vmess | Trojan | Vless, [4/1/2025 9:00 PM]
+V2ray | Vmess | Trojan | Vless, [4/2/2025 9:00 PM]
 TROJAN 🇨🇵 (S116) TCP
-trojan://telegram-id-privatevpns@15.188.240.93:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S116)🇨🇵t.me/PrivateVPNs
+trojan://telegram-id-privatevpns@15.188.226.27:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S116)🇨🇵t.me/PrivateVPNs
  📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
 🌐 @PrivateVPNs
 
-V2ray | Vmess | Trojan | Vless, [4/1/2025 9:30 PM]
+V2ray | Vmess | Trojan | Vless, [4/2/2025 9:30 PM]
 TROJAN 🇬🇧 (S117) TCP
-trojan://telegram-id-privatevpns@18.135.219.247:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S117)🇬🇧t.me/PrivateVPNs
+trojan://telegram-id-privatevpns@35.177.223.124:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S117)🇬🇧t.me/PrivateVPNs
+ 📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
+🌐 @PrivateVPNs
+
+V2ray | Vmess | Trojan | Vless, [4/2/2025 10:00 PM]
+TROJAN 🇬🇧 (S118) TCP
+trojan://telegram-id-privatevpns@13.43.8.32:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S118)🇬🇧t.me/PrivateVPNs
+ 📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
+🌐 @PrivateVPNs
+
+V2ray | Vmess | Trojan | Vless, [4/2/2025 10:50 PM]
+TROJAN 🇨🇮 (S119) TCP
+trojan://telegram-id-privatevpns@34.250.59.38:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S119)🇨🇮t.me/PrivateVPNs
+ 📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
+🌐 @PrivateVPNs
+
+V2ray | Vmess | Trojan | Vless, [4/2/2025 11:16 PM]
+TROJAN 🇨🇮 (S120) TCP
+trojan://telegram-id-privatevpns@52.214.60.9:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S120)🇨🇮t.me/PrivateVPNs
+ 📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
+🌐 @PrivateVPNs
+
+V2ray | Vmess | Trojan | Vless, [4/3/2025 11:18 AM]
+TROJAN 🇨🇮 (S120) TCP
+trojan://telegram-id-privatevpns@52.214.60.9:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#(S120)🇨🇮t.me/PrivateVPNs
  📚آموزش استفاده از سرورها (https://t.me/PrivateVPNs/18)
 🌐 @PrivateVPNs
