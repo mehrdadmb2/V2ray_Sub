@@ -26,3 +26,24 @@ vless://arashvpn@172.67.208.168:80?path=%2Fgraphql&security=none&encryption=none
 vless://arashvpn@104.21.112.1:80?path=%2Fgraphql&security=none&encryption=none&host=importantstatus.xyz&type=ws#arashvpn
 
 vless://arashvpn@104.17.158.243:80?path=%2Fgraphql&security=none&encryption=none&host=importantstatus.xyz&type=ws#arashvpn
+vless://arashvpn@104.24.8.32:80?path=%2Fgraphql&security=none&encryption=none&host=twistsparrow.xyz&type=ws#arashvpn
+
+vless://arashvpn@198.41.203.219:80?path=%2Fgraphql&security=none&encryption=none&host=twistsparrow.xyz&type=ws#arashvpn
+
+vless://arashvpn@www.speedtest.net:80?path=%2Fgraphql&security=none&encryption=none&host=twistsparrow.xyz&type=ws#arashvpn
+
+vless://arashvpn@162.159.14.129:80?path=%2Fgraphql&security=none&encryption=none&host=twistsparrow.xyz&type=ws#arashvpn
+
+vless://arashvpn@172.67.170.47:80?path=%2Fgraphql&security=none&encryption=none&host=twistsparrow.xyz&type=ws#arashvpn
+
+vless://arashvpn@172.67.220.250:80?path=%2Fgraphql&security=none&encryption=none&host=twistsparrow.xyz&type=ws#arashvpn
+
+vless://arashvpn@172.67.153.251:80?path=%2Fgraphql&security=none&encryption=none&host=twistsparrow.xyz&type=ws#arashvpn
+
+vless://arashvpn@172.67.160.5:80?path=%2Fgraphql&security=none&encryption=none&host=twistsparrow.xyz&type=ws#arashvpn
+
+vless://arashvpn@172.67.208.168:80?path=%2Fgraphql&security=none&encryption=none&host=twistsparrow.xyz&type=ws#arashvpn
+
+vless://arashvpn@104.21.112.1:80?path=%2Fgraphql&security=none&encryption=none&host=twistsparrow.xyz&type=ws#arashvpn
+
+vless://arashvpn@104.17.158.243:80?path=%2Fgraphql&security=none&encryption=none&host=twistsparrow.xyz&type=ws#arashvpn
