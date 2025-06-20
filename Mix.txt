@@ -1,5 +1,6 @@
 Μιθριδάτης ✞, [6/20/2025 1:44 AM]
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxYkV2SkNXQUpRR0ZQcmFKWXgwRWVB@45.138.135.155:42651#
 
-Μιθριδάτης ✞, [6/20/2025 2:45 AM]
-vmess://eyJhZGQiOiJzdW4uc29saWRjb3JlLnRvcCIsImFpZCI6IjAiLCJhbHBuIjoiIiwiZnAiOiIiLCJob3N0IjoidGVsZXdlYmlvbi5jb20iLCJpZCI6IjBhZmI3YTJhLTcwNGYtNDkzZC04MDRhLWEyZWRjOGZlZWQyYSIsIm5ldCI6InRjcCIsInBhdGgiOiIvIiwicG9ydCI6IjU0MjkyIiwicHMiOiJULUdlcjUtMTE2ODAyMTMyLTE3MzI3Iiwic2N5IjoiYXV0byIsInNuaSI6IiIsInRscyI6Im5vbmUiLCJ0eXBlIjoiaHR0cCIsInYiOiIyIn0=
+vless://7ac02222-bfdc-4e21-ba1b-694457c73735@74.220.27.207:443?security=reality&encryption=none&pbk=e7onMNz1YN0ihM4wdg8QAr86dUXSYB3bH2AUxo2vuEI&host=google.com&headerType=http&fp=chrome&spx=%2F&type=tcp&sni=google.com&sid=dfb586#arashvpn
+
+این برای یه عده کار میکنه
