@@ -4,3 +4,8 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxYkV2SkNXQUpRR0ZQcmFKWXgwRWVB@45.138.135.155
 vless://7ac02222-bfdc-4e21-ba1b-694457c73735@74.220.27.207:443?security=reality&encryption=none&pbk=e7onMNz1YN0ihM4wdg8QAr86dUXSYB3bH2AUxo2vuEI&host=google.com&headerType=http&fp=chrome&spx=%2F&type=tcp&sni=google.com&sid=dfb586#arashvpn
 
 این برای یه عده کار میکنه
+دوستان من هنوز روی این دو تا کد ترافیک دارم یعنی برای یه عده داره کار میکنه:
+
+vless://ede85644-8271-4d5c-8840-9e9eedef5efc@74.220.16.173:443?type=tcp&path=%2F&host=google.com&headerType=http&security=reality&pbk=-fmmpohJ7EwrZbeYdXXxMoIc-VarW8Y4kK9uGckZqwg&fp=chrome&sni=google.com&sid=553be6f4a4fd9ff3&spx=%2F#arashvpn-reality
+
+vmess://ewogICJ2IjogIjIiLAogICJwcyI6ICJhcmFzaHZwbi1odHRwIiwKICAiYWRkIjogIjc0LjIyMC4xNi4xNzMiLAogICJwb3J0IjogODA4MCwKICAiaWQiOiAiYThkNzI0ZWUtYzAzYy00ODAwLWIyZjAtNWEwNjY5MWE5ZGRjIiwKICAic2N5IjogImF1dG8iLAogICJuZXQiOiAidGNwIiwKICAidHlwZSI6ICJodHRwIiwKICAidGxzIjogIm5vbmUiLAogICJwYXRoIjogIi8iLAogICJob3N0IjogInNwcGVkdGVzdC5uZXQiCn0=
