@@ -1,9 +1,24 @@
-Μιθριδάτης ✞, [6/20/2025 1:44 AM]
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxYkV2SkNXQUpRR0ZQcmFKWXgwRWVB@45.138.135.155:42651#
+Μιθριδάτης ✞, [6/22/2025 12:01 PM]
+vless://b91d85d6-e330-4020-ac38-a18b474e8eb5@tunnel.gladservices.ir:1002?security=&encryption=none&host=sheypoor.com&headerType=http&type=tcp#Tunnel-1038
 
-vless://7ac02222-bfdc-4e21-ba1b-694457c73735@74.220.27.207:443?security=reality&encryption=none&pbk=e7onMNz1YN0ihM4wdg8QAr86dUXSYB3bH2AUxo2vuEI&host=google.com&headerType=http&fp=chrome&spx=%2F&type=tcp&sni=google.com&sid=dfb586#arashvpn
+Μιθριδάτης ✞, [6/22/2025 12:01 PM]
+vless://bc52c632-5549-4f23-9037-27d7d8c2cec6@biography.com:80?path=%2Fdownload&security=&encryption=none&host=melovy.ir&type=ws#
 
-این برای یه عده کار میکنه
+Μιθριδάτης ✞, [6/22/2025 4:00 PM]
+vmess://eyJhZGQiOiJpci5mdXJzYXcueHl6IiwiYWlkIjoiMCIsImFscG4iOiIiLCJmcCI6IiIsImhvc3QiOiJwa2didWlsZC5vcmciLCJpZCI6IjdkYjQyMWQ4LWNlZTItNGQ3Yi04ZWIxLTEzMDdlZmIyNWEwNyIsIm5ldCI6IndzIiwicGF0aCI6Ii9jb25uZWN0L2RlLyIsInBvcnQiOiI0NDMiLCJwcyI6IkBORVdfTVRQcm94aTIgIDEyMCIsInNjeSI6ImF1dG8iLCJzbmkiOiJwa2didWlsZC5vcmciLCJ0bHMiOiJ0bHMiLCJ0eXBlIjoiLS0tIiwidiI6IjIifQ==
+
+Μιθριδάτης ✞, [6/22/2025 4:00 PM]
+vless://28164751-67dd-4fe3-b933-ca87ae8e53ed@151.101.64.155:80?path=%2F-LiV2ry%40LIGHTNING6-TEL--%40LIGHTNING6-TEL--%40LIGHTNING6-TEL--%40LIGHTNING6-JOIN-%40LIGHTNING6-TEL--%40LIGHTNING6-JOIN-%40LIGHTNING6-TEL-%40LIGHTNING6-TEL--%40LIGHTNING6-JOIN-%40LIGHTNING6-TEL--%40LIGHTNING6%3Fed%3D2048&security=&encryption=none&host=Lightning6.ir&type=ws#%40Spotify_Porteghali%204318
+
+Μιθριδάτης ✞, [6/22/2025 4:00 PM]
+vless://adadcfa4-4262-4857-ac3b-5413638d68a3@mAhdi.iRaN.snApCdn3.iR:7072?security=&encryption=none&host=speedtest.net&headerType=http&type=tcp#
+
+Μιθριδάτης ✞, [6/22/2025 4:07 PM]
+vless://a285d843-f490-4b39-aeb4-3128d256f072@srv3-grmny-mostaghim.vreexybot.shop:12045?type=tcp&security=none&path=/&host=speedtest.net&headerType=http#MelliBokon-V3rfied
+
+Μιθριδάτης ✞, [6/22/2025 6:08 PM]
+vless://50e18e0e-3168-488b-8cf5-6da24969986c@Lightning6.12speedtest.store:80?path=%2F-LiV2ry%40LIGHTNING6-TEL--%40LIGHTNING6-TEL--%40LIGHTNING6-TEL--%40LIGHTNING6-JOIN-%40LIGHTNING6-TEL--%40LIGHTNING6-JOIN-%40LIGHTNING6-TEL-%40LIGHTNING6-TEL--%40LIGHTNING6-JOIN-%40LIGHTNING6-TEL--%40LIGHTNING6%3Fed%3D2048&security=none&encryption=none&host=Lightning6.ir&type=ws#%40Spotify_Porteghali%206103
+
 دوستان من هنوز روی این دو تا کد ترافیک دارم یعنی برای یه عده داره کار میکنه:
 
 vless://ede85644-8271-4d5c-8840-9e9eedef5efc@74.220.16.173:443?type=tcp&path=%2F&host=google.com&headerType=http&security=reality&pbk=-fmmpohJ7EwrZbeYdXXxMoIc-VarW8Y4kK9uGckZqwg&fp=chrome&sni=google.com&sid=553be6f4a4fd9ff3&spx=%2F#arashvpn-reality
