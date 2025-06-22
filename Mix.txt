@@ -24,3 +24,8 @@ vless://50e18e0e-3168-488b-8cf5-6da24969986c@Lightning6.12speedtest.store:80?pat
 vless://ede85644-8271-4d5c-8840-9e9eedef5efc@74.220.16.173:443?type=tcp&path=%2F&host=google.com&headerType=http&security=reality&pbk=-fmmpohJ7EwrZbeYdXXxMoIc-VarW8Y4kK9uGckZqwg&fp=chrome&sni=google.com&sid=553be6f4a4fd9ff3&spx=%2F#arashvpn-reality
 
 vmess://ewogICJ2IjogIjIiLAogICJwcyI6ICJhcmFzaHZwbi1odHRwIiwKICAiYWRkIjogIjc0LjIyMC4xNi4xNzMiLAogICJwb3J0IjogODA4MCwKICAiaWQiOiAiYThkNzI0ZWUtYzAzYy00ODAwLWIyZjAtNWEwNjY5MWE5ZGRjIiwKICAic2N5IjogImF1dG8iLAogICJuZXQiOiAidGNwIiwKICAidHlwZSI6ICJodHRwIiwKICAidGxzIjogIm5vbmUiLAogICJwYXRoIjogIi8iLAogICJob3N0IjogInNwcGVkdGVzdC5uZXQiCn0=
+
+
+برای همراه
+
+vless://f549c807-0a96-4ec9-92b7-7ccb42250387@151.101.64.155:80?mode=auto&path=%2FS%2CE%2Cp%2CA%2Ch%2CA%2Cn%2CX%2CY%2CZ%2C2%3Fed%3D2048&security=none&encryption=none&host=naturally-awake-buzzard.global.ssl.fastly.net&type=xhttp#arashvpn-80-zttb5nd6
