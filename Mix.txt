@@ -6,7 +6,7 @@ vless://f549c807-0a96-4ec9-92b7-7ccb42250387@151.101.64.155:80?mode=auto&path=%2
 ArashVPN, [6/23/2025 12:23 AM]
 ایرانسل و همراه
 .
-
+https://raw.githubusercontent.com/4n0nymou3/multi-proxy-config-fetcher/refs/heads/main/configs/proxy_configs.txt#%F0%9F%91%BDAnonymous-%F0%9D%95%8F
 vless://f549c807-0a96-4ec9-92b7-7ccb42250387@151.101.3.8:80?mode=auto&path=%2FS%2CE%2Cp%2CA%2Ch%2CA%2Cn%2CX%2CY%2CZ%2C2%3Fed%3D2048&security=none&encryption=none&host=naturally-awake-buzzard.global.ssl.fastly.net&type=xhttp#arashvpn-80-zttb5nd6
 
 ArashVPN, [6/23/2025 8:32 AM]
