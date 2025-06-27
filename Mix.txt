@@ -1,5 +1,6 @@
 ArashVPN, [6/22/2025 9:55 PM]
 برای همراه
+vless://83f4a588-c3c8-4450-9dc1-74ef8bf99061@104.24.60.135:8080?path=%2Fupdate&security=none&encryption=none&host=test.swifttigercloud.xyz&type=ws#arashvpn-ws-t9fbg8ro
 
 vless://f549c807-0a96-4ec9-92b7-7ccb42250387@151.101.64.155:80?mode=auto&path=%2FS%2CE%2Cp%2CA%2Ch%2CA%2Cn%2CX%2CY%2CZ%2C2%3Fed%3D2048&security=none&encryption=none&host=naturally-awake-buzzard.global.ssl.fastly.net&type=xhttp#arashvpn-80-zttb5nd6
 
