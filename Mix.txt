@@ -8,6 +8,19 @@ vless://85462399-8624-4e5c-bbb0-f95d84ca8256@104.18.32.47:443?encryption=none&se
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxZDFiYzU0Njg5ZWQ0Yjc1@119.159.245.24:26736?#%40YamYamProxy
 trojan://qmBSKnAl6LYi9%3Dz23Rs.Z@37.235.49.209:28099?security=tls&sni=celestialcorset.crystalhamster.click&fp=chrome&insecure=1&allowInsecure=1&type=tcp&headerType=none#%3E%3E%40oneclickvpnkeys%3A%3AIS
 vless://686c62d9-17a7-43c9-a40a-f6747df60a9f@104.21.224.5:2096?encryption=none&security=tls&sni=ca.adobe-connect.top&fp=chrome&insecure=1&allowInsecure=1&type=ws&host=ca.adobe-connect.top&path=%2F#%3E%3E%40v2nodes%3A%3AFR
+
+کانفیگ های تانل شده و سالم   ،
+برای کلاینت V2rayNG:
+
+
+vless://2ddeb056-17d4-421e-a318-39428733d4a2@172.64.149.99:8443?path=%2F%3FTELEGRAM-YamYamProxy_YamYamProxy_YamYamProxy_YamYamProxy_YamYamProxy%3Fed%3D2048&security=tls&alpn=http%2F1.1&encryption=none&host=8p3cfl0ripm.zjde5.de5.net&fp=chrome&type=ws&sni=8p3cfl0ripm.zjde5.de5.net#%F0%9F%8F%B4%E2%80%8D%E2%98%A0%EF%B8%8F%20%40FreakConfig
+
+vless://4525c260-df3c-4f62-b8f1-f4f5f305694b@ipbaz.ping-box.com:443?path=%2FTelegram%40V2rayAlpha%2F%3Fed%3D2560&security=tls&encryption=none&host=yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net&fp=chrome&type=ws&sni=yyzsuabw9e3qd5ud7ihi5dxm96oglnsvr83cjojnm1efncfhr9ucordq.zjde5.de5.net#%F0%9F%87%AB%F0%9F%87%AE%40FreakConfig
+
+vless://bb8c74a1-abc1-4511-b100-9876e30cb65c@172.64.145.38:8443?path=%2F%3Fed%3D2560&security=tls&alpn=http%2F1.1&encryption=none&host=xfjd79v2tjscrm6jqo.zjde5.de5.net&type=ws&sni=xfjd79v2tjscrm6jqo.zjde5.de5.net#%F0%9F%87%B3%F0%9F%87%B1%20%40FreakConfig
+
+vless://396c904b-4b62-4334-b793-ee25fc0c61cc@172.64.152.23:443?path=%2FeyJqdW5rIjoiTHczMWlhREZIb0ljUDhoaCIsInByb3RvY29sIjoidmwiLCJtb2RlIjoicHJveHlpcCIsInBhbmVsSVBzIjpbXX0%3D%3Fed%3Dabasbijan2560&security=tls&encryption=none&host=8vmU06cxdz59m931xnREgj8qpnoq1-06.pages.dev&type=ws&sni=pages.dev#%F0%9F%8F%B4%E2%80%8D%E2%98%A0%EF%B8%8F%20%40FreakConfig
+
 vless://ec77b9ff-ba31-4b1d-8a81-ee9de133bcf0@162.159.152.4:2053?encryption=none&security=tls&sni=ds2-mx-hel22-protection.iranlease.com&fp=chrome&insecure=1&allowInsecure=1&type=ws&host=ds2-mx-hel22-protection.iranlease.com&path=%2F%3Fed%3D2560#%3E%3E%40oneclickvpnkeys%3A%3ADE
 vless://57ba2ab1-a283-42eb-82ee-dc3561a805b8@ovhwuxian.pai50288.uk:8443?encryption=none&security=tls&sni=ovhwuxian.pai50288.uk&insecure=1&allowInsecure=1&type=ws&host=ovhwuxian.pai50288.uk&path=%2F57ba2ab1#%F0%9F%8E%812%40oneclickvpnkeys
 vless://96d9bcb0-9ad2-48be-85a2-a9ab3a005261@8.6.112.0:2083?encryption=none&security=tls&sni=ds1-mx-fn154-protection.iranlease.com&fp=chrome&insecure=0&allowInsecure=0&type=ws&host=ds1-mx-fn154-protection.iranlease.com&path=%2F#%F0%9F%87%BA%F0%9F%87%B8%20560%20-%20US%20-%20VLESS%2FWS%2FTLS%2FUTLS%20-%202083
