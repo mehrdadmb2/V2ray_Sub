@@ -1,4 +1,18 @@
+Your VPN configs:
 
+WebSocket (port 80)
+vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@165.215.250.12:80?encryption=none&host=xU.aSaCO.sTorE&path=%2F&security=none&type=ws#arash-vpn-ws
+vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@208.103.161.101:80?encryption=none&host=xU.aSaCO.sTorE&path=%2F&security=none&type=ws#arash-vpn-ws
+vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@172.67.130.241:80?encryption=none&host=xU.aSaCO.sTorE&path=%2F&security=none&type=ws#arash-vpn-ws
+vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@104.16.122.177:80?encryption=none&host=xU.aSaCO.sTorE&path=%2F&security=none&type=ws#arash-vpn-ws
+vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@217.163.76.118:80?encryption=none&host=xU.aSaCO.sTorE&path=%2F&security=none&type=ws#arash-vpn-ws
+
+xHTTP (port 2086)
+vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@165.215.250.12:2086?encryption=none&host=xvh.andishehparenting.com&path=%2F&security=none&type=xhttp&mode=packet-up#arash-vpn-xhttp
+vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@208.103.161.101:2086?encryption=none&host=xvh.andishehparenting.com&path=%2F&security=none&type=xhttp&mode=packet-up#arash-vpn-xhttp
+vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@172.67.130.241:2086?encryption=none&host=xvh.andishehparenting.com&path=%2F&security=none&type=xhttp&mode=packet-up#arash-vpn-xhttp
+vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@104.16.122.177:2086?encryption=none&host=xvh.andishehparenting.com&path=%2F&security=none&type=xhttp&mode=packet-up#arash-vpn-xhttp
+vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@217.163.76.118:2086?encryption=none&host=xvh.andishehparenting.com&path=%2F&security=none&type=xhttp&mode=packet-up#arash-vpn-xhttp
 vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@165.215.250.12:80?encryption=none&host=xU.aSaCO.sTorE&path=%2F&security=none&type=ws#arash-vpn
 
 vless://b7977b65-cfd8-4db9-a029-6ef014a4ae4a@208.103.161.101:80?encryption=none&host=xU.aSaCO.sTorE&path=%2F&security=none&type=ws#arash-vpn
