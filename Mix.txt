@@ -1,4 +1,8 @@
-vless://cabbfe13-038b-4dbb-9c45-5079c829abfa@speedtest.net:80?encryption=none&security=none&type=ws&host=max-gb1.global.ssl.fastly.net&path=%2F#11https%3A%2F%2Ft.me%2FConfigX2ray
-vless://0058c215-ab1e-400c-a403-b5b2fda7e846@151.101.194.219:80?encryption=none&security=none&type=ws&host=max-gb1.global.ssl.fastly.net&path=%2F#9https%3A%2F%2Ft.me%2FConfigX2ray
-vless://cabbfe13-038b-4dbb-9c45-5079c829abfa@151.101.0.1:80?encryption=none&security=none&type=ws&host=max-gb1.global.ssl.fastly.net&path=%2F#10https%3A%2F%2Ft.me%2FConfigX2ray
-vless://0058c215-ab1e-400c-a403-b5b2fda7e846@151.101.0.1:80?encryption=none&security=none&type=ws&host=max-gb1.global.ssl.fastly.net&path=%2F#2https%3A%2F%2Ft.me%2FConfigX2ray
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTprMWRCT21PQjRvcWk3VW1wMzdhMWJR@82.38.31.191:8080?#Channel%20id%3A%20%40ShadowProxy66%20%F0%9F%87%B3%F0%9F%87%B1
+vless://b300edfb-02c0-4a1d-bbb5-1817d9e16927@83.228.235.106:2082?encryption=none&security=reality&sni=cdn.nobitex.ir&fp=chrome&pbk=KuyvsRNilBVQddf249fQhud8aPESqNMZLRb7UXwVgWI&sid=d6d0&spx=%2FIrRiBT1cDGvjbRw&type=xhttp&host=cdn.nobitex.ir&path=%2F&mode=auto&extra=%7B%22scMaxEachPostBytes%22%3A%221000000%22%2C%22scMinPostsIntervalMs%22%3A%2230%22%2C%22xPaddingBytes%22%3A%22100-1000%22%7D#Telegram%2B%7C%2BAzadWeb_iR
+vless://ad356e93-cc14-417d-9f4e-32376d03f5b7@newyorkcity.instasup.ir:1005?encryption=none&security=reality&sni=yahoo.com&fp=firefox&pbk=aEyXUqZ4doy7Qse745h5IKGo31Jc2YEK3QOVaOuPPns&sid=4f2087146c1f587a&type=tcp&headerType=none#Tel%20%3D%20%40AzadWeb_iR
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpvWklvQTY5UTh5aGNRVjhrYTNQYTNB@82.38.31.2:8080?#Channel%20id%3A%20%40ShadowProxy66%20%F0%9F%87%B3%F0%9F%87%B1
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpvWklvQTY5UTh5aGNRVjhrYTNQYTNB@82.38.31.155:8080?#Channel%20id%3A%20%40ShadowProxy66%20%F0%9F%87%B3%F0%9F%87%B1
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTprMWRCT21PQjRvcWk3VW1wMzdhMWJR@82.38.31.214:8080?#Channel%20id%3A%20%40ShadowProxy66%20%F0%9F%87%B3%F0%9F%87%B1
+trojan://humanity@188.114.97.6:443?security=tls&sni=www.calmloud.com&insecure=0&allowInsecure=0&type=ws&host=www.calmloud.com&path=%2Fassignment#2https%3A%2F%2Ft.me%2FConfigX2ray
+vless://83989465-4ec6-4dbe-97c6-2779df88d9e0@83.228.235.106:443?encryption=none&security=reality&sni=varzesh3.com&fp=chrome&pbk=MK3NN842R-fVl71Rdcn9oLAQNJrd-igvxPaKS_c6928&sid=accd8c&spx=%2FisNXq1mwk6vPGYQ&type=tcp&headerType=none#Telegram%2B%7C%2BAzadWeb_iR
