@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>V2ray_Sub · مدیریت اشتراک حرفه‌ای</title>
 
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
@@ -28,7 +29,7 @@
             overflow-x: hidden;
         }
 
-        /* ===== ANIMATED BG ===== */
+        /* ===== ANIMATED BACKGROUND ===== */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -239,8 +240,13 @@
         .section-title i {
             color: #a78bfa;
         }
+        .divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 2.5rem 0;
+        }
 
-        /* ===== SUBSCRIPTION CARDS (PRIMARY) ===== */
+        /* ===== SUBSCRIPTION CARDS ===== */
         .sub-card {
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(10px);
@@ -338,7 +344,74 @@
             font-size: 0.7rem;
         }
 
-        /* ===== STATS (quick stats) ===== */
+        /* ===== EXTRA LINKS ===== */
+        .sub-input-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            align-items: center;
+        }
+        .sub-input-area input {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            padding: 0.7rem 1.5rem;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+            font-family: 'Inter', monospace;
+        }
+        .sub-input-area input:focus {
+            border-color: #a78bfa;
+        }
+        .sub-input-area button {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            color: #e2e8f0;
+            padding: 0.7rem 1.8rem;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+        }
+        .sub-input-area button:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
+            border-color: #a78bfa;
+        }
+        .extra-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .extra-link {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 100px;
+            padding: 0.3rem 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .extra-link button {
+            background: none;
+            border: none;
+            color: #f87171;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        /* ===== QUICK STATS ===== */
         .quick-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -369,14 +442,159 @@
             margin-top: 0.2rem;
         }
 
-        /* ===== DIVIDER ===== */
-        .divider {
-            border: none;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin: 2.5rem 0;
+        /* ===== GALLERY (Tutorial Images) ===== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0 2rem 0;
+        }
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 1.2rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: 0.3s;
+            text-align: center;
+            padding: 0.5rem;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+            border-color: rgba(167, 139, 250, 0.3);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.8rem;
+            display: block;
+        }
+        .gallery-item .caption {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            padding: 0.4rem 0;
         }
 
-        /* ===== TABLE ===== */
+        /* ===== FEATURES GRID ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0 2.5rem 0;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 2rem;
+            padding: 1.5rem 1.2rem;
+            transition: 0.35s;
+            text-align: center;
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .feature-icon {
+            font-size: 2.4rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .feature-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+        .feature-desc {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 0.3rem;
+            line-height: 1.6;
+        }
+
+        /* ===== CODE BLOCK ===== */
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.8rem;
+            margin: 0.8rem 0 1.5rem 0;
+            font-family: 'Inter', monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+        }
+        .code-block .cmd {
+            color: #a78bfa;
+        }
+        .code-block .comment {
+            color: #64748b;
+        }
+
+        /* ===== FAQ ===== */
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 0.8rem;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .faq-item:hover {
+            border-color: rgba(167, 139, 250, 0.2);
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .faq-question i {
+            color: #a78bfa;
+            transition: 0.3s;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding-top: 0.8rem;
+        }
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* ===== CHANGELOG ===== */
+        .changelog-item {
+            display: flex;
+            gap: 1.2rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .changelog-date {
+            font-weight: 600;
+            color: #a78bfa;
+            min-width: 100px;
+            font-size: 0.85rem;
+        }
+        .changelog-text {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        /* ===== TABLE (ADVANCED) ===== */
         .table-wrapper {
             overflow-x: auto;
             border-radius: 1.5rem;
@@ -461,16 +679,6 @@
             background: #1a1a2e;
         }
 
-        /* ===== CHART ===== */
-        .chart-container {
-            max-width: 500px;
-            margin: 2rem auto;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
         /* ===== DOWNLOAD ===== */
         .download-area {
             display: flex;
@@ -497,72 +705,33 @@
             border-color: #a78bfa;
         }
 
-        /* ===== EXTRA LINKS ===== */
-        .extra-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 1rem 0 0.5rem 0;
-        }
-        .extra-link {
+        /* ===== CHART ===== */
+        .chart-container {
+            max-width: 500px;
+            margin: 2rem auto;
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 100px;
-            padding: 0.3rem 1.2rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: #94a3b8;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .extra-link button {
-            background: none;
-            border: none;
-            color: #f87171;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
 
-        .sub-input-area {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            align-items: center;
+        /* ===== CONTRIBUTE ===== */
+        .contribute-box {
+            padding: 1.8rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin: 2.5rem 0;
         }
-        .sub-input-area input {
-            flex: 1;
-            min-width: 200px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 100px;
-            padding: 0.7rem 1.5rem;
-            color: #e2e8f0;
-            font-size: 0.9rem;
-            outline: none;
-            transition: 0.3s;
-            font-family: 'Inter', monospace;
+        .contribute-box ul {
+            list-style: none;
+            color: #94a3b8;
+            margin: 0.8rem 0;
+            line-height: 2.2;
         }
-        .sub-input-area input:focus {
-            border-color: #a78bfa;
-        }
-        .sub-input-area button {
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
-            border: 1px solid rgba(167, 139, 250, 0.25);
-            color: #e2e8f0;
-            padding: 0.7rem 1.8rem;
-            border-radius: 100px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.25s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 0.9rem;
-        }
-        .sub-input-area button:hover {
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
-            border-color: #a78bfa;
+        .contribute-box ul li::before {
+            content: "🔹 ";
+            color: #a78bfa;
         }
 
         /* ===== FOOTER ===== */
@@ -627,6 +796,12 @@
             .chart-container {
                 max-width: 100%;
             }
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+            }
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
             .glass-container {
                 padding: 1.2rem 1rem;
             }
@@ -636,6 +811,12 @@
                 font-size: 1.5rem;
             }
             .quick-stats {
+                grid-template-columns: 1fr;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery {
                 grid-template-columns: 1fr;
             }
             td,
@@ -711,7 +892,7 @@
             <button class="copy-btn" data-target="subMix"><i class="far fa-copy"></i> کپی</button>
         </div>
 
-        <!-- لینک‌های قدیمی (غیرفعال) در یک بخش جمع‌شونده -->
+        <!-- لینک‌های قدیمی (غیرفعال) -->
         <details style="margin-top:0.5rem;">
             <summary><i class="fas fa-chevron-down" style="font-size:0.7rem;"></i> لینک‌های قدیمی (غیرفعال) — بروزرسانی نمی‌شوند</summary>
             <div style="margin-top:0.8rem;">
@@ -730,7 +911,7 @@
         </details>
 
         <!-- ===== افزودن لینک جدید ===== -->
-        <div class="sub-input-area" style="margin-top:1.5rem;">
+        <div class="sub-input-area">
             <input type="text" id="subInput" placeholder="لینک اشتراک جدید (اختیاری) ..." />
             <button id="addSubBtn"><i class="fas fa-plus"></i> افزودن</button>
             <button id="loadDefaultBtn" style="background:rgba(255,255,255,0.05);"><i class="fas fa-undo"></i> بازنشانی</button>
@@ -760,11 +941,171 @@
         <hr class="divider" />
 
         <!-- ============================================================ -->
-        <!-- ===== بخش دوم: امکانات پیشرفته (اسکرول به پایین) ===== -->
+        <!-- ===== بخش دوم: راهنمای تصویری (Tutorial) ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-mobile-alt"></i> 📲 راهنمای اضافه کردن اشتراک به V2rayNG (اندروید)</h2>
+        <p style="color:#94a3b8; margin-bottom:0.8rem;">مراحل زیر را به‌ترتیب دنبال کنید:</p>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg" alt="Step 1" />
+                <div class="caption">1️⃣ اجرای V2rayNG</div>
+            </div>
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit.jpg" alt="Step 2" />
+                <div class="caption">2️⃣ منوی اشتراک‌ها</div>
+            </div>
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit.jpg" alt="Step 3" />
+                <div class="caption">3️⃣ افزودن اشتراک جدید</div>
+            </div>
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit.jpg" alt="Step 4" />
+                <div class="caption">4️⃣ وارد کردن اطلاعات</div>
+            </div>
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit.jpg" alt="Step 5" />
+                <div class="caption">5️⃣ به‌روزرسانی</div>
+            </div>
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg" alt="Step 6" />
+                <div class="caption">✅ اشتراک اضافه شد! 🎉</div>
+            </div>
+        </div>
+        <p style="color:#94a3b8; font-size:0.9rem;">💡 <strong>نکته:</strong> همیشه اشتراک‌های خود را به‌روزرسانی کنید تا از سرورهای فعال استفاده کنید. 🔄</p>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش سوم: ویژگی‌ها ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-bolt"></i> ✨ ویژگی‌های پیشرفته</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
+                <div class="feature-title">به‌روزرسانی خودکار</div>
+                <div class="feature-desc">اشتراک‌ها هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت و اعمال می‌شوند 🔄</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-folder-tree"></i></div>
+                <div class="feature-title">مدیریت چندگانه</div>
+                <div class="feature-desc">امکان مدیریت همزمان چندین اشتراک با تفکیک اپراتور (Mix, Irancell, MCI) 🗂</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-microchip"></i></div>
+                <div class="feature-title">سبک و کم‌مصرف</div>
+                <div class="feature-desc">اسکریپت پایتون با حداقل وابستگی‌ها، مناسب برای اجرا روی سرورهای ضعیف 🛠</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+                <div class="feature-title">تجربه کاربری روان</div>
+                <div class="feature-desc">خروجی بهینه‌شده برای V2rayNG و سایر کلاینت‌ها، با کمترین تأخیر 🚀</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-shield-virus"></i></div>
+                <div class="feature-title">امنیت بالا</div>
+                <div class="feature-desc">استفاده از پروتکل‌های امن VMess, VLESS, Trojan با پشتیبانی از TLS 🔒</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-code"></i></div>
+                <div class="feature-title">متن‌باز و قابل توسعه</div>
+                <div class="feature-desc">کد به‌صورت کامل در گیت‌هاب در دسترس است و می‌توانید آن را تغییر دهید 💻</div>
+            </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش چهارم: راه‌اندازی اولیه ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-cogs"></i> 🛠 راه‌اندازی اولیه | Getting Started</h2>
+        <div class="code-block">
+            <span class="comment"># 1️⃣ دانلود و نصب</span><br />
+            <span class="cmd">git clone</span> https://github.com/mehrdadmb2/V2ray_Sub.git<br />
+            <span class="cmd">cd</span> V2ray_Sub<br /><br />
+            <span class="comment"># 2️⃣ نصب پیش‌نیازها</span><br />
+            <span class="cmd">pip install</span> -r requirements.txt<br /><br />
+            <span class="comment"># 3️⃣ اجرای برنامه</span><br />
+            <span class="cmd">python</span> v2ray_sub_manager.py
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش پنجم: سوالات متداول (FAQ) ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-question-circle"></i> ❓ سوالات متداول | FAQ</h2>
+        <div class="faq-item">
+            <div class="faq-question"><span>چطور می‌توانم اشتراک را به V2rayNG اضافه کنم؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">مراحل کامل در بخش راهنمای تصویری بالا توضیح داده شده است. کافی است لینک اشتراک را کپی کرده و در اپلیکیشن V2rayNG در قسمت Subscription قرار دهید.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question"><span>آیا این ابزار رایگان است؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">بله، این پروژه کاملاً متن‌باز و رایگان است و تحت مجوز MIT منتشر شده است.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question"><span>چند وقت یکبار اشتراک‌ها بروزرسانی می‌شوند؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">اشتراک‌ها به‌صورت خودکار هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت می‌شوند.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question"><span>چطور می‌توانم در توسعه پروژه مشارکت کنم؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">می‌توانید مخزن را Fork کرده، تغییرات خود را اعمال و سپس یک Pull Request ارسال کنید.</div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش ششم: تغییرات اخیر (Changelog) ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-history"></i> 📋 تغییرات اخیر | Changelog</h2>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۲-۱۴</span>
+            <span class="changelog-text">✨ اضافه شدن امکانات پیشرفته: نمایش کشور، جستجو، فیلتر، نمودار و دانلود</span>
+        </div>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۲-۱۲</span>
+            <span class="changelog-text">✨ اضافه شدن آمار واقعی (تعداد کانفیگ‌ها و حجم فایل) از گیت‌هاب</span>
+        </div>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۲-۱۰</span>
+            <span class="changelog-text">🔧 بهبود اسکریپت مدیریت اشتراک و رفع باگ در پردازش لینک‌ها</span>
+        </div>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۲-۰۸</span>
+            <span class="changelog-text">📝 بروزرسانی README و افزودن راهنمای تصویری کامل</span>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش هفتم: همکاری ===== -->
+        <!-- ============================================================ -->
+
+        <div class="contribute-box">
+            <h2 style="font-size:1.5rem; font-weight:600; display:flex; align-items:center; gap:0.7rem; color:#e2e8f0;">
+                <i class="fas fa-handshake" style="color:#a78bfa;"></i> 🤝 همکاری در پروژه | Contribute
+            </h2>
+            <p style="color:#cbd5e1; margin-top:0.5rem;">💡 آیا می‌خواهید <strong>V2ray_Sub</strong> را بهتر کنید؟ 🎯</p>
+            <ul>
+                <li>۱️⃣ مخزن را <strong>Fork</strong> کنید و یک شاخه جدید ایجاد کنید.</li>
+                <li>۲️⃣ تغییرات خود را اعمال و تست کنید.</li>
+                <li>۳️⃣ یک <strong>Pull Request</strong> ارسال کنید.</li>
+            </ul>
+            <p style="color:#94a3b8; font-size:0.9rem;">📝 مجوز پروژه <strong>MIT</strong> است. جزئیات در فایل <code>LICENSE</code>.</p>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش هشتم: امکانات پیشرفته (جدول، فیلتر، نمودار) ===== -->
         <!-- ============================================================ -->
 
         <h2 class="section-title"><i class="fas fa-table"></i> 📋 جزئیات کانفیگ‌ها</h2>
-        <p style="color:#94a3b8; margin-bottom:0.8rem; font-size:0.9rem;">لیست کامل کانفیگ‌ها به‌همراه اطلاعات جغرافیایی و پروتکل.</p>
+        <p style="color:#94a3b8; margin-bottom:0.8rem; font-size:0.9rem;">لیست کامل کانفیگ‌ها به‌همراه اطلاعات جغرافیایی و پروتکل. قابل جستجو و فیلتر.</p>
 
         <!-- فیلترها -->
         <div class="filters">
@@ -835,7 +1176,7 @@
 
     </main>
 
-    <!-- ========== JAVASCRIPT ========== -->
+    <!-- ========== JAVASCRIPT (Complete) ========== -->
     <script>
         (function() {
             'use strict';
@@ -1061,7 +1402,6 @@
                 quickConfigCount.textContent = configs.length;
                 quickCountryCount.textContent = uniqueCountries.size;
                 quickProtocolCount.textContent = uniqueProtocols.size;
-                // file size (approx from raw)
                 const totalSize = configs.reduce((sum, c) => sum + c.raw.length, 0);
                 const kb = (totalSize / 1024).toFixed(1);
                 quickFileSize.textContent = kb + ' KB';
@@ -1295,6 +1635,13 @@
                 const filtered = getFilteredConfigs();
                 if (filtered.length === 0) return alert('هیچ کانفیگی با فیلترهای فعلی مطابقت ندارد.');
                 downloadConfigs(filtered, 'v2ray_filtered_configs.txt');
+            });
+
+            // FAQ toggle
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('open');
+                });
             });
 
             // ===== INIT =====
