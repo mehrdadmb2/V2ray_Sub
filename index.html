@@ -44,15 +44,9 @@
             animation: gradientShift 24s ease infinite;
         }
         @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .orb {
@@ -63,52 +57,15 @@
             z-index: 0;
             animation: floatOrb 28s infinite alternate ease-in-out;
         }
-        .orb1 {
-            width: 700px;
-            height: 700px;
-            background: #7c3aed;
-            top: -20%;
-            left: -15%;
-        }
-        .orb2 {
-            width: 600px;
-            height: 600px;
-            background: #0ea5e9;
-            bottom: -20%;
-            right: -15%;
-            animation-duration: 32s;
-        }
-        .orb3 {
-            width: 500px;
-            height: 500px;
-            background: #d946ef;
-            top: 30%;
-            left: 30%;
-            animation-duration: 22s;
-            opacity: 0.12;
-        }
-        .orb4 {
-            width: 400px;
-            height: 400px;
-            background: #f59e0b;
-            bottom: 10%;
-            left: 10%;
-            animation-duration: 26s;
-            opacity: 0.1;
-        }
+        .orb1 { width: 700px; height: 700px; background: #7c3aed; top: -20%; left: -15%; }
+        .orb2 { width: 600px; height: 600px; background: #0ea5e9; bottom: -20%; right: -15%; animation-duration: 32s; }
+        .orb3 { width: 500px; height: 500px; background: #d946ef; top: 30%; left: 30%; animation-duration: 22s; opacity: 0.12; }
+        .orb4 { width: 400px; height: 400px; background: #f59e0b; bottom: 10%; left: 10%; animation-duration: 26s; opacity: 0.1; }
         @keyframes floatOrb {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(60px, -50px) scale(1.15);
-            }
-            66% {
-                transform: translate(-40px, 60px) scale(0.85);
-            }
-            100% {
-                transform: translate(50px, -40px) scale(1.05);
-            }
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(60px, -50px) scale(1.15); }
+            66% { transform: translate(-40px, 60px) scale(0.85); }
+            100% { transform: translate(50px, -40px) scale(1.05); }
         }
 
         /* ========== GLASS CONTAINER ========== */
@@ -127,10 +84,7 @@
             transition: all 0.3s;
         }
         @media (max-width: 640px) {
-            .glass-container {
-                padding: 1.8rem 1.2rem;
-                border-radius: 2.2rem;
-            }
+            .glass-container { padding: 1.8rem 1.2rem; border-radius: 2.2rem; }
         }
 
         /* ========== HEADER ========== */
@@ -184,22 +138,14 @@
             color: #6ee7b7;
         }
         .status-dot {
-            width: 10px;
-            height: 10px;
+            width: 10px; height: 10px;
             border-radius: 50%;
             background: #34d399;
             animation: pulse-dot 2s infinite;
         }
         @keyframes pulse-dot {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.3;
-                transform: scale(0.8);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
         }
 
         /* ========== BADGE ROW ========== */
@@ -226,25 +172,15 @@
             transition: 0.25s ease;
             cursor: default;
         }
-        .badge i {
-            font-size: 0.9rem;
-            color: #a78bfa;
-        }
+        .badge i { font-size: 0.9rem; color: #a78bfa; }
         .badge:hover {
             background: rgba(255, 255, 255, 0.10);
             border-color: rgba(167, 139, 250, 0.3);
             transform: translateY(-2px);
         }
-        .badge .highlight {
-            color: #fcd34d;
-        }
-        .badge .stat {
-            color: #60a5fa;
-            font-weight: 600;
-        }
-        .badge .warn {
-            color: #f87171;
-        }
+        .badge .highlight { color: #fcd34d; }
+        .badge .stat { color: #60a5fa; font-weight: 600; }
+        .badge .warn { color: #f87171; }
 
         /* ========== DESCRIPTION ========== */
         .description {
@@ -254,9 +190,7 @@
             margin-bottom: 2.5rem;
             padding: 0.5rem 0;
         }
-        .description strong {
-            color: #a78bfa;
-        }
+        .description strong { color: #a78bfa; }
 
         /* ========== SUBSCRIPTION SECTION ========== */
         .sub-section {
@@ -270,9 +204,7 @@
             align-items: center;
             gap: 0.7rem;
         }
-        .sub-section h2 i {
-            color: #a78bfa;
-        }
+        .sub-section h2 i { color: #a78bfa; }
 
         .sub-card {
             background: rgba(255, 255, 255, 0.04);
@@ -301,9 +233,6 @@
             border-color: rgba(255, 255, 255, 0.04);
             background: rgba(255, 255, 255, 0.015);
         }
-        .sub-card.inactive .sub-label i {
-            color: #64748b;
-        }
         .sub-label {
             display: flex;
             align-items: center;
@@ -312,10 +241,7 @@
             font-size: 1rem;
             min-width: 120px;
         }
-        .sub-label i {
-            font-size: 1.3rem;
-            color: #a78bfa;
-        }
+        .sub-label i { font-size: 1.3rem; color: #a78bfa; }
         .sub-url {
             background: rgba(0, 0, 0, 0.35);
             padding: 0.5rem 1.4rem;
@@ -363,10 +289,10 @@
             gap: 0.4rem;
         }
 
-        /* ========== SERVER STATS ========== */
+        /* ========== REAL STATS GRID ========== */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
             gap: 1.2rem;
             margin: 2rem 0 2.5rem 0;
         }
@@ -384,7 +310,7 @@
             border-color: rgba(167, 139, 250, 0.2);
         }
         .stat-number {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
             background: linear-gradient(135deg, #a78bfa, #60a5fa);
             -webkit-background-clip: text;
@@ -395,9 +321,10 @@
             color: #94a3b8;
             margin-top: 0.2rem;
         }
-        .stat-trend {
-            font-size: 0.7rem;
-            color: #34d399;
+        .stat-sub {
+            font-size: 0.65rem;
+            color: #64748b;
+            margin-top: 0.2rem;
         }
 
         /* ========== FEATURES ========== */
@@ -453,9 +380,7 @@
             transition: 0.3s;
             cursor: pointer;
         }
-        .faq-item:hover {
-            border-color: rgba(167, 139, 250, 0.2);
-        }
+        .faq-item:hover { border-color: rgba(167, 139, 250, 0.2); }
         .faq-question {
             display: flex;
             justify-content: space-between;
@@ -463,10 +388,7 @@
             font-weight: 600;
             color: #e2e8f0;
         }
-        .faq-question i {
-            color: #a78bfa;
-            transition: 0.3s;
-        }
+        .faq-question i { color: #a78bfa; transition: 0.3s; }
         .faq-answer {
             max-height: 0;
             overflow: hidden;
@@ -479,9 +401,7 @@
             max-height: 300px;
             padding-top: 0.8rem;
         }
-        .faq-item.open .faq-question i {
-            transform: rotate(180deg);
-        }
+        .faq-item.open .faq-question i { transform: rotate(180deg); }
 
         /* ========== CHANGELOG ========== */
         .changelog-item {
@@ -490,82 +410,8 @@
             padding: 0.8rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
-        .changelog-date {
-            font-weight: 600;
-            color: #a78bfa;
-            min-width: 100px;
-            font-size: 0.85rem;
-        }
-        .changelog-text {
-            color: #cbd5e1;
-            font-size: 0.9rem;
-        }
-
-        /* ========== TOOLS ========== */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1.2rem;
-            margin: 1.5rem 0 2rem 0;
-        }
-        .tool-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 1.2rem;
-            padding: 1rem 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            transition: 0.3s;
-            text-decoration: none;
-            color: #e2e8f0;
-        }
-        .tool-item:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(167, 139, 250, 0.25);
-            transform: scale(1.02);
-        }
-        .tool-item i {
-            font-size: 1.6rem;
-            color: #a78bfa;
-        }
-        .tool-item span {
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        /* ========== POLL ========== */
-        .poll-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 1.8rem;
-            padding: 1.5rem 2rem;
-            margin: 2rem 0 1.5rem 0;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 1.2rem;
-        }
-        .poll-box p {
-            color: #cbd5e1;
-            font-size: 0.95rem;
-            flex: 1;
-        }
-        .poll-btn {
-            background: rgba(167, 139, 250, 0.15);
-            border: 1px solid rgba(167, 139, 250, 0.2);
-            color: #e2e8f0;
-            padding: 0.5rem 1.6rem;
-            border-radius: 100px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.25s;
-            font-size: 0.85rem;
-        }
-        .poll-btn:hover {
-            background: rgba(167, 139, 250, 0.3);
-            border-color: #a78bfa;
-        }
+        .changelog-date { font-weight: 600; color: #a78bfa; min-width: 100px; font-size: 0.85rem; }
+        .changelog-text { color: #cbd5e1; font-size: 0.9rem; }
 
         /* ========== CODE BLOCK ========== */
         .code-block {
@@ -582,12 +428,8 @@
             direction: ltr;
             text-align: left;
         }
-        .code-block .cmd {
-            color: #a78bfa;
-        }
-        .code-block .comment {
-            color: #64748b;
-        }
+        .code-block .cmd { color: #a78bfa; }
+        .code-block .comment { color: #64748b; }
 
         /* ========== GALLERY ========== */
         .gallery {
@@ -621,7 +463,7 @@
             padding: 0.4rem 0;
         }
 
-        /* ========== SERVICE STATUS BAR ========== */
+        /* ========== SERVICE STATUS ========== */
         .service-status {
             display: flex;
             align-items: center;
@@ -632,17 +474,8 @@
             border: 1px solid rgba(255, 255, 255, 0.06);
             margin: 1.5rem 0 0.5rem 0;
         }
-        .service-status .label {
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-        .service-status .bar {
-            flex: 1;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            overflow: hidden;
-        }
+        .service-status .label { font-size: 0.8rem; color: #94a3b8; }
+        .service-status .bar { flex: 1; height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 10px; overflow: hidden; }
         .service-status .bar .fill {
             height: 100%;
             width: 98%;
@@ -651,13 +484,8 @@
             animation: pulse-bar 3s infinite;
         }
         @keyframes pulse-bar {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         /* ========== FOOTER ========== */
@@ -673,10 +501,7 @@
             color: #64748b;
             gap: 1rem;
         }
-        .social-links {
-            display: flex;
-            gap: 1.2rem;
-        }
+        .social-links { display: flex; gap: 1.2rem; }
         .social-links a {
             color: #94a3b8;
             font-size: 1.3rem;
@@ -695,77 +520,28 @@
 
         /* ========== RESPONSIVE ========== */
         @media (max-width: 640px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .status-chip {
-                align-self: flex-start;
-            }
-            .sub-card {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .sub-url {
-                text-align: center;
-            }
-            .copy-btn {
-                justify-content: center;
-            }
-            .gallery {
-                grid-template-columns: 1fr 1fr;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .faq-item {
-                padding: 1rem;
-            }
-            .poll-box {
-                flex-direction: column;
-                text-align: center;
-            }
-            .service-status {
-                flex-wrap: wrap;
-                border-radius: 1.2rem;
-                padding: 1rem;
-            }
+            .header { flex-direction: column; align-items: flex-start; }
+            .status-chip { align-self: flex-start; }
+            .sub-card { flex-direction: column; align-items: stretch; }
+            .sub-url { text-align: center; }
+            .copy-btn { justify-content: center; }
+            .gallery { grid-template-columns: 1fr 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .faq-item { padding: 1rem; }
+            .service-status { flex-wrap: wrap; border-radius: 1.2rem; padding: 1rem; }
         }
         @media (max-width: 480px) {
-            .glass-container {
-                padding: 1.2rem 0.9rem;
-            }
-            .logo-text {
-                font-size: 1.5rem;
-            }
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            .gallery {
-                grid-template-columns: 1fr;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
+            .glass-container { padding: 1.2rem 0.9rem; }
+            .logo-text { font-size: 1.5rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .gallery { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
         }
 
-        /* ========== SCROLLBAR ========== */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(167, 139, 250, 0.3);
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(167, 139, 250, 0.5);
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(167, 139, 250, 0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(167, 139, 250, 0.5); }
     </style>
 </head>
 
@@ -792,11 +568,11 @@
                 <span class="status-dot"></span>
                 <span><i class="fas fa-sync-alt fa-fw"></i> فعال</span>
                 <span style="opacity:0.5;margin:0 0.2rem;">·</span>
-                <span><i class="far fa-clock"></i> بروزرسانی خودکار</span>
+                <span><i class="far fa-clock"></i> بروزرسانی: <span id="lastFetchTime">در حال دریافت...</span></span>
             </div>
         </header>
 
-        <!-- ===== BADGE ROW (Dynamic from API) ===== -->
+        <!-- ===== BADGE ROW ===== -->
         <div class="badge-row">
             <span class="badge"><i class="fas fa-shield-alt"></i> مجوز <span class="highlight">MIT</span></span>
             <span class="badge"><i class="fas fa-star"></i> ستاره‌ها <span class="stat" id="starsCount">…</span></span>
@@ -805,7 +581,7 @@
             <span class="badge"><i class="fas fa-commit"></i> آخرین کامیت <span class="stat" id="lastCommit">…</span></span>
             <span class="badge"><i class="fas fa-tags"></i> <span class="highlight">#V2ray</span> <span class="highlight">#Xray</span></span>
             <span class="badge"><i class="fas fa-users"></i> ۴.۲K <span style="color:#94a3b8;">کاربر</span></span>
-            <span class="badge"><i class="fas fa-server"></i> <span class="stat" id="activeServers">۱۴</span> سرور فعال</span>
+            <span class="badge"><i class="fas fa-server"></i> <span class="stat" id="activeServers">🔄 بارگذاری...</span></span>
         </div>
 
         <!-- ===== DESCRIPTION ===== -->
@@ -818,7 +594,7 @@
             <span class="label"><i class="fas fa-heartbeat" style="color:#34d399;"></i> وضعیت سرویس</span>
             <span style="font-size:0.8rem; color:#6ee7b7; font-weight:600;">عملیاتی</span>
             <div class="bar"><div class="fill"></div></div>
-            <span style="font-size:0.7rem; color:#94a3b8;">۹۸٪ uptime</span>
+            <span style="font-size:0.7rem; color:#94a3b8;">۹۸٪ uptime (تقریبی)</span>
         </div>
 
         <!-- ===== SUBSCRIPTION SECTION ===== -->
@@ -826,14 +602,12 @@
             <h2><i class="fas fa-link"></i> 🌎 لیست اشتراک‌ها | Subscription List 📜</h2>
             <p style="color:#94a3b8; margin-bottom:1rem; font-size:0.9rem;">مدیریت اشتراک‌های V2ray با استفاده از لینک‌های زیر:</p>
 
-            <!-- فعال : Mix -->
             <div class="sub-card active">
                 <span class="sub-label"><i class="fas fa-layer-group"></i> Mix <span style="font-size:0.65rem; color:#34d399; font-weight:400;">(فعال)</span></span>
                 <span class="sub-url" id="subMix">https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt</span>
                 <button class="copy-btn" data-target="subMix"><i class="far fa-copy"></i> کپی</button>
             </div>
 
-            <!-- غیرفعال : Irancell & MCI با استایل مخفی -->
             <details style="margin-top:0.5rem;">
                 <summary style="cursor:pointer; color:#64748b; font-size:0.85rem; display:flex; align-items:center; gap:0.5rem; padding:0.5rem 0;">
                     <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
@@ -855,33 +629,37 @@
             </details>
         </section>
 
-        <!-- ===== SERVER STATS ===== -->
+        <!-- ===== REAL STATS ===== -->
         <section>
             <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:1rem; display:flex; align-items:center; gap:0.7rem;">
-                <i class="fas fa-chart-pie" style="color:#a78bfa;"></i> 📊 آمار لحظه‌ای سرورها
+                <i class="fas fa-chart-pie" style="color:#a78bfa;"></i> 📊 آمار واقعی از فایل اشتراک
             </h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number" id="serverCount">۱۴</div>
-                    <div class="stat-label">سرور فعال</div>
-                    <div class="stat-trend"><i class="fas fa-arrow-up"></i> +۲ امروز</div>
+                    <div class="stat-number" id="realConfigCount">🔄</div>
+                    <div class="stat-label">تعداد کانفیگ‌های فعال در Mix</div>
+                    <div class="stat-sub">✅ <span id="configStatus">در حال بارگذاری...</span></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="avgPing">۸۷</div>
-                    <div class="stat-label">میانگین پینگ (ms)</div>
-                    <div class="stat-trend"><i class="fas fa-check-circle" style="color:#34d399;"></i> پایدار</div>
+                    <div class="stat-number" id="fileSize">-</div>
+                    <div class="stat-label">حجم فایل اشتراک</div>
+                    <div class="stat-sub">📄 <span id="fileSizeUnit">KB</span></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="traffic">۲.۴</div>
-                    <div class="stat-label">مصرف ترافیک (TB)</div>
-                    <div class="stat-trend"><i class="fas fa-arrow-up" style="color:#fbbf24;"></i> +۱۲٪</div>
+                    <div class="stat-number" id="lastModified">-</div>
+                    <div class="stat-label">آخرین بروزرسانی فایل</div>
+                    <div class="stat-sub">📅 <span id="lastModifiedLabel">تاریخ</span></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="uptime">۹۸.۷</div>
-                    <div class="stat-label">درصد uptime</div>
-                    <div class="stat-trend"><i class="fas fa-check-circle" style="color:#34d399;"></i> عالی</div>
+                    <div class="stat-number" id="estimatedPing">~۸۵</div>
+                    <div class="stat-label">میانگین پینگ (تخمینی)</div>
+                    <div class="stat-sub">⚠️ نیاز به بک‌اند دارد</div>
                 </div>
             </div>
+            <p style="color:#64748b; font-size:0.75rem; margin-top:-0.5rem; text-align:center;">
+                <i class="fas fa-info-circle"></i> تعداد کانفیگ‌ها و حجم فایل مستقیماً از گیت‌هاب دریافت می‌شوند. 
+                پینگ و ترافیک به دلیل محدودیت مرورگر قابل اندازه‌گیری لحظه‌ای نیستند.
+            </p>
         </section>
 
         <!-- ===== FEATURES ===== -->
@@ -939,7 +717,7 @@
             </div>
         </section>
 
-        <!-- ===== TUTORIAL (GALLERY) ===== -->
+        <!-- ===== TUTORIAL ===== -->
         <section style="margin: 2.5rem 0;">
             <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:0.8rem; display:flex; align-items:center; gap:0.7rem;">
                 <i class="fas fa-mobile-alt" style="color:#a78bfa;"></i> 📲 راهنمای اضافه کردن اشتراک به V2rayNG (اندروید) 📱
@@ -980,32 +758,20 @@
                 <i class="fas fa-question-circle" style="color:#a78bfa;"></i> ❓ سوالات متداول | FAQ
             </h2>
             <div class="faq-item">
-                <div class="faq-question">
-                    <span>چطور می‌توانم اشتراک را به V2rayNG اضافه کنم؟</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
+                <div class="faq-question"><span>چطور می‌توانم اشتراک را به V2rayNG اضافه کنم؟</span><i class="fas fa-chevron-down"></i></div>
                 <div class="faq-answer">مراحل کامل در بخش راهنمای تصویری بالا توضیح داده شده است. کافی است لینک اشتراک را کپی کرده و در اپلیکیشن V2rayNG در قسمت Subscription قرار دهید.</div>
             </div>
             <div class="faq-item">
-                <div class="faq-question">
-                    <span>آیا این ابزار رایگان است؟</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">بله، این پروژه کاملاً متن‌باز و رایگان است و تحت مجوز MIT منتشر شده است. شما می‌توانید آن را برای هر استفاده‌ای، حتی تجاری، به کار بگیرید.</div>
+                <div class="faq-question"><span>آیا این ابزار رایگان است؟</span><i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">بله، این پروژه کاملاً متن‌باز و رایگان است و تحت مجوز MIT منتشر شده است.</div>
             </div>
             <div class="faq-item">
-                <div class="faq-question">
-                    <span>چند وقت یکبار اشتراک‌ها بروزرسانی می‌شوند؟</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">اشتراک‌ها به‌صورت خودکار هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت می‌شوند. همچنین می‌توانید به‌صورت دستی با اجرای اسکریپت، بروزرسانی را انجام دهید.</div>
+                <div class="faq-question"><span>چند وقت یکبار اشتراک‌ها بروزرسانی می‌شوند؟</span><i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">اشتراک‌ها به‌صورت خودکار هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت می‌شوند.</div>
             </div>
             <div class="faq-item">
-                <div class="faq-question">
-                    <span>چطور می‌توانم در توسعه پروژه مشارکت کنم؟</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">می‌توانید مخزن را Fork کرده، تغییرات خود را اعمال و سپس یک Pull Request ارسال کنید. همچنین می‌توانید در بخش Issues مشکلات را گزارش دهید.</div>
+                <div class="faq-question"><span>چطور می‌توانم در توسعه پروژه مشارکت کنم؟</span><i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">می‌توانید مخزن را Fork کرده، تغییرات خود را اعمال و سپس یک Pull Request ارسال کنید.</div>
             </div>
         </section>
 
@@ -1016,7 +782,7 @@
             </h2>
             <div class="changelog-item">
                 <span class="changelog-date">۲۰۲۶-۰۲-۱۲</span>
-                <span class="changelog-text">✨ اضافه شدن آمار لحظه‌ای سرورها به سایت</span>
+                <span class="changelog-text">✨ اضافه شدن آمار واقعی (تعداد کانفیگ‌ها و حجم فایل) از گیت‌هاب</span>
             </div>
             <div class="changelog-item">
                 <span class="changelog-date">۲۰۲۶-۰۲-۱۰</span>
@@ -1026,53 +792,14 @@
                 <span class="changelog-date">۲۰۲۶-۰۲-۰۸</span>
                 <span class="changelog-text">📝 بروزرسانی README و افزودن راهنمای تصویری کامل</span>
             </div>
-            <div class="changelog-item">
-                <span class="changelog-date">۲۰۲۶-۰۲-۰۵</span>
-                <span class="changelog-text">🚀 انتشار نسخه اولیه ابزار با قابلیت مدیریت سه نوع اشتراک</span>
-            </div>
         </section>
-
-        <!-- ===== TOOLS ===== -->
-        <section style="margin: 2.5rem 0;">
-            <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:1rem; display:flex; align-items:center; gap:0.7rem;">
-                <i class="fas fa-toolbox" style="color:#a78bfa;"></i> 🔧 ابزارهای مفید
-            </h2>
-            <div class="tools-grid">
-                <a href="#" class="tool-item" target="_blank">
-                    <i class="fab fa-android"></i>
-                    <span>دانلود V2rayNG</span>
-                </a>
-                <a href="#" class="tool-item" target="_blank">
-                    <i class="fab fa-python"></i>
-                    <span>نصب پایتون</span>
-                </a>
-                <a href="#" class="tool-item" target="_blank">
-                    <i class="fas fa-terminal"></i>
-                    <span>آموزش گیت</span>
-                </a>
-                <a href="#" class="tool-item" target="_blank">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>تولید کلید TLS</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- ===== POLL ===== -->
-        <div class="poll-box">
-            <p><i class="fas fa-poll" style="color:#a78bfa;"></i> آیا از این ابزار راضی هستید؟</p>
-            <button class="poll-btn" onclick="pollVote('بله')">👍 بله</button>
-            <button class="poll-btn" onclick="pollVote('نظری ندارم')">🤷 نظری ندارم</button>
-            <button class="poll-btn" onclick="pollVote('خیر')">👎 خیر</button>
-        </div>
 
         <!-- ===== CONTRIBUTE ===== -->
         <section style="margin: 2.5rem 0; padding: 1.8rem; background: rgba(255,255,255,0.02); border-radius: 2rem; border: 1px solid rgba(255,255,255,0.04);">
             <h2 style="font-size:1.5rem; font-weight:600; display:flex; align-items:center; gap:0.7rem;">
                 <i class="fas fa-handshake" style="color:#a78bfa;"></i> 🤝 همکاری در پروژه | Contribute 🏆
             </h2>
-            <p style="color:#cbd5e1; margin-top:0.5rem;">
-                💡 آیا می‌خواهید <strong>V2ray_Sub</strong> را بهتر کنید؟ 🎯
-            </p>
+            <p style="color:#cbd5e1; margin-top:0.5rem;">💡 آیا می‌خواهید <strong>V2ray_Sub</strong> را بهتر کنید؟ 🎯</p>
             <ul style="list-style:none; color:#94a3b8; margin:0.8rem 0; line-height:2.2;">
                 <li>🔹 ۱️⃣ مخزن را <strong>Fork</strong> کنید و یک شاخه جدید ایجاد کنید.</li>
                 <li>🔹 ۲️⃣ تغییرات خود را اعمال و تست کنید.</li>
@@ -1097,7 +824,7 @@
 
     </main>
 
-    <!-- ========== JAVASCRIPT ========== -->
+    <!-- ========== JAVASCRIPT (Real Stats + API) ========== -->
     <script>
         (function() {
             // 1. Copy functionality
@@ -1146,7 +873,74 @@
                 }, 2000);
             }
 
-            // 2. Fetch repo stats from GitHub API
+            // 2. Fetch REAL Config Count from Mix.txt
+            const MIX_URL = 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt';
+
+            async function fetchRealStats() {
+                const configCountEl = document.getElementById('realConfigCount');
+                const statusEl = document.getElementById('configStatus');
+                const fileSizeEl = document.getElementById('fileSize');
+                const fileSizeUnitEl = document.getElementById('fileSizeUnit');
+                const lastModifiedEl = document.getElementById('lastModified');
+                const lastModifiedLabelEl = document.getElementById('lastModifiedLabel');
+                const badgeServerEl = document.getElementById('activeServers');
+                const lastFetchTimeEl = document.getElementById('lastFetchTime');
+
+                try {
+                    const response = await fetch(MIX_URL, { cache: 'no-store' });
+                    if (!response.ok) throw new Error('File not accessible');
+
+                    const text = await response.text();
+                    const lines = text.split('\n').filter(line => line.trim() !== '');
+                    const configCount = lines.length;
+
+                    // Update Config Count
+                    configCountEl.textContent = configCount;
+                    statusEl.textContent = '✅ دریافت شد';
+                    statusEl.style.color = '#6ee7b7';
+                    badgeServerEl.textContent = configCount + ' کانفیگ';
+
+                    // File Size
+                    const bytes = new Blob([text]).size;
+                    const kb = (bytes / 1024).toFixed(1);
+                    if (kb > 1024) {
+                        fileSizeEl.textContent = (kb / 1024).toFixed(2);
+                        fileSizeUnitEl.textContent = 'MB';
+                    } else {
+                        fileSizeEl.textContent = kb;
+                        fileSizeUnitEl.textContent = 'KB';
+                    }
+
+                    // Last Modified (from header) or fallback
+                    const lastModifiedHeader = response.headers.get('last-modified');
+                    if (lastModifiedHeader) {
+                        const date = new Date(lastModifiedHeader);
+                        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                        lastModifiedEl.textContent = date.toLocaleDateString('fa-IR', options);
+                        lastModifiedLabelEl.textContent = 'آخرین تغییر';
+                    } else {
+                        lastModifiedEl.textContent = 'نامشخص';
+                        lastModifiedLabelEl.textContent = 'تاریخ';
+                    }
+
+                    // Update fetch time
+                    const now = new Date();
+                    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+                    lastFetchTimeEl.textContent = now.toLocaleTimeString('fa-IR', timeOptions);
+
+                } catch (error) {
+                    console.warn('Could not fetch Mix.txt:', error);
+                    configCountEl.textContent = '❌';
+                    statusEl.textContent = 'خطا در دریافت';
+                    statusEl.style.color = '#f87171';
+                    badgeServerEl.textContent = '🔴 خطا';
+                    fileSizeEl.textContent = '—';
+                    lastModifiedEl.textContent = '—';
+                    lastFetchTimeEl.textContent = 'خطا';
+                }
+            }
+
+            // 3. Fetch GitHub Repo Stats (Stars, Forks, Issues, Commit)
             const repoOwner = 'mehrdadmb2';
             const repoName = 'V2ray_Sub';
             const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}`;
@@ -1177,30 +971,21 @@
                 }
             }
 
-            fetchRepoStats();
-
-            // 3. FAQ toggle
+            // 4. FAQ toggle
             document.querySelectorAll('.faq-item').forEach(item => {
                 item.addEventListener('click', function() {
                     this.classList.toggle('open');
                 });
             });
 
-            // 4. Poll function (simple)
-            window.pollVote = function(choice) {
-                alert(`🙏 نظر شما ثبت شد: "${choice}"\nاز مشارکت شما سپاسگزاریم!`);
-            };
+            // 5. Run all fetchers
+            fetchRepoStats();
+            fetchRealStats();
 
-            // 5. Simulate dynamic server stats (just for demo)
-            setInterval(() => {
-                const pingEl = document.getElementById('avgPing');
-                const currentPing = parseInt(pingEl.textContent);
-                const newPing = Math.floor(Math.random() * 30) + 70; // 70-100
-                pingEl.textContent = newPing;
-            }, 10000);
+            // Auto-refresh real stats every 60 seconds (to keep it fresh)
+            setInterval(fetchRealStats, 60000);
 
         })();
     </script>
-
 </body>
 </html>
