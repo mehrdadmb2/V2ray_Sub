@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>V2ray_Sub · مدیریت اشتراک حرفه‌ای</title>
 
-    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* ========== RESET & BASE ========== */
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -25,15 +23,12 @@
             background: #080b12;
             color: #eef2f8;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 1.5rem;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* ========== ANIMATED BACKGROUND ========== */
+        /* ===== ANIMATED BG ===== */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -56,7 +51,6 @@
                 background-position: 0% 50%;
             }
         }
-
         .orb {
             position: fixed;
             border-radius: 50%;
@@ -89,15 +83,6 @@
             animation-duration: 22s;
             opacity: 0.12;
         }
-        .orb4 {
-            width: 400px;
-            height: 400px;
-            background: #f59e0b;
-            bottom: 10%;
-            left: 10%;
-            animation-duration: 26s;
-            opacity: 0.1;
-        }
         @keyframes floatOrb {
             0% {
                 transform: translate(0, 0) scale(1);
@@ -113,12 +98,12 @@
             }
         }
 
-        /* ========== GLASS CONTAINER ========== */
+        /* ===== GLASS CONTAINER ===== */
         .glass-container {
             position: relative;
             z-index: 1;
-            width: 100%;
-            max-width: 1400px;
+            max-width: 1300px;
+            margin: 0 auto;
             background: rgba(255, 255, 255, 0.035);
             backdrop-filter: blur(28px) saturate(180%);
             -webkit-backdrop-filter: blur(28px) saturate(180%);
@@ -126,7 +111,6 @@
             padding: 2.8rem 3.2rem;
             border: 1px solid rgba(255, 255, 255, 0.06);
             box-shadow: 0 50px 120px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-            transition: all 0.3s;
         }
         @media (max-width: 640px) {
             .glass-container {
@@ -135,13 +119,13 @@
             }
         }
 
-        /* ========== HEADER ========== */
+        /* ===== HEADER ===== */
         .header {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             gap: 1rem;
         }
         .logo-area {
@@ -158,7 +142,6 @@
         .logo-text {
             font-size: 2.1rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
             background: linear-gradient(135deg, #ffffff, #c4b5fd);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -171,7 +154,6 @@
             font-size: 0.7rem;
             font-weight: 600;
             color: #c4b5fd;
-            backdrop-filter: blur(4px);
         }
         .status-chip {
             display: flex;
@@ -204,13 +186,13 @@
             }
         }
 
-        /* ========== BADGE ROW ========== */
+        /* ===== BADGE ROW ===== */
         .badge-row {
             display: flex;
             flex-wrap: wrap;
             gap: 0.7rem 1rem;
             margin-bottom: 2rem;
-            padding-bottom: 1.8rem;
+            padding-bottom: 1.5rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         .badge {
@@ -225,11 +207,10 @@
             font-size: 0.78rem;
             font-weight: 500;
             color: #d1d9e6;
-            transition: 0.25s ease;
+            transition: 0.25s;
             cursor: default;
         }
         .badge i {
-            font-size: 0.9rem;
             color: #a78bfa;
         }
         .badge:hover {
@@ -245,105 +226,163 @@
             font-weight: 600;
         }
 
-        /* ========== SUBSCRIPTION INPUT ========== */
-        .sub-input-area {
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: #e2e8f0;
+        }
+        .section-title i {
+            color: #a78bfa;
+        }
+
+        /* ===== SUBSCRIPTION CARDS (PRIMARY) ===== */
+        .sub-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.8rem;
+            padding: 1.2rem 2rem;
+            margin-bottom: 1rem;
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
             align-items: center;
-        }
-        .sub-input-area input {
-            flex: 1;
-            min-width: 200px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 100px;
-            padding: 0.8rem 1.5rem;
-            color: #e2e8f0;
-            font-size: 0.9rem;
-            outline: none;
+            justify-content: space-between;
+            gap: 1rem;
             transition: 0.3s;
+        }
+        .sub-card:hover {
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .sub-card.active {
+            border-color: rgba(52, 211, 153, 0.3);
+            background: rgba(52, 211, 153, 0.04);
+        }
+        .sub-card.inactive {
+            opacity: 0.5;
+            border-color: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.015);
+        }
+        .sub-label {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 120px;
+        }
+        .sub-label i {
+            font-size: 1.3rem;
+            color: #a78bfa;
+        }
+        .sub-url {
+            background: rgba(0, 0, 0, 0.35);
+            padding: 0.5rem 1.4rem;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #c4b5fd;
+            border: 1px solid rgba(167, 139, 250, 0.15);
+            word-break: break-all;
+            flex: 1;
+            min-width: 180px;
             font-family: 'Inter', monospace;
         }
-        .sub-input-area input:focus {
-            border-color: #a78bfa;
-            box-shadow: 0 0 20px rgba(167, 139, 250, 0.15);
-        }
-        .sub-input-area button {
+        .copy-btn {
             background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
             border: 1px solid rgba(167, 139, 250, 0.25);
             color: #e2e8f0;
-            padding: 0.8rem 2rem;
+            padding: 0.5rem 1.6rem;
             border-radius: 100px;
             font-weight: 600;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: 0.25s;
-            backdrop-filter: blur(4px);
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
-            font-size: 0.9rem;
         }
-        .sub-input-area button:hover {
+        .copy-btn:hover {
             background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
             border-color: #a78bfa;
             transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(167, 139, 250, 0.15);
         }
-        .sub-input-area .extra-link {
-            background: rgba(255, 255, 255, 0.03);
+        .inactive-badge {
+            background: rgba(248, 113, 113, 0.15);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            color: #f87171;
+            padding: 0.25rem 1rem;
             border-radius: 100px;
-            padding: 0.3rem 1.2rem;
+            font-size: 0.7rem;
+            font-weight: 500;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: #94a3b8;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 0.4rem;
         }
-        .sub-input-area .extra-link button {
-            background: none;
-            border: none;
-            color: #f87171;
+        details summary {
             cursor: pointer;
-            padding: 0 0.3rem;
-            font-size: 0.9rem;
+            color: #64748b;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+        details summary i {
+            font-size: 0.7rem;
         }
 
-        /* ========== FILTERS ========== */
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
+        /* ===== STATS (quick stats) ===== */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
             margin: 1.5rem 0 2rem 0;
-            align-items: center;
         }
-        .filters input,
-        .filters select {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 100px;
-            padding: 0.5rem 1.2rem;
-            color: #e2e8f0;
-            font-size: 0.8rem;
-            outline: none;
+        .stat-item {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 1.2rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: 0.3s;
         }
-        .filters input:focus,
-        .filters select:focus {
-            border-color: #a78bfa;
+        .stat-item:hover {
+            border-color: rgba(167, 139, 250, 0.2);
         }
-        .filters select option {
-            background: #1a1a2e;
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.2rem;
         }
 
-        /* ========== TABLE ========== */
+        /* ===== DIVIDER ===== */
+        .divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 2.5rem 0;
+        }
+
+        /* ===== TABLE ===== */
         .table-wrapper {
             overflow-x: auto;
-            margin: 1.5rem 0 2rem 0;
             border-radius: 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.05);
             background: rgba(255, 255, 255, 0.02);
+            margin-top: 1rem;
         }
         table {
             width: 100%;
@@ -362,7 +401,6 @@
         td {
             padding: 0.9rem 1.2rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            vertical-align: middle;
             color: #e2e8f0;
         }
         tr:hover td {
@@ -393,12 +431,37 @@
             color: #60a5fa;
             display: inline-block;
         }
-        .country-loading {
-            color: #64748b;
-            font-size: 0.7rem;
+
+        /* ===== FILTERS ===== */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1rem 0 1.5rem 0;
+            align-items: center;
+        }
+        .filters input,
+        .filters select {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            padding: 0.5rem 1.2rem;
+            color: #e2e8f0;
+            font-size: 0.8rem;
+            outline: none;
+            transition: 0.3s;
+            flex: 1;
+            min-width: 120px;
+        }
+        .filters input:focus,
+        .filters select:focus {
+            border-color: #a78bfa;
+        }
+        .filters select option {
+            background: #1a1a2e;
         }
 
-        /* ========== CHART ========== */
+        /* ===== CHART ===== */
         .chart-container {
             max-width: 500px;
             margin: 2rem auto;
@@ -408,7 +471,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* ========== DOWNLOAD ========== */
+        /* ===== DOWNLOAD ===== */
         .download-area {
             display: flex;
             flex-wrap: wrap;
@@ -432,51 +495,77 @@
         .download-btn:hover {
             background: rgba(167, 139, 250, 0.3);
             border-color: #a78bfa;
-            transform: scale(1.02);
         }
 
-        /* ========== STATUS BAR ========== */
-        .status-bar {
+        /* ===== EXTRA LINKS ===== */
+        .extra-links {
             display: flex;
-            align-items: center;
-            gap: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0 0.5rem 0;
+        }
+        .extra-link {
             background: rgba(255, 255, 255, 0.03);
             border-radius: 100px;
-            padding: 0.5rem 1.8rem 0.5rem 1.2rem;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            margin: 1rem 0 1.5rem 0;
-            flex-wrap: wrap;
-        }
-        .status-bar .label {
+            padding: 0.3rem 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             font-size: 0.8rem;
             color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .status-bar .bar {
-            flex: 1;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            overflow: hidden;
-            min-width: 60px;
-        }
-        .status-bar .bar .fill {
-            height: 100%;
-            width: 98%;
-            background: linear-gradient(90deg, #34d399, #6ee7b7);
-            border-radius: 10px;
-            animation: pulse-bar 3s infinite;
-        }
-        @keyframes pulse-bar {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
+        .extra-link button {
+            background: none;
+            border: none;
+            color: #f87171;
+            cursor: pointer;
+            font-size: 0.9rem;
         }
 
-        /* ========== FOOTER ========== */
+        .sub-input-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+        .sub-input-area input {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            padding: 0.7rem 1.5rem;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+            font-family: 'Inter', monospace;
+        }
+        .sub-input-area input:focus {
+            border-color: #a78bfa;
+        }
+        .sub-input-area button {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            color: #e2e8f0;
+            padding: 0.7rem 1.8rem;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+        }
+        .sub-input-area button:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
+            border-color: #a78bfa;
+        }
+
+        /* ===== FOOTER ===== */
         .footer {
             display: flex;
             flex-wrap: wrap;
@@ -503,7 +592,7 @@
             transform: translateY(-3px);
         }
 
-        /* ========== RESPONSIVE ========== */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 640px) {
             .header {
                 flex-direction: column;
@@ -511,6 +600,16 @@
             }
             .status-chip {
                 align-self: flex-start;
+            }
+            .sub-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .sub-url {
+                text-align: center;
+            }
+            .copy-btn {
+                justify-content: center;
             }
             .sub-input-area {
                 flex-direction: column;
@@ -522,25 +621,22 @@
                 flex-direction: column;
                 align-items: stretch;
             }
-            .status-bar {
-                flex-wrap: wrap;
-                border-radius: 1.2rem;
-                padding: 1rem;
-            }
-            .download-area {
-                flex-direction: column;
-                align-items: stretch;
+            .quick-stats {
+                grid-template-columns: 1fr 1fr;
             }
             .chart-container {
                 max-width: 100%;
             }
+            .glass-container {
+                padding: 1.2rem 1rem;
+            }
         }
         @media (max-width: 480px) {
-            .glass-container {
-                padding: 1.2rem 0.9rem;
-            }
             .logo-text {
                 font-size: 1.5rem;
+            }
+            .quick-stats {
+                grid-template-columns: 1fr;
             }
             td,
             th {
@@ -548,7 +644,6 @@
                 font-size: 0.75rem;
             }
         }
-
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -572,9 +667,8 @@
     <div class="orb orb1"></div>
     <div class="orb orb2"></div>
     <div class="orb orb3"></div>
-    <div class="orb orb4"></div>
 
-    <!-- ===== MAIN GLASS CONTAINER ===== -->
+    <!-- ===== MAIN CONTAINER ===== -->
     <main class="glass-container">
 
         <!-- ===== HEADER ===== -->
@@ -603,31 +697,78 @@
             <span class="badge"><i class="fas fa-server"></i> <span class="stat" id="totalConfigs">۰</span> کانفیگ</span>
         </div>
 
-        <!-- ===== STATUS BAR ===== -->
-        <div class="status-bar">
-            <span class="label"><i class="fas fa-heartbeat" style="color:#34d399;"></i> وضعیت</span>
-            <span style="font-size:0.8rem; color:#6ee7b7; font-weight:600;">عملیاتی</span>
-            <div class="bar"><div class="fill"></div></div>
-            <span style="font-size:0.7rem; color:#94a3b8;">سرویس آماده</span>
+        <!-- ============================================================ -->
+        <!-- ===== بخش اول: لینک‌های اشتراک (اولویت اصلی) ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-link"></i> 🌎 لینک‌های اشتراک</h2>
+        <p style="color:#94a3b8; margin-bottom:1rem; font-size:0.9rem;">لینک مورد نظر را کپی کرده و در اپلیکیشن V2ray خود جای‌گذاری کنید.</p>
+
+        <!-- لینک Mix (فعال) -->
+        <div class="sub-card active">
+            <span class="sub-label"><i class="fas fa-layer-group"></i> Mix <span style="font-size:0.65rem; color:#34d399; font-weight:400;">(فعال)</span></span>
+            <span class="sub-url" id="subMix">https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt</span>
+            <button class="copy-btn" data-target="subMix"><i class="far fa-copy"></i> کپی</button>
         </div>
 
-        <!-- ===== DESCRIPTION ===== -->
-        <p style="color:#cbd5e1; margin-bottom:1.5rem; line-height:1.8;">
-            <strong>🚀 V2ray_Sub</strong> ابزاری کامل برای مدیریت، تحلیل و بهینه‌سازی اشتراک‌های V2ray. 
-            کانفیگ‌ها را مرور کنید، کشور و موقعیت هر سرور را ببینید، جستجو و فیلتر کنید و خروجی دلخواه را دانلود نمایید.
-        </p>
+        <!-- لینک‌های قدیمی (غیرفعال) در یک بخش جمع‌شونده -->
+        <details style="margin-top:0.5rem;">
+            <summary><i class="fas fa-chevron-down" style="font-size:0.7rem;"></i> لینک‌های قدیمی (غیرفعال) — بروزرسانی نمی‌شوند</summary>
+            <div style="margin-top:0.8rem;">
+                <div class="sub-card inactive">
+                    <span class="sub-label"><i class="fas fa-sim-card"></i> Irancell</span>
+                    <span class="sub-url" id="subIrancell">https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Irancell.txt</span>
+                    <span class="inactive-badge"><i class="fas fa-lock"></i> غیرفعال</span>
+                </div>
+                <div class="sub-card inactive">
+                    <span class="sub-label"><i class="fas fa-wifi"></i> MCI</span>
+                    <span class="sub-url" id="subMci">https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Mci.txt</span>
+                    <span class="inactive-badge"><i class="fas fa-lock"></i> غیرفعال</span>
+                </div>
+                <p style="color:#64748b; font-size:0.75rem; margin-top:0.5rem;">⚠️ این لینک‌ها دیگر بروزرسانی نمی‌شوند و فقط برای آرشیو نگهداری شده‌اند.</p>
+            </div>
+        </details>
 
-        <!-- ===== ADD SUBSCRIPTION ===== -->
-        <div class="sub-input-area">
+        <!-- ===== افزودن لینک جدید ===== -->
+        <div class="sub-input-area" style="margin-top:1.5rem;">
             <input type="text" id="subInput" placeholder="لینک اشتراک جدید (اختیاری) ..." />
             <button id="addSubBtn"><i class="fas fa-plus"></i> افزودن</button>
-            <button id="loadDefaultBtn" style="background:rgba(255,255,255,0.05);"><i class="fas fa-undo"></i> بارگذاری پیش‌فرض</button>
+            <button id="loadDefaultBtn" style="background:rgba(255,255,255,0.05);"><i class="fas fa-undo"></i> بازنشانی</button>
         </div>
-        <div id="extraLinks" style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.5rem;"></div>
+        <div class="extra-links" id="extraLinks"></div>
 
-        <!-- ===== FILTERS ===== -->
+        <!-- ===== آمار سریع ===== -->
+        <div class="quick-stats">
+            <div class="stat-item">
+                <div class="stat-number" id="quickConfigCount">-</div>
+                <div class="stat-label">تعداد کانفیگ‌ها</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="quickCountryCount">-</div>
+                <div class="stat-label">تعداد کشورها</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="quickProtocolCount">-</div>
+                <div class="stat-label">پروتکل‌های مختلف</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="quickFileSize">-</div>
+                <div class="stat-label">حجم فایل اشتراک</div>
+            </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش دوم: امکانات پیشرفته (اسکرول به پایین) ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-table"></i> 📋 جزئیات کانفیگ‌ها</h2>
+        <p style="color:#94a3b8; margin-bottom:0.8rem; font-size:0.9rem;">لیست کامل کانفیگ‌ها به‌همراه اطلاعات جغرافیایی و پروتکل.</p>
+
+        <!-- فیلترها -->
         <div class="filters">
-            <input type="text" id="searchInput" placeholder="🔍 جستجو در نام / آی‌پی ..." style="flex:1; min-width:150px;" />
+            <input type="text" id="searchInput" placeholder="🔍 جستجو در نام / آی‌پی ..." style="flex:2;" />
             <select id="protocolFilter">
                 <option value="all">همه پروتکل‌ها</option>
                 <option value="vless">VLESS</option>
@@ -641,14 +782,14 @@
             <span style="color:#64748b; font-size:0.8rem;" id="filteredCount">نمایش ۰ از ۰</span>
         </div>
 
-        <!-- ===== TABLE ===== -->
+        <!-- جدول -->
         <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>پروتکل</th>
-                        <th>آی‌پی / سرور</th>
+                        <th>نام / آی‌پی</th>
                         <th>پورت</th>
                         <th>کشور</th>
                         <th>رمزنگاری</th>
@@ -656,24 +797,24 @@
                     </tr>
                 </thead>
                 <tbody id="configTableBody">
-                    <tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">⏳ در حال بارگذاری کانفیگ‌ها...</td></tr>
+                    <tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">⏳ در حال بارگذاری...</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- ===== DOWNLOAD ===== -->
+        <!-- دانلود -->
         <div class="download-area">
-            <button class="download-btn" id="downloadAllBtn"><i class="fas fa-download"></i> دانلود همه کانفیگ‌ها (TXT)</button>
-            <button class="download-btn" id="downloadFilteredBtn"><i class="fas fa-filter"></i> دانلود کانفیگ‌های فیلترشده</button>
+            <button class="download-btn" id="downloadAllBtn"><i class="fas fa-download"></i> دانلود همه</button>
+            <button class="download-btn" id="downloadFilteredBtn"><i class="fas fa-filter"></i> دانلود فیلترشده</button>
             <span style="color:#64748b; font-size:0.8rem; margin-right:auto;">📋 برای کپی هر کانفیگ، روی دکمه‌ی کپی در جدول کلیک کنید.</span>
         </div>
 
-        <!-- ===== CHART ===== -->
+        <!-- نمودار -->
         <div class="chart-container">
             <h3 style="text-align:center; color:#e2e8f0; font-weight:600; margin-bottom:1rem;">
                 <i class="fas fa-chart-bar" style="color:#a78bfa;"></i> توزیع کانفیگ‌ها بر اساس کشور
             </h3>
-            <canvas id="countryChart" width="400" height="250"></canvas>
+            <canvas id="countryChart" width="400" height="220"></canvas>
         </div>
 
         <!-- ===== FOOTER ===== -->
@@ -694,19 +835,19 @@
 
     </main>
 
-    <!-- ========== JAVASCRIPT (Complete) ========== -->
+    <!-- ========== JAVASCRIPT ========== -->
     <script>
         (function() {
             'use strict';
 
-            // ---- State ----
-            let allConfigs = []; // [{raw, protocol, ip, port, encryption, name, country, countryCode, flag}]
+            // ===== STATE =====
+            let allConfigs = [];
             let extraUrls = [];
             let chartInstance = null;
             const DEFAULT_URL =
-            'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt';
+                'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt';
 
-            // ---- DOM refs ----
+            // ===== DOM REFS =====
             const tbody = document.getElementById('configTableBody');
             const searchInput = document.getElementById('searchInput');
             const protocolFilter = document.getElementById('protocolFilter');
@@ -720,17 +861,20 @@
             const loadDefaultBtn = document.getElementById('loadDefaultBtn');
             const downloadAllBtn = document.getElementById('downloadAllBtn');
             const downloadFilteredBtn = document.getElementById('downloadFilteredBtn');
+            const quickConfigCount = document.getElementById('quickConfigCount');
+            const quickCountryCount = document.getElementById('quickCountryCount');
+            const quickProtocolCount = document.getElementById('quickProtocolCount');
+            const quickFileSize = document.getElementById('quickFileSize');
 
-            // ---- Helpers ----
+            // ===== HELPERS =====
             function parseConfigLine(line) {
                 line = line.trim();
                 if (!line) return null;
-                // Try to detect protocol
-                let protocol = 'unknown';
-                let ip = '';
-                let port = '';
-                let encryption = '';
-                let name = '';
+                let protocol = 'unknown',
+                    ip = '',
+                    port = '',
+                    encryption = '',
+                    name = '';
 
                 if (line.startsWith('vless://')) {
                     protocol = 'vless';
@@ -754,7 +898,7 @@
                         port = json.port || '';
                         encryption = json.scy || '';
                         name = json.ps || '';
-                    } catch (e) { /* ignore */ }
+                    } catch (e) {}
                 } else if (line.startsWith('trojan://')) {
                     protocol = 'trojan';
                     const parts = line.split('@');
@@ -770,7 +914,6 @@
                     if (encMatch) encryption = encMatch[1];
                 } else if (line.startsWith('ss://')) {
                     protocol = 'shadowsocks';
-                    // simple parse
                     const parts = line.split('@');
                     if (parts.length > 1) {
                         const hostPort = parts[1].split('#')[0];
@@ -781,7 +924,6 @@
                     }
                 }
 
-                // extract name if present
                 if (!name) {
                     const nameMatch = line.match(/#(.+)$/);
                     if (nameMatch) name = nameMatch[1].trim();
@@ -800,55 +942,28 @@
                 };
             }
 
-            function getFlagEmoji(countryCode) {
-                if (!countryCode) return '🏳️';
-                const code = countryCode.toUpperCase();
-                if (code.length !== 2) return '🏳️';
+            function getFlagEmoji(code) {
+                if (!code || code.length !== 2) return '🏳️';
                 const offset = 0x1F1E6;
                 const a = code.charCodeAt(0) - 65 + offset;
                 const b = code.charCodeAt(1) - 65 + offset;
                 return String.fromCodePoint(a, b);
             }
 
-            // ---- Fetch and parse URLs ----
+            // ===== FETCH & ENRICH =====
+            const ipCache = new Map();
+
             async function fetchConfigsFromUrl(url) {
                 const res = await fetch(url, { cache: 'no-store' });
                 if (!res.ok) throw new Error('خطا در دریافت فایل');
                 const text = await res.text();
                 const lines = text.split('\n').filter(l => l.trim() !== '');
-                const configs = lines.map(parseConfigLine).filter(c => c !== null);
-                return configs;
+                return lines.map(parseConfigLine).filter(c => c !== null);
             }
-
-            async function loadAllConfigs() {
-                const allUrls = [DEFAULT_URL, ...extraUrls];
-                let combined = [];
-                for (const url of allUrls) {
-                    try {
-                        const configs = await fetchConfigsFromUrl(url);
-                        combined = combined.concat(configs);
-                    } catch (e) {
-                        console.warn('Failed to load', url, e);
-                    }
-                }
-                // Remove duplicates based on raw content
-                const seen = new Set();
-                combined = combined.filter(c => {
-                    const key = c.raw;
-                    if (seen.has(key)) return false;
-                    seen.add(key);
-                    return true;
-                });
-                return combined;
-            }
-
-            // ---- Fetch country info (with caching) ----
-            const ipCache = new Map();
 
             async function enrichWithCountry(config) {
-                if (config.ip === '-' || !config.ip) {
+                if (config.ip === '-' || !config.ip || config.ip === '') {
                     config.country = 'نامشخص';
-                    config.countryCode = '';
                     config.flag = '🏳️';
                     return config;
                 }
@@ -861,7 +976,7 @@
                     return config;
                 }
                 try {
-                    const res = await fetch(`http://ip-api.com/json/${ip}?fields=country,countryCode`, { timeout: 5000 });
+                    const res = await fetch(`http://ip-api.com/json/${ip}?fields=country,countryCode`);
                     if (!res.ok) throw new Error();
                     const data = await res.json();
                     if (data.country) {
@@ -885,28 +1000,45 @@
                 return config;
             }
 
-            // ---- Render table ----
+            async function loadAllConfigs() {
+                const urls = [DEFAULT_URL, ...extraUrls];
+                let combined = [];
+                for (const url of urls) {
+                    try {
+                        const configs = await fetchConfigsFromUrl(url);
+                        combined = combined.concat(configs);
+                    } catch (e) { console.warn('Failed to load', url, e); }
+                }
+                // remove duplicates
+                const seen = new Set();
+                combined = combined.filter(c => {
+                    const key = c.raw;
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+                return combined;
+            }
+
+            // ===== RENDER TABLE =====
             function renderTable(configs) {
                 if (configs.length === 0) {
                     tbody.innerHTML =
                         `<tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">🚫 هیچ کانفیگی یافت نشد.</td></tr>`;
                     return;
                 }
-
                 let html = '';
                 configs.forEach((c, idx) => {
-                    const protoBadge =
-                        `<span class="badge-proto">${c.protocol.toUpperCase()}</span>`;
+                    const protoBadge = `<span class="badge-proto">${c.protocol.toUpperCase()}</span>`;
                     const flag = c.flag || '🏳️';
                     const countryDisplay = c.country || '...';
-                    const enc = c.encryption || '-';
                     html += `<tr>
                         <td>${idx+1}</td>
                         <td>${protoBadge}</td>
-                        <td>${c.name || c.ip}</td>
+                        <td>${c.name}</td>
                         <td>${c.port}</td>
                         <td><span class="flag">${flag}</span> ${countryDisplay}</td>
-                        <td>${enc}</td>
+                        <td>${c.encryption}</td>
                         <td>
                             <button class="copy-single" data-raw="${c.raw.replace(/"/g, '&quot;')}"><i class="far fa-copy"></i> کپی</button>
                         </td>
@@ -914,27 +1046,32 @@
                 });
                 tbody.innerHTML = html;
 
-                // attach copy events
                 document.querySelectorAll('.copy-single').forEach(btn => {
                     btn.addEventListener('click', function() {
-                        const raw = this.dataset.raw;
-                        copyToClipboard(raw, this);
+                        copyToClipboard(this.dataset.raw, this);
                     });
                 });
 
-                // update total
                 totalConfigsSpan.textContent = configs.length;
-
-                // update filtered count
                 filteredCount.textContent = `نمایش ${configs.length} از ${allConfigs.length}`;
+
+                // update quick stats
+                const uniqueCountries = new Set(configs.map(c => c.country).filter(c => c && c !== '...' && c !== 'نامشخص'));
+                const uniqueProtocols = new Set(configs.map(c => c.protocol));
+                quickConfigCount.textContent = configs.length;
+                quickCountryCount.textContent = uniqueCountries.size;
+                quickProtocolCount.textContent = uniqueProtocols.size;
+                // file size (approx from raw)
+                const totalSize = configs.reduce((sum, c) => sum + c.raw.length, 0);
+                const kb = (totalSize / 1024).toFixed(1);
+                quickFileSize.textContent = kb + ' KB';
             }
 
-            // ---- Filters ----
+            // ===== FILTERS =====
             function getFilteredConfigs() {
                 const search = searchInput.value.trim().toLowerCase();
                 const proto = protocolFilter.value;
                 const country = countryFilter.value;
-
                 return allConfigs.filter(c => {
                     const matchSearch = c.name.toLowerCase().includes(search) || c.ip.toLowerCase().includes(search);
                     const matchProto = proto === 'all' || c.protocol === proto;
@@ -949,7 +1086,7 @@
                 updateChart(filtered);
             }
 
-            // ---- Chart ----
+            // ===== CHART =====
             function updateChart(configs) {
                 const ctx = document.getElementById('countryChart').getContext('2d');
                 const countryMap = {};
@@ -988,31 +1125,20 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: true,
-                        plugins: {
-                            legend: { display: false },
-                        },
+                        plugins: { legend: { display: false } },
                         scales: {
-                            y: {
-                                ticks: { color: '#94a3b8', stepSize: 1 },
-                                beginAtZero: true,
-                                grid: { color: 'rgba(255,255,255,0.05)' }
-                            },
-                            x: {
-                                ticks: { color: '#94a3b8' },
-                                grid: { display: false }
-                            }
+                            y: { ticks: { color: '#94a3b8', stepSize: 1 }, beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            x: { ticks: { color: '#94a3b8' }, grid: { display: false } }
                         }
                     }
                 });
             }
 
-            // ---- Populate country filter ----
+            // ===== POPULATE COUNTRY FILTER =====
             function populateCountryFilter(configs) {
                 const countries = new Set();
                 configs.forEach(c => {
-                    if (c.country && c.country !== 'نامشخص' && c.country !== '...') {
-                        countries.add(c.country);
-                    }
+                    if (c.country && c.country !== 'نامشخص' && c.country !== '...') countries.add(c.country);
                 });
                 const sorted = Array.from(countries).sort();
                 const select = countryFilter;
@@ -1024,14 +1150,10 @@
                 if (currentVal && sorted.includes(currentVal)) select.value = currentVal;
             }
 
-            // ---- Copy ----
+            // ===== COPY =====
             function copyToClipboard(text, btn) {
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(text).then(() => {
-                        showCopied(btn);
-                    }).catch(() => {
-                        fallbackCopy(text, btn);
-                    });
+                    navigator.clipboard.writeText(text).then(() => showCopied(btn)).catch(() => fallbackCopy(text, btn));
                 } else {
                     fallbackCopy(text, btn);
                 }
@@ -1042,10 +1164,8 @@
                 ta.value = text;
                 document.body.appendChild(ta);
                 ta.select();
-                try {
-                    document.execCommand('copy');
-                    showCopied(btn);
-                } catch (e) { alert('✅ کپی شد!'); }
+                try { document.execCommand('copy');
+                    showCopied(btn); } catch (e) { alert('✅ کپی شد!'); }
                 document.body.removeChild(ta);
             }
 
@@ -1059,7 +1179,7 @@
                 }, 2000);
             }
 
-            // ---- Download ----
+            // ===== DOWNLOAD =====
             function downloadConfigs(configs, filename = 'configs.txt') {
                 const text = configs.map(c => c.raw).join('\n');
                 const blob = new Blob([text], { type: 'text/plain' });
@@ -1073,40 +1193,7 @@
                 URL.revokeObjectURL(url);
             }
 
-            // ---- Main load ----
-            async function refreshAll() {
-                try {
-                    tbody.innerHTML =
-                        `<tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">⏳ در حال بارگذاری...</td></tr>`;
-                    const configs = await loadAllConfigs();
-                    allConfigs = configs;
-
-                    // enrich with country (parallel)
-                    const enriched = await Promise.all(allConfigs.map(c => enrichWithCountry(c)));
-                    allConfigs = enriched;
-
-                    // update UI
-                    populateCountryFilter(allConfigs);
-                    applyFilters();
-
-                    // update extra links display
-                    renderExtraLinks();
-
-                    // update time
-                    const now = new Date();
-                    lastFetchTimeEl.textContent = now.toLocaleTimeString('fa-IR');
-
-                    // fetch repo stats
-                    fetchRepoStats();
-
-                } catch (e) {
-                    console.error(e);
-                    tbody.innerHTML =
-                        `<tr><td colspan="7" style="text-align:center; color:#f87171; padding:2rem;">❌ خطا در بارگذاری: ${e.message}</td></tr>`;
-                }
-            }
-
-            // ---- Extra links ----
+            // ===== EXTRA LINKS =====
             function renderExtraLinks() {
                 extraLinksDiv.innerHTML = '';
                 extraUrls.forEach((url, idx) => {
@@ -1127,7 +1214,7 @@
                 });
             }
 
-            // ---- GitHub API ----
+            // ===== GITHUB STATS =====
             async function fetchRepoStats() {
                 try {
                     const res = await fetch('https://api.github.com/repos/mehrdadmb2/V2ray_Sub');
@@ -1140,12 +1227,43 @@
                         const d = new Date(data.updated_at);
                         document.getElementById('lastCommit').textContent = d.toLocaleDateString('fa-IR');
                     }
+                } catch (e) {}
+            }
+
+            // ===== MAIN REFRESH =====
+            async function refreshAll() {
+                try {
+                    tbody.innerHTML =
+                        `<tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">⏳ در حال بارگذاری...</td></tr>`;
+                    const configs = await loadAllConfigs();
+                    allConfigs = await Promise.all(configs.map(c => enrichWithCountry(c)));
+
+                    populateCountryFilter(allConfigs);
+                    applyFilters();
+                    renderExtraLinks();
+
+                    const now = new Date();
+                    lastFetchTimeEl.textContent = now.toLocaleTimeString('fa-IR');
+
+                    fetchRepoStats();
+
+                    // Copy functionality for main subscription buttons
+                    document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const targetId = this.dataset.target;
+                            const el = document.getElementById(targetId);
+                            if (el) copyToClipboard(el.textContent.trim(), this);
+                        });
+                    });
+
                 } catch (e) {
-                    // ignore
+                    console.error(e);
+                    tbody.innerHTML =
+                        `<tr><td colspan="7" style="text-align:center; color:#f87171; padding:2rem;">❌ خطا: ${e.message}</td></tr>`;
                 }
             }
 
-            // ---- Event listeners ----
+            // ===== EVENT LISTENERS =====
             searchInput.addEventListener('input', applyFilters);
             protocolFilter.addEventListener('change', applyFilters);
             countryFilter.addEventListener('change', applyFilters);
@@ -1169,7 +1287,7 @@
             });
 
             downloadAllBtn.addEventListener('click', function() {
-                if (allConfigs.length === 0) return alert('هیچ کانفیگی برای دانلود وجود ندارد.');
+                if (allConfigs.length === 0) return alert('هیچ کانفیگی موجود نیست.');
                 downloadConfigs(allConfigs, 'v2ray_all_configs.txt');
             });
 
@@ -1179,7 +1297,7 @@
                 downloadConfigs(filtered, 'v2ray_filtered_configs.txt');
             });
 
-            // ---- Init ----
+            // ===== INIT =====
             refreshAll();
 
         })();
