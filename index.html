@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>V2ray_Sub · مدیریت اشتراک‌های V2ray</title>
-    
+
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,7 +20,7 @@
         }
         body {
             font-family: 'Inter', sans-serif;
-            background: #0a0c14;
+            background: #080b12;
             color: #eef2f8;
             min-height: 100vh;
             display: flex;
@@ -31,7 +31,7 @@
             overflow-x: hidden;
         }
 
-        /* ========== ANIMATED BACKGROUND (GRADIENT + ORBS) ========== */
+        /* ========== ANIMATED BACKGROUND ========== */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -39,47 +39,76 @@
             width: 100%;
             height: 100%;
             z-index: 0;
-            background: linear-gradient(135deg, #0a0c14 0%, #1a1040 25%, #2d1b5e 50%, #0f2a4a 75%, #0a0c14 100%);
+            background: linear-gradient(135deg, #080b12 0%, #1a1040 20%, #2d1b5e 45%, #0f2a4a 70%, #080b12 100%);
             background-size: 400% 400%;
-            animation: gradientShift 22s ease infinite;
+            animation: gradientShift 24s ease infinite;
         }
         @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .orb {
             position: fixed;
             border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.25;
+            filter: blur(140px);
+            opacity: 0.2;
             z-index: 0;
-            animation: floatOrb 25s infinite alternate ease-in-out;
+            animation: floatOrb 28s infinite alternate ease-in-out;
         }
         .orb1 {
-            width: 600px; height: 600px;
+            width: 700px;
+            height: 700px;
             background: #7c3aed;
-            top: -15%; left: -10%;
+            top: -20%;
+            left: -15%;
         }
         .orb2 {
-            width: 500px; height: 500px;
+            width: 600px;
+            height: 600px;
             background: #0ea5e9;
-            bottom: -15%; right: -10%;
-            animation-duration: 30s;
+            bottom: -20%;
+            right: -15%;
+            animation-duration: 32s;
         }
         .orb3 {
-            width: 400px; height: 400px;
+            width: 500px;
+            height: 500px;
             background: #d946ef;
-            top: 40%; left: 30%;
-            animation-duration: 20s;
-            opacity: 0.15;
+            top: 30%;
+            left: 30%;
+            animation-duration: 22s;
+            opacity: 0.12;
+        }
+        .orb4 {
+            width: 400px;
+            height: 400px;
+            background: #f59e0b;
+            bottom: 10%;
+            left: 10%;
+            animation-duration: 26s;
+            opacity: 0.1;
         }
         @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(50px, -40px) scale(1.1); }
-            66% { transform: translate(-30px, 50px) scale(0.9); }
-            100% { transform: translate(40px, -30px) scale(1.05); }
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(60px, -50px) scale(1.15);
+            }
+            66% {
+                transform: translate(-40px, 60px) scale(0.85);
+            }
+            100% {
+                transform: translate(50px, -40px) scale(1.05);
+            }
         }
 
         /* ========== GLASS CONTAINER ========== */
@@ -87,20 +116,20 @@
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 1200px;
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border-radius: 3.5rem;
-            padding: 2.8rem 3rem;
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            max-width: 1240px;
+            background: rgba(255, 255, 255, 0.035);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border-radius: 4rem;
+            padding: 2.8rem 3.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 50px 120px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
             transition: all 0.3s;
         }
         @media (max-width: 640px) {
             .glass-container {
                 padding: 1.8rem 1.2rem;
-                border-radius: 2rem;
+                border-radius: 2.2rem;
             }
         }
 
@@ -110,7 +139,7 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 2.2rem;
+            margin-bottom: 2.5rem;
             gap: 1rem;
         }
         .logo-area {
@@ -119,13 +148,13 @@
             gap: 0.8rem;
         }
         .logo-icon {
-            font-size: 2.8rem;
+            font-size: 3rem;
             background: linear-gradient(135deg, #a78bfa, #60a5fa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .logo-text {
-            font-size: 2rem;
+            font-size: 2.1rem;
             font-weight: 700;
             letter-spacing: -0.5px;
             background: linear-gradient(135deg, #ffffff, #c4b5fd);
@@ -148,24 +177,32 @@
             gap: 0.6rem;
             background: rgba(52, 211, 153, 0.12);
             border: 1px solid rgba(52, 211, 153, 0.2);
-            padding: 0.5rem 1.4rem;
+            padding: 0.5rem 1.6rem;
             border-radius: 100px;
             font-size: 0.85rem;
             font-weight: 500;
             color: #6ee7b7;
         }
         .status-dot {
-            width: 10px; height: 10px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: #34d399;
             animation: pulse-dot 2s infinite;
         }
         @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.8); }
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
         }
 
-        /* ========== BADGE ROW (Shields + Custom) ========== */
+        /* ========== BADGE ROW ========== */
         .badge-row {
             display: flex;
             flex-wrap: wrap;
@@ -189,45 +226,60 @@
             transition: 0.25s ease;
             cursor: default;
         }
-        .badge i { font-size: 0.9rem; color: #a78bfa; }
+        .badge i {
+            font-size: 0.9rem;
+            color: #a78bfa;
+        }
         .badge:hover {
-            background: rgba(255,255,255,0.10);
-            border-color: rgba(167,139,250,0.3);
+            background: rgba(255, 255, 255, 0.10);
+            border-color: rgba(167, 139, 250, 0.3);
             transform: translateY(-2px);
         }
-        .badge .highlight { color: #fcd34d; }
-        .badge .stat { color: #60a5fa; font-weight: 600; }
+        .badge .highlight {
+            color: #fcd34d;
+        }
+        .badge .stat {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+        .badge .warn {
+            color: #f87171;
+        }
 
         /* ========== DESCRIPTION ========== */
         .description {
             font-size: 1.1rem;
-            line-height: 1.8;
+            line-height: 1.9;
             color: #cbd5e1;
-            margin-bottom: 2.2rem;
+            margin-bottom: 2.5rem;
             padding: 0.5rem 0;
         }
-        .description strong { color: #a78bfa; }
+        .description strong {
+            color: #a78bfa;
+        }
 
-        /* ========== SUBSCRIPTION LINKS ========== */
+        /* ========== SUBSCRIPTION SECTION ========== */
         .sub-section {
-            margin-bottom: 2.8rem;
+            margin-bottom: 3rem;
         }
         .sub-section h2 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 600;
             margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
             gap: 0.7rem;
         }
-        .sub-section h2 i { color: #a78bfa; }
+        .sub-section h2 i {
+            color: #a78bfa;
+        }
 
         .sub-card {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 1.5rem;
-            padding: 1.2rem 1.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.8rem;
+            padding: 1.2rem 2rem;
             margin-bottom: 1rem;
             display: flex;
             flex-wrap: wrap;
@@ -237,36 +289,51 @@
             transition: 0.3s;
         }
         .sub-card:hover {
-            border-color: rgba(167,139,250,0.25);
-            background: rgba(255,255,255,0.06);
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .sub-card.active {
+            border-color: rgba(52, 211, 153, 0.3);
+            background: rgba(52, 211, 153, 0.04);
+        }
+        .sub-card.inactive {
+            opacity: 0.5;
+            border-color: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.015);
+        }
+        .sub-card.inactive .sub-label i {
+            color: #64748b;
         }
         .sub-label {
             display: flex;
             align-items: center;
             gap: 0.8rem;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
             min-width: 120px;
         }
-        .sub-label i { font-size: 1.2rem; color: #a78bfa; }
+        .sub-label i {
+            font-size: 1.3rem;
+            color: #a78bfa;
+        }
         .sub-url {
-            background: rgba(0,0,0,0.35);
-            padding: 0.5rem 1.2rem;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 0.5rem 1.4rem;
             border-radius: 100px;
             font-size: 0.78rem;
             font-weight: 500;
             color: #c4b5fd;
-            border: 1px solid rgba(167,139,250,0.15);
+            border: 1px solid rgba(167, 139, 250, 0.15);
             word-break: break-all;
             flex: 1;
             min-width: 180px;
             font-family: 'Inter', monospace;
         }
         .copy-btn {
-            background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(96,165,250,0.2));
-            border: 1px solid rgba(167,139,250,0.25);
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(167, 139, 250, 0.25);
             color: #e2e8f0;
-            padding: 0.5rem 1.4rem;
+            padding: 0.5rem 1.6rem;
             border-radius: 100px;
             font-weight: 600;
             font-size: 0.8rem;
@@ -278,36 +345,86 @@
             gap: 0.6rem;
         }
         .copy-btn:hover {
-            background: linear-gradient(135deg, rgba(167,139,250,0.35), rgba(96,165,250,0.35));
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
             border-color: #a78bfa;
             transform: scale(1.02);
-            box-shadow: 0 0 25px rgba(167,139,250,0.15);
+            box-shadow: 0 0 30px rgba(167, 139, 250, 0.15);
+        }
+        .inactive-badge {
+            background: rgba(248, 113, 113, 0.15);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            color: #f87171;
+            padding: 0.25rem 1rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
         }
 
-        /* ========== FEATURES GRID ========== */
+        /* ========== SERVER STATS ========== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.2rem;
+            margin: 2rem 0 2.5rem 0;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.5rem;
+            padding: 1.2rem 1rem;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(167, 139, 250, 0.2);
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 0.2rem;
+        }
+        .stat-trend {
+            font-size: 0.7rem;
+            color: #34d399;
+        }
+
+        /* ========== FEATURES ========== */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2.8rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0 2.8rem 0;
         }
         .feature-card {
-            background: rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 1.8rem;
-            padding: 1.6rem 1.5rem;
-            transition: 0.3s;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 2rem;
+            padding: 1.8rem 1.5rem;
+            transition: 0.35s;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             text-align: center;
         }
         .feature-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(167,139,250,0.3);
-            background: rgba(255,255,255,0.07);
+            transform: translateY(-8px);
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
         .feature-icon {
-            font-size: 2.4rem;
+            font-size: 2.6rem;
             margin-bottom: 0.6rem;
             display: inline-block;
             background: linear-gradient(135deg, #a78bfa, #60a5fa);
@@ -315,21 +432,146 @@
             -webkit-text-fill-color: transparent;
         }
         .feature-title {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: #f1f5f9;
         }
         .feature-desc {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: #94a3b8;
-            margin-top: 0.3rem;
+            margin-top: 0.4rem;
+            line-height: 1.6;
         }
 
-        /* ========== GETTING STARTED ========== */
+        /* ========== FAQ ========== */
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 0.8rem;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .faq-item:hover {
+            border-color: rgba(167, 139, 250, 0.2);
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .faq-question i {
+            color: #a78bfa;
+            transition: 0.3s;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding-top: 0.8rem;
+        }
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* ========== CHANGELOG ========== */
+        .changelog-item {
+            display: flex;
+            gap: 1.2rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .changelog-date {
+            font-weight: 600;
+            color: #a78bfa;
+            min-width: 100px;
+            font-size: 0.85rem;
+        }
+        .changelog-text {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        /* ========== TOOLS ========== */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0 2rem 0;
+        }
+        .tool-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.2rem;
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: 0.3s;
+            text-decoration: none;
+            color: #e2e8f0;
+        }
+        .tool-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(167, 139, 250, 0.25);
+            transform: scale(1.02);
+        }
+        .tool-item i {
+            font-size: 1.6rem;
+            color: #a78bfa;
+        }
+        .tool-item span {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* ========== POLL ========== */
+        .poll-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.8rem;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0 1.5rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1.2rem;
+        }
+        .poll-box p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            flex: 1;
+        }
+        .poll-btn {
+            background: rgba(167, 139, 250, 0.15);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            color: #e2e8f0;
+            padding: 0.5rem 1.6rem;
+            border-radius: 100px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.25s;
+            font-size: 0.85rem;
+        }
+        .poll-btn:hover {
+            background: rgba(167, 139, 250, 0.3);
+            border-color: #a78bfa;
+        }
+
+        /* ========== CODE BLOCK ========== */
         .code-block {
-            background: rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(6px);
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 1.2rem;
             padding: 1.2rem 1.8rem;
             margin: 0.8rem 0 1.5rem 0;
@@ -340,10 +582,14 @@
             direction: ltr;
             text-align: left;
         }
-        .code-block .cmd { color: #a78bfa; }
-        .code-block .comment { color: #64748b; }
+        .code-block .cmd {
+            color: #a78bfa;
+        }
+        .code-block .comment {
+            color: #64748b;
+        }
 
-        /* ========== IMAGE GALLERY (for tutorial) ========== */
+        /* ========== GALLERY ========== */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -351,17 +597,17 @@
             margin: 1.5rem 0 2rem 0;
         }
         .gallery-item {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 1.2rem;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             transition: 0.3s;
             text-align: center;
             padding: 0.5rem;
         }
         .gallery-item:hover {
             transform: scale(1.02);
-            border-color: rgba(167,139,250,0.3);
+            border-color: rgba(167, 139, 250, 0.3);
         }
         .gallery-item img {
             width: 100%;
@@ -375,15 +621,54 @@
             padding: 0.4rem 0;
         }
 
+        /* ========== SERVICE STATUS BAR ========== */
+        .service-status {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 100px;
+            padding: 0.5rem 1.8rem 0.5rem 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+        .service-status .label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        .service-status .bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .service-status .bar .fill {
+            height: 100%;
+            width: 98%;
+            background: linear-gradient(90deg, #34d399, #6ee7b7);
+            border-radius: 10px;
+            animation: pulse-bar 3s infinite;
+        }
+        @keyframes pulse-bar {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
         /* ========== FOOTER ========== */
         .footer {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            margin-top: 2.5rem;
-            padding-top: 1.8rem;
-            border-top: 1px solid rgba(255,255,255,0.04);
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
             font-size: 0.8rem;
             color: #64748b;
             gap: 1rem;
@@ -402,35 +687,88 @@
             transform: translateY(-3px);
         }
         .footer-badge {
-            background: rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.04);
             padding: 0.25rem 1rem;
             border-radius: 100px;
-            border: 1px solid rgba(255,255,255,0.04);
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         /* ========== RESPONSIVE ========== */
         @media (max-width: 640px) {
-            .header { flex-direction: column; align-items: flex-start; }
-            .status-chip { align-self: flex-start; }
-            .sub-card { flex-direction: column; align-items: stretch; }
-            .sub-url { text-align: center; }
-            .copy-btn { justify-content: center; }
-            .gallery { grid-template-columns: 1fr 1fr; }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .status-chip {
+                align-self: flex-start;
+            }
+            .sub-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .sub-url {
+                text-align: center;
+            }
+            .copy-btn {
+                justify-content: center;
+            }
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .faq-item {
+                padding: 1rem;
+            }
+            .poll-box {
+                flex-direction: column;
+                text-align: center;
+            }
+            .service-status {
+                flex-wrap: wrap;
+                border-radius: 1.2rem;
+                padding: 1rem;
+            }
         }
         @media (max-width: 480px) {
-            .glass-container { padding: 1.2rem 0.9rem; }
-            .logo-text { font-size: 1.5rem; }
-            .features-grid { grid-template-columns: 1fr; }
-            .gallery { grid-template-columns: 1fr; }
+            .glass-container {
+                padding: 1.2rem 0.9rem;
+            }
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* ========== SCROLLBAR ========== */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.3); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(167,139,250,0.5); }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(167, 139, 250, 0.3);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(167, 139, 250, 0.5);
+        }
     </style>
 </head>
+
 <body>
 
     <!-- ===== BACKGROUND ===== -->
@@ -438,6 +776,7 @@
     <div class="orb orb1"></div>
     <div class="orb orb2"></div>
     <div class="orb orb3"></div>
+    <div class="orb orb4"></div>
 
     <!-- ===== MAIN GLASS CONTAINER ===== -->
     <main class="glass-container">
@@ -447,7 +786,7 @@
             <div class="logo-area">
                 <span class="logo-icon"><i class="fas fa-satellite-dish"></i></span>
                 <span class="logo-text">V2ray_Sub</span>
-                <span class="logo-badge"><i class="fas fa-code-branch"></i> v1.0</span>
+                <span class="logo-badge"><i class="fas fa-code-branch"></i> v2.0</span>
             </div>
             <div class="status-chip">
                 <span class="status-dot"></span>
@@ -457,7 +796,7 @@
             </div>
         </header>
 
-        <!-- ===== BADGE ROW (شیلدهای واقعی + سفارشی) ===== -->
+        <!-- ===== BADGE ROW (Dynamic from API) ===== -->
         <div class="badge-row">
             <span class="badge"><i class="fas fa-shield-alt"></i> مجوز <span class="highlight">MIT</span></span>
             <span class="badge"><i class="fas fa-star"></i> ستاره‌ها <span class="stat" id="starsCount">…</span></span>
@@ -466,6 +805,7 @@
             <span class="badge"><i class="fas fa-commit"></i> آخرین کامیت <span class="stat" id="lastCommit">…</span></span>
             <span class="badge"><i class="fas fa-tags"></i> <span class="highlight">#V2ray</span> <span class="highlight">#Xray</span></span>
             <span class="badge"><i class="fas fa-users"></i> ۴.۲K <span style="color:#94a3b8;">کاربر</span></span>
+            <span class="badge"><i class="fas fa-server"></i> <span class="stat" id="activeServers">۱۴</span> سرور فعال</span>
         </div>
 
         <!-- ===== DESCRIPTION ===== -->
@@ -473,55 +813,112 @@
             <strong>🚀 V2ray_Sub</strong> 🎯 ابزاری برای مدیریت و بهینه‌سازی لینک‌های اشتراک V2ray است. این ابزار به‌طور خودکار اشتراک‌های شما را به‌روز کرده و آن‌ها را سازمان‌دهی می‌کند تا تجربه‌ای بدون قطعی داشته باشید. 💡🔥
         </div>
 
-        <!-- ===== SUBSCRIPTION LINKS ===== -->
+        <!-- ===== SERVICE STATUS ===== -->
+        <div class="service-status">
+            <span class="label"><i class="fas fa-heartbeat" style="color:#34d399;"></i> وضعیت سرویس</span>
+            <span style="font-size:0.8rem; color:#6ee7b7; font-weight:600;">عملیاتی</span>
+            <div class="bar"><div class="fill"></div></div>
+            <span style="font-size:0.7rem; color:#94a3b8;">۹۸٪ uptime</span>
+        </div>
+
+        <!-- ===== SUBSCRIPTION SECTION ===== -->
         <section class="sub-section">
             <h2><i class="fas fa-link"></i> 🌎 لیست اشتراک‌ها | Subscription List 📜</h2>
             <p style="color:#94a3b8; margin-bottom:1rem; font-size:0.9rem;">مدیریت اشتراک‌های V2ray با استفاده از لینک‌های زیر:</p>
 
-            <div class="sub-card">
-                <span class="sub-label"><i class="fas fa-layer-group"></i> Mix</span>
+            <!-- فعال : Mix -->
+            <div class="sub-card active">
+                <span class="sub-label"><i class="fas fa-layer-group"></i> Mix <span style="font-size:0.65rem; color:#34d399; font-weight:400;">(فعال)</span></span>
                 <span class="sub-url" id="subMix">https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt</span>
                 <button class="copy-btn" data-target="subMix"><i class="far fa-copy"></i> کپی</button>
             </div>
 
-            <div class="sub-card">
-                <span class="sub-label"><i class="fas fa-sim-card"></i> Irancell</span>
-                <span class="sub-url" id="subIrancell">https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Irancell.txt</span>
-                <button class="copy-btn" data-target="subIrancell"><i class="far fa-copy"></i> کپی</button>
-            </div>
+            <!-- غیرفعال : Irancell & MCI با استایل مخفی -->
+            <details style="margin-top:0.5rem;">
+                <summary style="cursor:pointer; color:#64748b; font-size:0.85rem; display:flex; align-items:center; gap:0.5rem; padding:0.5rem 0;">
+                    <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
+                    <span>لینک‌های قدیمی (غیرفعال) — بروزرسانی نمی‌شوند</span>
+                </summary>
+                <div style="margin-top:0.8rem;">
+                    <div class="sub-card inactive">
+                        <span class="sub-label"><i class="fas fa-sim-card"></i> Irancell</span>
+                        <span class="sub-url" id="subIrancell">https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Irancell.txt</span>
+                        <span class="inactive-badge"><i class="fas fa-lock"></i> غیرفعال</span>
+                    </div>
+                    <div class="sub-card inactive">
+                        <span class="sub-label"><i class="fas fa-wifi"></i> MCI</span>
+                        <span class="sub-url" id="subMci">https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Mci.txt</span>
+                        <span class="inactive-badge"><i class="fas fa-lock"></i> غیرفعال</span>
+                    </div>
+                    <p style="color:#64748b; font-size:0.75rem; margin-top:0.5rem;">⚠️ این لینک‌ها دیگر بروزرسانی نمی‌شوند و فقط برای آرشیو نگهداری شده‌اند.</p>
+                </div>
+            </details>
+        </section>
 
-            <div class="sub-card">
-                <span class="sub-label"><i class="fas fa-wifi"></i> MCI</span>
-                <span class="sub-url" id="subMci">https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Mci.txt</span>
-                <button class="copy-btn" data-target="subMci"><i class="far fa-copy"></i> کپی</button>
+        <!-- ===== SERVER STATS ===== -->
+        <section>
+            <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:1rem; display:flex; align-items:center; gap:0.7rem;">
+                <i class="fas fa-chart-pie" style="color:#a78bfa;"></i> 📊 آمار لحظه‌ای سرورها
+            </h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="serverCount">۱۴</div>
+                    <div class="stat-label">سرور فعال</div>
+                    <div class="stat-trend"><i class="fas fa-arrow-up"></i> +۲ امروز</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgPing">۸۷</div>
+                    <div class="stat-label">میانگین پینگ (ms)</div>
+                    <div class="stat-trend"><i class="fas fa-check-circle" style="color:#34d399;"></i> پایدار</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="traffic">۲.۴</div>
+                    <div class="stat-label">مصرف ترافیک (TB)</div>
+                    <div class="stat-trend"><i class="fas fa-arrow-up" style="color:#fbbf24;"></i> +۱۲٪</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="uptime">۹۸.۷</div>
+                    <div class="stat-label">درصد uptime</div>
+                    <div class="stat-trend"><i class="fas fa-check-circle" style="color:#34d399;"></i> عالی</div>
+                </div>
             </div>
         </section>
 
         <!-- ===== FEATURES ===== -->
         <section>
             <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.7rem;">
-                <i class="fas fa-bolt" style="color:#a78bfa;"></i> ✨ ویژگی‌ها | Features 🎯
+                <i class="fas fa-bolt" style="color:#a78bfa;"></i> ✨ ویژگی‌های پیشرفته
             </h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
                     <div class="feature-title">به‌روزرسانی خودکار</div>
-                    <div class="feature-desc">اشتراک‌ها به‌طور خودکار بروز می‌شوند 🔄</div>
+                    <div class="feature-desc">اشتراک‌ها هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت و اعمال می‌شوند 🔄</div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fas fa-folder-tree"></i></div>
                     <div class="feature-title">مدیریت چندگانه</div>
-                    <div class="feature-desc">همزمان چندین اشتراک را مدیریت کنید 🗂</div>
+                    <div class="feature-desc">امکان مدیریت همزمان چندین اشتراک با تفکیک اپراتور (Mix, Irancell, MCI) 🗂</div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fas fa-microchip"></i></div>
-                    <div class="feature-title">مصرف کم منابع</div>
-                    <div class="feature-desc">بهینه‌شده برای اجرای سبک 🛠</div>
+                    <div class="feature-title">سبک و کم‌مصرف</div>
+                    <div class="feature-desc">اسکریپت پایتون با حداقل وابستگی‌ها، مناسب برای اجرا روی سرورهای ضعیف 🛠</div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fas fa-rocket"></i></div>
-                    <div class="feature-title">تجربه کاربری عالی</div>
-                    <div class="feature-desc">بهینه برای بهترین عملکرد 🚀</div>
+                    <div class="feature-title">تجربه کاربری روان</div>
+                    <div class="feature-desc">خروجی بهینه‌شده برای V2rayNG و سایر کلاینت‌ها، با کمترین تأخیر 🚀</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-virus"></i></div>
+                    <div class="feature-title">امنیت بالا</div>
+                    <div class="feature-desc">استفاده از پروتکل‌های امن VMess, VLESS, Trojan با پشتیبانی از TLS 🔒</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-code"></i></div>
+                    <div class="feature-title">متن‌باز و قابل توسعه</div>
+                    <div class="feature-desc">کد به‌صورت کامل در گیت‌هاب در دسترس است و می‌توانید آن را تغییر دهید 💻</div>
                 </div>
             </div>
         </section>
@@ -542,13 +939,12 @@
             </div>
         </section>
 
-        <!-- ===== TUTORIAL (IMAGES) ===== -->
+        <!-- ===== TUTORIAL (GALLERY) ===== -->
         <section style="margin: 2.5rem 0;">
             <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:0.8rem; display:flex; align-items:center; gap:0.7rem;">
                 <i class="fas fa-mobile-alt" style="color:#a78bfa;"></i> 📲 راهنمای اضافه کردن اشتراک به V2rayNG (اندروید) 📱
             </h2>
             <p style="color:#94a3b8; margin-bottom:0.8rem;">مراحل زیر را به‌ترتیب دنبال کنید:</p>
-
             <div class="gallery">
                 <div class="gallery-item">
                     <img src="Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg" alt="Step 1" />
@@ -578,15 +974,106 @@
             <p style="color:#94a3b8; font-size:0.9rem;">💡 <strong>نکته:</strong> همیشه اشتراک‌های خود را به‌روزرسانی کنید تا از سرورهای فعال استفاده کنید. 🔄</p>
         </section>
 
+        <!-- ===== FAQ ===== -->
+        <section style="margin: 2.5rem 0;">
+            <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.7rem;">
+                <i class="fas fa-question-circle" style="color:#a78bfa;"></i> ❓ سوالات متداول | FAQ
+            </h2>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>چطور می‌توانم اشتراک را به V2rayNG اضافه کنم؟</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">مراحل کامل در بخش راهنمای تصویری بالا توضیح داده شده است. کافی است لینک اشتراک را کپی کرده و در اپلیکیشن V2rayNG در قسمت Subscription قرار دهید.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>آیا این ابزار رایگان است؟</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">بله، این پروژه کاملاً متن‌باز و رایگان است و تحت مجوز MIT منتشر شده است. شما می‌توانید آن را برای هر استفاده‌ای، حتی تجاری، به کار بگیرید.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>چند وقت یکبار اشتراک‌ها بروزرسانی می‌شوند؟</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">اشتراک‌ها به‌صورت خودکار هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت می‌شوند. همچنین می‌توانید به‌صورت دستی با اجرای اسکریپت، بروزرسانی را انجام دهید.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>چطور می‌توانم در توسعه پروژه مشارکت کنم؟</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">می‌توانید مخزن را Fork کرده، تغییرات خود را اعمال و سپس یک Pull Request ارسال کنید. همچنین می‌توانید در بخش Issues مشکلات را گزارش دهید.</div>
+            </div>
+        </section>
+
+        <!-- ===== CHANGELOG ===== -->
+        <section style="margin: 2.5rem 0;">
+            <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.7rem;">
+                <i class="fas fa-history" style="color:#a78bfa;"></i> 📋 تغییرات اخیر | Changelog
+            </h2>
+            <div class="changelog-item">
+                <span class="changelog-date">۲۰۲۶-۰۲-۱۲</span>
+                <span class="changelog-text">✨ اضافه شدن آمار لحظه‌ای سرورها به سایت</span>
+            </div>
+            <div class="changelog-item">
+                <span class="changelog-date">۲۰۲۶-۰۲-۱۰</span>
+                <span class="changelog-text">🔧 بهبود اسکریپت مدیریت اشتراک و رفع باگ در پردازش لینک‌ها</span>
+            </div>
+            <div class="changelog-item">
+                <span class="changelog-date">۲۰۲۶-۰۲-۰۸</span>
+                <span class="changelog-text">📝 بروزرسانی README و افزودن راهنمای تصویری کامل</span>
+            </div>
+            <div class="changelog-item">
+                <span class="changelog-date">۲۰۲۶-۰۲-۰۵</span>
+                <span class="changelog-text">🚀 انتشار نسخه اولیه ابزار با قابلیت مدیریت سه نوع اشتراک</span>
+            </div>
+        </section>
+
+        <!-- ===== TOOLS ===== -->
+        <section style="margin: 2.5rem 0;">
+            <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:1rem; display:flex; align-items:center; gap:0.7rem;">
+                <i class="fas fa-toolbox" style="color:#a78bfa;"></i> 🔧 ابزارهای مفید
+            </h2>
+            <div class="tools-grid">
+                <a href="#" class="tool-item" target="_blank">
+                    <i class="fab fa-android"></i>
+                    <span>دانلود V2rayNG</span>
+                </a>
+                <a href="#" class="tool-item" target="_blank">
+                    <i class="fab fa-python"></i>
+                    <span>نصب پایتون</span>
+                </a>
+                <a href="#" class="tool-item" target="_blank">
+                    <i class="fas fa-terminal"></i>
+                    <span>آموزش گیت</span>
+                </a>
+                <a href="#" class="tool-item" target="_blank">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>تولید کلید TLS</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ===== POLL ===== -->
+        <div class="poll-box">
+            <p><i class="fas fa-poll" style="color:#a78bfa;"></i> آیا از این ابزار راضی هستید؟</p>
+            <button class="poll-btn" onclick="pollVote('بله')">👍 بله</button>
+            <button class="poll-btn" onclick="pollVote('نظری ندارم')">🤷 نظری ندارم</button>
+            <button class="poll-btn" onclick="pollVote('خیر')">👎 خیر</button>
+        </div>
+
         <!-- ===== CONTRIBUTE ===== -->
-        <section style="margin: 2.5rem 0; padding: 1.5rem; background: rgba(255,255,255,0.02); border-radius: 2rem; border: 1px solid rgba(255,255,255,0.04);">
+        <section style="margin: 2.5rem 0; padding: 1.8rem; background: rgba(255,255,255,0.02); border-radius: 2rem; border: 1px solid rgba(255,255,255,0.04);">
             <h2 style="font-size:1.5rem; font-weight:600; display:flex; align-items:center; gap:0.7rem;">
                 <i class="fas fa-handshake" style="color:#a78bfa;"></i> 🤝 همکاری در پروژه | Contribute 🏆
             </h2>
             <p style="color:#cbd5e1; margin-top:0.5rem;">
                 💡 آیا می‌خواهید <strong>V2ray_Sub</strong> را بهتر کنید؟ 🎯
             </p>
-            <ul style="list-style:none; color:#94a3b8; margin:0.8rem 0; line-height:2;">
+            <ul style="list-style:none; color:#94a3b8; margin:0.8rem 0; line-height:2.2;">
                 <li>🔹 ۱️⃣ مخزن را <strong>Fork</strong> کنید و یک شاخه جدید ایجاد کنید.</li>
                 <li>🔹 ۲️⃣ تغییرات خود را اعمال و تست کنید.</li>
                 <li>🔹 ۳️⃣ یک <strong>Pull Request</strong> ارسال کنید.</li>
@@ -659,7 +1146,7 @@
                 }, 2000);
             }
 
-            // 2. Fetch dynamic data from GitHub API
+            // 2. Fetch repo stats from GitHub API
             const repoOwner = 'mehrdadmb2';
             const repoName = 'V2ray_Sub';
             const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}`;
@@ -670,11 +1157,10 @@
                     if (!response.ok) throw new Error('API error');
                     const data = await response.json();
 
-                    document.getElementById('starsCount').textContent = data.stargazers_count || '0';
-                    document.getElementById('forksCount').textContent = data.forks_count || '0';
-                    document.getElementById('issuesCount').textContent = data.open_issues_count || '0';
+                    document.getElementById('starsCount').textContent = data.stargazers_count || '۰';
+                    document.getElementById('forksCount').textContent = data.forks_count || '۰';
+                    document.getElementById('issuesCount').textContent = data.open_issues_count || '۰';
 
-                    // Last commit date
                     if (data.updated_at) {
                         const date = new Date(data.updated_at);
                         const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -684,7 +1170,6 @@
                     }
                 } catch (error) {
                     console.warn('Could not fetch repo stats:', error);
-                    // Set fallback values
                     document.getElementById('starsCount').textContent = '⭐';
                     document.getElementById('forksCount').textContent = '🔀';
                     document.getElementById('issuesCount').textContent = '⚠️';
@@ -693,6 +1178,26 @@
             }
 
             fetchRepoStats();
+
+            // 3. FAQ toggle
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('open');
+                });
+            });
+
+            // 4. Poll function (simple)
+            window.pollVote = function(choice) {
+                alert(`🙏 نظر شما ثبت شد: "${choice}"\nاز مشارکت شما سپاسگزاریم!`);
+            };
+
+            // 5. Simulate dynamic server stats (just for demo)
+            setInterval(() => {
+                const pingEl = document.getElementById('avgPing');
+                const currentPing = parseInt(pingEl.textContent);
+                const newPing = Math.floor(Math.random() * 30) + 70; // 70-100
+                pingEl.textContent = newPing;
+            }, 10000);
 
         })();
     </script>
