@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>V2ray_Sub · مدیریت اشتراک‌های V2ray</title>
+    <title>V2ray_Sub · مدیریت اشتراک حرفه‌ای</title>
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         /* ========== RESET & BASE ========== */
@@ -44,9 +46,15 @@
             animation: gradientShift 24s ease infinite;
         }
         @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .orb {
@@ -57,15 +65,52 @@
             z-index: 0;
             animation: floatOrb 28s infinite alternate ease-in-out;
         }
-        .orb1 { width: 700px; height: 700px; background: #7c3aed; top: -20%; left: -15%; }
-        .orb2 { width: 600px; height: 600px; background: #0ea5e9; bottom: -20%; right: -15%; animation-duration: 32s; }
-        .orb3 { width: 500px; height: 500px; background: #d946ef; top: 30%; left: 30%; animation-duration: 22s; opacity: 0.12; }
-        .orb4 { width: 400px; height: 400px; background: #f59e0b; bottom: 10%; left: 10%; animation-duration: 26s; opacity: 0.1; }
+        .orb1 {
+            width: 700px;
+            height: 700px;
+            background: #7c3aed;
+            top: -20%;
+            left: -15%;
+        }
+        .orb2 {
+            width: 600px;
+            height: 600px;
+            background: #0ea5e9;
+            bottom: -20%;
+            right: -15%;
+            animation-duration: 32s;
+        }
+        .orb3 {
+            width: 500px;
+            height: 500px;
+            background: #d946ef;
+            top: 30%;
+            left: 30%;
+            animation-duration: 22s;
+            opacity: 0.12;
+        }
+        .orb4 {
+            width: 400px;
+            height: 400px;
+            background: #f59e0b;
+            bottom: 10%;
+            left: 10%;
+            animation-duration: 26s;
+            opacity: 0.1;
+        }
         @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(60px, -50px) scale(1.15); }
-            66% { transform: translate(-40px, 60px) scale(0.85); }
-            100% { transform: translate(50px, -40px) scale(1.05); }
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(60px, -50px) scale(1.15);
+            }
+            66% {
+                transform: translate(-40px, 60px) scale(0.85);
+            }
+            100% {
+                transform: translate(50px, -40px) scale(1.05);
+            }
         }
 
         /* ========== GLASS CONTAINER ========== */
@@ -73,7 +118,7 @@
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 1240px;
+            max-width: 1400px;
             background: rgba(255, 255, 255, 0.035);
             backdrop-filter: blur(28px) saturate(180%);
             -webkit-backdrop-filter: blur(28px) saturate(180%);
@@ -84,7 +129,10 @@
             transition: all 0.3s;
         }
         @media (max-width: 640px) {
-            .glass-container { padding: 1.8rem 1.2rem; border-radius: 2.2rem; }
+            .glass-container {
+                padding: 1.8rem 1.2rem;
+                border-radius: 2.2rem;
+            }
         }
 
         /* ========== HEADER ========== */
@@ -138,14 +186,22 @@
             color: #6ee7b7;
         }
         .status-dot {
-            width: 10px; height: 10px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: #34d399;
             animation: pulse-dot 2s infinite;
         }
         @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.8); }
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
         }
 
         /* ========== BADGE ROW ========== */
@@ -172,299 +228,215 @@
             transition: 0.25s ease;
             cursor: default;
         }
-        .badge i { font-size: 0.9rem; color: #a78bfa; }
+        .badge i {
+            font-size: 0.9rem;
+            color: #a78bfa;
+        }
         .badge:hover {
             background: rgba(255, 255, 255, 0.10);
             border-color: rgba(167, 139, 250, 0.3);
             transform: translateY(-2px);
         }
-        .badge .highlight { color: #fcd34d; }
-        .badge .stat { color: #60a5fa; font-weight: 600; }
-        .badge .warn { color: #f87171; }
-
-        /* ========== DESCRIPTION ========== */
-        .description {
-            font-size: 1.1rem;
-            line-height: 1.9;
-            color: #cbd5e1;
-            margin-bottom: 2.5rem;
-            padding: 0.5rem 0;
+        .badge .highlight {
+            color: #fcd34d;
         }
-        .description strong { color: #a78bfa; }
-
-        /* ========== SUBSCRIPTION SECTION ========== */
-        .sub-section {
-            margin-bottom: 3rem;
-        }
-        .sub-section h2 {
-            font-size: 1.6rem;
+        .badge .stat {
+            color: #60a5fa;
             font-weight: 600;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
         }
-        .sub-section h2 i { color: #a78bfa; }
 
-        .sub-card {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 1.8rem;
-            padding: 1.2rem 2rem;
-            margin-bottom: 1rem;
+        /* ========== SUBSCRIPTION INPUT ========== */
+        .sub-input-area {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
             gap: 1rem;
-            transition: 0.3s;
-        }
-        .sub-card:hover {
-            border-color: rgba(167, 139, 250, 0.3);
-            background: rgba(255, 255, 255, 0.07);
-        }
-        .sub-card.active {
-            border-color: rgba(52, 211, 153, 0.3);
-            background: rgba(52, 211, 153, 0.04);
-        }
-        .sub-card.inactive {
-            opacity: 0.5;
-            border-color: rgba(255, 255, 255, 0.04);
-            background: rgba(255, 255, 255, 0.015);
-        }
-        .sub-label {
-            display: flex;
+            margin-bottom: 2rem;
             align-items: center;
-            gap: 0.8rem;
-            font-weight: 600;
-            font-size: 1rem;
-            min-width: 120px;
         }
-        .sub-label i { font-size: 1.3rem; color: #a78bfa; }
-        .sub-url {
-            background: rgba(0, 0, 0, 0.35);
-            padding: 0.5rem 1.4rem;
-            border-radius: 100px;
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: #c4b5fd;
-            border: 1px solid rgba(167, 139, 250, 0.15);
-            word-break: break-all;
+        .sub-input-area input {
             flex: 1;
-            min-width: 180px;
+            min-width: 200px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            padding: 0.8rem 1.5rem;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
             font-family: 'Inter', monospace;
         }
-        .copy-btn {
+        .sub-input-area input:focus {
+            border-color: #a78bfa;
+            box-shadow: 0 0 20px rgba(167, 139, 250, 0.15);
+        }
+        .sub-input-area button {
             background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
             border: 1px solid rgba(167, 139, 250, 0.25);
             color: #e2e8f0;
-            padding: 0.5rem 1.6rem;
+            padding: 0.8rem 2rem;
             border-radius: 100px;
             font-weight: 600;
-            font-size: 0.8rem;
             cursor: pointer;
             transition: 0.25s;
             backdrop-filter: blur(4px);
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
+            font-size: 0.9rem;
         }
-        .copy-btn:hover {
+        .sub-input-area button:hover {
             background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
             border-color: #a78bfa;
             transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(167, 139, 250, 0.15);
         }
-        .inactive-badge {
-            background: rgba(248, 113, 113, 0.15);
-            border: 1px solid rgba(248, 113, 113, 0.2);
-            color: #f87171;
-            padding: 0.25rem 1rem;
+        .sub-input-area .extra-link {
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 100px;
-            font-size: 0.7rem;
-            font-weight: 500;
+            padding: 0.3rem 1.2rem;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-        }
-
-        /* ========== REAL STATS GRID ========== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-            gap: 1.2rem;
-            margin: 2rem 0 2.5rem 0;
-        }
-        .stat-card {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 1.5rem;
-            padding: 1.2rem 1rem;
-            text-align: center;
-            transition: 0.3s;
-        }
-        .stat-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(167, 139, 250, 0.2);
-        }
-        .stat-number {
-            font-size: 2.2rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #a78bfa, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .stat-label {
+            gap: 0.5rem;
             font-size: 0.8rem;
             color: #94a3b8;
-            margin-top: 0.2rem;
-        }
-        .stat-sub {
-            font-size: 0.65rem;
-            color: #64748b;
-            margin-top: 0.2rem;
-        }
-
-        /* ========== FEATURES ========== */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.8rem;
-            margin: 2rem 0 2.8rem 0;
-        }
-        .feature-card {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 2rem;
-            padding: 1.8rem 1.5rem;
-            transition: 0.35s;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-        .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(167, 139, 250, 0.3);
-            background: rgba(255, 255, 255, 0.07);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-        }
-        .feature-icon {
-            font-size: 2.6rem;
-            margin-bottom: 0.6rem;
-            display: inline-block;
-            background: linear-gradient(135deg, #a78bfa, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .feature-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #f1f5f9;
-        }
-        .feature-desc {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            margin-top: 0.4rem;
-            line-height: 1.6;
-        }
-
-        /* ========== FAQ ========== */
-        .faq-item {
-            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 1.2rem;
-            padding: 1.2rem 1.8rem;
-            margin-bottom: 0.8rem;
-            transition: 0.3s;
+        }
+        .sub-input-area .extra-link button {
+            background: none;
+            border: none;
+            color: #f87171;
             cursor: pointer;
-        }
-        .faq-item:hover { border-color: rgba(167, 139, 250, 0.2); }
-        .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            color: #e2e8f0;
-        }
-        .faq-question i { color: #a78bfa; transition: 0.3s; }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.3s;
-            color: #94a3b8;
+            padding: 0 0.3rem;
             font-size: 0.9rem;
-            line-height: 1.7;
         }
-        .faq-item.open .faq-answer {
-            max-height: 300px;
-            padding-top: 0.8rem;
-        }
-        .faq-item.open .faq-question i { transform: rotate(180deg); }
 
-        /* ========== CHANGELOG ========== */
-        .changelog-item {
+        /* ========== FILTERS ========== */
+        .filters {
             display: flex;
-            gap: 1.2rem;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .changelog-date { font-weight: 600; color: #a78bfa; min-width: 100px; font-size: 0.85rem; }
-        .changelog-text { color: #cbd5e1; font-size: 0.9rem; }
-
-        /* ========== CODE BLOCK ========== */
-        .code-block {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 1.2rem;
-            padding: 1.2rem 1.8rem;
-            margin: 0.8rem 0 1.5rem 0;
-            font-family: 'Inter', monospace;
-            font-size: 0.85rem;
-            color: #e2e8f0;
-            overflow-x: auto;
-            direction: ltr;
-            text-align: left;
-        }
-        .code-block .cmd { color: #a78bfa; }
-        .code-block .comment { color: #64748b; }
-
-        /* ========== GALLERY ========== */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1.2rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
             margin: 1.5rem 0 2rem 0;
+            align-items: center;
         }
-        .gallery-item {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 1.2rem;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        .filters input,
+        .filters select {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            padding: 0.5rem 1.2rem;
+            color: #e2e8f0;
+            font-size: 0.8rem;
+            outline: none;
             transition: 0.3s;
-            text-align: center;
-            padding: 0.5rem;
         }
-        .gallery-item:hover {
-            transform: scale(1.02);
-            border-color: rgba(167, 139, 250, 0.3);
+        .filters input:focus,
+        .filters select:focus {
+            border-color: #a78bfa;
         }
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            border-radius: 0.8rem;
-            display: block;
-        }
-        .gallery-item .caption {
-            font-size: 0.7rem;
-            color: #94a3b8;
-            padding: 0.4rem 0;
+        .filters select option {
+            background: #1a1a2e;
         }
 
-        /* ========== SERVICE STATUS ========== */
-        .service-status {
+        /* ========== TABLE ========== */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0 2rem 0;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 700px;
+        }
+        th {
+            text-align: right;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.04);
+            color: #94a3b8;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        td {
+            padding: 0.9rem 1.2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            vertical-align: middle;
+            color: #e2e8f0;
+        }
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .flag {
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+        .copy-single {
+            background: rgba(167, 139, 250, 0.15);
+            border: none;
+            color: #c4b5fd;
+            padding: 0.3rem 0.8rem;
+            border-radius: 100px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: 0.2s;
+        }
+        .copy-single:hover {
+            background: rgba(167, 139, 250, 0.3);
+        }
+        .badge-proto {
+            background: rgba(96, 165, 250, 0.15);
+            padding: 0.2rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            color: #60a5fa;
+            display: inline-block;
+        }
+        .country-loading {
+            color: #64748b;
+            font-size: 0.7rem;
+        }
+
+        /* ========== CHART ========== */
+        .chart-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* ========== DOWNLOAD ========== */
+        .download-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .download-btn {
+            background: rgba(167, 139, 250, 0.15);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            color: #e2e8f0;
+            padding: 0.6rem 1.6rem;
+            border-radius: 100px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+        }
+        .download-btn:hover {
+            background: rgba(167, 139, 250, 0.3);
+            border-color: #a78bfa;
+            transform: scale(1.02);
+        }
+
+        /* ========== STATUS BAR ========== */
+        .status-bar {
             display: flex;
             align-items: center;
             gap: 1.2rem;
@@ -472,11 +444,22 @@
             border-radius: 100px;
             padding: 0.5rem 1.8rem 0.5rem 1.2rem;
             border: 1px solid rgba(255, 255, 255, 0.06);
-            margin: 1.5rem 0 0.5rem 0;
+            margin: 1rem 0 1.5rem 0;
+            flex-wrap: wrap;
         }
-        .service-status .label { font-size: 0.8rem; color: #94a3b8; }
-        .service-status .bar { flex: 1; height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 10px; overflow: hidden; }
-        .service-status .bar .fill {
+        .status-bar .label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        .status-bar .bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            min-width: 60px;
+        }
+        .status-bar .bar .fill {
             height: 100%;
             width: 98%;
             background: linear-gradient(90deg, #34d399, #6ee7b7);
@@ -484,8 +467,13 @@
             animation: pulse-bar 3s infinite;
         }
         @keyframes pulse-bar {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
         }
 
         /* ========== FOOTER ========== */
@@ -501,7 +489,10 @@
             color: #64748b;
             gap: 1rem;
         }
-        .social-links { display: flex; gap: 1.2rem; }
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+        }
         .social-links a {
             color: #94a3b8;
             font-size: 1.3rem;
@@ -511,37 +502,66 @@
             color: #a78bfa;
             transform: translateY(-3px);
         }
-        .footer-badge {
-            background: rgba(255, 255, 255, 0.04);
-            padding: 0.25rem 1rem;
-            border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
 
         /* ========== RESPONSIVE ========== */
         @media (max-width: 640px) {
-            .header { flex-direction: column; align-items: flex-start; }
-            .status-chip { align-self: flex-start; }
-            .sub-card { flex-direction: column; align-items: stretch; }
-            .sub-url { text-align: center; }
-            .copy-btn { justify-content: center; }
-            .gallery { grid-template-columns: 1fr 1fr; }
-            .stats-grid { grid-template-columns: 1fr 1fr; }
-            .faq-item { padding: 1rem; }
-            .service-status { flex-wrap: wrap; border-radius: 1.2rem; padding: 1rem; }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .status-chip {
+                align-self: flex-start;
+            }
+            .sub-input-area {
+                flex-direction: column;
+            }
+            .sub-input-area input {
+                width: 100%;
+            }
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .status-bar {
+                flex-wrap: wrap;
+                border-radius: 1.2rem;
+                padding: 1rem;
+            }
+            .download-area {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .chart-container {
+                max-width: 100%;
+            }
         }
         @media (max-width: 480px) {
-            .glass-container { padding: 1.2rem 0.9rem; }
-            .logo-text { font-size: 1.5rem; }
-            .features-grid { grid-template-columns: 1fr; }
-            .gallery { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: 1fr; }
+            .glass-container {
+                padding: 1.2rem 0.9rem;
+            }
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            td,
+            th {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.75rem;
+            }
         }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(167, 139, 250, 0.3); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(167, 139, 250, 0.5); }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(167, 139, 250, 0.3);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(167, 139, 250, 0.5);
+        }
     </style>
 </head>
 
@@ -562,13 +582,13 @@
             <div class="logo-area">
                 <span class="logo-icon"><i class="fas fa-satellite-dish"></i></span>
                 <span class="logo-text">V2ray_Sub</span>
-                <span class="logo-badge"><i class="fas fa-code-branch"></i> v2.0</span>
+                <span class="logo-badge"><i class="fas fa-code-branch"></i> v3.0</span>
             </div>
             <div class="status-chip">
                 <span class="status-dot"></span>
                 <span><i class="fas fa-sync-alt fa-fw"></i> فعال</span>
                 <span style="opacity:0.5;margin:0 0.2rem;">·</span>
-                <span><i class="far fa-clock"></i> بروزرسانی: <span id="lastFetchTime">در حال دریافت...</span></span>
+                <span><i class="far fa-clock"></i> <span id="lastFetchTime">دریافت...</span></span>
             </div>
         </header>
 
@@ -580,233 +600,81 @@
             <span class="badge"><i class="fas fa-exclamation-triangle"></i> Issues <span class="stat" id="issuesCount">…</span></span>
             <span class="badge"><i class="fas fa-commit"></i> آخرین کامیت <span class="stat" id="lastCommit">…</span></span>
             <span class="badge"><i class="fas fa-tags"></i> <span class="highlight">#V2ray</span> <span class="highlight">#Xray</span></span>
-            <span class="badge"><i class="fas fa-users"></i> ۴.۲K <span style="color:#94a3b8;">کاربر</span></span>
-            <span class="badge"><i class="fas fa-server"></i> <span class="stat" id="activeServers">🔄 بارگذاری...</span></span>
+            <span class="badge"><i class="fas fa-server"></i> <span class="stat" id="totalConfigs">۰</span> کانفیگ</span>
+        </div>
+
+        <!-- ===== STATUS BAR ===== -->
+        <div class="status-bar">
+            <span class="label"><i class="fas fa-heartbeat" style="color:#34d399;"></i> وضعیت</span>
+            <span style="font-size:0.8rem; color:#6ee7b7; font-weight:600;">عملیاتی</span>
+            <div class="bar"><div class="fill"></div></div>
+            <span style="font-size:0.7rem; color:#94a3b8;">سرویس آماده</span>
         </div>
 
         <!-- ===== DESCRIPTION ===== -->
-        <div class="description">
-            <strong>🚀 V2ray_Sub</strong> 🎯 ابزاری برای مدیریت و بهینه‌سازی لینک‌های اشتراک V2ray است. این ابزار به‌طور خودکار اشتراک‌های شما را به‌روز کرده و آن‌ها را سازمان‌دهی می‌کند تا تجربه‌ای بدون قطعی داشته باشید. 💡🔥
+        <p style="color:#cbd5e1; margin-bottom:1.5rem; line-height:1.8;">
+            <strong>🚀 V2ray_Sub</strong> ابزاری کامل برای مدیریت، تحلیل و بهینه‌سازی اشتراک‌های V2ray. 
+            کانفیگ‌ها را مرور کنید، کشور و موقعیت هر سرور را ببینید، جستجو و فیلتر کنید و خروجی دلخواه را دانلود نمایید.
+        </p>
+
+        <!-- ===== ADD SUBSCRIPTION ===== -->
+        <div class="sub-input-area">
+            <input type="text" id="subInput" placeholder="لینک اشتراک جدید (اختیاری) ..." />
+            <button id="addSubBtn"><i class="fas fa-plus"></i> افزودن</button>
+            <button id="loadDefaultBtn" style="background:rgba(255,255,255,0.05);"><i class="fas fa-undo"></i> بارگذاری پیش‌فرض</button>
+        </div>
+        <div id="extraLinks" style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.5rem;"></div>
+
+        <!-- ===== FILTERS ===== -->
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="🔍 جستجو در نام / آی‌پی ..." style="flex:1; min-width:150px;" />
+            <select id="protocolFilter">
+                <option value="all">همه پروتکل‌ها</option>
+                <option value="vless">VLESS</option>
+                <option value="vmess">VMess</option>
+                <option value="trojan">Trojan</option>
+                <option value="shadowsocks">Shadowsocks</option>
+            </select>
+            <select id="countryFilter">
+                <option value="all">همه کشورها</option>
+            </select>
+            <span style="color:#64748b; font-size:0.8rem;" id="filteredCount">نمایش ۰ از ۰</span>
         </div>
 
-        <!-- ===== SERVICE STATUS ===== -->
-        <div class="service-status">
-            <span class="label"><i class="fas fa-heartbeat" style="color:#34d399;"></i> وضعیت سرویس</span>
-            <span style="font-size:0.8rem; color:#6ee7b7; font-weight:600;">عملیاتی</span>
-            <div class="bar"><div class="fill"></div></div>
-            <span style="font-size:0.7rem; color:#94a3b8;">۹۸٪ uptime (تقریبی)</span>
+        <!-- ===== TABLE ===== -->
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>پروتکل</th>
+                        <th>آی‌پی / سرور</th>
+                        <th>پورت</th>
+                        <th>کشور</th>
+                        <th>رمزنگاری</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody id="configTableBody">
+                    <tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">⏳ در حال بارگذاری کانفیگ‌ها...</td></tr>
+                </tbody>
+            </table>
         </div>
 
-        <!-- ===== SUBSCRIPTION SECTION ===== -->
-        <section class="sub-section">
-            <h2><i class="fas fa-link"></i> 🌎 لیست اشتراک‌ها | Subscription List 📜</h2>
-            <p style="color:#94a3b8; margin-bottom:1rem; font-size:0.9rem;">مدیریت اشتراک‌های V2ray با استفاده از لینک‌های زیر:</p>
+        <!-- ===== DOWNLOAD ===== -->
+        <div class="download-area">
+            <button class="download-btn" id="downloadAllBtn"><i class="fas fa-download"></i> دانلود همه کانفیگ‌ها (TXT)</button>
+            <button class="download-btn" id="downloadFilteredBtn"><i class="fas fa-filter"></i> دانلود کانفیگ‌های فیلترشده</button>
+            <span style="color:#64748b; font-size:0.8rem; margin-right:auto;">📋 برای کپی هر کانفیگ، روی دکمه‌ی کپی در جدول کلیک کنید.</span>
+        </div>
 
-            <div class="sub-card active">
-                <span class="sub-label"><i class="fas fa-layer-group"></i> Mix <span style="font-size:0.65rem; color:#34d399; font-weight:400;">(فعال)</span></span>
-                <span class="sub-url" id="subMix">https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt</span>
-                <button class="copy-btn" data-target="subMix"><i class="far fa-copy"></i> کپی</button>
-            </div>
-
-            <details style="margin-top:0.5rem;">
-                <summary style="cursor:pointer; color:#64748b; font-size:0.85rem; display:flex; align-items:center; gap:0.5rem; padding:0.5rem 0;">
-                    <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
-                    <span>لینک‌های قدیمی (غیرفعال) — بروزرسانی نمی‌شوند</span>
-                </summary>
-                <div style="margin-top:0.8rem;">
-                    <div class="sub-card inactive">
-                        <span class="sub-label"><i class="fas fa-sim-card"></i> Irancell</span>
-                        <span class="sub-url" id="subIrancell">https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Irancell.txt</span>
-                        <span class="inactive-badge"><i class="fas fa-lock"></i> غیرفعال</span>
-                    </div>
-                    <div class="sub-card inactive">
-                        <span class="sub-label"><i class="fas fa-wifi"></i> MCI</span>
-                        <span class="sub-url" id="subMci">https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Mci.txt</span>
-                        <span class="inactive-badge"><i class="fas fa-lock"></i> غیرفعال</span>
-                    </div>
-                    <p style="color:#64748b; font-size:0.75rem; margin-top:0.5rem;">⚠️ این لینک‌ها دیگر بروزرسانی نمی‌شوند و فقط برای آرشیو نگهداری شده‌اند.</p>
-                </div>
-            </details>
-        </section>
-
-        <!-- ===== REAL STATS ===== -->
-        <section>
-            <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:1rem; display:flex; align-items:center; gap:0.7rem;">
-                <i class="fas fa-chart-pie" style="color:#a78bfa;"></i> 📊 آمار واقعی از فایل اشتراک
-            </h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="realConfigCount">🔄</div>
-                    <div class="stat-label">تعداد کانفیگ‌های فعال در Mix</div>
-                    <div class="stat-sub">✅ <span id="configStatus">در حال بارگذاری...</span></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="fileSize">-</div>
-                    <div class="stat-label">حجم فایل اشتراک</div>
-                    <div class="stat-sub">📄 <span id="fileSizeUnit">KB</span></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="lastModified">-</div>
-                    <div class="stat-label">آخرین بروزرسانی فایل</div>
-                    <div class="stat-sub">📅 <span id="lastModifiedLabel">تاریخ</span></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="estimatedPing">~۸۵</div>
-                    <div class="stat-label">میانگین پینگ (تخمینی)</div>
-                    <div class="stat-sub">⚠️ نیاز به بک‌اند دارد</div>
-                </div>
-            </div>
-            <p style="color:#64748b; font-size:0.75rem; margin-top:-0.5rem; text-align:center;">
-                <i class="fas fa-info-circle"></i> تعداد کانفیگ‌ها و حجم فایل مستقیماً از گیت‌هاب دریافت می‌شوند. 
-                پینگ و ترافیک به دلیل محدودیت مرورگر قابل اندازه‌گیری لحظه‌ای نیستند.
-            </p>
-        </section>
-
-        <!-- ===== FEATURES ===== -->
-        <section>
-            <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.7rem;">
-                <i class="fas fa-bolt" style="color:#a78bfa;"></i> ✨ ویژگی‌های پیشرفته
-            </h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
-                    <div class="feature-title">به‌روزرسانی خودکار</div>
-                    <div class="feature-desc">اشتراک‌ها هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت و اعمال می‌شوند 🔄</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-folder-tree"></i></div>
-                    <div class="feature-title">مدیریت چندگانه</div>
-                    <div class="feature-desc">امکان مدیریت همزمان چندین اشتراک با تفکیک اپراتور (Mix, Irancell, MCI) 🗂</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-microchip"></i></div>
-                    <div class="feature-title">سبک و کم‌مصرف</div>
-                    <div class="feature-desc">اسکریپت پایتون با حداقل وابستگی‌ها، مناسب برای اجرا روی سرورهای ضعیف 🛠</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-rocket"></i></div>
-                    <div class="feature-title">تجربه کاربری روان</div>
-                    <div class="feature-desc">خروجی بهینه‌شده برای V2rayNG و سایر کلاینت‌ها، با کمترین تأخیر 🚀</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-shield-virus"></i></div>
-                    <div class="feature-title">امنیت بالا</div>
-                    <div class="feature-desc">استفاده از پروتکل‌های امن VMess, VLESS, Trojan با پشتیبانی از TLS 🔒</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-code"></i></div>
-                    <div class="feature-title">متن‌باز و قابل توسعه</div>
-                    <div class="feature-desc">کد به‌صورت کامل در گیت‌هاب در دسترس است و می‌توانید آن را تغییر دهید 💻</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== GETTING STARTED ===== -->
-        <section style="margin: 2.5rem 0;">
-            <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:0.8rem; display:flex; align-items:center; gap:0.7rem;">
-                <i class="fas fa-cogs" style="color:#a78bfa;"></i> 🛠 راه‌اندازی اولیه | Getting Started ⚙️
-            </h2>
-            <div class="code-block">
-                <span class="comment"># 1️⃣ دانلود و نصب</span><br />
-                <span class="cmd">git clone</span> https://github.com/mehrdadmb2/V2ray_Sub.git<br />
-                <span class="cmd">cd</span> V2ray_Sub<br /><br />
-                <span class="comment"># 2️⃣ نصب پیش‌نیازها</span><br />
-                <span class="cmd">pip install</span> -r requirements.txt<br /><br />
-                <span class="comment"># 3️⃣ اجرای برنامه</span><br />
-                <span class="cmd">python</span> v2ray_sub_manager.py
-            </div>
-        </section>
-
-        <!-- ===== TUTORIAL ===== -->
-        <section style="margin: 2.5rem 0;">
-            <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:0.8rem; display:flex; align-items:center; gap:0.7rem;">
-                <i class="fas fa-mobile-alt" style="color:#a78bfa;"></i> 📲 راهنمای اضافه کردن اشتراک به V2rayNG (اندروید) 📱
-            </h2>
-            <p style="color:#94a3b8; margin-bottom:0.8rem;">مراحل زیر را به‌ترتیب دنبال کنید:</p>
-            <div class="gallery">
-                <div class="gallery-item">
-                    <img src="Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg" alt="Step 1" />
-                    <div class="caption">1️⃣ اجرای V2rayNG</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit.jpg" alt="Step 2" />
-                    <div class="caption">2️⃣ منوی اشتراک‌ها</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit.jpg" alt="Step 3" />
-                    <div class="caption">3️⃣ افزودن اشتراک جدید</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit.jpg" alt="Step 4" />
-                    <div class="caption">4️⃣ وارد کردن اطلاعات</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit.jpg" alt="Step 5" />
-                    <div class="caption">5️⃣ به‌روزرسانی</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg" alt="Step 6" />
-                    <div class="caption">✅ اشتراک اضافه شد! 🎉</div>
-                </div>
-            </div>
-            <p style="color:#94a3b8; font-size:0.9rem;">💡 <strong>نکته:</strong> همیشه اشتراک‌های خود را به‌روزرسانی کنید تا از سرورهای فعال استفاده کنید. 🔄</p>
-        </section>
-
-        <!-- ===== FAQ ===== -->
-        <section style="margin: 2.5rem 0;">
-            <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.7rem;">
-                <i class="fas fa-question-circle" style="color:#a78bfa;"></i> ❓ سوالات متداول | FAQ
-            </h2>
-            <div class="faq-item">
-                <div class="faq-question"><span>چطور می‌توانم اشتراک را به V2rayNG اضافه کنم؟</span><i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">مراحل کامل در بخش راهنمای تصویری بالا توضیح داده شده است. کافی است لینک اشتراک را کپی کرده و در اپلیکیشن V2rayNG در قسمت Subscription قرار دهید.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question"><span>آیا این ابزار رایگان است؟</span><i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">بله، این پروژه کاملاً متن‌باز و رایگان است و تحت مجوز MIT منتشر شده است.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question"><span>چند وقت یکبار اشتراک‌ها بروزرسانی می‌شوند؟</span><i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">اشتراک‌ها به‌صورت خودکار هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت می‌شوند.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question"><span>چطور می‌توانم در توسعه پروژه مشارکت کنم؟</span><i class="fas fa-chevron-down"></i></div>
-                <div class="faq-answer">می‌توانید مخزن را Fork کرده، تغییرات خود را اعمال و سپس یک Pull Request ارسال کنید.</div>
-            </div>
-        </section>
-
-        <!-- ===== CHANGELOG ===== -->
-        <section style="margin: 2.5rem 0;">
-            <h2 style="font-size:1.5rem; font-weight:600; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.7rem;">
-                <i class="fas fa-history" style="color:#a78bfa;"></i> 📋 تغییرات اخیر | Changelog
-            </h2>
-            <div class="changelog-item">
-                <span class="changelog-date">۲۰۲۶-۰۲-۱۲</span>
-                <span class="changelog-text">✨ اضافه شدن آمار واقعی (تعداد کانفیگ‌ها و حجم فایل) از گیت‌هاب</span>
-            </div>
-            <div class="changelog-item">
-                <span class="changelog-date">۲۰۲۶-۰۲-۱۰</span>
-                <span class="changelog-text">🔧 بهبود اسکریپت مدیریت اشتراک و رفع باگ در پردازش لینک‌ها</span>
-            </div>
-            <div class="changelog-item">
-                <span class="changelog-date">۲۰۲۶-۰۲-۰۸</span>
-                <span class="changelog-text">📝 بروزرسانی README و افزودن راهنمای تصویری کامل</span>
-            </div>
-        </section>
-
-        <!-- ===== CONTRIBUTE ===== -->
-        <section style="margin: 2.5rem 0; padding: 1.8rem; background: rgba(255,255,255,0.02); border-radius: 2rem; border: 1px solid rgba(255,255,255,0.04);">
-            <h2 style="font-size:1.5rem; font-weight:600; display:flex; align-items:center; gap:0.7rem;">
-                <i class="fas fa-handshake" style="color:#a78bfa;"></i> 🤝 همکاری در پروژه | Contribute 🏆
-            </h2>
-            <p style="color:#cbd5e1; margin-top:0.5rem;">💡 آیا می‌خواهید <strong>V2ray_Sub</strong> را بهتر کنید؟ 🎯</p>
-            <ul style="list-style:none; color:#94a3b8; margin:0.8rem 0; line-height:2.2;">
-                <li>🔹 ۱️⃣ مخزن را <strong>Fork</strong> کنید و یک شاخه جدید ایجاد کنید.</li>
-                <li>🔹 ۲️⃣ تغییرات خود را اعمال و تست کنید.</li>
-                <li>🔹 ۳️⃣ یک <strong>Pull Request</strong> ارسال کنید.</li>
-            </ul>
-            <p style="color:#94a3b8; font-size:0.9rem;">📝 مجوز پروژه <strong>MIT</strong> است. جزئیات در فایل <code>LICENSE</code>.</p>
-        </section>
+        <!-- ===== CHART ===== -->
+        <div class="chart-container">
+            <h3 style="text-align:center; color:#e2e8f0; font-weight:600; margin-bottom:1rem;">
+                <i class="fas fa-chart-bar" style="color:#a78bfa;"></i> توزیع کانفیگ‌ها بر اساس کشور
+            </h3>
+            <canvas id="countryChart" width="400" height="250"></canvas>
+        </div>
 
         <!-- ===== FOOTER ===== -->
         <footer class="footer">
@@ -818,174 +686,504 @@
                 <a href="https://github.com/mehrdadmb2/V2ray_Sub" aria-label="GitHub"><i class="fab fa-github"></i></a>
                 <a href="mailto:game.developer.mb@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
                 <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
-                <span class="footer-badge"><i class="fas fa-heart" style="color:#f43f5e;"></i> ۴۲۰</span>
+                <span class="badge" style="background:rgba(255,255,255,0.04); border:none; padding:0.25rem 0.8rem;">
+                    <i class="fas fa-heart" style="color:#f43f5e;"></i> ۴۲۰
+                </span>
             </div>
         </footer>
 
     </main>
 
-    <!-- ========== JAVASCRIPT (Real Stats + API) ========== -->
+    <!-- ========== JAVASCRIPT (Complete) ========== -->
     <script>
         (function() {
-            // 1. Copy functionality
-            document.querySelectorAll('.copy-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
-                    const urlElement = document.getElementById(targetId);
-                    if (!urlElement) return;
-                    const text = urlElement.textContent.trim();
+            'use strict';
 
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(text).then(() => {
-                            showCopiedFeedback(this);
-                        }).catch(() => {
-                            fallbackCopy(text, this);
-                        });
-                    } else {
-                        fallbackCopy(text, this);
+            // ---- State ----
+            let allConfigs = []; // [{raw, protocol, ip, port, encryption, name, country, countryCode, flag}]
+            let extraUrls = [];
+            let chartInstance = null;
+            const DEFAULT_URL =
+            'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt';
+
+            // ---- DOM refs ----
+            const tbody = document.getElementById('configTableBody');
+            const searchInput = document.getElementById('searchInput');
+            const protocolFilter = document.getElementById('protocolFilter');
+            const countryFilter = document.getElementById('countryFilter');
+            const filteredCount = document.getElementById('filteredCount');
+            const totalConfigsSpan = document.getElementById('totalConfigs');
+            const lastFetchTimeEl = document.getElementById('lastFetchTime');
+            const extraLinksDiv = document.getElementById('extraLinks');
+            const subInput = document.getElementById('subInput');
+            const addSubBtn = document.getElementById('addSubBtn');
+            const loadDefaultBtn = document.getElementById('loadDefaultBtn');
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            const downloadFilteredBtn = document.getElementById('downloadFilteredBtn');
+
+            // ---- Helpers ----
+            function parseConfigLine(line) {
+                line = line.trim();
+                if (!line) return null;
+                // Try to detect protocol
+                let protocol = 'unknown';
+                let ip = '';
+                let port = '';
+                let encryption = '';
+                let name = '';
+
+                if (line.startsWith('vless://')) {
+                    protocol = 'vless';
+                    const parts = line.split('@');
+                    if (parts.length > 1) {
+                        const hostPort = parts[1].split('?')[0];
+                        const host = hostPort.split(':')[0];
+                        const p = hostPort.split(':')[1] || '';
+                        ip = host;
+                        port = p;
                     }
-                });
-            });
-
-            function fallbackCopy(text, btn) {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                try {
-                    document.execCommand('copy');
-                    showCopiedFeedback(btn);
-                } catch (e) {
-                    alert('✅ لینک کپی شد!');
+                    const query = line.split('?')[1] || '';
+                    const encMatch = query.match(/encryption=([^&]+)/);
+                    if (encMatch) encryption = encMatch[1];
+                } else if (line.startsWith('vmess://')) {
+                    protocol = 'vmess';
+                    try {
+                        const decoded = atob(line.replace('vmess://', ''));
+                        const json = JSON.parse(decoded);
+                        ip = json.add || '';
+                        port = json.port || '';
+                        encryption = json.scy || '';
+                        name = json.ps || '';
+                    } catch (e) { /* ignore */ }
+                } else if (line.startsWith('trojan://')) {
+                    protocol = 'trojan';
+                    const parts = line.split('@');
+                    if (parts.length > 1) {
+                        const hostPort = parts[1].split('?')[0];
+                        const host = hostPort.split(':')[0];
+                        const p = hostPort.split(':')[1] || '';
+                        ip = host;
+                        port = p;
+                    }
+                    const query = line.split('?')[1] || '';
+                    const encMatch = query.match(/encryption=([^&]+)/);
+                    if (encMatch) encryption = encMatch[1];
+                } else if (line.startsWith('ss://')) {
+                    protocol = 'shadowsocks';
+                    // simple parse
+                    const parts = line.split('@');
+                    if (parts.length > 1) {
+                        const hostPort = parts[1].split('#')[0];
+                        const host = hostPort.split(':')[0];
+                        const p = hostPort.split(':')[1] || '';
+                        ip = host;
+                        port = p;
+                    }
                 }
-                document.body.removeChild(textarea);
+
+                // extract name if present
+                if (!name) {
+                    const nameMatch = line.match(/#(.+)$/);
+                    if (nameMatch) name = nameMatch[1].trim();
+                }
+
+                return {
+                    raw: line,
+                    protocol,
+                    ip: ip || '-',
+                    port: port || '-',
+                    encryption: encryption || '-',
+                    name: name || ip || 'بدون نام',
+                    country: '...',
+                    countryCode: '',
+                    flag: '🏳️'
+                };
             }
 
-            function showCopiedFeedback(btn) {
-                const original = btn.innerHTML;
+            function getFlagEmoji(countryCode) {
+                if (!countryCode) return '🏳️';
+                const code = countryCode.toUpperCase();
+                if (code.length !== 2) return '🏳️';
+                const offset = 0x1F1E6;
+                const a = code.charCodeAt(0) - 65 + offset;
+                const b = code.charCodeAt(1) - 65 + offset;
+                return String.fromCodePoint(a, b);
+            }
+
+            // ---- Fetch and parse URLs ----
+            async function fetchConfigsFromUrl(url) {
+                const res = await fetch(url, { cache: 'no-store' });
+                if (!res.ok) throw new Error('خطا در دریافت فایل');
+                const text = await res.text();
+                const lines = text.split('\n').filter(l => l.trim() !== '');
+                const configs = lines.map(parseConfigLine).filter(c => c !== null);
+                return configs;
+            }
+
+            async function loadAllConfigs() {
+                const allUrls = [DEFAULT_URL, ...extraUrls];
+                let combined = [];
+                for (const url of allUrls) {
+                    try {
+                        const configs = await fetchConfigsFromUrl(url);
+                        combined = combined.concat(configs);
+                    } catch (e) {
+                        console.warn('Failed to load', url, e);
+                    }
+                }
+                // Remove duplicates based on raw content
+                const seen = new Set();
+                combined = combined.filter(c => {
+                    const key = c.raw;
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+                return combined;
+            }
+
+            // ---- Fetch country info (with caching) ----
+            const ipCache = new Map();
+
+            async function enrichWithCountry(config) {
+                if (config.ip === '-' || !config.ip) {
+                    config.country = 'نامشخص';
+                    config.countryCode = '';
+                    config.flag = '🏳️';
+                    return config;
+                }
+                const ip = config.ip;
+                if (ipCache.has(ip)) {
+                    const cached = ipCache.get(ip);
+                    config.country = cached.country;
+                    config.countryCode = cached.countryCode;
+                    config.flag = cached.flag;
+                    return config;
+                }
+                try {
+                    const res = await fetch(`http://ip-api.com/json/${ip}?fields=country,countryCode`, { timeout: 5000 });
+                    if (!res.ok) throw new Error();
+                    const data = await res.json();
+                    if (data.country) {
+                        const country = data.country;
+                        const code = data.countryCode || '';
+                        const flag = getFlagEmoji(code);
+                        config.country = country;
+                        config.countryCode = code;
+                        config.flag = flag;
+                        ipCache.set(ip, { country, countryCode: code, flag });
+                    } else {
+                        config.country = 'نامشخص';
+                        config.flag = '🏳️';
+                        ipCache.set(ip, { country: 'نامشخص', countryCode: '', flag: '🏳️' });
+                    }
+                } catch (e) {
+                    config.country = 'نامشخص';
+                    config.flag = '🏳️';
+                    ipCache.set(ip, { country: 'نامشخص', countryCode: '', flag: '🏳️' });
+                }
+                return config;
+            }
+
+            // ---- Render table ----
+            function renderTable(configs) {
+                if (configs.length === 0) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">🚫 هیچ کانفیگی یافت نشد.</td></tr>`;
+                    return;
+                }
+
+                let html = '';
+                configs.forEach((c, idx) => {
+                    const protoBadge =
+                        `<span class="badge-proto">${c.protocol.toUpperCase()}</span>`;
+                    const flag = c.flag || '🏳️';
+                    const countryDisplay = c.country || '...';
+                    const enc = c.encryption || '-';
+                    html += `<tr>
+                        <td>${idx+1}</td>
+                        <td>${protoBadge}</td>
+                        <td>${c.name || c.ip}</td>
+                        <td>${c.port}</td>
+                        <td><span class="flag">${flag}</span> ${countryDisplay}</td>
+                        <td>${enc}</td>
+                        <td>
+                            <button class="copy-single" data-raw="${c.raw.replace(/"/g, '&quot;')}"><i class="far fa-copy"></i> کپی</button>
+                        </td>
+                    </tr>`;
+                });
+                tbody.innerHTML = html;
+
+                // attach copy events
+                document.querySelectorAll('.copy-single').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const raw = this.dataset.raw;
+                        copyToClipboard(raw, this);
+                    });
+                });
+
+                // update total
+                totalConfigsSpan.textContent = configs.length;
+
+                // update filtered count
+                filteredCount.textContent = `نمایش ${configs.length} از ${allConfigs.length}`;
+            }
+
+            // ---- Filters ----
+            function getFilteredConfigs() {
+                const search = searchInput.value.trim().toLowerCase();
+                const proto = protocolFilter.value;
+                const country = countryFilter.value;
+
+                return allConfigs.filter(c => {
+                    const matchSearch = c.name.toLowerCase().includes(search) || c.ip.toLowerCase().includes(search);
+                    const matchProto = proto === 'all' || c.protocol === proto;
+                    const matchCountry = country === 'all' || c.country === country;
+                    return matchSearch && matchProto && matchCountry;
+                });
+            }
+
+            function applyFilters() {
+                const filtered = getFilteredConfigs();
+                renderTable(filtered);
+                updateChart(filtered);
+            }
+
+            // ---- Chart ----
+            function updateChart(configs) {
+                const ctx = document.getElementById('countryChart').getContext('2d');
+                const countryMap = {};
+                configs.forEach(c => {
+                    const key = c.country || 'نامشخص';
+                    countryMap[key] = (countryMap[key] || 0) + 1;
+                });
+                const labels = Object.keys(countryMap);
+                const data = Object.values(countryMap);
+
+                if (chartInstance) chartInstance.destroy();
+
+                if (labels.length === 0) {
+                    chartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: { labels: ['بدون داده'], datasets: [{ label: 'تعداد', data: [0], backgroundColor: '#64748b' }] },
+                        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#e2e8f0' } } }, scales: { y: { ticks: { color: '#94a3b8' } }, x: { ticks: { color: '#94a3b8' } } } }
+                    });
+                    return;
+                }
+
+                const colors = ['#a78bfa', '#60a5fa', '#34d399', '#fbbf24', '#f87171', '#f472b6', '#818cf8', '#2dd4bf'];
+                const bgColors = labels.map((_, i) => colors[i % colors.length]);
+
+                chartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'تعداد کانفیگ',
+                            data: data,
+                            backgroundColor: bgColors,
+                            borderRadius: 6,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: { display: false },
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: '#94a3b8', stepSize: 1 },
+                                beginAtZero: true,
+                                grid: { color: 'rgba(255,255,255,0.05)' }
+                            },
+                            x: {
+                                ticks: { color: '#94a3b8' },
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // ---- Populate country filter ----
+            function populateCountryFilter(configs) {
+                const countries = new Set();
+                configs.forEach(c => {
+                    if (c.country && c.country !== 'نامشخص' && c.country !== '...') {
+                        countries.add(c.country);
+                    }
+                });
+                const sorted = Array.from(countries).sort();
+                const select = countryFilter;
+                const currentVal = select.value;
+                select.innerHTML = '<option value="all">همه کشورها</option>';
+                sorted.forEach(c => {
+                    select.innerHTML += `<option value="${c}">${c}</option>`;
+                });
+                if (currentVal && sorted.includes(currentVal)) select.value = currentVal;
+            }
+
+            // ---- Copy ----
+            function copyToClipboard(text, btn) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showCopied(btn);
+                    }).catch(() => {
+                        fallbackCopy(text, btn);
+                    });
+                } else {
+                    fallbackCopy(text, btn);
+                }
+            }
+
+            function fallbackCopy(text, btn) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                try {
+                    document.execCommand('copy');
+                    showCopied(btn);
+                } catch (e) { alert('✅ کپی شد!'); }
+                document.body.removeChild(ta);
+            }
+
+            function showCopied(btn) {
+                const orig = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-check"></i> کپی شد!';
-                btn.style.borderColor = '#34d399';
-                btn.style.color = '#6ee7b7';
+                btn.style.backgroundColor = 'rgba(52,211,153,0.3)';
                 setTimeout(() => {
-                    btn.innerHTML = original;
-                    btn.style.borderColor = '';
-                    btn.style.color = '';
+                    btn.innerHTML = orig;
+                    btn.style.backgroundColor = '';
                 }, 2000);
             }
 
-            // 2. Fetch REAL Config Count from Mix.txt
-            const MIX_URL = 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt';
+            // ---- Download ----
+            function downloadConfigs(configs, filename = 'configs.txt') {
+                const text = configs.map(c => c.raw).join('\n');
+                const blob = new Blob([text], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
 
-            async function fetchRealStats() {
-                const configCountEl = document.getElementById('realConfigCount');
-                const statusEl = document.getElementById('configStatus');
-                const fileSizeEl = document.getElementById('fileSize');
-                const fileSizeUnitEl = document.getElementById('fileSizeUnit');
-                const lastModifiedEl = document.getElementById('lastModified');
-                const lastModifiedLabelEl = document.getElementById('lastModifiedLabel');
-                const badgeServerEl = document.getElementById('activeServers');
-                const lastFetchTimeEl = document.getElementById('lastFetchTime');
-
+            // ---- Main load ----
+            async function refreshAll() {
                 try {
-                    const response = await fetch(MIX_URL, { cache: 'no-store' });
-                    if (!response.ok) throw new Error('File not accessible');
+                    tbody.innerHTML =
+                        `<tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">⏳ در حال بارگذاری...</td></tr>`;
+                    const configs = await loadAllConfigs();
+                    allConfigs = configs;
 
-                    const text = await response.text();
-                    const lines = text.split('\n').filter(line => line.trim() !== '');
-                    const configCount = lines.length;
+                    // enrich with country (parallel)
+                    const enriched = await Promise.all(allConfigs.map(c => enrichWithCountry(c)));
+                    allConfigs = enriched;
 
-                    // Update Config Count
-                    configCountEl.textContent = configCount;
-                    statusEl.textContent = '✅ دریافت شد';
-                    statusEl.style.color = '#6ee7b7';
-                    badgeServerEl.textContent = configCount + ' کانفیگ';
+                    // update UI
+                    populateCountryFilter(allConfigs);
+                    applyFilters();
 
-                    // File Size
-                    const bytes = new Blob([text]).size;
-                    const kb = (bytes / 1024).toFixed(1);
-                    if (kb > 1024) {
-                        fileSizeEl.textContent = (kb / 1024).toFixed(2);
-                        fileSizeUnitEl.textContent = 'MB';
-                    } else {
-                        fileSizeEl.textContent = kb;
-                        fileSizeUnitEl.textContent = 'KB';
-                    }
+                    // update extra links display
+                    renderExtraLinks();
 
-                    // Last Modified (from header) or fallback
-                    const lastModifiedHeader = response.headers.get('last-modified');
-                    if (lastModifiedHeader) {
-                        const date = new Date(lastModifiedHeader);
-                        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-                        lastModifiedEl.textContent = date.toLocaleDateString('fa-IR', options);
-                        lastModifiedLabelEl.textContent = 'آخرین تغییر';
-                    } else {
-                        lastModifiedEl.textContent = 'نامشخص';
-                        lastModifiedLabelEl.textContent = 'تاریخ';
-                    }
-
-                    // Update fetch time
+                    // update time
                     const now = new Date();
-                    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
-                    lastFetchTimeEl.textContent = now.toLocaleTimeString('fa-IR', timeOptions);
+                    lastFetchTimeEl.textContent = now.toLocaleTimeString('fa-IR');
 
-                } catch (error) {
-                    console.warn('Could not fetch Mix.txt:', error);
-                    configCountEl.textContent = '❌';
-                    statusEl.textContent = 'خطا در دریافت';
-                    statusEl.style.color = '#f87171';
-                    badgeServerEl.textContent = '🔴 خطا';
-                    fileSizeEl.textContent = '—';
-                    lastModifiedEl.textContent = '—';
-                    lastFetchTimeEl.textContent = 'خطا';
+                    // fetch repo stats
+                    fetchRepoStats();
+
+                } catch (e) {
+                    console.error(e);
+                    tbody.innerHTML =
+                        `<tr><td colspan="7" style="text-align:center; color:#f87171; padding:2rem;">❌ خطا در بارگذاری: ${e.message}</td></tr>`;
                 }
             }
 
-            // 3. Fetch GitHub Repo Stats (Stars, Forks, Issues, Commit)
-            const repoOwner = 'mehrdadmb2';
-            const repoName = 'V2ray_Sub';
-            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}`;
+            // ---- Extra links ----
+            function renderExtraLinks() {
+                extraLinksDiv.innerHTML = '';
+                extraUrls.forEach((url, idx) => {
+                    const span = document.createElement('span');
+                    span.className = 'extra-link';
+                    span.innerHTML = `
+                        <i class="fas fa-link"></i> ${url.length > 40 ? url.slice(0,40)+'…' : url}
+                        <button data-idx="${idx}" class="remove-extra"><i class="fas fa-times"></i></button>
+                    `;
+                    extraLinksDiv.appendChild(span);
+                });
+                document.querySelectorAll('.remove-extra').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const idx = parseInt(this.dataset.idx);
+                        extraUrls.splice(idx, 1);
+                        refreshAll();
+                    });
+                });
+            }
 
+            // ---- GitHub API ----
             async function fetchRepoStats() {
                 try {
-                    const response = await fetch(apiUrl);
-                    if (!response.ok) throw new Error('API error');
-                    const data = await response.json();
-
+                    const res = await fetch('https://api.github.com/repos/mehrdadmb2/V2ray_Sub');
+                    if (!res.ok) throw new Error();
+                    const data = await res.json();
                     document.getElementById('starsCount').textContent = data.stargazers_count || '۰';
                     document.getElementById('forksCount').textContent = data.forks_count || '۰';
                     document.getElementById('issuesCount').textContent = data.open_issues_count || '۰';
-
                     if (data.updated_at) {
-                        const date = new Date(data.updated_at);
-                        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-                        document.getElementById('lastCommit').textContent = date.toLocaleDateString('fa-IR', options);
-                    } else {
-                        document.getElementById('lastCommit').textContent = 'نامشخص';
+                        const d = new Date(data.updated_at);
+                        document.getElementById('lastCommit').textContent = d.toLocaleDateString('fa-IR');
                     }
-                } catch (error) {
-                    console.warn('Could not fetch repo stats:', error);
-                    document.getElementById('starsCount').textContent = '⭐';
-                    document.getElementById('forksCount').textContent = '🔀';
-                    document.getElementById('issuesCount').textContent = '⚠️';
-                    document.getElementById('lastCommit').textContent = '📅';
+                } catch (e) {
+                    // ignore
                 }
             }
 
-            // 4. FAQ toggle
-            document.querySelectorAll('.faq-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    this.classList.toggle('open');
-                });
+            // ---- Event listeners ----
+            searchInput.addEventListener('input', applyFilters);
+            protocolFilter.addEventListener('change', applyFilters);
+            countryFilter.addEventListener('change', applyFilters);
+
+            addSubBtn.addEventListener('click', function() {
+                const url = subInput.value.trim();
+                if (!url) return;
+                if (!extraUrls.includes(url)) {
+                    extraUrls.push(url);
+                    subInput.value = '';
+                    refreshAll();
+                } else {
+                    alert('این لینک قبلاً اضافه شده است.');
+                }
             });
 
-            // 5. Run all fetchers
-            fetchRepoStats();
-            fetchRealStats();
+            loadDefaultBtn.addEventListener('click', function() {
+                extraUrls = [];
+                subInput.value = '';
+                refreshAll();
+            });
 
-            // Auto-refresh real stats every 60 seconds (to keep it fresh)
-            setInterval(fetchRealStats, 60000);
+            downloadAllBtn.addEventListener('click', function() {
+                if (allConfigs.length === 0) return alert('هیچ کانفیگی برای دانلود وجود ندارد.');
+                downloadConfigs(allConfigs, 'v2ray_all_configs.txt');
+            });
+
+            downloadFilteredBtn.addEventListener('click', function() {
+                const filtered = getFilteredConfigs();
+                if (filtered.length === 0) return alert('هیچ کانفیگی با فیلترهای فعلی مطابقت ندارد.');
+                downloadConfigs(filtered, 'v2ray_filtered_configs.txt');
+            });
+
+            // ---- Init ----
+            refreshAll();
 
         })();
     </script>
+
 </body>
 </html>
