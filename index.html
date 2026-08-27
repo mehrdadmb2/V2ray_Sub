@@ -103,7 +103,7 @@
         .glass-container {
             position: relative;
             z-index: 1;
-            max-width: 1300px;
+            max-width: 1350px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.035);
             backdrop-filter: blur(28px) saturate(180%);
@@ -126,7 +126,7 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             gap: 1rem;
         }
         .logo-area {
@@ -184,6 +184,91 @@
             50% {
                 opacity: 0.3;
                 transform: scale(0.8);
+            }
+        }
+
+        /* ===== OS DETECTION BANNER ===== */
+        .os-banner {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.8rem;
+            padding: 0.8rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: 0.3s;
+        }
+        .os-banner:hover {
+            border-color: rgba(167, 139, 250, 0.25);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .os-banner .os-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .os-banner .os-icon {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .os-banner .os-text {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .os-banner .os-text span {
+            color: #a78bfa;
+            font-weight: 700;
+        }
+        .os-banner .os-suggestion {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .os-banner .os-suggestion .label {
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+        .os-banner .os-suggestion a {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            color: #e2e8f0;
+            padding: 0.4rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+        }
+        .os-banner .os-suggestion a:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
+            border-color: #a78bfa;
+            transform: scale(1.03);
+        }
+        @media (max-width: 640px) {
+            .os-banner {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                padding: 1rem 1.2rem;
+            }
+            .os-banner .os-info {
+                justify-content: center;
+            }
+            .os-banner .os-suggestion {
+                justify-content: center;
             }
         }
 
@@ -715,6 +800,102 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+        /* ===== CLIENTS SECTION ===== */
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0 2rem 0;
+        }
+        .client-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 2rem;
+            padding: 1.5rem 1.5rem 1.8rem;
+            transition: 0.35s;
+            text-align: center;
+        }
+        .client-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .client-icon {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .client-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #f1f5f9;
+        }
+        .client-desc {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin: 0.3rem 0 0.8rem 0;
+            line-height: 1.6;
+        }
+        .client-platform {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.2rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            margin-bottom: 0.8rem;
+        }
+        .client-btn {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            color: #e2e8f0;
+            padding: 0.5rem 1.6rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+        }
+        .client-btn:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
+            border-color: #a78bfa;
+            transform: scale(1.02);
+        }
+        .client-files {
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.7rem;
+            color: #64748b;
+            text-align: right;
+        }
+        .client-files a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.2rem 0.4rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 0.7rem;
+            transition: 0.2s;
+        }
+        .client-files a:hover {
+            color: #a78bfa;
+            background: rgba(167, 139, 250, 0.1);
+        }
+        .client-files .highlight-file {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
         /* ===== CONTRIBUTE ===== */
         .contribute-box {
             padding: 1.8rem;
@@ -802,6 +983,9 @@
             .features-grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .clients-grid {
+                grid-template-columns: 1fr;
+            }
             .glass-container {
                 padding: 1.2rem 1rem;
             }
@@ -857,7 +1041,7 @@
             <div class="logo-area">
                 <span class="logo-icon"><i class="fas fa-satellite-dish"></i></span>
                 <span class="logo-text">V2ray_Sub</span>
-                <span class="logo-badge"><i class="fas fa-code-branch"></i> v3.0</span>
+                <span class="logo-badge"><i class="fas fa-code-branch"></i> v4.1</span>
             </div>
             <div class="status-chip">
                 <span class="status-dot"></span>
@@ -866,6 +1050,24 @@
                 <span><i class="far fa-clock"></i> <span id="lastFetchTime">دریافت...</span></span>
             </div>
         </header>
+
+        <!-- ============================================================ -->
+        <!-- ===== بنر تشخیص سیستم‌عامل کاربر (OS DETECTION BANNER) ===== -->
+        <!-- ============================================================ -->
+        <div class="os-banner" id="osBanner">
+            <div class="os-info">
+                <span class="os-icon" id="osIcon"><i class="fas fa-desktop"></i></span>
+                <span class="os-text" id="osText">
+                    شما با <span id="osName">سیستم‌عامل</span> وارد سایت شده‌اید
+                </span>
+            </div>
+            <div class="os-suggestion" id="osSuggestion">
+                <span class="label"><i class="fas fa-lightbulb"></i> پیشنهاد کلاینت:</span>
+                <a id="osClientLink" href="#" target="_blank">
+                    <i class="fas fa-download"></i> <span id="osClientName">دانلود</span>
+                </a>
+            </div>
+        </div>
 
         <!-- ===== BADGE ROW ===== -->
         <div class="badge-row">
@@ -977,7 +1179,163 @@
         <hr class="divider" />
 
         <!-- ============================================================ -->
-        <!-- ===== بخش سوم: ویژگی‌ها ===== -->
+        <!-- ===== بخش سوم: راهنمای دانلود اپلیکیشن‌ها ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-download"></i> 📥 دانلود اپلیکیشن‌های کلاینت V2ray</h2>
+        <p style="color:#94a3b8; margin-bottom:1rem; font-size:0.9rem;">
+            برای استفاده از اشتراک‌های V2ray، به یک کلاینت (برنامه) نیاز دارید. 
+            بهترین و معروف‌ترین کلاینت‌ها را در زیر معرفی کرده‌ایم.
+        </p>
+
+        <div class="clients-grid">
+
+            <!-- V2rayNG (Android) -->
+            <div class="client-card">
+                <div class="client-icon"><i class="fab fa-android"></i></div>
+                <div class="client-name">V2rayNG</div>
+                <div class="client-platform">📱 اندروید (Android)</div>
+                <div class="client-desc">
+                    محبوب‌ترین کلاینت V2ray برای اندروید. سبک، سریع و متن‌باز.
+                    پشتیبانی از VMess, VLESS, Trojan, Shadowsocks و Reality.
+                </div>
+                <a href="https://github.com/2dust/v2rayNG/releases" target="_blank" class="client-btn">
+                    <i class="fab fa-github"></i> دانلود از گیت‌هاب
+                </a>
+                <div class="client-files">
+                    <strong>نحوه انتخاب فایل:</strong>
+                    <br />
+                    • <span class="highlight-file">arm64-v8a.apk</span> — گوشی‌های جدید (۹۹٪ گوشی‌های امروزی) — <strong>پیشنهادی</strong>
+                    <br />
+                    • <strong>armeabi-v7a.apk</strong> — گوشی‌های قدیمی (۲۰۱۷ به پایین)
+                    <br />
+                    • <strong>x86.apk</strong> — شبیه‌سازهای کامپیوتر (مثل BlueStacks)
+                    <br />
+                    • <strong>universal.apk</strong> — همه معماری‌ها (حجم بیشتر)
+                    <br />
+                    <span style="color:#64748b; font-size:0.65rem;">
+                        ℹ️ اگر نمی‌دانید گوشی شما چه معماری دارد، اپلیکیشن 
+                        <strong>Droid Hardware Info</strong> را نصب کنید.
+                    </span>
+                </div>
+            </div>
+
+            <!-- v2rayN (Windows) -->
+            <div class="client-card">
+                <div class="client-icon"><i class="fab fa-windows"></i></div>
+                <div class="client-name">v2rayN</div>
+                <div class="client-platform">💻 ویندوز (Windows)</div>
+                <div class="client-desc">
+                    قدرتمندترین کلاینت V2ray برای ویندوز. رابط کاربری حرفه‌ای، 
+                    پشتیبانی از تمام پروتکل‌ها و قابلیت‌های پیشرفته.
+                </div>
+                <a href="https://github.com/2dust/v2rayN/releases" target="_blank" class="client-btn">
+                    <i class="fab fa-github"></i> دانلود از گیت‌هاب
+                </a>
+                <div class="client-files">
+                    <strong>نحوه انتخاب فایل:</strong>
+                    <br />
+                    • <span class="highlight-file">v2rayN.zip</span> — نسخه کامل (همراه با Xray Core) — <strong>پیشنهادی</strong>
+                    <br />
+                    • <strong>v2rayN-With-Core.zip</strong> — دقیقاً همان نسخه کامل
+                    <br />
+                    • <strong>v2rayN-Without-Core.zip</strong> — فقط برنامه (بدون Xray Core)
+                    <br />
+                    <span style="color:#64748b; font-size:0.65rem;">
+                        ℹ️ فایل <strong>v2rayN.zip</strong> یا <strong>v2rayN-With-Core.zip</strong> را دانلود کنید.
+                    </span>
+                </div>
+            </div>
+
+            <!-- Hiddify (Multi-Platform) -->
+            <div class="client-card">
+                <div class="client-icon"><i class="fas fa-globe"></i></div>
+                <div class="client-name">Hiddify</div>
+                <div class="client-platform">📱 اندروید · 🍎 iOS · 💻 ویندوز · 🐧 لینوکس · 🍏 مک</div>
+                <div class="client-desc">
+                    کلاینت مدرن و زیبا با پشتیبانی از تمام پروتکل‌ها. 
+                    رابط کاربری ساده و امکانات پیشرفته مانند 
+                    <strong>Reality</strong> و <strong>Hysteria2</strong>.
+                </div>
+                <a href="https://github.com/hiddify/hiddify-app/releases" target="_blank" class="client-btn">
+                    <i class="fab fa-github"></i> دانلود از گیت‌هاب
+                </a>
+                <div class="client-files">
+                    <strong>نحوه انتخاب فایل:</strong>
+                    <br />
+                    • <span class="highlight-file">Hiddify-Android.apk</span> — اندروید (arm64-v8a)
+                    <br />
+                    • <strong>Hiddify-Windows.zip</strong> — ویندوز
+                    <br />
+                    • <strong>Hiddify-macOS.dmg</strong> — مک
+                    <br />
+                    • <strong>Hiddify-Linux.AppImage</strong> — لینوکس
+                    <br />
+                    <span style="color:#64748b; font-size:0.65rem;">
+                        ℹ️ برای اندروید، فایل <strong>Hiddify-Android.apk</strong> را دانلود کنید.
+                    </span>
+                </div>
+            </div>
+
+            <!-- NPV Tunnel (iOS + Android) -->
+            <div class="client-card">
+                <div class="client-icon"><i class="fas fa-wifi"></i></div>
+                <div class="client-name">NPV Tunnel (NapsternetV)</div>
+                <div class="client-platform">📱 اندروید · 🍎 iOS</div>
+                <div class="client-desc">
+                    کلاینت قدرتمند با پشتیبانی از V2Ray, SSH, Hysteria2, WireGuard.
+                    قابلیت مدیریت چندین اشتراک و اتصال همزمان.
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin-bottom:0.5rem;">
+                    <a href="https://play.google.com/store/apps/details?id=com.napsternetlabs.napsternetv&hl=en" target="_blank" class="client-btn" style="font-size:0.7rem; padding:0.4rem 1rem;">
+                        <i class="fab fa-google-play"></i> گوگل‌پلی
+                    </a>
+                    <a href="https://apps.apple.com/us/app/npv-tunnel/id1629465476" target="_blank" class="client-btn" style="font-size:0.7rem; padding:0.4rem 1rem;">
+                        <i class="fab fa-app-store"></i> اپ‌استور
+                    </a>
+                </div>
+                <div class="client-files">
+                    <span style="color:#94a3b8; font-size:0.75rem;">
+                        ✅ برای اندروید از گوگل‌پلی و برای iOS از اپ‌استور دانلود کنید.
+                        <br />
+                        ⚠️ برخی کاربران گزارش داده‌اند که برنامه باگ دارد، 
+                        در صورت مشکل از V2rayNG استفاده کنید.
+                    </span>
+                </div>
+            </div>
+
+            <!-- V2Box (iOS + Android) -->
+            <div class="client-card">
+                <div class="client-icon"><i class="fas fa-box"></i></div>
+                <div class="client-name">V2Box</div>
+                <div class="client-platform">📱 اندروید · 🍎 iOS</div>
+                <div class="client-desc">
+                    کلاینت سبک و سریع با پشتیبانی از V2ray, Xray, Reality, Hysteria.
+                    رابط کاربری ساده و قابلیت تست پینگ.
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin-bottom:0.5rem;">
+                    <a href="https://play.google.com/store/apps/details?id=dev.hexasoftware.v2box&hl=en" target="_blank" class="client-btn" style="font-size:0.7rem; padding:0.4rem 1rem;">
+                        <i class="fab fa-google-play"></i> گوگل‌پلی
+                    </a>
+                    <a href="https://apps.apple.com/us/app/v2box-v2ray-client/id6446814690" target="_blank" class="client-btn" style="font-size:0.7rem; padding:0.4rem 1rem;">
+                        <i class="fab fa-app-store"></i> اپ‌استور
+                    </a>
+                </div>
+                <div class="client-files">
+                    <span style="color:#94a3b8; font-size:0.75rem;">
+                        ✅ برای اندروید از گوگل‌پلی و برای iOS از اپ‌استور دانلود کنید.
+                        <br />
+                        ℹ️ پشتیبانی از Reality و Hysteria2
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش چهارم: ویژگی‌ها ===== -->
         <!-- ============================================================ -->
 
         <h2 class="section-title"><i class="fas fa-bolt"></i> ✨ ویژگی‌های پیشرفته</h2>
@@ -1005,7 +1363,7 @@
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-shield-virus"></i></div>
                 <div class="feature-title">امنیت بالا</div>
-                <div class="feature-desc">استفاده از پروتکل‌های امن VMess, VLESS, Trojan با پشتیبانی از TLS 🔒</div>
+                <div class="feature-desc">استفاده از پروتکل‌های امن VMess, VLESS, Trojan با پشتیبانی از Reality 🔒</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-code"></i></div>
@@ -1017,7 +1375,7 @@
         <hr class="divider" />
 
         <!-- ============================================================ -->
-        <!-- ===== بخش چهارم: راه‌اندازی اولیه ===== -->
+        <!-- ===== بخش پنجم: راه‌اندازی اولیه ===== -->
         <!-- ============================================================ -->
 
         <h2 class="section-title"><i class="fas fa-cogs"></i> 🛠 راه‌اندازی اولیه | Getting Started</h2>
@@ -1034,7 +1392,7 @@
         <hr class="divider" />
 
         <!-- ============================================================ -->
-        <!-- ===== بخش پنجم: سوالات متداول (FAQ) ===== -->
+        <!-- ===== بخش ششم: سوالات متداول (FAQ) ===== -->
         <!-- ============================================================ -->
 
         <h2 class="section-title"><i class="fas fa-question-circle"></i> ❓ سوالات متداول | FAQ</h2>
@@ -1058,31 +1416,31 @@
         <hr class="divider" />
 
         <!-- ============================================================ -->
-        <!-- ===== بخش ششم: تغییرات اخیر (Changelog) ===== -->
+        <!-- ===== بخش هفتم: تغییرات اخیر (Changelog) ===== -->
         <!-- ============================================================ -->
 
         <h2 class="section-title"><i class="fas fa-history"></i> 📋 تغییرات اخیر | Changelog</h2>
         <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
+            <span class="changelog-text">✨ اضافه شدن تشخیص خودکار سیستم‌عامل کاربر با بنر هوشمند</span>
+        </div>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
+            <span class="changelog-text">✨ اضافه شدن لینک‌های دانلود iOS (NPV Tunnel و V2Box) با توضیحات کامل</span>
+        </div>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
+            <span class="changelog-text">✨ بهبود تشخیص پرچم‌ها از نام کانفیگ‌ها (استفاده از ایموجی‌های موجود)</span>
+        </div>
+        <div class="changelog-item">
             <span class="changelog-date">۲۰۲۶-۰۲-۱۴</span>
             <span class="changelog-text">✨ اضافه شدن امکانات پیشرفته: نمایش کشور، جستجو، فیلتر، نمودار و دانلود</span>
-        </div>
-        <div class="changelog-item">
-            <span class="changelog-date">۲۰۲۶-۰۲-۱۲</span>
-            <span class="changelog-text">✨ اضافه شدن آمار واقعی (تعداد کانفیگ‌ها و حجم فایل) از گیت‌هاب</span>
-        </div>
-        <div class="changelog-item">
-            <span class="changelog-date">۲۰۲۶-۰۲-۱۰</span>
-            <span class="changelog-text">🔧 بهبود اسکریپت مدیریت اشتراک و رفع باگ در پردازش لینک‌ها</span>
-        </div>
-        <div class="changelog-item">
-            <span class="changelog-date">۲۰۲۶-۰۲-۰۸</span>
-            <span class="changelog-text">📝 بروزرسانی README و افزودن راهنمای تصویری کامل</span>
         </div>
 
         <hr class="divider" />
 
         <!-- ============================================================ -->
-        <!-- ===== بخش هفتم: همکاری ===== -->
+        <!-- ===== بخش هشتم: همکاری ===== -->
         <!-- ============================================================ -->
 
         <div class="contribute-box">
@@ -1101,11 +1459,14 @@
         <hr class="divider" />
 
         <!-- ============================================================ -->
-        <!-- ===== بخش هشتم: امکانات پیشرفته (جدول، فیلتر، نمودار) ===== -->
+        <!-- ===== بخش نهم: امکانات پیشرفته (جدول، فیلتر، نمودار) ===== -->
         <!-- ============================================================ -->
 
         <h2 class="section-title"><i class="fas fa-table"></i> 📋 جزئیات کانفیگ‌ها</h2>
-        <p style="color:#94a3b8; margin-bottom:0.8rem; font-size:0.9rem;">لیست کامل کانفیگ‌ها به‌همراه اطلاعات جغرافیایی و پروتکل. قابل جستجو و فیلتر.</p>
+        <p style="color:#94a3b8; margin-bottom:0.8rem; font-size:0.9rem;">
+            لیست کامل کانفیگ‌ها به‌همراه اطلاعات جغرافیایی و پروتکل. 
+            پرچم‌ها مستقیماً از اسم کانفیگ‌ها استخراج شده‌اند.
+        </p>
 
         <!-- فیلترها -->
         <div class="filters">
@@ -1176,17 +1537,19 @@
 
     </main>
 
-    <!-- ========== JAVASCRIPT (Complete) ========== -->
+    <!-- ========== JAVASCRIPT ========== -->
     <script>
         (function() {
             'use strict';
+
+            // ===== CONFIG =====
+            const DEFAULT_URL =
+                'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt';
 
             // ===== STATE =====
             let allConfigs = [];
             let extraUrls = [];
             let chartInstance = null;
-            const DEFAULT_URL =
-                'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt';
 
             // ===== DOM REFS =====
             const tbody = document.getElementById('configTableBody');
@@ -1207,7 +1570,124 @@
             const quickProtocolCount = document.getElementById('quickProtocolCount');
             const quickFileSize = document.getElementById('quickFileSize');
 
+            // ===== OS DETECTION =====
+            function detectOS() {
+                const ua = navigator.userAgent;
+                const osNameEl = document.getElementById('osName');
+                const osIconEl = document.getElementById('osIcon');
+                const osClientLink = document.getElementById('osClientLink');
+                const osClientName = document.getElementById('osClientName');
+
+                let os = 'unknown';
+                let icon = 'fas fa-desktop';
+                let clientName = 'V2rayNG';
+                let clientUrl = 'https://github.com/2dust/v2rayNG/releases';
+
+                if (/Android/i.test(ua)) {
+                    os = 'اندروید (Android)';
+                    icon = 'fab fa-android';
+                    clientName = 'V2rayNG (اندروید)';
+                    clientUrl = 'https://github.com/2dust/v2rayNG/releases';
+                } else if (/iPhone|iPad|iPod/i.test(ua)) {
+                    os = 'iOS (iPhone/iPad)';
+                    icon = 'fab fa-apple';
+                    clientName = 'NPV Tunnel (iOS)';
+                    clientUrl = 'https://apps.apple.com/us/app/npv-tunnel/id1629465476';
+                } else if (/Windows/i.test(ua)) {
+                    os = 'ویندوز (Windows)';
+                    icon = 'fab fa-windows';
+                    clientName = 'v2rayN (ویندوز)';
+                    clientUrl = 'https://github.com/2dust/v2rayN/releases';
+                } else if (/Macintosh|Mac OS/i.test(ua)) {
+                    os = 'مک (macOS)';
+                    icon = 'fab fa-apple';
+                    clientName = 'Hiddify (مک)';
+                    clientUrl = 'https://github.com/hiddify/hiddify-app/releases';
+                } else if (/Linux/i.test(ua)) {
+                    os = 'لینوکس (Linux)';
+                    icon = 'fab fa-linux';
+                    clientName = 'Hiddify (لینوکس)';
+                    clientUrl = 'https://github.com/hiddify/hiddify-app/releases';
+                } else {
+                    os = 'سیستم‌عامل ناشناخته';
+                    icon = 'fas fa-question-circle';
+                    clientName = 'مشاهده کلاینت‌ها';
+                    clientUrl = '#clients';
+                }
+
+                osNameEl.textContent = os;
+                osIconEl.innerHTML = `<i class="${icon}"></i>`;
+                osClientLink.href = clientUrl;
+                osClientName.textContent = clientName;
+            }
+
             // ===== HELPERS =====
+            function extractFlagFromName(name) {
+                const flagMatch = name.match(/^([\u{1F1E6}-\u{1F1FF}]{2})/u);
+                if (flagMatch) return flagMatch[1];
+                return '🏳️';
+            }
+
+            function extractCountryFromName(name) {
+                const flag = extractFlagFromName(name);
+                const countryMap = {
+                    '🇩🇪': 'آلمان',
+                    '🇫🇷': 'فرانسه',
+                    '🇳🇱': 'هلند',
+                    '🇬🇧': 'بریتانیا',
+                    '🇺🇸': 'ایالات متحده',
+                    '🇨🇦': 'کانادا',
+                    '🇯🇵': 'ژاپن',
+                    '🇸🇬': 'سنگاپور',
+                    '🇦🇪': 'امارات متحده عربی',
+                    '🇹🇷': 'ترکیه',
+                    '🇷🇺': 'روسیه',
+                    '🇮🇷': 'ایران',
+                    '🇮🇱': 'اسرائیل',
+                    '🇫🇮': 'فنلاند',
+                    '🇸🇪': 'سوئد',
+                    '🇳🇴': 'نروژ',
+                    '🇩🇰': 'دانمارک',
+                    '🇧🇪': 'بلژیک',
+                    '🇨🇭': 'سوئیس',
+                    '🇦🇹': 'اتریش',
+                    '🇮🇹': 'ایتالیا',
+                    '🇪🇸': 'اسپانیا',
+                    '🇵🇹': 'پرتغال',
+                    '🇬🇷': 'یونان',
+                    '🇵🇱': 'لهستان',
+                    '🇨🇿': 'جمهوری چک',
+                    '🇭🇺': 'مجارستان',
+                    '🇷🇴': 'رومانی',
+                    '🇧🇬': 'بلغارستان',
+                    '🇺🇦': 'اوکراین',
+                    '🇰🇿': 'قزاقستان',
+                    '🇮🇳': 'هند',
+                    '🇨🇳': 'چین',
+                    '🇰🇷': 'کره جنوبی',
+                    '🇦🇺': 'استرالیا',
+                    '🇳🇿': 'نیوزیلند',
+                    '🇧🇷': 'برزیل',
+                    '🇦🇷': 'آرژانتین',
+                    '🇲🇽': 'مکزیک',
+                    '🇿🇦': 'آفریقای جنوبی',
+                    '🇪🇬': 'مصر',
+                    '🇸🇦': 'عربستان سعودی',
+                    '🇵🇰': 'پاکستان',
+                    '🇦🇫': 'افغانستان',
+                    '🇮🇶': 'عراق',
+                    '🇸🇾': 'سوریه',
+                    '🇱🇧': 'لبنان',
+                    '🇯🇴': 'اردن',
+                    '🇰🇼': 'کویت',
+                    '🇶🇦': 'قطر',
+                    '🇧🇭': 'بحرین',
+                    '🇴🇲': 'عمان',
+                    '🇾🇪': 'یمن'
+                };
+                return countryMap[flag] || 'نامشخص';
+            }
+
             function parseConfigLine(line) {
                 line = line.trim();
                 if (!line) return null;
@@ -1265,10 +1745,12 @@
                     }
                 }
 
-                if (!name) {
-                    const nameMatch = line.match(/#(.+)$/);
-                    if (nameMatch) name = nameMatch[1].trim();
-                }
+                const nameMatch = line.match(/#(.+)$/);
+                if (nameMatch) name = nameMatch[1].trim();
+                if (!name) name = ip || 'بدون نام';
+
+                const flag = extractFlagFromName(name);
+                const country = extractCountryFromName(name);
 
                 return {
                     raw: line,
@@ -1276,69 +1758,19 @@
                     ip: ip || '-',
                     port: port || '-',
                     encryption: encryption || '-',
-                    name: name || ip || 'بدون نام',
-                    country: '...',
-                    countryCode: '',
-                    flag: '🏳️'
+                    name: name,
+                    country: country,
+                    flag: flag
                 };
             }
 
-            function getFlagEmoji(code) {
-                if (!code || code.length !== 2) return '🏳️';
-                const offset = 0x1F1E6;
-                const a = code.charCodeAt(0) - 65 + offset;
-                const b = code.charCodeAt(1) - 65 + offset;
-                return String.fromCodePoint(a, b);
-            }
-
-            // ===== FETCH & ENRICH =====
-            const ipCache = new Map();
-
+            // ===== FETCH =====
             async function fetchConfigsFromUrl(url) {
                 const res = await fetch(url, { cache: 'no-store' });
                 if (!res.ok) throw new Error('خطا در دریافت فایل');
                 const text = await res.text();
                 const lines = text.split('\n').filter(l => l.trim() !== '');
                 return lines.map(parseConfigLine).filter(c => c !== null);
-            }
-
-            async function enrichWithCountry(config) {
-                if (config.ip === '-' || !config.ip || config.ip === '') {
-                    config.country = 'نامشخص';
-                    config.flag = '🏳️';
-                    return config;
-                }
-                const ip = config.ip;
-                if (ipCache.has(ip)) {
-                    const cached = ipCache.get(ip);
-                    config.country = cached.country;
-                    config.countryCode = cached.countryCode;
-                    config.flag = cached.flag;
-                    return config;
-                }
-                try {
-                    const res = await fetch(`http://ip-api.com/json/${ip}?fields=country,countryCode`);
-                    if (!res.ok) throw new Error();
-                    const data = await res.json();
-                    if (data.country) {
-                        const country = data.country;
-                        const code = data.countryCode || '';
-                        const flag = getFlagEmoji(code);
-                        config.country = country;
-                        config.countryCode = code;
-                        config.flag = flag;
-                        ipCache.set(ip, { country, countryCode: code, flag });
-                    } else {
-                        config.country = 'نامشخص';
-                        config.flag = '🏳️';
-                        ipCache.set(ip, { country: 'نامشخص', countryCode: '', flag: '🏳️' });
-                    }
-                } catch (e) {
-                    config.country = 'نامشخص';
-                    config.flag = '🏳️';
-                    ipCache.set(ip, { country: 'نامشخص', countryCode: '', flag: '🏳️' });
-                }
-                return config;
             }
 
             async function loadAllConfigs() {
@@ -1348,9 +1780,10 @@
                     try {
                         const configs = await fetchConfigsFromUrl(url);
                         combined = combined.concat(configs);
-                    } catch (e) { console.warn('Failed to load', url, e); }
+                    } catch (e) {
+                        console.warn('Failed to load', url, e);
+                    }
                 }
-                // remove duplicates
                 const seen = new Set();
                 combined = combined.filter(c => {
                     const key = c.raw;
@@ -1396,8 +1829,7 @@
                 totalConfigsSpan.textContent = configs.length;
                 filteredCount.textContent = `نمایش ${configs.length} از ${allConfigs.length}`;
 
-                // update quick stats
-                const uniqueCountries = new Set(configs.map(c => c.country).filter(c => c && c !== '...' && c !== 'نامشخص'));
+                const uniqueCountries = new Set(configs.map(c => c.country).filter(c => c && c !== 'نامشخص'));
                 const uniqueProtocols = new Set(configs.map(c => c.protocol));
                 quickConfigCount.textContent = configs.length;
                 quickCountryCount.textContent = uniqueCountries.size;
@@ -1478,7 +1910,7 @@
             function populateCountryFilter(configs) {
                 const countries = new Set();
                 configs.forEach(c => {
-                    if (c.country && c.country !== 'نامشخص' && c.country !== '...') countries.add(c.country);
+                    if (c.country && c.country !== 'نامشخص') countries.add(c.country);
                 });
                 const sorted = Array.from(countries).sort();
                 const select = countryFilter;
@@ -1504,8 +1936,12 @@
                 ta.value = text;
                 document.body.appendChild(ta);
                 ta.select();
-                try { document.execCommand('copy');
-                    showCopied(btn); } catch (e) { alert('✅ کپی شد!'); }
+                try {
+                    document.execCommand('copy');
+                    showCopied(btn);
+                } catch (e) {
+                    alert('✅ کپی شد!');
+                }
                 document.body.removeChild(ta);
             }
 
@@ -1576,7 +2012,7 @@
                     tbody.innerHTML =
                         `<tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">⏳ در حال بارگذاری...</td></tr>`;
                     const configs = await loadAllConfigs();
-                    allConfigs = await Promise.all(configs.map(c => enrichWithCountry(c)));
+                    allConfigs = configs;
 
                     populateCountryFilter(allConfigs);
                     applyFilters();
@@ -1587,7 +2023,6 @@
 
                     fetchRepoStats();
 
-                    // Copy functionality for main subscription buttons
                     document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
                         btn.addEventListener('click', function() {
                             const targetId = this.dataset.target;
@@ -1637,7 +2072,6 @@
                 downloadConfigs(filtered, 'v2ray_filtered_configs.txt');
             });
 
-            // FAQ toggle
             document.querySelectorAll('.faq-item').forEach(item => {
                 item.addEventListener('click', function() {
                     this.classList.toggle('open');
@@ -1645,6 +2079,7 @@
             });
 
             // ===== INIT =====
+            detectOS();
             refreshAll();
 
         })();
