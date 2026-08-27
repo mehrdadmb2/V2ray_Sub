@@ -213,7 +213,7 @@
             gap: 0.8rem;
         }
         .os-banner .os-icon {
-            font-size: 2rem;
+            font-size: 2.2rem;
             background: linear-gradient(135deg, #a78bfa, #60a5fa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -513,6 +513,7 @@
         }
         .stat-item:hover {
             border-color: rgba(167, 139, 250, 0.2);
+            transform: translateY(-2px);
         }
         .stat-number {
             font-size: 1.8rem;
@@ -524,6 +525,11 @@
         .stat-label {
             font-size: 0.75rem;
             color: #94a3b8;
+            margin-top: 0.2rem;
+        }
+        .stat-sub {
+            font-size: 0.65rem;
+            color: #64748b;
             margin-top: 0.2rem;
         }
 
@@ -574,6 +580,7 @@
             padding: 1.5rem 1.2rem;
             transition: 0.35s;
             text-align: center;
+            cursor: default;
         }
         .feature-card:hover {
             transform: translateY(-6px);
@@ -599,84 +606,85 @@
             line-height: 1.6;
         }
 
-        /* ===== CODE BLOCK ===== */
-        .code-block {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(6px);
+        /* ===== CLIENTS SECTION ===== */
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0 2rem 0;
+        }
+        .client-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 1.2rem;
-            padding: 1.2rem 1.8rem;
-            margin: 0.8rem 0 1.5rem 0;
-            font-family: 'Inter', monospace;
-            font-size: 0.85rem;
-            color: #e2e8f0;
-            overflow-x: auto;
-            direction: ltr;
-            text-align: left;
+            border-radius: 2rem;
+            padding: 1.5rem 1.5rem 1.8rem;
+            transition: 0.35s;
+            text-align: center;
         }
-        .code-block .cmd {
-            color: #a78bfa;
+        .client-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(255, 255, 255, 0.07);
         }
-        .code-block .comment {
-            color: #64748b;
+        .client-icon {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        /* ===== FAQ ===== */
-        .faq-item {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 1.2rem;
-            padding: 1.2rem 1.8rem;
-            margin-bottom: 0.8rem;
-            transition: 0.3s;
-            cursor: pointer;
+        .client-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #f1f5f9;
         }
-        .faq-item:hover {
-            border-color: rgba(167, 139, 250, 0.2);
-        }
-        .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            color: #e2e8f0;
-        }
-        .faq-question i {
-            color: #a78bfa;
-            transition: 0.3s;
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.3s;
+        .client-desc {
+            font-size: 0.8rem;
             color: #94a3b8;
-            font-size: 0.9rem;
-            line-height: 1.7;
+            margin: 0.3rem 0 0.8rem 0;
+            line-height: 1.6;
         }
-        .faq-item.open .faq-answer {
-            max-height: 300px;
-            padding-top: 0.8rem;
+        .client-platform {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.2rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            margin-bottom: 0.8rem;
         }
-        .faq-item.open .faq-question i {
-            transform: rotate(180deg);
-        }
-
-        /* ===== CHANGELOG ===== */
-        .changelog-item {
-            display: flex;
-            gap: 1.2rem;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .changelog-date {
+        .client-btn {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            color: #e2e8f0;
+            padding: 0.5rem 1.6rem;
+            border-radius: 100px;
             font-weight: 600;
-            color: #a78bfa;
-            min-width: 100px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
         }
-        .changelog-text {
-            color: #cbd5e1;
-            font-size: 0.9rem;
+        .client-btn:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
+            border-color: #a78bfa;
+            transform: scale(1.02);
+        }
+        .client-files {
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.7rem;
+            color: #64748b;
+            text-align: right;
+        }
+        .client-files .highlight-file {
+            color: #60a5fa;
+            font-weight: 600;
         }
 
         /* ===== TABLE (ADVANCED) ===== */
@@ -705,12 +713,20 @@
             padding: 0.9rem 1.2rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             color: #e2e8f0;
+            transition: 0.2s;
+        }
+        tr {
+            cursor: pointer;
+            transition: 0.2s;
         }
         tr:hover td {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        tr.copied td {
+            background: rgba(52, 211, 153, 0.08);
         }
         .flag {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             line-height: 1;
         }
         .copy-single {
@@ -800,100 +816,84 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* ===== CLIENTS SECTION ===== */
-        .clients-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0 2rem 0;
-        }
-        .client-card {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(12px);
+        /* ===== CODE BLOCK ===== */
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(6px);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 2rem;
-            padding: 1.5rem 1.5rem 1.8rem;
-            transition: 0.35s;
-            text-align: center;
-        }
-        .client-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(167, 139, 250, 0.3);
-            background: rgba(255, 255, 255, 0.07);
-        }
-        .client-icon {
-            font-size: 2.8rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #a78bfa, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .client-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #f1f5f9;
-        }
-        .client-desc {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            margin: 0.3rem 0 0.8rem 0;
-            line-height: 1.6;
-        }
-        .client-platform {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.06);
-            padding: 0.2rem 0.8rem;
-            border-radius: 100px;
-            font-size: 0.65rem;
-            color: #94a3b8;
-            margin-bottom: 0.8rem;
-        }
-        .client-btn {
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
-            border: 1px solid rgba(167, 139, 250, 0.25);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.8rem;
+            margin: 0.8rem 0 1.5rem 0;
+            font-family: 'Inter', monospace;
+            font-size: 0.85rem;
             color: #e2e8f0;
-            padding: 0.5rem 1.6rem;
-            border-radius: 100px;
-            font-weight: 600;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: 0.25s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            text-decoration: none;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
         }
-        .client-btn:hover {
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
-            border-color: #a78bfa;
-            transform: scale(1.02);
-        }
-        .client-files {
-            margin-top: 0.8rem;
-            padding-top: 0.8rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.7rem;
-            color: #64748b;
-            text-align: right;
-        }
-        .client-files a {
-            color: #94a3b8;
-            text-decoration: none;
-            display: inline-block;
-            margin: 0.2rem 0.4rem;
-            padding: 0.1rem 0.6rem;
-            border-radius: 100px;
-            background: rgba(255, 255, 255, 0.04);
-            font-size: 0.7rem;
-            transition: 0.2s;
-        }
-        .client-files a:hover {
+        .code-block .cmd {
             color: #a78bfa;
-            background: rgba(167, 139, 250, 0.1);
         }
-        .client-files .highlight-file {
-            color: #60a5fa;
+        .code-block .comment {
+            color: #64748b;
+        }
+
+        /* ===== FAQ ===== */
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 0.8rem;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .faq-item:hover {
+            border-color: rgba(167, 139, 250, 0.2);
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-weight: 600;
+            color: #e2e8f0;
+        }
+        .faq-question i {
+            color: #a78bfa;
+            transition: 0.3s;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding-top: 0.8rem;
+        }
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* ===== CHANGELOG ===== */
+        .changelog-item {
+            display: flex;
+            gap: 1.2rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .changelog-date {
+            font-weight: 600;
+            color: #a78bfa;
+            min-width: 100px;
+            font-size: 0.85rem;
+        }
+        .changelog-text {
+            color: #cbd5e1;
+            font-size: 0.9rem;
         }
 
         /* ===== CONTRIBUTE ===== */
@@ -1041,7 +1041,7 @@
             <div class="logo-area">
                 <span class="logo-icon"><i class="fas fa-satellite-dish"></i></span>
                 <span class="logo-text">V2ray_Sub</span>
-                <span class="logo-badge"><i class="fas fa-code-branch"></i> v4.1</span>
+                <span class="logo-badge"><i class="fas fa-code-branch"></i> v4.2</span>
             </div>
             <div class="status-chip">
                 <span class="status-dot"></span>
@@ -1052,7 +1052,7 @@
         </header>
 
         <!-- ============================================================ -->
-        <!-- ===== بنر تشخیص سیستم‌عامل کاربر (OS DETECTION BANNER) ===== -->
+        <!-- ===== بنر تشخیص سیستم‌عامل ===== -->
         <!-- ============================================================ -->
         <div class="os-banner" id="osBanner">
             <div class="os-info">
@@ -1212,11 +1212,6 @@
                     • <strong>x86.apk</strong> — شبیه‌سازهای کامپیوتر (مثل BlueStacks)
                     <br />
                     • <strong>universal.apk</strong> — همه معماری‌ها (حجم بیشتر)
-                    <br />
-                    <span style="color:#64748b; font-size:0.65rem;">
-                        ℹ️ اگر نمی‌دانید گوشی شما چه معماری دارد، اپلیکیشن 
-                        <strong>Droid Hardware Info</strong> را نصب کنید.
-                    </span>
                 </div>
             </div>
 
@@ -1240,10 +1235,6 @@
                     • <strong>v2rayN-With-Core.zip</strong> — دقیقاً همان نسخه کامل
                     <br />
                     • <strong>v2rayN-Without-Core.zip</strong> — فقط برنامه (بدون Xray Core)
-                    <br />
-                    <span style="color:#64748b; font-size:0.65rem;">
-                        ℹ️ فایل <strong>v2rayN.zip</strong> یا <strong>v2rayN-With-Core.zip</strong> را دانلود کنید.
-                    </span>
                 </div>
             </div>
 
@@ -1270,10 +1261,6 @@
                     • <strong>Hiddify-macOS.dmg</strong> — مک
                     <br />
                     • <strong>Hiddify-Linux.AppImage</strong> — لینوکس
-                    <br />
-                    <span style="color:#64748b; font-size:0.65rem;">
-                        ℹ️ برای اندروید، فایل <strong>Hiddify-Android.apk</strong> را دانلود کنید.
-                    </span>
                 </div>
             </div>
 
@@ -1297,9 +1284,6 @@
                 <div class="client-files">
                     <span style="color:#94a3b8; font-size:0.75rem;">
                         ✅ برای اندروید از گوگل‌پلی و برای iOS از اپ‌استور دانلود کنید.
-                        <br />
-                        ⚠️ برخی کاربران گزارش داده‌اند که برنامه باگ دارد، 
-                        در صورت مشکل از V2rayNG استفاده کنید.
                     </span>
                 </div>
             </div>
@@ -1343,129 +1327,46 @@
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
                 <div class="feature-title">به‌روزرسانی خودکار</div>
-                <div class="feature-desc">اشتراک‌ها هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت و اعمال می‌شوند 🔄</div>
+                <div class="feature-desc">اشتراک‌ها هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت می‌شوند 🔄</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-folder-tree"></i></div>
                 <div class="feature-title">مدیریت چندگانه</div>
-                <div class="feature-desc">امکان مدیریت همزمان چندین اشتراک با تفکیک اپراتور (Mix, Irancell, MCI) 🗂</div>
+                <div class="feature-desc">امکان مدیریت همزمان چندین اشتراک با تفکیک اپراتور 🗂</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-microchip"></i></div>
                 <div class="feature-title">سبک و کم‌مصرف</div>
-                <div class="feature-desc">اسکریپت پایتون با حداقل وابستگی‌ها، مناسب برای اجرا روی سرورهای ضعیف 🛠</div>
+                <div class="feature-desc">اسکریپت پایتون با حداقل وابستگی‌ها 🛠</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-rocket"></i></div>
                 <div class="feature-title">تجربه کاربری روان</div>
-                <div class="feature-desc">خروجی بهینه‌شده برای V2rayNG و سایر کلاینت‌ها، با کمترین تأخیر 🚀</div>
+                <div class="feature-desc">خروجی بهینه‌شده برای V2rayNG و سایر کلاینت‌ها 🚀</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-shield-virus"></i></div>
                 <div class="feature-title">امنیت بالا</div>
-                <div class="feature-desc">استفاده از پروتکل‌های امن VMess, VLESS, Trojan با پشتیبانی از Reality 🔒</div>
+                <div class="feature-desc">پشتیبانی از VMess, VLESS, Trojan با Reality 🔒</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fas fa-code"></i></div>
                 <div class="feature-title">متن‌باز و قابل توسعه</div>
-                <div class="feature-desc">کد به‌صورت کامل در گیت‌هاب در دسترس است و می‌توانید آن را تغییر دهید 💻</div>
+                <div class="feature-desc">کد کامل در گیت‌هاب، قابل تغییر 💻</div>
             </div>
         </div>
 
         <hr class="divider" />
 
         <!-- ============================================================ -->
-        <!-- ===== بخش پنجم: راه‌اندازی اولیه ===== -->
-        <!-- ============================================================ -->
-
-        <h2 class="section-title"><i class="fas fa-cogs"></i> 🛠 راه‌اندازی اولیه | Getting Started</h2>
-        <div class="code-block">
-            <span class="comment"># 1️⃣ دانلود و نصب</span><br />
-            <span class="cmd">git clone</span> https://github.com/mehrdadmb2/V2ray_Sub.git<br />
-            <span class="cmd">cd</span> V2ray_Sub<br /><br />
-            <span class="comment"># 2️⃣ نصب پیش‌نیازها</span><br />
-            <span class="cmd">pip install</span> -r requirements.txt<br /><br />
-            <span class="comment"># 3️⃣ اجرای برنامه</span><br />
-            <span class="cmd">python</span> v2ray_sub_manager.py
-        </div>
-
-        <hr class="divider" />
-
-        <!-- ============================================================ -->
-        <!-- ===== بخش ششم: سوالات متداول (FAQ) ===== -->
-        <!-- ============================================================ -->
-
-        <h2 class="section-title"><i class="fas fa-question-circle"></i> ❓ سوالات متداول | FAQ</h2>
-        <div class="faq-item">
-            <div class="faq-question"><span>چطور می‌توانم اشتراک را به V2rayNG اضافه کنم؟</span><i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">مراحل کامل در بخش راهنمای تصویری بالا توضیح داده شده است. کافی است لینک اشتراک را کپی کرده و در اپلیکیشن V2rayNG در قسمت Subscription قرار دهید.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question"><span>آیا این ابزار رایگان است؟</span><i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">بله، این پروژه کاملاً متن‌باز و رایگان است و تحت مجوز MIT منتشر شده است.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question"><span>چند وقت یکبار اشتراک‌ها بروزرسانی می‌شوند؟</span><i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">اشتراک‌ها به‌صورت خودکار هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت می‌شوند.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question"><span>چطور می‌توانم در توسعه پروژه مشارکت کنم؟</span><i class="fas fa-chevron-down"></i></div>
-            <div class="faq-answer">می‌توانید مخزن را Fork کرده، تغییرات خود را اعمال و سپس یک Pull Request ارسال کنید.</div>
-        </div>
-
-        <hr class="divider" />
-
-        <!-- ============================================================ -->
-        <!-- ===== بخش هفتم: تغییرات اخیر (Changelog) ===== -->
-        <!-- ============================================================ -->
-
-        <h2 class="section-title"><i class="fas fa-history"></i> 📋 تغییرات اخیر | Changelog</h2>
-        <div class="changelog-item">
-            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
-            <span class="changelog-text">✨ اضافه شدن تشخیص خودکار سیستم‌عامل کاربر با بنر هوشمند</span>
-        </div>
-        <div class="changelog-item">
-            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
-            <span class="changelog-text">✨ اضافه شدن لینک‌های دانلود iOS (NPV Tunnel و V2Box) با توضیحات کامل</span>
-        </div>
-        <div class="changelog-item">
-            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
-            <span class="changelog-text">✨ بهبود تشخیص پرچم‌ها از نام کانفیگ‌ها (استفاده از ایموجی‌های موجود)</span>
-        </div>
-        <div class="changelog-item">
-            <span class="changelog-date">۲۰۲۶-۰۲-۱۴</span>
-            <span class="changelog-text">✨ اضافه شدن امکانات پیشرفته: نمایش کشور، جستجو، فیلتر، نمودار و دانلود</span>
-        </div>
-
-        <hr class="divider" />
-
-        <!-- ============================================================ -->
-        <!-- ===== بخش هشتم: همکاری ===== -->
-        <!-- ============================================================ -->
-
-        <div class="contribute-box">
-            <h2 style="font-size:1.5rem; font-weight:600; display:flex; align-items:center; gap:0.7rem; color:#e2e8f0;">
-                <i class="fas fa-handshake" style="color:#a78bfa;"></i> 🤝 همکاری در پروژه | Contribute
-            </h2>
-            <p style="color:#cbd5e1; margin-top:0.5rem;">💡 آیا می‌خواهید <strong>V2ray_Sub</strong> را بهتر کنید؟ 🎯</p>
-            <ul>
-                <li>۱️⃣ مخزن را <strong>Fork</strong> کنید و یک شاخه جدید ایجاد کنید.</li>
-                <li>۲️⃣ تغییرات خود را اعمال و تست کنید.</li>
-                <li>۳️⃣ یک <strong>Pull Request</strong> ارسال کنید.</li>
-            </ul>
-            <p style="color:#94a3b8; font-size:0.9rem;">📝 مجوز پروژه <strong>MIT</strong> است. جزئیات در فایل <code>LICENSE</code>.</p>
-        </div>
-
-        <hr class="divider" />
-
-        <!-- ============================================================ -->
-        <!-- ===== بخش نهم: امکانات پیشرفته (جدول، فیلتر، نمودار) ===== -->
+        <!-- ===== بخش پنجم: امکانات پیشرفته (جدول، فیلتر، نمودار) ===== -->
         <!-- ============================================================ -->
 
         <h2 class="section-title"><i class="fas fa-table"></i> 📋 جزئیات کانفیگ‌ها</h2>
         <p style="color:#94a3b8; margin-bottom:0.8rem; font-size:0.9rem;">
             لیست کامل کانفیگ‌ها به‌همراه اطلاعات جغرافیایی و پروتکل. 
             پرچم‌ها مستقیماً از اسم کانفیگ‌ها استخراج شده‌اند.
+            <span style="color:#60a5fa; font-weight:500;">💡 برای کپی کردن هر کانفیگ، روی ردیف آن کلیک کنید.</span>
         </p>
 
         <!-- فیلترها -->
@@ -1508,7 +1409,7 @@
         <div class="download-area">
             <button class="download-btn" id="downloadAllBtn"><i class="fas fa-download"></i> دانلود همه</button>
             <button class="download-btn" id="downloadFilteredBtn"><i class="fas fa-filter"></i> دانلود فیلترشده</button>
-            <span style="color:#64748b; font-size:0.8rem; margin-right:auto;">📋 برای کپی هر کانفیگ، روی دکمه‌ی کپی در جدول کلیک کنید.</span>
+            <span style="color:#64748b; font-size:0.8rem; margin-right:auto;">📋 برای کپی هر کانفیگ، روی ردیف آن کلیک کنید.</span>
         </div>
 
         <!-- نمودار -->
@@ -1517,6 +1418,90 @@
                 <i class="fas fa-chart-bar" style="color:#a78bfa;"></i> توزیع کانفیگ‌ها بر اساس کشور
             </h3>
             <canvas id="countryChart" width="400" height="220"></canvas>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش ششم: راه‌اندازی اولیه ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-cogs"></i> 🛠 راه‌اندازی اولیه | Getting Started</h2>
+        <div class="code-block">
+            <span class="comment"># 1️⃣ دانلود و نصب</span><br />
+            <span class="cmd">git clone</span> https://github.com/mehrdadmb2/V2ray_Sub.git<br />
+            <span class="cmd">cd</span> V2ray_Sub<br /><br />
+            <span class="comment"># 2️⃣ نصب پیش‌نیازها</span><br />
+            <span class="cmd">pip install</span> -r requirements.txt<br /><br />
+            <span class="comment"># 3️⃣ اجرای برنامه</span><br />
+            <span class="cmd">python</span> v2ray_sub_manager.py
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش هفتم: سوالات متداول (FAQ) ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-question-circle"></i> ❓ سوالات متداول | FAQ</h2>
+        <div class="faq-item">
+            <div class="faq-question"><span>چطور می‌توانم اشتراک را به V2rayNG اضافه کنم؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">مراحل کامل در بخش راهنمای تصویری بالا توضیح داده شده است. کافی است لینک اشتراک را کپی کرده و در اپلیکیشن V2rayNG در قسمت Subscription قرار دهید.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question"><span>آیا این ابزار رایگان است؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">بله، این پروژه کاملاً متن‌باز و رایگان است و تحت مجوز MIT منتشر شده است.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question"><span>چند وقت یکبار اشتراک‌ها بروزرسانی می‌شوند؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">اشتراک‌ها به‌صورت خودکار هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت می‌شوند.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question"><span>چطور می‌توانم در توسعه پروژه مشارکت کنم؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">می‌توانید مخزن را Fork کرده، تغییرات خود را اعمال و سپس یک Pull Request ارسال کنید.</div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش هشتم: تغییرات اخیر (Changelog) ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-history"></i> 📋 تغییرات اخیر | Changelog</h2>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
+            <span class="changelog-text">✨ اضافه شدن کلیک روی ردیف جدول برای کپی خودکار کانفیگ</span>
+        </div>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
+            <span class="changelog-text">✨ اصلاح کامل تشخیص پرچم‌ها با استفاده از decodeURIComponent</span>
+        </div>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
+            <span class="changelog-text">✨ اضافه شدن تشخیص خودکار سیستم‌عامل کاربر با بنر هوشمند</span>
+        </div>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
+            <span class="changelog-text">✨ اضافه شدن لینک‌های دانلود iOS (NPV Tunnel و V2Box)</span>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش نهم: همکاری ===== -->
+        <!-- ============================================================ -->
+
+        <div class="contribute-box">
+            <h2 style="font-size:1.5rem; font-weight:600; display:flex; align-items:center; gap:0.7rem; color:#e2e8f0;">
+                <i class="fas fa-handshake" style="color:#a78bfa;"></i> 🤝 همکاری در پروژه | Contribute
+            </h2>
+            <p style="color:#cbd5e1; margin-top:0.5rem;">💡 آیا می‌خواهید <strong>V2ray_Sub</strong> را بهتر کنید؟ 🎯</p>
+            <ul>
+                <li>۱️⃣ مخزن را <strong>Fork</strong> کنید و یک شاخه جدید ایجاد کنید.</li>
+                <li>۲️⃣ تغییرات خود را اعمال و تست کنید.</li>
+                <li>۳️⃣ یک <strong>Pull Request</strong> ارسال کنید.</li>
+            </ul>
+            <p style="color:#94a3b8; font-size:0.9rem;">📝 مجوز پروژه <strong>MIT</strong> است. جزئیات در فایل <code>LICENSE</code>.</p>
         </div>
 
         <!-- ===== FOOTER ===== -->
@@ -1622,14 +1607,19 @@
             }
 
             // ===== HELPERS =====
-            function extractFlagFromName(name) {
-                const flagMatch = name.match(/^([\u{1F1E6}-\u{1F1FF}]{2})/u);
-                if (flagMatch) return flagMatch[1];
-                return '🏳️';
+            function decodeFlagFromName(name) {
+                try {
+                    // Decode URL-encoded characters like %F0%9F%87%A9%F0%9F%87%AA
+                    const decoded = decodeURIComponent(name);
+                    const flagMatch = decoded.match(/^([\u{1F1E6}-\u{1F1FF}]{2})/u);
+                    if (flagMatch) return flagMatch[1];
+                    return '🏳️';
+                } catch (e) {
+                    return '🏳️';
+                }
             }
 
-            function extractCountryFromName(name) {
-                const flag = extractFlagFromName(name);
+            function extractCountryFromFlag(flag) {
                 const countryMap = {
                     '🇩🇪': 'آلمان',
                     '🇫🇷': 'فرانسه',
@@ -1683,7 +1673,15 @@
                     '🇶🇦': 'قطر',
                     '🇧🇭': 'بحرین',
                     '🇴🇲': 'عمان',
-                    '🇾🇪': 'یمن'
+                    '🇾🇪': 'یمن',
+                    '🇬🇪': 'گرجستان',
+                    '🇦🇿': 'آذربایجان',
+                    '🇦🇲': 'ارمنستان',
+                    '🇹🇲': 'ترکمنستان',
+                    '🇺🇿': 'ازبکستان',
+                    '🇹🇯': 'تاجیکستان',
+                    '🇰🇬': 'قرقیزستان',
+                    '🇲🇳': 'مغولستان'
                 };
                 return countryMap[flag] || 'نامشخص';
             }
@@ -1749,8 +1747,8 @@
                 if (nameMatch) name = nameMatch[1].trim();
                 if (!name) name = ip || 'بدون نام';
 
-                const flag = extractFlagFromName(name);
-                const country = extractCountryFromName(name);
+                const flag = decodeFlagFromName(name);
+                const country = extractCountryFromFlag(flag);
 
                 return {
                     raw: line,
@@ -1806,7 +1804,7 @@
                     const protoBadge = `<span class="badge-proto">${c.protocol.toUpperCase()}</span>`;
                     const flag = c.flag || '🏳️';
                     const countryDisplay = c.country || '...';
-                    html += `<tr>
+                    html += `<tr data-raw="${c.raw.replace(/"/g, '&quot;')}">
                         <td>${idx+1}</td>
                         <td>${protoBadge}</td>
                         <td>${c.name}</td>
@@ -1820,9 +1818,26 @@
                 });
                 tbody.innerHTML = html;
 
+                // Click on row to copy
+                document.querySelectorAll('#configTableBody tr').forEach(row => {
+                    row.addEventListener('click', function(e) {
+                        // Don't trigger if clicked on the copy button
+                        if (e.target.closest('.copy-single')) return;
+                        const raw = this.dataset.raw;
+                        if (raw) {
+                            copyToClipboard(raw, this);
+                            // highlight row
+                            this.classList.add('copied');
+                            setTimeout(() => this.classList.remove('copied'), 2000);
+                        }
+                    });
+                });
+
+                // Copy button
                 document.querySelectorAll('.copy-single').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        copyToClipboard(this.dataset.raw, this);
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        copyToClipboard(this.dataset.raw, this.closest('tr'));
                     });
                 });
 
@@ -1923,36 +1938,39 @@
             }
 
             // ===== COPY =====
-            function copyToClipboard(text, btn) {
+            function copyToClipboard(text, element) {
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(text).then(() => showCopied(btn)).catch(() => fallbackCopy(text, btn));
+                    navigator.clipboard.writeText(text).then(() => {
+                        showCopied(element);
+                    }).catch(() => {
+                        fallbackCopy(text, element);
+                    });
                 } else {
-                    fallbackCopy(text, btn);
+                    fallbackCopy(text, element);
                 }
             }
 
-            function fallbackCopy(text, btn) {
+            function fallbackCopy(text, element) {
                 const ta = document.createElement('textarea');
                 ta.value = text;
                 document.body.appendChild(ta);
                 ta.select();
                 try {
                     document.execCommand('copy');
-                    showCopied(btn);
+                    showCopied(element);
                 } catch (e) {
                     alert('✅ کپی شد!');
                 }
                 document.body.removeChild(ta);
             }
 
-            function showCopied(btn) {
-                const orig = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check"></i> کپی شد!';
-                btn.style.backgroundColor = 'rgba(52,211,153,0.3)';
+            function showCopied(element) {
+                const origColor = element.style.backgroundColor;
+                element.style.backgroundColor = 'rgba(52,211,153,0.15)';
+                element.style.transition = '0.3s';
                 setTimeout(() => {
-                    btn.innerHTML = orig;
-                    btn.style.backgroundColor = '';
-                }, 2000);
+                    element.style.backgroundColor = origColor || '';
+                }, 1500);
             }
 
             // ===== DOWNLOAD =====
