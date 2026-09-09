@@ -1,108 +1,82 @@
-# 🚀 V2ray_Sub: مدیریت اشتراک‌های V2ray 🔗
+# V2ray_Sub — Pro Subscription Hub
 
-[![License](https://img.shields.io/github/license/mehrdadmb2/V2ray_Sub?style=for-the-badge)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/mehrdadmb2/V2ray_Sub?style=for-the-badge)](https://github.com/mehrdadmb2/V2ray_Sub/stargazers)
-[![Issues](https://img.shields.io/github/issues/mehrdadmb2/V2ray_Sub?style=for-the-badge)](https://github.com/mehrdadmb2/V2ray_Sub/issues)
-[![Forks](https://img.shields.io/github/forks/mehrdadmb2/V2ray_Sub?style=for-the-badge)](https://github.com/mehrdadmb2/V2ray_Sub/network/members)
+A high-performance, GitHub Pages-friendly V2Ray/Xray subscription hub focused on **beginner usability first** while keeping a premium, graphic-heavy interface.
 
-**V2ray_Sub** 🎯 ابزاری برای مدیریت و بهینه‌سازی لینک‌های اشتراک V2ray است. این ابزار به‌طور خودکار اشتراک‌های شما را به‌روز کرده و آن‌ها را سازمان‌دهی می‌کند تا تجربه‌ای بدون قطعی داشته باشید. 💡🔥
+## What this version focuses on
 
----
+- One-tap subscription discovery and copy.
+- Beginner-first 3-step onboarding: **Find → Copy → Guide**.
+- Client cards that open an illustrated, step-by-step guide by clicking the app icon or guide button.
+- Dedicated **NPV Tunnel** guide using the five screenshots stored under `Pic/NPV tunnel/`.
+- Advanced config search with selectable search field.
+- Protocol, security and country filters.
+- Favorites, pagination, copy actions and TXT/CSV/JSON export.
+- Subscription QR generator.
+- Local TXT/CONF parser and clipboard parser.
+- Local workspace settings, favorites and custom subscription sources.
+- Auto refresh and data diagnostics.
+- Responsive layout for desktop, tablet and mobile.
+- Animated background with cursor-reactive lighting, grid parallax and subtle card tilt.
+- Reduced-motion support and motion toggle for accessibility.
+- Persian RTL + English/Latin typography tuned with **Vazirmatn** and **Space Grotesk**.
 
-## 🌎 لیست اشتراک‌ها | Subscription List 📜
+## Beginner workflow
 
-مدیریت اشتراک‌های V2ray با استفاده از لینک‌های زیر:
+1. Open **Subscriptions**.
+2. Pick **Mix**, **Irancell**, or **MCI**.
+3. Press **Copy link**.
+4. Open **Client Guides**.
+5. Tap the icon for your app.
+6. Follow the screenshots.
+7. Refresh the subscription inside the app and run Ping/Test.
 
-🔹 **Mix**:
-```bash
-https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt
-```
-🔹 **Irancell**:
-```bash
-https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Irancell.txt
-```
-🔹 **MCI**:
-```bash
-https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Mci.txt
-```
+## NPV Tunnel
 
----
+The NPV Tunnel guide is mapped to the images in:
 
-## ✨ ویژگی‌ها | Features 🎯
-
-✅ **به‌روزرسانی خودکار اشتراک‌ها** 🔄  
-✅ **مدیریت هم‌زمان چندین اشتراک** 🗂  
-✅ **مصرف کم منابع سیستم** 🛠  
-✅ **بهینه‌شده برای بهترین تجربه کاربری** 🚀  
-
----
-
-## 🛠 راه‌اندازی اولیه | Getting Started ⚙️
-
-### 1️⃣ دانلود و نصب | Download & Install 📥
-```bash
-git clone https://github.com/mehrdadmb2/V2ray_Sub.git
-cd V2ray_Sub
-```
-
-### 2️⃣ نصب پیش‌نیازها | Install Requirements 🏗
-```bash
-pip install -r requirements.txt
+```text
+Pic/NPV tunnel/
+├── icon.jpg
+├── 1.jpg
+├── 2.jpg
+├── 3.jpg
+├── 4.jpg
+└── 5.jpg
 ```
 
-### 3️⃣ اجرای برنامه | Run the Program 🎯
-```bash
-python v2ray_sub_manager.py
-```
+The five steps are:
 
----
+1. Open the app and enter **Config**.
+2. Tap **+** at the bottom.
+3. Choose **Add Subscription**.
+4. Enter a name and paste the subscription URL.
+5. Confirm, refresh, run Ping, and select a usable server.
 
-## 📲 راهنمای اضافه کردن اشتراک به V2rayNG (اندروید) 📱
+## Data sources
 
-### 1️⃣ **اجرای برنامه V2rayNG | Open V2rayNG**
-<img src="Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg" width="300">
+The public repository sources are:
 
-### 2️⃣ **ورود به منوی اشتراک‌ها | Open Subscription Menu**
-<img src="Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit.jpg" width="300">
+- `Mix.txt`
+- `Irancell.txt`
+- `Mci.txt`
 
-### 3️⃣ **افزودن اشتراک جدید | Add a New Subscription**
-<img src="Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit.jpg" width="300">
+They are loaded directly from the repository through the GitHub raw content endpoint, making the app compatible with GitHub Pages without a custom backend.
 
-### 4️⃣ **وارد کردن اطلاعات اشتراک | Enter Subscription Details**
-- **نامی برای اشتراک وارد کنید**
-- **لینک اشتراک را جای‌گذاری کنید**
-- **گزینه Auto Update را فعال کنید**
+## Keyboard shortcuts
 
-<img src="Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit.jpg" width="300">
+- `/` — focus advanced config search
+- `G` — open the detected device guide
+- `C` — copy the primary Mix subscription URL
+- `R` — refresh data
 
-### 5️⃣ **به‌روزرسانی اشتراک | Update Subscription**
-<img src="Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit.jpg" width="300">
+## Local privacy
 
-### ✅ **اشتراک شما اضافه شد! | Subscription Added! 🎉**
-<img src="Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg" width="300">
+Custom subscription URLs and personal UI settings are stored in the browser's `localStorage`. They are not written back to the repository by this front-end.
 
-> 💡 **نکته | Note:** همیشه اشتراک‌های خود را به‌روزرسانی کنید تا از سرورهای فعال استفاده کنید. 🔄
+## Deployment
 
----
+The project is designed for static hosting. Upload the project files to the repository root and enable GitHub Pages for the desired branch/folder.
 
-## 🤝 همکاری در پروژه | Contribute to the Project 🏆
+## License
 
-💡 آیا می‌خواهید **V2ray_Sub** را بهتر کنید؟ 🎯
-1️⃣ **مخزن را Fork کنید** و یک شاخه جدید ایجاد کنید. 🔧  
-2️⃣ **تغییرات خود را اعمال و تست کنید.** ✅  
-3️⃣ **یک Pull Request ارسال کنید.** 📩  
-
----
-
-## 📝 مجوز | License 📜
-
-این پروژه تحت مجوز **MIT** منتشر شده است. جزئیات بیشتر در فایل [LICENSE](LICENSE) موجود است.
-
----
-
-## 📩 ارتباط با ما | Contact Us 📬
-
-📧 **ایمیل:** [game.developer.mb@gmail.com](mailto:game.developer.mb@gmail.com)  
-🌐 **GitHub:** [mehrdadmb2](https://github.com/mehrdadmb2)  
-
-> Developed with ❤️ by [Mehrdad](https://github.com/mehrdadmb2) 👨‍💻
+Apache-2.0. See `LICENSE`.

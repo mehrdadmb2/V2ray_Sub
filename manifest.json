@@ -1,0 +1,14 @@
+{
+  "name": "V2ray_Sub Pro",
+  "short_name": "V2ray_Sub",
+  "description": "Professional V2Ray/Xray subscription hub for GitHub Pages",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#060711",
+  "theme_color": "#070914",
+  "orientation": "portrait-primary",
+  "icons": [
+    {"src":"./Pic/NPV%20tunnel/icon.jpg","sizes":"192x192","type":"image/jpeg","purpose":"any"},
+    {"src":"./Pic/NPV%20tunnel/icon.jpg","sizes":"512x512","type":"image/jpeg","purpose":"maskable"}
+  ]
+}
