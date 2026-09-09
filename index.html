@@ -550,7 +550,7 @@
             border: 1px solid rgba(255, 255, 255, 0.06);
             transition: 0.3s;
             text-align: center;
-            padding: 0.5rem;
+            padding: 0.35rem;
         }
         .gallery-item:hover {
             transform: scale(1.02);
@@ -1348,7 +1348,7 @@ a { overflow-wrap:anywhere; }
 
 .gallery { grid-template-columns:repeat(3,minmax(0,1fr)); }
 .gallery-item { min-width:0; }
-.gallery-item img { width:100%; height:auto; max-height:320px; aspect-ratio:9/16; object-fit:contain; background:#0b0e16; }
+.gallery-item img { width:auto; max-width:100%; height:auto; max-height:280px; object-fit:contain; aspect-ratio:auto; background:transparent; display:block; margin-inline:auto; }
 
 .clients-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
 .client-card { min-width:0; }
@@ -1423,7 +1423,7 @@ canvas { max-width:100% !important; }
   .quick-stats { grid-template-columns:1fr 1fr; }
 
   .gallery { grid-template-columns:1fr 1fr; gap:.65rem; }
-  .gallery-item img { aspect-ratio:3/5; max-height:260px; }
+  .gallery-item img { width:auto; max-width:100%; max-height:230px; aspect-ratio:auto; background:transparent; }
 
   .clients-grid, .features-grid, .github-overview, .release-grid { grid-template-columns:1fr; }
   .client-card { padding:1rem !important; }
@@ -1495,7 +1495,7 @@ canvas { max-width:100% !important; }
   .os-banner .os-icon img { width:32px; height:32px; }
   .quick-stats { grid-template-columns:1fr; }
   .gallery { grid-template-columns:1fr; }
-  .gallery-item img { aspect-ratio:9/16; max-height:220px; }
+  .gallery-item img { width:auto; max-width:100%; max-height:210px; aspect-ratio:auto; background:transparent; }
   .sub-url { font-size:.72rem !important; }
   .guide-step { grid-template-columns:1fr; }
   .guide-step img { width:100%; max-width:190px; justify-self:center; }
@@ -1519,6 +1519,32 @@ canvas { max-width:100% !important; }
 
     
 @supports not ((backdrop-filter: blur(1px))) { .glass-container,.os-banner,.client-card,.feature-card,.gallery-item,.stat-item,.chart-container,.faq-item,.contribute-box,.guide-dialog,.guide-top { background:rgba(12,15,25,.94) !important; } }
+/* ===== FINAL MEDIA SAFETY ===== */
+.sub-url, .asset-label b, .release-name, .client-name, .client-desc, .client-files, td, th {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.sub-url {
+  direction: ltr;
+  unicode-bidi: plaintext;
+  text-align: left;
+}
+@media (max-width: 640px) {
+  body { padding: .65rem; }
+  .glass-container { width: min(100%, 100vw - 1.3rem); box-sizing: border-box; }
+  .header { align-items: stretch; }
+  .logo-area { min-width: 0; }
+  .status-chip { max-width: 100%; overflow-wrap:anywhere; }
+  .badge-row { gap: .45rem; }
+  .badge { padding: .35rem .7rem; font-size: .72rem; }
+  .sub-card { padding: .85rem; gap: .65rem; }
+  .copy-btn, .sub-mini-btn { min-height: 42px; }
+  .gallery { gap: .6rem; }
+  .gallery-item { padding: .2rem; background: transparent; border-color: rgba(255,255,255,.055); }
+  .gallery-item img { max-height: 205px; }
+  .section-title { font-size: 1.15rem; line-height: 1.5; }
+}
+
 </style>
 </head>
 
@@ -2109,8 +2135,27 @@ canvas { max-width:100% !important; }
 
     <!-- ========== JAVASCRIPT ========== -->
     <script>
+        // Shared resilient fetch helper must be defined before the main application IIFE runs.
+        // This fixes the previous ReferenceError and keeps GitHub/API requests bounded.
+        window.resilientFetch = async function(url, options = {}) {
+            const controller = new AbortController();
+            const timeoutMs = Math.max(4000, options.timeout || 12000);
+            const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+            try {
+                const requestOptions = { ...options, signal: controller.signal, cache: 'no-store' };
+                const res = await fetch(url, requestOptions);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res;
+            } finally {
+                clearTimeout(timeoutId);
+            }
+        };
+    </script>
+
+    <script>
         (function() {
             'use strict';
+            const resilientFetch = window.resilientFetch;
 
             // ===== CONFIG =====
             const DEFAULT_URL =
@@ -3075,18 +3120,6 @@ canvas { max-width:100% !important; }
       }
     },{passive:true});
   });
-
-  // Robust fetch helper: timeout + small cache-busting fallback, without polling loops.
-  async function resilientFetch(url, options={}){
-    const controller=new AbortController();
-    const timeout=setTimeout(()=>controller.abort(), Math.max(4000, options.timeout||12000));
-    try{
-      const headers=Object.assign({}, options.headers||{});
-      const res=await fetch(url,{...options,headers,cache:'no-store',signal:controller.signal});
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res;
-    }finally{ clearTimeout(timeout); }
-  }
 
   // Make the main Mix URL visually selectable and semantically LTR.
   document.querySelectorAll('.sub-url').forEach(el=>{el.setAttribute('dir','ltr'); el.setAttribute('role','text');});
