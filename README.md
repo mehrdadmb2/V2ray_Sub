@@ -1,82 +1,59 @@
-# V2ray_Sub — Pro Subscription Hub
+# V2ray_Sub — Premium Subscription Hub
 
-A high-performance, GitHub Pages-friendly V2Ray/Xray subscription hub focused on **beginner usability first** while keeping a premium, graphic-heavy interface.
+A GitHub Pages friendly Persian/English web interface for discovering, copying and using V2Ray/Xray subscriptions.
 
-## What this version focuses on
+## What this version preserves
 
-- One-tap subscription discovery and copy.
-- Beginner-first 3-step onboarding: **Find → Copy → Guide**.
-- Client cards that open an illustrated, step-by-step guide by clicking the app icon or guide button.
-- Dedicated **NPV Tunnel** guide using the five screenshots stored under `Pic/NPV tunnel/`.
-- Advanced config search with selectable search field.
-- Protocol, security and country filters.
-- Favorites, pagination, copy actions and TXT/CSV/JSON export.
-- Subscription QR generator.
-- Local TXT/CONF parser and clipboard parser.
-- Local workspace settings, favorites and custom subscription sources.
-- Auto refresh and data diagnostics.
-- Responsive layout for desktop, tablet and mobile.
-- Animated background with cursor-reactive lighting, grid parallax and subtle card tilt.
-- Reduced-motion support and motion toggle for accessibility.
-- Persian RTL + English/Latin typography tuned with **Vazirmatn** and **Space Grotesk**.
+This release is built directly on the reference site structure: subscription links, OS detection, V2rayNG visual tutorial, client download cards, advanced configuration table, filters, downloads, chart, Getting Started, FAQ, changelog and contribution section remain part of the page.
 
-## Beginner workflow
+## UX improvements
 
-1. Open **Subscriptions**.
-2. Pick **Mix**, **Irancell**, or **MCI**.
-3. Press **Copy link**.
-4. Open **Client Guides**.
-5. Tap the icon for your app.
-6. Follow the screenshots.
-7. Refresh the subscription inside the app and run Ping/Test.
+- Premium glassmorphism theme with a **CSS-only animated background**; no global mouse tracking or pointer animation loop.
+- Clear beginner path: **Choose subscription → Choose client → Open guide**.
+- Subscription URLs remain visible and one-click copyable.
+- Advanced search now supports a selectable search field.
+- Real repository assets are used for V2rayNG and NPV Tunnel icons where available.
+- V2rayNG tutorial images remain usable and clickable.
+- NPV Tunnel tutorial uses `Pic/NPV tunnel/1.jpg` through `5.jpg` exactly as the requested five-step workflow.
+- Image fallback uses GitHub Raw when a relative GitHub Pages asset path fails.
+- Persian UI uses Vazirmatn; technical/Latin/URL content uses Space Grotesk where appropriate.
+- Responsive layouts for desktop, tablet and mobile.
+- Reduced-motion support for users who disable animations.
 
-## NPV Tunnel
+## NPV Tunnel guide
 
-The NPV Tunnel guide is mapped to the images in:
+1. Open NPV Tunnel and tap **Config**.
+2. Tap **+** at the bottom.
+3. Select **Add Subscription**.
+4. Enter a custom name and the Subscription URL copied from the site.
+5. Confirm, refresh, then run Ping and choose a configuration.
+
+## GitHub Pages
+
+Keep the existing `Pic/` directory and subscription text files in the repository. Do not remove the existing reference assets. The page uses repository-relative paths first, then falls back to the raw GitHub URL when needed.
+
+## Local development
+
+No build step is required for the front-end. Open `index.html` through a static server for the best browser behavior.
+
+
+## UI & Device Detection Update
+
+- Local SVG brand assets are included for Windows, Android, Apple/iOS and Linux so the core platform logos do not depend on Font Awesome brand icons.
+- Added a local `favicon.svg` and `theme-color` metadata for a proper browser-tab identity.
+- Windows detection distinguishes Windows 11, Windows 10, Windows 8.1, Windows 8 and Windows 7 when the browser exposes enough version information.
+- Android, iOS/iPadOS, macOS, ChromeOS and Linux receive dedicated platform badges and recommended client links.
+- Subscription cards expose the URL visibly plus Copy, Share, Open and Guide actions.
+- Added compact quick-client chips and utility information without introducing continuous mouse listeners or heavy animation loops.
+
+### New local assets
 
 ```text
-Pic/NPV tunnel/
-├── icon.jpg
-├── 1.jpg
-├── 2.jpg
-├── 3.jpg
-├── 4.jpg
-└── 5.jpg
+favicon.svg
+windows.svg
+android.svg
+apple.svg
+linux.svg
+hiddify.svg
+v2box.svg
 ```
-
-The five steps are:
-
-1. Open the app and enter **Config**.
-2. Tap **+** at the bottom.
-3. Choose **Add Subscription**.
-4. Enter a name and paste the subscription URL.
-5. Confirm, refresh, run Ping, and select a usable server.
-
-## Data sources
-
-The public repository sources are:
-
-- `Mix.txt`
-- `Irancell.txt`
-- `Mci.txt`
-
-They are loaded directly from the repository through the GitHub raw content endpoint, making the app compatible with GitHub Pages without a custom backend.
-
-## Keyboard shortcuts
-
-- `/` — focus advanced config search
-- `G` — open the detected device guide
-- `C` — copy the primary Mix subscription URL
-- `R` — refresh data
-
-## Local privacy
-
-Custom subscription URLs and personal UI settings are stored in the browser's `localStorage`. They are not written back to the repository by this front-end.
-
-## Deployment
-
-The project is designed for static hosting. Upload the project files to the repository root and enable GitHub Pages for the desired branch/folder.
-
-## License
-
-Apache-2.0. See `LICENSE`.
