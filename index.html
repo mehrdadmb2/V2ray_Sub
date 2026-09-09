@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>V2ray_Sub · مدیریت اشتراک حرفه‌ای</title>
     <meta name="theme-color" content="#0b1020" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
@@ -1280,7 +1280,246 @@ code, .code-block, .sub-url, input[type=url] { font-family:'Space Grotesk','Vazi
 @media(max-width:1050px){.github-overview{grid-template-columns:repeat(2,minmax(0,1fr))}.release-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:700px){.github-overview,.release-grid{grid-template-columns:1fr}.release-card{padding:.9rem}}
 
-    </style>
+    
+/* ============================================================
+   V2ray_Sub Responsive Hardening v6
+   Goal: preserve reference design while making every section
+   resilient from very small phones to wide desktops.
+   ============================================================ */
+html, body { width:100%; min-width:0; overflow-x:hidden; }
+html { -webkit-text-size-adjust:100%; text-rendering:optimizeLegibility; }
+body {
+  margin:0;
+  padding:
+    max(.65rem, env(safe-area-inset-top))
+    max(.65rem, env(safe-area-inset-right))
+    max(.65rem, env(safe-area-inset-bottom))
+    max(.65rem, env(safe-area-inset-left));
+  font-size:clamp(.86rem, .25vw + .78rem, 1rem);
+}
+*, *::before, *::after { min-width:0; }
+img, svg, canvas, video { max-width:100%; }
+button, a, input, select, textarea { touch-action:manipulation; }
+a { overflow-wrap:anywhere; }
+
+.glass-container {
+  width:min(100%, 1400px);
+  max-width:1400px !important;
+  padding:clamp(1rem, 2.4vw, 3.2rem) !important;
+  border-radius:clamp(1.25rem, 3vw, 4rem) !important;
+}
+.header { align-items:flex-start; }
+.logo-area { min-width:0; flex-wrap:wrap; }
+.logo-text { overflow-wrap:anywhere; }
+.status-chip { max-width:100%; flex-wrap:wrap; justify-content:center; }
+
+.os-banner { min-width:0; }
+.os-banner .os-info, .os-banner .os-suggestion { min-width:0; flex:1 1 280px; }
+.os-banner .os-info { align-items:center; }
+.os-banner .os-text { min-width:0; overflow-wrap:anywhere; }
+.os-banner .os-suggestion { justify-content:flex-end; }
+.os-banner .os-suggestion a { max-width:100%; overflow-wrap:anywhere; }
+
+.badge-row { overflow-x:auto; flex-wrap:nowrap; padding-bottom:.65rem; scrollbar-width:thin; }
+.badge { flex:0 0 auto; }
+
+.ux-strip { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.ux-action { min-width:0; }
+.ux-action b, .ux-action small { overflow-wrap:anywhere; }
+
+.sub-card { display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; }
+.sub-label { min-width:0; }
+.sub-url {
+  min-width:0;
+  max-width:100%;
+  overflow:auto;
+  white-space:nowrap;
+  scrollbar-width:thin;
+}
+.sub-card > * { min-width:0; }
+.sub-extra-actions { min-width:0; }
+
+.sub-input-area { display:grid; grid-template-columns:minmax(0,1fr) auto auto; }
+.sub-input-area input { width:100%; min-width:0; }
+
+.quick-stats { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.stat-item { min-width:0; }
+.stat-number { overflow-wrap:anywhere; }
+
+.gallery { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.gallery-item { min-width:0; }
+.gallery-item img { width:100%; aspect-ratio:9/16; object-fit:cover; }
+
+.clients-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.client-card { min-width:0; }
+.client-card .client-desc, .client-card .client-files { overflow-wrap:anywhere; }
+.client-actions, .release-actions { min-width:0; }
+.client-actions .client-btn, .release-actions .client-btn { min-width:0; }
+
+.features-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+
+.table-wrapper { width:100%; max-width:100%; overflow:auto; -webkit-overflow-scrolling:touch; }
+table { min-width:720px; }
+.search-row-advanced { min-width:0; }
+.search-row-advanced > * { min-width:0; }
+.search-row-advanced input, .search-row-advanced select { max-width:100%; }
+.filters { min-width:0; }
+.filters input, .filters select { max-width:100%; }
+
+.github-overview, .release-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.release-card { min-width:0; overflow:hidden; }
+.release-card * { min-width:0; }
+.asset-row { min-width:0; }
+.asset-label b, .asset-label small { overflow-wrap:anywhere; }
+.asset-download { flex:0 0 auto; }
+
+.code-block { max-width:100%; overflow:auto; -webkit-overflow-scrolling:touch; }
+.chart-container { width:100%; }
+canvas { max-width:100% !important; }
+.faq-question span { min-width:0; overflow-wrap:anywhere; }
+
+.guide-modal { padding:max(.65rem, env(safe-area-inset-top)) max(.65rem, env(safe-area-inset-right)) max(.65rem, env(safe-area-inset-bottom)) max(.65rem, env(safe-area-inset-left)); }
+.guide-dialog { width:min(980px,100%); max-height:calc(100dvh - 1.3rem); }
+.guide-top h3 { min-width:0; overflow-wrap:anywhere; }
+.guide-body { min-width:0; }
+.guide-step { min-width:0; }
+.guide-step img { width:100%; max-width:120px; height:auto; aspect-ratio:1; object-fit:contain; }
+.lightbox-image { max-height:calc(100dvh - 7rem); }
+
+/* Small/medium phones */
+@media (max-width: 900px) {
+  .glass-container { padding:1.2rem !important; }
+  .ux-strip { grid-template-columns:1fr; }
+  .clients-grid { grid-template-columns:1fr 1fr; }
+  .features-grid { grid-template-columns:1fr 1fr; }
+  .github-overview, .release-grid { grid-template-columns:1fr 1fr; }
+  .gallery { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .search-row-advanced { grid-template-columns:1fr 1fr; }
+}
+
+@media (max-width: 700px) {
+  body { padding:.55rem; }
+  .glass-container { padding:.9rem !important; border-radius:1.25rem !important; }
+  .header { align-items:stretch; }
+  .logo-area { gap:.55rem; }
+  .logo-icon { font-size:2.25rem; }
+  .logo-text { font-size:1.55rem; }
+  .status-chip { width:100%; justify-content:flex-start; padding:.45rem .75rem; }
+
+  .os-banner { padding:.8rem; gap:.7rem; }
+  .os-banner .os-info, .os-banner .os-suggestion { flex-basis:100%; }
+  .os-banner .os-suggestion { justify-content:stretch; }
+  .os-banner .os-suggestion a { width:100%; justify-content:center; }
+
+  .badge-row { margin-inline:0; }
+  .sub-card { grid-template-columns:1fr; gap:.65rem; padding:1rem !important; }
+  .sub-label { width:100%; }
+  .sub-url { width:100%; white-space:normal; overflow:visible; overflow-wrap:anywhere; word-break:break-word; line-height:1.55; border-radius:.9rem !important; }
+  .sub-card .copy-btn, .sub-card .sub-extra-actions { width:100%; }
+  .sub-card .copy-btn { justify-content:center; }
+
+  .sub-input-area { grid-template-columns:1fr; }
+  .sub-input-area button { width:100%; justify-content:center; }
+  .quick-stats { grid-template-columns:1fr 1fr; }
+
+  .gallery { grid-template-columns:1fr 1fr; gap:.65rem; }
+  .gallery-item img { aspect-ratio:3/5; }
+
+  .clients-grid, .features-grid, .github-overview, .release-grid { grid-template-columns:1fr; }
+  .client-card { padding:1rem !important; }
+  .client-actions { display:grid !important; grid-template-columns:1fr; }
+  .client-actions .client-btn, .release-actions .client-btn { width:100%; justify-content:center; }
+
+  .search-row-advanced { grid-template-columns:1fr; }
+  .search-help { white-space:normal; }
+  .filters { display:grid; grid-template-columns:1fr; }
+  .filters > * { width:100%; }
+
+  /* Turn the huge desktop table into readable, scroll-free cards. */
+  .table-wrapper { overflow:visible; border:0; background:transparent; }
+  table { min-width:0; width:100%; border-collapse:separate; border-spacing:0 .65rem; }
+  table thead { display:none; }
+  table tbody, table tr, table td { display:block; width:100%; }
+  table tr {
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:1rem;
+    overflow:hidden;
+    padding:.35rem .8rem;
+  }
+  table td {
+    display:grid;
+    grid-template-columns:minmax(74px,28%) minmax(0,1fr);
+    gap:.7rem;
+    align-items:start;
+    padding:.55rem 0 !important;
+    border-bottom:1px solid rgba(255,255,255,.045);
+    text-align:start !important;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+  }
+  table td:last-child { border-bottom:0; }
+  table td::before {
+    content:attr(data-label);
+    color:#64748b;
+    font-size:.68rem;
+    font-weight:600;
+  }
+  table td:first-child { display:none; }
+  table td .copy-single { justify-self:start; }
+
+  .chart-container { padding:.8rem; }
+  .guide-dialog { max-height:calc(100dvh - 1rem); border-radius:1.2rem; }
+  .guide-top { padding:.75rem .85rem; }
+  .guide-body { padding:.85rem; }
+  .guide-step { grid-template-columns:64px minmax(0,1fr); gap:.7rem; padding:.8rem 0; }
+  .guide-step img { width:64px; height:64px; }
+  .guide-step p { font-size:.76rem; line-height:1.75; }
+
+  .release-head { align-items:center; }
+  .release-version, .release-meta { grid-template-columns:1fr; }
+  .asset-row { flex-wrap:wrap; }
+  .asset-download { width:100%; justify-content:center; }
+
+  .footer { flex-direction:column; align-items:stretch; text-align:center; }
+  .social-links { justify-content:center; }
+}
+
+@media (max-width: 430px) {
+  body { padding:.4rem; }
+  .glass-container { padding:.72rem !important; border-radius:1rem !important; }
+  .section-title { font-size:1.12rem; line-height:1.5; }
+  .logo-badge { padding:.2rem .55rem; }
+  .status-chip { font-size:.72rem; }
+  .os-banner .os-icon { width:46px; height:46px; flex-basis:46px; }
+  .os-banner .os-icon img { width:32px; height:32px; }
+  .quick-stats { grid-template-columns:1fr; }
+  .gallery { grid-template-columns:1fr; }
+  .gallery-item img { aspect-ratio:9/16; }
+  .sub-url { font-size:.72rem !important; }
+  .guide-step { grid-template-columns:1fr; }
+  .guide-step img { width:100%; max-width:190px; justify-self:center; }
+  .changelog-item { flex-direction:column; gap:.25rem; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .glass-container { padding:.8rem !important; }
+  .os-banner { padding:.55rem .7rem; }
+  .guide-dialog { max-height:94dvh; }
+  .lightbox-image { max-height:78dvh; }
+}
+
+@media (hover:none) {
+  .sub-card:hover, .client-card:hover, .feature-card:hover, .gallery-item:hover, .stat-item:hover, .faq-item:hover { transform:none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-bg, .animated-bg::before, .animated-bg::after, .orb { animation:none !important; }
+}
+
+    
+@supports not ((backdrop-filter: blur(1px))) { .glass-container,.os-banner,.client-card,.feature-card,.gallery-item,.stat-item,.chart-container,.faq-item,.contribute-box,.guide-dialog,.guide-top { background:rgba(12,15,25,.94) !important; } }
+</style>
 </head>
 
 <body>
@@ -2111,7 +2350,7 @@ code, .code-block, .sub-url, input[type=url] { font-family:'Space Grotesk','Vazi
 
             // ===== FETCH =====
             async function fetchConfigsFromUrl(url) {
-                const res = await fetch(url, { cache: 'no-store' });
+                const res = await resilientFetch(url, { timeout: 12000 });
                 if (!res.ok) throw new Error('خطا در دریافت فایل');
                 const text = await res.text();
                 const lines = text.split('\n').filter(l => l.trim() !== '');
@@ -2153,12 +2392,12 @@ code, .code-block, .sub-url, input[type=url] { font-family:'Space Grotesk','Vazi
                     const countryDisplay = c.country || '...';
                     html += `<tr data-raw="${c.raw.replace(/"/g, '&quot;')}">
                         <td>${idx+1}</td>
-                        <td>${protoBadge}</td>
-                        <td>${c.name}</td>
-                        <td>${c.port}</td>
-                        <td><span class="flag">${flag}</span> ${countryDisplay}</td>
-                        <td>${c.encryption}</td>
-                        <td>
+                        <td data-label="پروتکل">${protoBadge}</td>
+                        <td data-label="نام / IP">${c.name}</td>
+                        <td data-label="پورت">${c.port}</td>
+                        <td data-label="کشور"><span class="flag">${flag}</span> ${countryDisplay}</td>
+                        <td data-label="رمزنگاری">${c.encryption}</td>
+                        <td data-label="عملیات">
                             <button class="copy-single" data-raw="${c.raw.replace(/"/g, '&quot;')}"><i class="far fa-copy"></i> کپی</button>
                         </td>
                     </tr>`;
@@ -2597,34 +2836,87 @@ code, .code-block, .sub-url, input[type=url] { font-family:'Space Grotesk','Vazi
     const osNameEl=document.getElementById('osName');
     const osVersionEl=document.getElementById('osVersion');
     const osIconEl=document.getElementById('osIcon');
-    const ua=navigator.userAgent;
-    let platform='unknown',version='',logo='./windows.svg',clientName='V2rayNG',clientUrl='https://github.com/2dust/v2rayNG/releases';
-    if(/Android/i.test(ua)){
-      platform='Android'; version=(ua.match(/Android\s([0-9.]+)/i)||[])[1]||'Android'; logo='./android.svg';
-      clientName='V2rayNG'; clientUrl='https://github.com/2dust/v2rayNG/releases';
-    }else if(/iPhone|iPad|iPod/i.test(ua)){
-      platform='iOS / iPadOS'; version='iPhone / iPad'; logo='./apple.svg'; clientName='NPV Tunnel'; clientUrl='https://apps.apple.com/us/app/npv-tunnel/id1629465476';
-    }else if(/Windows/i.test(ua)){
-      platform='Windows'; logo='./windows.svg';
-      let build='';
-      if(navigator.userAgentData?.getHighEntropyValues){try{const d=await navigator.userAgentData.getHighEntropyValues(['platformVersion']);build=d.platformVersion||'';}catch(e){}}
-      if(!build){build=(ua.match(/Windows NT ([0-9.]+)/i)||[])[1]||'';}
-      const major=build.split('.')[0], buildNo=parseInt(build.split('.')[2]||'0',10);
-      if(major==='10'){ version=buildNo>=22000?'Windows 11':'Windows 10'; }
-      else if(build==='6.1') version='Windows 7'; else if(build==='6.2') version='Windows 8'; else if(build==='6.3') version='Windows 8.1'; else version='Windows';
-      clientName='v2rayN'; clientUrl='https://github.com/2dust/v2rayN/releases';
-    }else if(/Macintosh|Mac OS X/i.test(ua)){
-      platform='macOS'; version='macOS'; logo='./apple.svg'; clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
-    }else if(/CrOS/i.test(ua)){
-      platform='ChromeOS'; version='ChromeOS'; logo='./windows.svg'; clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
-    }else if(/Linux/i.test(ua)){
-      platform='Linux'; version='Linux'; logo='./linux.svg'; clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
-    }else{platform='Unknown';version='Desktop';logo='https://cdn.simpleicons.org/github';clientName='View Clients';clientUrl='#clients';}
-    osNameEl.textContent=version; osVersionEl.textContent=platform;
+    const osClientLink=document.getElementById('osClientLink');
+    const osClientName=document.getElementById('osClientName');
+    const ua=navigator.userAgent||'';
+    const navPlatform=navigator.platform||'';
+    const touchPoints=Number(navigator.maxTouchPoints||0);
+
+    let platform='Unknown', version='Unknown', logo='./favicon.svg';
+    let clientName='مشاهده کلاینت‌ها', clientUrl='#clients';
+
+    // iPadOS can advertise itself as Macintosh/Safari. Touch points are a strong fallback.
+    const isIPadLike=/iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && touchPoints>1);
+    const isIPhone=/iPhone/i.test(ua);
+    const isAndroid=/Android/i.test(ua);
+    const isChromeOS=/CrOS/i.test(ua);
+    const isWindows=/Windows/i.test(ua) || /Win/i.test(navPlatform);
+    const isMac=/Macintosh|Mac OS X/i.test(ua) && !isIPadLike;
+    const isLinux=/Linux/i.test(ua) && !isAndroid && !isChromeOS;
+
+    if(isAndroid){
+      platform='Android';
+      version=(ua.match(/Android\s([0-9._]+)/i)||[])[1]?.replace(/_/g,'.')||'Android';
+      logo='./android.svg';
+      clientName='V2rayNG';
+      clientUrl='https://github.com/2dust/v2rayNG/releases';
+    }else if(isIPadLike || isIPhone){
+      platform=isIPadLike?'iPadOS':'iOS';
+      version=isIPadLike?'iPad / iPadOS':'iPhone / iOS';
+      logo='./apple.svg';
+      clientName='NPV Tunnel';
+      clientUrl='https://apps.apple.com/us/app/npv-tunnel/id1629465476';
+    }else if(isWindows){
+      platform='Windows';
+      logo='./windows.svg';
+      let pv='';
+      try{
+        if(navigator.userAgentData?.getHighEntropyValues){
+          const d=await navigator.userAgentData.getHighEntropyValues(['platformVersion']);
+          pv=d.platformVersion||'';
+        }
+      }catch(e){/* best effort */}
+      const nt=(ua.match(/Windows NT\s([0-9.]+)/i)||[])[1]||'';
+      const source=pv||nt;
+      const parts=source.split('.').map(x=>parseInt(x,10));
+      const major=parts[0]||0;
+      const build=(pv?0:parseInt(parts[2]||'0',10));
+      if(major===6 && parts[1]===1) version='Windows 7';
+      else if(major===6 && parts[1]===2) version='Windows 8';
+      else if(major===6 && parts[1]===3) version='Windows 8.1';
+      else if((major===10 && build>=22000) || (pv && major>=13)) version='Windows 11';
+      else if(major===10) version='Windows 10';
+      else version='Windows';
+      // Never claim an exact Windows version if only a reduced UA is available.
+      if(version==='Windows 10' && !nt && pv==='10.0.0') version='Windows 10';
+      clientName='v2rayN';
+      clientUrl='https://github.com/2dust/v2rayN/releases';
+    }else if(isMac){
+      platform='macOS'; version='macOS'; logo='./apple.svg';
+      clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
+    }else if(isChromeOS){
+      platform='ChromeOS'; version='ChromeOS'; logo='./chromeos.svg';
+      clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
+    }else if(isLinux){
+      platform='Linux'; version='Linux'; logo='./linux.svg';
+      clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
+    }else if(/FreeBSD/i.test(ua)){
+      platform='FreeBSD'; version='FreeBSD'; logo='./linux.svg';
+      clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
+    }else if(/Xbox/i.test(ua)){
+      platform='Xbox'; version='Xbox'; logo='./windows.svg';
+      clientName='مشاهده کلاینت‌ها'; clientUrl='#clients';
+    }
+
+    osNameEl.textContent=version;
+    osVersionEl.textContent=platform;
     osIconEl.innerHTML=`<img src="${logo}" alt="${platform} logo" loading="eager">`;
-    osIconEl.querySelector('img')?.addEventListener('error',()=>{osIconEl.innerHTML='<i class="fas fa-desktop"></i>';},{once:true});
-    const link=document.getElementById('osClientLink'); const name=document.getElementById('osClientName');
-    if(link){link.href=clientUrl; link.dataset.client=clientName;} if(name) name.textContent=clientName;
+    const osImg=osIconEl.querySelector('img');
+    osImg?.addEventListener('error',()=>{
+      osIconEl.innerHTML='<i class="fas fa-desktop"></i>';
+    },{once:true});
+    if(osClientLink){ osClientLink.href=clientUrl; osClientLink.dataset.client=clientName; }
+    if(osClientName) osClientName.textContent=clientName;
   }
   detectPlatformVersion();
 
@@ -2688,7 +2980,7 @@ code, .code-block, .sub-url, input[type=url] { font-family:'Space Grotesk','Vazi
   async function githubFetch(url){
     const cacheKey='v2ray_sub_gh_'+url; const cached=sessionStorage.getItem(cacheKey);
     if(cached){try{const c=JSON.parse(cached);if(Date.now()-c.t<1800000)return c.d;}catch(e){}}
-    const res=await fetch(url,{headers:{'Accept':'application/vnd.github+json'},cache:'no-store'});
+    const res=await resilientFetch(url,{timeout:10000,headers:{'Accept':'application/vnd.github+json'}});
     if(!res.ok) throw new Error('GitHub API '+res.status);
     const data=await res.json();
     try{sessionStorage.setItem(cacheKey,JSON.stringify({t:Date.now(),d:data}));}catch(e){}
@@ -2725,6 +3017,36 @@ code, .code-block, .sub-url, input[type=url] { font-family:'Space Grotesk','Vazi
   // Small freshness hint without adding a polling loop.
   const freshness=document.getElementById('dataFreshnessHint');
   if(freshness) freshness.textContent='آخرین دریافت همین نشست: '+new Date().toLocaleTimeString('fa-IR');
+
+  // ===== IMAGE / RESOURCE RESILIENCE =====
+  const RAW_BASE='https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/';
+  function rawAsset(src){
+    if(!src || /^https?:/i.test(src) || src.startsWith('data:')) return src;
+    return RAW_BASE + src.split('./').pop().split('/').map((part,i)=>i?encodeURIComponent(part):part).join('/');
+  }
+  document.querySelectorAll('img[src]').forEach(img=>{
+    img.addEventListener('error',()=>{
+      const original=img.getAttribute('src');
+      if(img.dataset.remoteTried!=='1' && /^\.?\/?Pic\//i.test(original||'')){
+        img.dataset.remoteTried='1'; img.src=rawAsset(original); return;
+      }
+      if(img.dataset.fallback!=='1' && !/favicon\.svg$/.test(original||'')){
+        img.dataset.fallback='1'; img.src='./favicon.svg';
+      }
+    },{passive:true});
+  });
+
+  // Robust fetch helper: timeout + small cache-busting fallback, without polling loops.
+  async function resilientFetch(url, options={}){
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(), Math.max(4000, options.timeout||12000));
+    try{
+      const headers=Object.assign({}, options.headers||{});
+      const res=await fetch(url,{...options,headers,cache:'no-store',signal:controller.signal});
+      if(!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res;
+    }finally{ clearTimeout(timeout); }
+  }
 
   // Make the main Mix URL visually selectable and semantically LTR.
   document.querySelectorAll('.sub-url').forEach(el=>{el.setAttribute('dir','ltr'); el.setAttribute('role','text');});
