@@ -1348,7 +1348,7 @@ a { overflow-wrap:anywhere; }
 
 .gallery { grid-template-columns:repeat(3,minmax(0,1fr)); }
 .gallery-item { min-width:0; }
-.gallery-item img { width:100%; aspect-ratio:9/16; object-fit:cover; }
+.gallery-item img { width:100%; height:auto; max-height:320px; aspect-ratio:9/16; object-fit:contain; background:#0b0e16; }
 
 .clients-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
 .client-card { min-width:0; }
@@ -1423,7 +1423,7 @@ canvas { max-width:100% !important; }
   .quick-stats { grid-template-columns:1fr 1fr; }
 
   .gallery { grid-template-columns:1fr 1fr; gap:.65rem; }
-  .gallery-item img { aspect-ratio:3/5; }
+  .gallery-item img { aspect-ratio:3/5; max-height:260px; }
 
   .clients-grid, .features-grid, .github-overview, .release-grid { grid-template-columns:1fr; }
   .client-card { padding:1rem !important; }
@@ -1495,7 +1495,7 @@ canvas { max-width:100% !important; }
   .os-banner .os-icon img { width:32px; height:32px; }
   .quick-stats { grid-template-columns:1fr; }
   .gallery { grid-template-columns:1fr; }
-  .gallery-item img { aspect-ratio:9/16; }
+  .gallery-item img { aspect-ratio:9/16; max-height:220px; }
   .sub-url { font-size:.72rem !important; }
   .guide-step { grid-template-columns:1fr; }
   .guide-step img { width:100%; max-width:190px; justify-self:center; }
@@ -1553,7 +1553,7 @@ canvas { max-width:100% !important; }
         <!-- ============================================================ -->
         <div class="os-banner" id="osBanner">
             <div class="os-info">
-                <span class="os-icon" id="osIcon"><img src="./windows.svg" alt="OS logo" /></span>
+                <span class="os-icon" id="osIcon"><i class="fab fa-windows" aria-hidden="true"></i></span>
                 <span class="os-text" id="osText">
                     شما با <span id="osName">سیستم‌عامل</span> وارد سایت شده‌اید
                     <span class="os-version" id="osVersion">Detecting…</span>
@@ -1585,10 +1585,10 @@ canvas { max-width:100% !important; }
         </div>
 
         <div class="quick-client-strip" aria-label="کلاینت‌های محبوب">
-            <a class="quick-client-chip" href="#clients"><img src="./android.svg" alt="Android">Android · V2rayNG</a>
-            <a class="quick-client-chip" href="#clients"><img src="./apple.svg" alt="Apple">iOS · NPV / V2Box</a>
-            <a class="quick-client-chip" href="#clients"><img src="./windows.svg" alt="Windows">Windows · v2rayN</a>
-            <a class="quick-client-chip" href="#clients"><img src="./linux.svg" alt="Linux">Linux · Hiddify</a>
+            <a class="quick-client-chip" href="#clients"><i class="fab fa-android" aria-hidden="true"></i>Android · V2rayNG</a>
+            <a class="quick-client-chip" href="#clients"><i class="fab fa-apple" aria-hidden="true"></i>iOS · NPV / V2Box</a>
+            <a class="quick-client-chip" href="#clients"><i class="fab fa-windows" aria-hidden="true"></i>Windows · v2rayN</a>
+            <a class="quick-client-chip" href="#clients"><i class="fab fa-linux" aria-hidden="true"></i>Linux · Hiddify</a>
         </div>
 
         <!-- ===== QUICK ACTIONS / BEGINNER PATH ===== -->
@@ -1743,7 +1743,7 @@ canvas { max-width:100% !important; }
 
             <!-- V2rayNG (Android) -->
             <div class="client-card">
-                <div class="client-icon client-icon-image" role="button" tabindex="0" data-guide="v2rayng" title="باز کردن راهنمای V2rayNG"><img src="Pic/iconv2rayng.jpg" alt="V2rayNG logo" loading="eager" onerror="this.onerror=null;this.src='./android.svg';"></div>
+                <div class="client-icon client-icon-image" role="button" tabindex="0" data-guide="v2rayng" title="باز کردن راهنمای V2rayNG"><img src="Pic/iconv2rayng.jpg" alt="V2rayNG logo" loading="eager" onerror="this.onerror=null;this.closest('.client-icon')?.classList.add('fallback-brand');this.remove();"></div>
                 <div class="client-name">V2rayNG</div>
                 <div class="client-platform">📱 اندروید (Android)</div>
                 <div class="client-desc">
@@ -1769,7 +1769,7 @@ canvas { max-width:100% !important; }
 
             <!-- v2rayN (Windows) -->
             <div class="client-card">
-                <div class="client-icon brand-icon"><img src="./windows.svg" alt="Windows 11 logo" loading="eager"><span class="fallback-mark" hidden>WIN</span></div>
+                <div class="client-icon brand-icon"><i class="fab fa-windows" aria-hidden="true"></i><span class="fallback-mark" hidden>WIN</span></div>
                 <div class="client-name">v2rayN</div>
                 <div class="client-platform">💻 ویندوز (Windows)</div>
                 <div class="client-desc">
@@ -1792,7 +1792,7 @@ canvas { max-width:100% !important; }
 
             <!-- Hiddify (Multi-Platform) -->
             <div class="client-card">
-                <div class="client-icon brand-icon"><img src="./hiddify.svg" alt="Hiddify logo" loading="eager" onerror="this.onerror=null;this.src='https://cdn.simpleicons.org/github';"></div>
+                <div class="client-icon brand-icon"><img src="https://raw.githubusercontent.com/hiddify/hiddify.com/main/docs/assets/hiddify-app-logo.svg" alt="Hiddify official logo" loading="eager"></div>
                 <div class="client-name">Hiddify</div>
                 <div class="client-platform">📱 اندروید · 🍎 iOS · 💻 ویندوز · 🐧 لینوکس · 🍏 مک</div>
                 <div class="client-desc">
@@ -1818,7 +1818,7 @@ canvas { max-width:100% !important; }
 
             <!-- NPV Tunnel (iOS + Android) -->
             <div class="client-card">
-                <div class="client-icon client-icon-image" role="button" tabindex="0" data-guide="npv" title="باز کردن راهنمای NPV Tunnel"><img src="Pic/NPV tunnel/icon.jpg" alt="NPV Tunnel logo" loading="eager" onerror="this.onerror=null;this.src='./apple.svg';"></div>
+                <div class="client-icon client-icon-image" role="button" tabindex="0" data-guide="npv" title="باز کردن راهنمای NPV Tunnel"><img src="Pic/NPV tunnel/icon.jpg" alt="NPV Tunnel logo" loading="eager" onerror="this.onerror=null;this.closest('.client-icon')?.classList.add('fallback-brand');this.remove();"></div>
                 <div class="client-name">NPV Tunnel (NapsternetV)</div>
                 <div class="client-platform">📱 اندروید · 🍎 iOS</div>
                 <div class="client-desc">
@@ -1843,7 +1843,7 @@ canvas { max-width:100% !important; }
 
             <!-- V2Box (iOS + Android) -->
             <div class="client-card">
-                <div class="client-icon brand-icon"><img src="./v2box.svg" alt="V2Box logo" loading="eager" onerror="this.onerror=null;this.src='./v2box.svg';"></div>
+                <div class="client-icon brand-icon"><i class="fas fa-box-open" aria-hidden="true"></i></div>
                 <div class="client-name">V2Box</div>
                 <div class="client-platform">📱 اندروید · 🍎 iOS</div>
                 <div class="client-desc">
@@ -2273,88 +2273,132 @@ canvas { max-width:100% !important; }
             }
 
             function parseConfigLine(line) {
-                line = line.trim();
-                if (!line) return null;
-                let protocol = 'unknown',
-                    ip = '',
-                    port = '',
-                    encryption = '',
-                    name = '';
+                const rawLine = String(line || '').trim();
+                if (!rawLine) return null;
 
-                if (line.startsWith('vless://')) {
-                    protocol = 'vless';
-                    const parts = line.split('@');
-                    if (parts.length > 1) {
-                        const hostPort = parts[1].split('?')[0];
-                        const host = hostPort.split(':')[0];
-                        const p = hostPort.split(':')[1] || '';
-                        ip = host;
-                        port = p;
+                let raw = rawLine;
+                let protocol = 'unknown';
+                let ip = '';
+                let port = '';
+                let encryption = '';
+                let name = '';
+
+                const protoMatch = raw.match(/^([a-z0-9+.-]+):\/\//i);
+                if (protoMatch) protocol = protoMatch[1].toLowerCase();
+
+                try {
+                    if (protocol === 'vmess') {
+                        let payload = raw.slice('vmess://'.length);
+                        const decoded = decodeBase64Text(payload);
+                        if (decoded) {
+                            const json = JSON.parse(decoded.trim());
+                            ip = String(json.add || json.address || '');
+                            port = String(json.port || '');
+                            encryption = String(json.scy || json.security || '');
+                            name = String(json.ps || json.name || '');
+                        }
+                    } else if (['vless','trojan','ss','socks','socks5','http'].includes(protocol)) {
+                        const u = new URL(raw);
+                        ip = u.hostname || '';
+                        port = u.port || '';
+                        name = u.hash ? decodeURIComponent(u.hash.slice(1)) : '';
+                        encryption = u.searchParams.get('encryption') || u.searchParams.get('security') || u.searchParams.get('method') || '';
                     }
-                    const query = line.split('?')[1] || '';
-                    const encMatch = query.match(/encryption=([^&]+)/);
-                    if (encMatch) encryption = encMatch[1];
-                } else if (line.startsWith('vmess://')) {
-                    protocol = 'vmess';
-                    try {
-                        const decoded = atob(line.replace('vmess://', ''));
-                        const json = JSON.parse(decoded);
-                        ip = json.add || '';
-                        port = json.port || '';
-                        encryption = json.scy || '';
-                        name = json.ps || '';
-                    } catch (e) {}
-                } else if (line.startsWith('trojan://')) {
-                    protocol = 'trojan';
-                    const parts = line.split('@');
-                    if (parts.length > 1) {
-                        const hostPort = parts[1].split('?')[0];
-                        const host = hostPort.split(':')[0];
-                        const p = hostPort.split(':')[1] || '';
-                        ip = host;
-                        port = p;
-                    }
-                    const query = line.split('?')[1] || '';
-                    const encMatch = query.match(/encryption=([^&]+)/);
-                    if (encMatch) encryption = encMatch[1];
-                } else if (line.startsWith('ss://')) {
-                    protocol = 'shadowsocks';
-                    const parts = line.split('@');
-                    if (parts.length > 1) {
-                        const hostPort = parts[1].split('#')[0];
-                        const host = hostPort.split(':')[0];
-                        const p = hostPort.split(':')[1] || '';
-                        ip = host;
-                        port = p;
-                    }
+                } catch {
+                    // Keep partial parsing below rather than dropping the config.
                 }
 
-                const nameMatch = line.match(/#(.+)$/);
-                if (nameMatch) name = nameMatch[1].trim();
+                if (!ip && raw.includes('@')) {
+                    try {
+                        const tail = raw.split('@').pop().split('?')[0].split('#')[0];
+                        if (tail.startsWith('[')) {
+                            const close = tail.indexOf(']');
+                            ip = close >= 0 ? tail.slice(1, close) : tail;
+                            port = close >= 0 && tail.charAt(close + 1) === ':' ? tail.slice(close + 2) : '';
+                        } else {
+                            const idx = tail.lastIndexOf(':');
+                            if (idx > -1 && /^\d+$/.test(tail.slice(idx + 1))) { ip = tail.slice(0, idx); port = tail.slice(idx + 1); }
+                            else ip = tail;
+                        }
+                    } catch {}
+                }
+
+                if (!name) {
+                    const hash = raw.match(/#(.+)$/);
+                    if (hash) {
+                        try { name = decodeURIComponent(hash[1].trim()); } catch { name = hash[1].trim(); }
+                    }
+                }
                 if (!name) name = ip || 'بدون نام';
+                if (!encryption) {
+                    const q = raw.includes('?') ? raw.split('?')[1].split('#')[0] : '';
+                    const m = q.match(/(?:^|&)security=([^&]+)/i) || q.match(/(?:^|&)encryption=([^&]+)/i) || q.match(/(?:^|&)method=([^&]+)/i);
+                    if (m) encryption = decodeURIComponent(m[1]);
+                }
 
                 const flag = decodeFlagFromName(name);
                 const country = extractCountryFromFlag(flag);
 
                 return {
-                    raw: line,
+                    raw,
                     protocol,
                     ip: ip || '-',
                     port: port || '-',
                     encryption: encryption || '-',
-                    name: name,
-                    country: country,
-                    flag: flag
+                    name,
+                    country,
+                    flag
                 };
+            }
+
+            // ===== FETCH / SUBSCRIPTION DECODING =====
+            function cleanSubscriptionText(text) {
+                return String(text || '').replace(/^\uFEFF/, '').trim();
+            }
+
+            function decodeBase64Text(input) {
+                try {
+                    let value = cleanSubscriptionText(input).replace(/\s+/g, '');
+                    value = value.replace(/-/g, '+').replace(/_/g, '/');
+                    while (value.length % 4) value += '=';
+                    const binary = atob(value);
+                    const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+                    try { return new TextDecoder('utf-8', { fatal: false }).decode(bytes); }
+                    catch { return Array.from(bytes, b => String.fromCharCode(b)).join(''); }
+                } catch { return null; }
+            }
+
+            function extractSubscriptionLines(text) {
+                const raw = cleanSubscriptionText(text);
+                if (!raw) return [];
+                let normalized = raw.replace(/\r/g, '');
+                const directLines = normalized.split('\n').map(v => v.trim()).filter(Boolean);
+                const uriCount = directLines.filter(v => /^(vless|vmess|trojan|ss|socks|http):\/\//i.test(v)).length;
+                if (uriCount) return directLines;
+
+                const decoded = decodeBase64Text(raw);
+                if (decoded) {
+                    const decodedLines = decoded.replace(/\r/g, '').split('\n').map(v => v.trim()).filter(Boolean);
+                    const decodedUriCount = decodedLines.filter(v => /^(vless|vmess|trojan|ss|socks|http):\/\//i.test(v)).length;
+                    if (decodedUriCount) return decodedLines;
+                    // Some feeds are one base64 blob whose decoded payload contains an extra header.
+                    const embedded = decoded.match(/(?:vless|vmess|trojan|ss|socks|http):\/\/[^\s]+/gi);
+                    if (embedded?.length) return embedded;
+                }
+
+                // Last-resort extraction for feeds containing labels/headers around URIs.
+                const embedded = normalized.match(/(?:vless|vmess|trojan|ss|socks|http):\/\/[^\s]+/gi);
+                return embedded?.length ? embedded : directLines;
             }
 
             // ===== FETCH =====
             async function fetchConfigsFromUrl(url) {
                 const res = await resilientFetch(url, { timeout: 12000 });
-                if (!res.ok) throw new Error('خطا در دریافت فایل');
                 const text = await res.text();
-                const lines = text.split('\n').filter(l => l.trim() !== '');
-                return lines.map(parseConfigLine).filter(c => c !== null);
+                const lines = extractSubscriptionLines(text);
+                const configs = lines.map(parseConfigLine).filter(c => c !== null);
+                if (!configs.length) throw new Error('Subscription دریافت شد اما URI قابل‌خواندن پیدا نشد');
+                return configs;
             }
 
             async function loadAllConfigs() {
@@ -2842,7 +2886,7 @@ canvas { max-width:100% !important; }
     const navPlatform=navigator.platform||'';
     const touchPoints=Number(navigator.maxTouchPoints||0);
 
-    let platform='Unknown', version='Unknown', logo='./favicon.svg';
+    let platform='Unknown', version='Unknown', logo='fas fa-desktop';
     let clientName='مشاهده کلاینت‌ها', clientUrl='#clients';
 
     // iPadOS can advertise itself as Macintosh/Safari. Touch points are a strong fallback.
@@ -2857,18 +2901,18 @@ canvas { max-width:100% !important; }
     if(isAndroid){
       platform='Android';
       version=(ua.match(/Android\s([0-9._]+)/i)||[])[1]?.replace(/_/g,'.')||'Android';
-      logo='./android.svg';
+      logo='fab fa-android';
       clientName='V2rayNG';
       clientUrl='https://github.com/2dust/v2rayNG/releases';
     }else if(isIPadLike || isIPhone){
       platform=isIPadLike?'iPadOS':'iOS';
       version=isIPadLike?'iPad / iPadOS':'iPhone / iOS';
-      logo='./apple.svg';
+      logo='fab fa-apple';
       clientName='NPV Tunnel';
       clientUrl='https://apps.apple.com/us/app/npv-tunnel/id1629465476';
     }else if(isWindows){
       platform='Windows';
-      logo='./windows.svg';
+      logo='fab fa-windows';
       let pv='';
       try{
         if(navigator.userAgentData?.getHighEntropyValues){
@@ -2892,29 +2936,25 @@ canvas { max-width:100% !important; }
       clientName='v2rayN';
       clientUrl='https://github.com/2dust/v2rayN/releases';
     }else if(isMac){
-      platform='macOS'; version='macOS'; logo='./apple.svg';
+      platform='macOS'; version='macOS'; logo='fab fa-apple';
       clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
     }else if(isChromeOS){
-      platform='ChromeOS'; version='ChromeOS'; logo='./chromeos.svg';
+      platform='ChromeOS'; version='ChromeOS'; logo='fab fa-chrome';
       clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
     }else if(isLinux){
-      platform='Linux'; version='Linux'; logo='./linux.svg';
+      platform='Linux'; version='Linux'; logo='fab fa-linux';
       clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
     }else if(/FreeBSD/i.test(ua)){
-      platform='FreeBSD'; version='FreeBSD'; logo='./linux.svg';
+      platform='FreeBSD'; version='FreeBSD'; logo='fas fa-server';
       clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
     }else if(/Xbox/i.test(ua)){
-      platform='Xbox'; version='Xbox'; logo='./windows.svg';
+      platform='Xbox'; version='Xbox'; logo='fab fa-xbox';
       clientName='مشاهده کلاینت‌ها'; clientUrl='#clients';
     }
 
     osNameEl.textContent=version;
     osVersionEl.textContent=platform;
-    osIconEl.innerHTML=`<img src="${logo}" alt="${platform} logo" loading="eager">`;
-    const osImg=osIconEl.querySelector('img');
-    osImg?.addEventListener('error',()=>{
-      osIconEl.innerHTML='<i class="fas fa-desktop"></i>';
-    },{once:true});
+    osIconEl.innerHTML=`<i class="${logo}" aria-hidden="true"></i>`;
     if(osClientLink){ osClientLink.href=clientUrl; osClientLink.dataset.client=clientName; }
     if(osClientName) osClientName.textContent=clientName;
   }
@@ -2923,9 +2963,9 @@ canvas { max-width:100% !important; }
 
   // ===== LIVE GITHUB PROJECT INTELLIGENCE =====
   const githubProjects = [
-    {owner:'2dust',repo:'v2rayNG',name:'V2rayNG',logo:'./android.svg',platform:'Android',note:'Mobile V2Ray client with Xray / v2fly core support.',releaseUrl:'https://github.com/2dust/v2rayNG/releases'},
-    {owner:'2dust',repo:'v2rayN',name:'v2rayN',logo:'./windows.svg',platform:'Windows · Linux · macOS',note:'Desktop client supporting Xray, sing-box and related stacks.',releaseUrl:'https://github.com/2dust/v2rayN/releases'},
-    {owner:'hiddify',repo:'Hiddify-app',name:'Hiddify',logo:'./hiddify.svg',platform:'Android · iOS · Windows · macOS · Linux',note:'Multi-platform client with broad proxy protocol support.',releaseUrl:'https://github.com/hiddify/hiddify-app/releases'}
+    {owner:'2dust',repo:'v2rayNG',name:'V2rayNG',logo:'Pic/iconv2rayng.jpg',platform:'Android',note:'Mobile V2Ray client with Xray / v2fly core support.',releaseUrl:'https://github.com/2dust/v2rayNG/releases'},
+    {owner:'2dust',repo:'v2rayN',name:'v2rayN',logo:'https://github.com/2dust.png?size=128',platform:'Windows · Linux · macOS',note:'Desktop client supporting Xray, sing-box and related stacks.',releaseUrl:'https://github.com/2dust/v2rayN/releases'},
+    {owner:'hiddify',repo:'Hiddify-app',name:'Hiddify',logo:'https://raw.githubusercontent.com/hiddify/hiddify.com/main/docs/assets/hiddify-app-logo.svg',platform:'Android · iOS · Windows · macOS · Linux',note:'Multi-platform client with broad proxy protocol support.',releaseUrl:'https://github.com/hiddify/hiddify-app/releases'}
   ];
 
   function compactNum(n){
@@ -2975,7 +3015,7 @@ canvas { max-width:100% !important; }
     const releaseAssetCount=release?.assets?.length||0;
     const assetHtml=assets.length?assets.map(a=>`<div class="asset-row"><div class="asset-label"><b title="${a.name}">${a.name}</b><small>${assetType(a.name)} · ${formatBytes(a.size)}</small></div><a class="asset-download" href="${a.browser_download_url}" target="_blank" rel="noopener"><i class="fas fa-download"></i> دانلود</a></div>`).join(''):`<div class="release-note">Asset قابل دانلود از API پیدا نشد؛ صفحهٔ Release را باز کنید.</div>`;
     const description=(repo.description||p.note||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    return `<article class="release-card"><div class="release-head"><div class="release-logo"><img src="${p.logo}" alt="${p.name} logo" onerror="this.onerror=null;this.src='./favicon.svg';"></div><div class="release-name"><b>${p.name}</b><small>${p.platform}</small></div></div><div style="color:#94a3b8;font:.64rem 'Vazirmatn';line-height:1.65;min-height:2.3em">${description}</div><div class="github-badges">${badge('fas fa-star','Stars',compactNum(repo.stargazers_count))}${badge('fas fa-code-fork','Forks',compactNum(repo.forks_count))}${badge('fas fa-eye','Watchers',compactNum(repo.watchers_count))}${badge('fas fa-circle-exclamation','Issues',compactNum(repo.open_issues_count))}</div><div class="release-version"><span>${releaseType}</span><b>${releaseTag}</b></div><div class="release-meta"><div class="release-meta-item"><span>License</span><b>${repo.license?.spdx_id||repo.license?.name||'—'}</b></div><div class="release-meta-item"><span>Released</span><b>${release?.published_at?new Date(release.published_at).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'2-digit'}):'—'}</b></div><div class="release-meta-item"><span>Release assets</span><b>${releaseAssetCount}</b></div><div class="release-meta-item"><span>Default branch</span><b>${repo.default_branch||'—'}</b></div></div><div class="asset-list">${assetHtml}</div><div class="release-actions"><a class="client-btn" href="${release?.html_url||p.releaseUrl}" target="_blank" rel="noopener"><i class="fab fa-github"></i> صفحه Release</a><a class="client-btn" href="https://github.com/${p.owner}/${p.repo}" target="_blank" rel="noopener"><i class="fas fa-code"></i> Repository</a></div><div class="release-note">آخرین داده: ${formatDate(release?.published_at||repo.updated_at)} · ${assets.length?`نمایش ${assets.length} دانلود پیشنهادی`:'دانلود مستقیم در دسترس نیست'}</div></article>`;
+    return `<article class="release-card"><div class="release-head"><div class="release-logo"><img src="${p.logo}" alt="${p.name} logo" onerror="this.onerror=null;this.src='https://github.githubassets.com/favicons/favicon.svg';"></div><div class="release-name"><b>${p.name}</b><small>${p.platform}</small></div></div><div style="color:#94a3b8;font:.64rem 'Vazirmatn';line-height:1.65;min-height:2.3em">${description}</div><div class="github-badges">${badge('fas fa-star','Stars',compactNum(repo.stargazers_count))}${badge('fas fa-code-fork','Forks',compactNum(repo.forks_count))}${badge('fas fa-eye','Watchers',compactNum(repo.watchers_count))}${badge('fas fa-circle-exclamation','Issues',compactNum(repo.open_issues_count))}</div><div class="release-version"><span>${releaseType}</span><b>${releaseTag}</b></div><div class="release-meta"><div class="release-meta-item"><span>License</span><b>${repo.license?.spdx_id||repo.license?.name||'—'}</b></div><div class="release-meta-item"><span>Released</span><b>${release?.published_at?new Date(release.published_at).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'2-digit'}):'—'}</b></div><div class="release-meta-item"><span>Release assets</span><b>${releaseAssetCount}</b></div><div class="release-meta-item"><span>Default branch</span><b>${repo.default_branch||'—'}</b></div></div><div class="asset-list">${assetHtml}</div><div class="release-actions"><a class="client-btn" href="${release?.html_url||p.releaseUrl}" target="_blank" rel="noopener"><i class="fab fa-github"></i> صفحه Release</a><a class="client-btn" href="https://github.com/${p.owner}/${p.repo}" target="_blank" rel="noopener"><i class="fas fa-code"></i> Repository</a></div><div class="release-note">آخرین داده: ${formatDate(release?.published_at||repo.updated_at)} · ${assets.length?`نمایش ${assets.length} دانلود پیشنهادی`:'دانلود مستقیم در دسترس نیست'}</div></article>`;
   }
   async function githubFetch(url){
     const cacheKey='v2ray_sub_gh_'+url; const cached=sessionStorage.getItem(cacheKey);
