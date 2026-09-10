@@ -21,6 +21,8 @@
     <script>
         window.PAGE_INSIGHTS_CONFIG = {
             workerUrl: "https://github-page-insights-worker.game-developer-mb.workers.dev",
+            siteId: "v2ray-sub",
+            siteName: "V2ray_Sub",
             sampleRate: 1,
             heartbeatMs: 30000
         };
@@ -2154,7 +2156,7 @@ canvas { max-width:100% !important; }
             <div class="site-analytics-head">
                 <div>
                     <div class="site-analytics-title"><i class="fas fa-chart-line"></i><b>آمار بازدید سایت | Visitor Analytics</b></div>
-                    <div class="site-analytics-meta">Powered by GitHub Page Insights · ۷ روز اخیر</div>
+                    <div class="site-analytics-meta">GitHub Page Insights · آرشیو GitHub · ۷ روز اخیر · <span dir="ltr">v2ray-sub</span></div>
                 </div>
                 <button class="analytics-refresh-btn" id="analyticsRefreshBtn" type="button"><i class="fas fa-rotate"></i> بروزرسانی</button>
             </div>
@@ -2164,7 +2166,7 @@ canvas { max-width:100% !important; }
                 <div class="analytics-metric"><span>جلسات</span><strong id="analyticsSessions">—</strong><small>Sessions</small></div>
                 <div class="analytics-metric"><span>مدت حضور میانگین</span><strong id="analyticsDuration">—</strong><small>Average Duration</small></div>
             </div>
-            <div class="analytics-status" id="analyticsStatus">در حال دریافت آمار بازدید…</div>
+            <div class="analytics-status" id="analyticsStatus">در حال ثبت بازدید و خواندن آرشیو GitHub…</div>
         </section>
 
         <!-- ===== FOOTER ===== -->
@@ -3181,12 +3183,220 @@ canvas { max-width:100% !important; }
 <script>
 (function(){
   'use strict';
-  const WORKER='https://github-page-insights-worker.game-developer-mb.workers.dev', SITE='v2ray-sub';
-  const e={v:document.getElementById('analyticsViews'),u:document.getElementById('analyticsVisitors'),s:document.getElementById('analyticsSessions'),d:document.getElementById('analyticsDuration'),st:document.getElementById('analyticsStatus'),r:document.getElementById('analyticsRefreshBtn')};
-  const fmt=n=>new Intl.NumberFormat().format(Number(n)||0);
-  const dur=ms=>{let s=Math.round(Math.max(0,Number(ms||0))/1000);if(s<60)return s+'s';let m=Math.floor(s/60),r=s%60;return m+'m '+r+'s';};
-  async function load(){if(!e.st)return;e.st.textContent='در حال دریافت آمار بازدید…';e.st.classList.remove('error');let c=new AbortController(),t=setTimeout(()=>c.abort(),9000);try{let r=await fetch(WORKER+'/api/site/'+encodeURIComponent(SITE)+'?days=7',{headers:{Accept:'application/json'},cache:'no-store',signal:c.signal});if(!r.ok)throw Error('HTTP '+r.status);let d=await r.json();e.v.textContent=fmt(d.views);e.u.textContent=fmt(d.uniqueVisitors);e.s.textContent=fmt(d.sessions);e.d.textContent=dur(d.avgDurationMs);e.st.textContent='متصل · '+fmt(d.today?.views||0)+' بازدید امروز · '+new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});}catch(err){e.st.classList.add('error');e.st.textContent='آمار در این لحظه در دسترس نیست؛ دوباره تلاش می‌شود.';console.warn('V2ray_Sub analytics:',err);}finally{clearTimeout(t);}}
-  e.r?.addEventListener('click',load); load(); setInterval(()=>{if(!document.hidden)load();},60000);
+
+  const ANALYTICS_REPO = 'https://api.github.com/repos/mehrdadmb2/github-page-insights';
+  const BRANCH = 'main';
+  const SITE = 'v2ray-sub';
+  const LOOKBACK_DAYS = 7;
+  const MAX_EVENT_FILES = 2500;
+  const e = {
+    v: document.getElementById('analyticsViews'),
+    u: document.getElementById('analyticsVisitors'),
+    s: document.getElementById('analyticsSessions'),
+    d: document.getElementById('analyticsDuration'),
+    st: document.getElementById('analyticsStatus'),
+    r: document.getElementById('analyticsRefreshBtn')
+  };
+
+  const fmt = n => new Intl.NumberFormat().format(Number(n) || 0);
+  const dur = ms => {
+    let seconds = Math.round(Math.max(0, Number(ms || 0)) / 1000);
+    if (seconds < 60) return seconds + 's';
+    const minutes = Math.floor(seconds / 60), rest = seconds % 60;
+    return minutes + 'm ' + rest + 's';
+  };
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  async function fetchJson(url, timeout = 10000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeout);
+    try {
+      const response = await fetch(url, {
+        headers: { 'Accept': 'application/vnd.github+json' },
+        cache: 'no-store',
+        signal: controller.signal
+      });
+      if (!response.ok) {
+        let details = '';
+        try { details = await response.text(); } catch (_) {}
+        throw new Error('GitHub API ' + response.status + (details ? ': ' + details.slice(0, 180) : ''));
+      }
+      return await response.json();
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  function dateKey(offset) {
+    const d = new Date(Date.now() - offset * 86400000);
+    return {
+      year: String(d.getUTCFullYear()).padStart(4, '0'),
+      month: String(d.getUTCMonth() + 1).padStart(2, '0'),
+      day: String(d.getUTCDate()).padStart(2, '0')
+    };
+  }
+
+  async function listDay(offset) {
+    const d = dateKey(offset);
+    const path = `data/sites/${SITE}/events/${d.year}/${d.month}/${d.day}`;
+    const url = `${ANALYTICS_REPO}/contents/${path}?ref=${encodeURIComponent(BRANCH)}`;
+    const items = await fetchJson(url);
+    return Array.isArray(items) ? items.filter(item => item && item.type === 'file' && /\.json$/i.test(item.name || '')) : [];
+  }
+
+  async function readEvents(files) {
+    const result = [];
+    let index = 0;
+    const concurrency = 6;
+
+    async function worker() {
+      while (index < files.length) {
+        const current = files[index++];
+        try {
+          const eventUrl = current.download_url ||
+            `https://raw.githubusercontent.com/mehrdadmb2/github-page-insights/${encodeURIComponent(BRANCH)}/${current.path}`;
+          const data = await fetchJson(eventUrl, 10000);
+          if (data && data.event) result.push(data.event);
+        } catch (error) {
+          console.warn('GitHub archive event read failed:', current?.path, error);
+        }
+      }
+    }
+
+    await Promise.all(Array.from({length: concurrency}, worker));
+    return result;
+  }
+
+  function aggregate(events) {
+    const pageviews = events.filter(x => String(x?.eventType || x?.type || '') === 'pageview');
+    const visitorIds = new Set(pageviews.map(x => x.visitorId).filter(Boolean));
+    const sessionIds = new Set(events.map(x => x.sessionId).filter(Boolean));
+    const durations = pageviews
+      .map(x => Number(x.durationMs || 0))
+      .filter(x => Number.isFinite(x) && x >= 0);
+
+    const todayIso = new Date().toISOString().slice(0, 10);
+    const today = pageviews.filter(x => String(x.receivedAt || x.occurredAt || x.timestamp || '').slice(0,10) === todayIso);
+
+    return {
+      views: pageviews.length,
+      uniqueVisitors: visitorIds.size,
+      sessions: sessionIds.size,
+      avgDurationMs: durations.length ? durations.reduce((a,b) => a + b, 0) / durations.length : 0,
+      todayViews: today.length,
+      todayVisitors: new Set(today.map(x => x.visitorId).filter(Boolean)).size
+    };
+  }
+
+  function setStatus(text, isError) {
+    if (!e.st) return;
+    e.st.textContent = text;
+    e.st.classList.toggle('error', !!isError);
+  }
+
+  async function loadFromRepository() {
+    if (!e.st) return;
+    setStatus('در حال ثبت بازدید و سپس خواندن آرشیو GitHub…', false);
+
+    // The bundled tracker follows the project's official v5 protocol.
+    // Wait for its first POST /collect to finish so the Worker has time
+    // to archive the event under data/sites/v2ray-sub/...
+    try {
+      if (window.__GPI_PAGEVIEW_PROMISE__) {
+        await Promise.race([
+          window.__GPI_PAGEVIEW_PROMISE__,
+          sleep(12000)
+        ]);
+      }
+    } catch (error) {
+      console.warn('Initial analytics event failed:', error);
+    }
+
+    try {
+      const cacheKey = `v2ray-sub-archive-${LOOKBACK_DAYS}`;
+      let cached = null;
+      try { cached = JSON.parse(sessionStorage.getItem(cacheKey) || 'null'); } catch (_) {}
+
+      // A short cache prevents repeated GitHub API requests from every
+      // heartbeat/refresh while still keeping the panel fresh.
+      if (cached && Number(cached.at || 0) > Date.now() - 60000 && cached.data) {
+        render(cached.data, true);
+        return;
+      }
+
+      const dayLists = [];
+      let totalFiles = 0;
+
+      for (let offset = 0; offset < LOOKBACK_DAYS; offset++) {
+        try {
+          const files = await listDay(offset);
+          dayLists.push(files);
+          totalFiles += files.length;
+        } catch (error) {
+          // A missing day folder is expected before the first event of that day.
+          if (!String(error?.message || '').includes('GitHub API 404')) {
+            console.warn('GitHub archive day unavailable:', offset, error);
+          }
+        }
+      }
+
+      if (totalFiles === 0) {
+        // Give the Worker a little more time on a first visit, then retry once.
+        await sleep(900);
+        for (let offset = 0; offset < Math.min(2, LOOKBACK_DAYS); offset++) {
+          try {
+            const files = await listDay(offset);
+            dayLists.push(files);
+            totalFiles += files.length;
+          } catch (_) {}
+        }
+      }
+
+      const allFiles = dayLists.flat()
+        .sort((a,b) => String(a.name).localeCompare(String(b.name)))
+        .slice(-MAX_EVENT_FILES);
+
+      if (!allFiles.length) {
+        throw new Error('No archived event files found for this site yet.');
+      }
+
+      const events = await readEvents(allFiles);
+      if (!events.length) {
+        throw new Error('Archive files were found but no event payloads could be read.');
+      }
+
+      const data = aggregate(events);
+      try {
+        sessionStorage.setItem(cacheKey, JSON.stringify({ at: Date.now(), data }));
+      } catch (_) {}
+
+      render(data, false);
+    } catch (error) {
+      setStatus(
+        'آرشیو GitHub در این لحظه قابل خواندن نیست؛ دوباره تلاش می‌شود.',
+        true
+      );
+      console.warn('V2ray_Sub GitHub archive analytics:', error);
+    }
+  }
+
+  function render(data, cached) {
+    e.v.textContent = fmt(data.views);
+    e.u.textContent = fmt(data.uniqueVisitors);
+    e.s.textContent = fmt(data.sessions);
+    e.d.textContent = dur(data.avgDurationMs);
+    const source = cached ? ' · cache 60s' : '';
+    setStatus(
+      `متصل · ${fmt(data.todayViews)} بازدید امروز · منبع: GitHub Archive${source} · ${new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'})}`,
+      false
+    );
+  }
+
+  e.r?.addEventListener('click', () => loadFromRepository());
+  loadFromRepository();
+  setInterval(() => {
+    if (!document.hidden) loadFromRepository();
+  }, 120000);
 })();
 </script>
 </body>
