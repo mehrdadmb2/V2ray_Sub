@@ -15,6 +15,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- GitHub Page Insights -->
+    <meta name="page-insights-site-id" content="v2ray-sub" />
+    <meta name="page-insights-site-name" content="V2ray_Sub" />
+    <script>
+        window.PAGE_INSIGHTS_CONFIG = {
+            workerUrl: "https://github-page-insights-worker.game-developer-mb.workers.dev",
+            sampleRate: 1,
+            heartbeatMs: 30000
+        };
+    </script>
+    <script src="https://github-page-insights-worker.game-developer-mb.workers.dev/analytics/analytics.js" defer></script>
+
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -566,6 +578,25 @@
             font-size: 0.7rem;
             color: #94a3b8;
             padding: 0.4rem 0;
+        }
+
+        /* ===== GALLERY: compact native-size frame ===== */
+        .gallery { align-items: start; }
+        .gallery-item {
+            width: fit-content; max-width: 100%; justify-self: center;
+            display: inline-flex; flex-direction: column; align-items: stretch;
+            padding: .3rem; background: rgba(255,255,255,.025);
+            border: 1px solid rgba(255,255,255,.075); border-radius: 1rem; overflow:hidden;
+        }
+        .gallery-item img {
+            width: auto !important; max-width: min(100%, 235px) !important; height:auto !important;
+            max-height:270px; aspect-ratio:auto !important; object-fit:contain !important;
+            background:transparent !important; border-radius:.7rem; display:block; margin:0 auto;
+        }
+        .gallery-item .caption { width:100%; max-width:235px; margin:0 auto; padding:.45rem .3rem .2rem; line-height:1.55; }
+        @media (max-width:430px){
+          .gallery-item img { max-width:min(100%,165px) !important; max-height:220px; }
+          .gallery-item .caption { max-width:165px; font-size:.66rem; }
         }
 
         /* ===== FEATURES GRID ===== */
@@ -1545,6 +1576,9 @@ canvas { max-width:100% !important; }
   .section-title { font-size: 1.15rem; line-height: 1.5; }
 }
 
+
+        .site-analytics{margin-top:2rem;padding:1.35rem;border-radius:1.8rem;border:1px solid rgba(255,255,255,.07);background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(96,165,250,.025));box-shadow:0 18px 50px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.035)}
+        .site-analytics-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}.site-analytics-title{display:flex;align-items:center;gap:.7rem}.site-analytics-title i{color:#60a5fa}.site-analytics-title b{font-size:1rem}.site-analytics-meta{color:#64748b;font-size:.72rem}.analytics-refresh-btn{border:1px solid rgba(96,165,250,.2);background:rgba(96,165,250,.08);color:#cfe8ff;border-radius:.8rem;padding:.55rem .85rem;cursor:pointer;font:inherit;font-size:.75rem}.analytics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem}.analytics-metric{padding:1rem;border-radius:1.1rem;background:rgba(0,0,0,.14);border:1px solid rgba(255,255,255,.05);min-width:0}.analytics-metric span{display:block;color:#7f8baa;font-size:.68rem;margin-bottom:.3rem}.analytics-metric strong{display:block;color:#f8fbff;font-size:1.45rem;line-height:1.1}.analytics-metric small{display:block;color:#64748b;font-size:.64rem;margin-top:.28rem}.analytics-status{margin-top:.8rem;padding:.7rem .8rem;border-radius:.9rem;background:rgba(52,211,153,.055);border:1px solid rgba(52,211,153,.12);color:#9edcc4;font-size:.72rem}.analytics-status.error{background:rgba(248,113,113,.055);border-color:rgba(248,113,113,.14);color:#fca5a5}@media(max-width:800px){.analytics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:430px){.analytics-grid{gap:.6rem}.analytics-metric strong{font-size:1.15rem}.site-analytics{padding:1rem}}
 </style>
 </head>
 
@@ -2114,6 +2148,24 @@ canvas { max-width:100% !important; }
             </ul>
             <p style="color:#94a3b8; font-size:0.9rem;">📝 مجوز پروژه <strong>MIT</strong> است. جزئیات در فایل <code>LICENSE</code>.</p>
         </div>
+
+        <!-- ===== VISITOR ANALYTICS (BOTTOM) ===== -->
+        <section class="site-analytics" id="siteAnalytics" aria-label="آمار بازدید سایت">
+            <div class="site-analytics-head">
+                <div>
+                    <div class="site-analytics-title"><i class="fas fa-chart-line"></i><b>آمار بازدید سایت | Visitor Analytics</b></div>
+                    <div class="site-analytics-meta">Powered by GitHub Page Insights · ۷ روز اخیر</div>
+                </div>
+                <button class="analytics-refresh-btn" id="analyticsRefreshBtn" type="button"><i class="fas fa-rotate"></i> بروزرسانی</button>
+            </div>
+            <div class="analytics-grid">
+                <div class="analytics-metric"><span>بازدید صفحه</span><strong id="analyticsViews">—</strong><small>Page Views</small></div>
+                <div class="analytics-metric"><span>بازدیدکنندهٔ یکتا</span><strong id="analyticsVisitors">—</strong><small>Unique Visitors</small></div>
+                <div class="analytics-metric"><span>جلسات</span><strong id="analyticsSessions">—</strong><small>Sessions</small></div>
+                <div class="analytics-metric"><span>مدت حضور میانگین</span><strong id="analyticsDuration">—</strong><small>Average Duration</small></div>
+            </div>
+            <div class="analytics-status" id="analyticsStatus">در حال دریافت آمار بازدید…</div>
+        </section>
 
         <!-- ===== FOOTER ===== -->
         <footer class="footer">
@@ -3126,5 +3178,16 @@ canvas { max-width:100% !important; }
 })();
 </script>
 
+<script>
+(function(){
+  'use strict';
+  const WORKER='https://github-page-insights-worker.game-developer-mb.workers.dev', SITE='v2ray-sub';
+  const e={v:document.getElementById('analyticsViews'),u:document.getElementById('analyticsVisitors'),s:document.getElementById('analyticsSessions'),d:document.getElementById('analyticsDuration'),st:document.getElementById('analyticsStatus'),r:document.getElementById('analyticsRefreshBtn')};
+  const fmt=n=>new Intl.NumberFormat().format(Number(n)||0);
+  const dur=ms=>{let s=Math.round(Math.max(0,Number(ms||0))/1000);if(s<60)return s+'s';let m=Math.floor(s/60),r=s%60;return m+'m '+r+'s';};
+  async function load(){if(!e.st)return;e.st.textContent='در حال دریافت آمار بازدید…';e.st.classList.remove('error');let c=new AbortController(),t=setTimeout(()=>c.abort(),9000);try{let r=await fetch(WORKER+'/api/site/'+encodeURIComponent(SITE)+'?days=7',{headers:{Accept:'application/json'},cache:'no-store',signal:c.signal});if(!r.ok)throw Error('HTTP '+r.status);let d=await r.json();e.v.textContent=fmt(d.views);e.u.textContent=fmt(d.uniqueVisitors);e.s.textContent=fmt(d.sessions);e.d.textContent=dur(d.avgDurationMs);e.st.textContent='متصل · '+fmt(d.today?.views||0)+' بازدید امروز · '+new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});}catch(err){e.st.classList.add('error');e.st.textContent='آمار در این لحظه در دسترس نیست؛ دوباره تلاش می‌شود.';console.warn('V2ray_Sub analytics:',err);}finally{clearTimeout(t);}}
+  e.r?.addEventListener('click',load); load(); setInterval(()=>{if(!document.hidden)load();},60000);
+})();
+</script>
 </body>
 </html>
