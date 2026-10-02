@@ -1,160 +1,236 @@
+/* Universal Event Insights Browser SDK v10 */
 (function () {
   "use strict";
-  if (window.__GPI_ATTACHED__) return;
-  window.__GPI_ATTACHED__ = true;
+  const C = window.PAGE_INSIGHTS_CONFIG || {};
+  const worker = String(C.workerUrl || "").replace(/\/+$/, "");
+  const meta = name => document.querySelector(`meta[name="${name}"]`)?.content || "";
+  const platformId = (
+    C.platformId ||
+    meta("page-insights-platform-id") ||
+    meta("page-insights-site-id") ||
+    meta("uei-platform-id") ||
+    location.hostname ||
+    "web"
+  ).trim();
+  const platformName = (
+    C.platformName ||
+    meta("page-insights-platform-name") ||
+    meta("page-insights-site-name") ||
+    meta("uei-platform-name") ||
+    platformId
+  ).trim();
+  const platformType = (
+    C.platformType ||
+    meta("page-insights-platform-type") ||
+    meta("uei-platform-type") ||
+    "web"
+  ).trim();
+  const environment = (C.environment || meta("page-insights-environment") || "production").trim();
+  if (!worker || !platformId) return;
 
-  const cfg = window.PAGE_INSIGHTS_CONFIG || {};
-  const script = document.currentScript;
-  const meta = (name) => document.querySelector(`meta[name="${name}"]`)?.content?.trim() || "";
-  const worker = String(cfg.workerUrl || script?.dataset?.workerUrl || "").replace(/\/+$/, "");
-  if (!worker) return;
+  const storageKey = `uei_v10_${platformId}`;
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const queueKey = `${storageKey}_queue`;
 
-  const sanitizeSiteId = (v) => String(v || "").trim().toLowerCase()
-    .normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9._-]+/g, "-").replace(/-+/g, "-")
-    .replace(/^[-.]+|[-.]+$/g, "").slice(0, 64);
-
-  const explicitId = script?.dataset?.siteId || meta("page-insights-site-id") || cfg.siteId || "";
-  const siteId = sanitizeSiteId(explicitId) || sanitizeSiteId(location.hostname) || "unknown-site";
-  const siteName = script?.dataset?.siteName || meta("page-insights-site-name") || cfg.siteName || document.title || siteId;
-  const sample = Math.max(0, Math.min(1, Number(cfg.sampleRate ?? 1)));
-  if (Math.random() > sample) return;
-
-  const uid = () => crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  const read = (store, key) => { try { return store.getItem(key); } catch { return null; } };
-  const write = (store, key, value) => { try { store.setItem(key, value); } catch {} };
-
-  let visitorId = read(localStorage, `gpi:v5:visitor:${siteId}`);
-  if (!visitorId) { visitorId = uid(); write(localStorage, `gpi:v5:visitor:${siteId}`, visitorId); }
-
-  let session;
-  try { session = JSON.parse(read(sessionStorage, `gpi:v5:session:${siteId}`) || "null"); } catch { session = null; }
-
-  const now = Date.now();
-  if (!session || !session.id || now - Number(session.lastSeen || 0) > 30 * 60 * 1000) {
-    session = { id: uid(), lastSeen: now };
+  let pageStart = Date.now();
+  let maxScroll = 0;
+  let clicks = 0;
+  let outboundClicks = 0;
+  let lastScrollSent = 0;
+  let pageLeft = false;
+  const getOrCreate = (storeName, keyName) => {
+    try {
+      const store = storeName === "session" ? sessionStorage : localStorage;
+      const current = store.getItem(`${storageKey}_${keyName}`);
+      if (current) return current;
+      const generated = crypto.randomUUID();
+      store.setItem(`${storageKey}_${keyName}`, generated);
+      return generated;
+    } catch {
+      return crypto.randomUUID();
+    }
+  };
+  const visitorId = getOrCreate("local", "visitor");
+  const sessionId = getOrCreate("session", "session");
+  const userId = C.userId || null;
+  const anonymousId = C.anonymousId || null;
+  const platformIp = C.platformIp || meta("page-insights-platform-ip") || null;
+  const screenInfo = {
+    width: window.screen?.width || null,
+    height: window.screen?.height || null,
+    devicePixelRatio: window.devicePixelRatio || 1,
+    colorDepth: window.screen?.colorDepth || 24
+  };
+  const viewport = () => ({
+    width: window.innerWidth || null,
+    height: window.innerHeight || null
+  });
+  const conn = () => ({
+    effectiveType: connection?.effectiveType || null,
+    type: connection?.type || null,
+    downlink: connection?.downlink ?? null,
+    rtt: connection?.rtt ?? null,
+    saveData: Boolean(connection?.saveData)
+  });
+  const page = () => ({
+    url: location.href,
+    path: location.pathname,
+    queryString: location.search.slice(1),
+    title: document.title,
+    referrer: document.referrer || null
+  });
+  const identity = () => ({ visitorId, sessionId, userId, anonymousId });
+  function baseBody(eventType, data, metadata) {
+    return {
+      platformId,
+      platformName,
+      platformType,
+      environment,
+      appVersion: C.appVersion || null,
+      platformIp,
+      source: "browser",
+      sdkName: "universal-event-insights-browser",
+      sdkVersion: "11.0.0",
+      eventType,
+      eventId: crypto.randomUUID(),
+      timestamp: new Date().toISOString(),
+      identity: identity(),
+      page: page(),
+      screen: screenInfo,
+      viewport: viewport(),
+      connection: conn(),
+      durationMs: Math.max(0, Date.now() - pageStart),
+      maxScroll,
+      clicks,
+      outboundClicks,
+      data: data || {},
+      metadata: metadata || {}
+    };
   }
-  session.lastSeen = now;
-  write(sessionStorage, `gpi:v5:session:${siteId}`, JSON.stringify(session));
-
-  const state = { startedAt: now, maxScroll: 0, clicks: 0, outboundClicks: 0, ended: false };
-
-  const conn = () => {
-    const c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    return c ? {
-      type: c.effectiveType || c.type || "",
-      downlink: c.downlink ?? null,
-      rtt: c.rtt ?? null,
-      saveData: !!c.saveData
-    } : null;
-  };
-
-  const tz = () => {
-    try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch { return ""; }
-  };
-
-  const makePayload = (type) => ({
-    siteId, siteName, eventId: uid(), type,
-    sessionId: session.id, visitorId,
-    timestamp: new Date().toISOString(),
-    pageUrl: location.href,
-    path: location.pathname + location.search,
-    title: document.title || "",
-    referrer: document.referrer || "",
-    language: navigator.language || "",
-    timezone: tz(),
-    screen: {
-      width: screen.width || 0,
-      height: screen.height || 0,
-      devicePixelRatio: devicePixelRatio || 1,
-      colorDepth: screen.colorDepth || 0
-    },
-    viewport: { width: innerWidth || 0, height: innerHeight || 0 },
-    connection: conn(),
-    durationMs: Math.max(0, Date.now() - state.startedAt),
-    maxScroll: state.maxScroll,
-    clicks: state.clicks,
-    outboundClicks: state.outboundClicks,
-    metadata: {
-      collector: "github-page-insights-v5",
-      visibility: document.visibilityState,
-      referrerPolicy: document.referrerPolicy || ""
+  function readQueue() {
+    try {
+      const value = JSON.parse(localStorage.getItem(queueKey) || "[]");
+      return Array.isArray(value) ? value.slice(-20) : [];
+    } catch {
+      return [];
+    }
+  }
+  function saveQueue(queue) {
+    try {
+      localStorage.setItem(queueKey, JSON.stringify(queue.slice(-20)));
+    } catch {
+      // Storage can be unavailable; telemetry still attempts direct delivery.
+    }
+  }
+  function enqueue(body) {
+    const queue = readQueue();
+    queue.push(body);
+    saveQueue(queue);
+  }
+  async function post(body, keepalive) {
+    const timeout = Number(C.requestTimeoutMs || 12000);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeout);
+    try {
+      const response = await fetch(`${worker}/v1/events`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        keepalive: Boolean(keepalive),
+        cache: "no-store",
+        signal: controller.signal
+      });
+      return response.ok;
+    } catch {
+      return false;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  async function flushQueue() {
+    const queue = readQueue();
+    if (!queue.length) return;
+    const remaining = [];
+    for (const item of queue) {
+      const ok = await post(item, false);
+      if (!ok) remaining.push(item);
+    }
+    saveQueue(remaining);
+  }
+  function send(eventType, data, metadata, useBeacon) {
+    const body = baseBody(eventType, data, metadata);
+    if (useBeacon && navigator.sendBeacon) {
+      try {
+        // text/plain avoids a JSON content-type preflight during page shutdown.
+        const blob = new Blob([JSON.stringify(body)], { type: "text/plain;charset=UTF-8" });
+        if (navigator.sendBeacon(`${worker}/v1/events`, blob)) return;
+      } catch {
+        // Fall through to fetch.
+      }
+    }
+    post(body, Boolean(useBeacon)).then(ok => {
+      if (!ok) enqueue(body);
+    });
+  }
+  function updateScroll() {
+    const documentElement = document.documentElement;
+    const body = document.body || {};
+    const top = window.scrollY || documentElement.scrollTop || 0;
+    const total = Math.max(
+      documentElement.scrollHeight,
+      body.scrollHeight || 0,
+      documentElement.offsetHeight || 0,
+      body.offsetHeight || 0
+    ) - window.innerHeight;
+    maxScroll = total > 0 ? Math.min(100, Math.round((top / total) * 100)) : 100;
+    if (maxScroll - lastScrollSent >= 5) {
+      lastScrollSent = maxScroll;
+      send("scroll", { depth: maxScroll }, {});
+    }
+  }
+  window.addEventListener("scroll", updateScroll, { passive: true });
+  window.addEventListener("click", event => {
+    clicks += 1;
+    const target = {
+      tag: event.target?.tagName || null,
+      id: event.target?.id || null,
+      className: typeof event.target?.className === "string" ? event.target.className.slice(0, 256) : null
+    };
+    send("click", { target }, {}, false);
+    const anchor = event.target?.closest?.("a");
+    if (anchor?.href && anchor.origin !== location.origin) {
+      outboundClicks += 1;
+      send("outbound_click", {
+        href: anchor.href,
+        text: (anchor.textContent || "").trim().slice(0, 256)
+      }, {}, false);
+    }
+  }, { passive: true });
+  document.addEventListener("visibilitychange", () => {
+    send("visibility", { state: document.visibilityState }, {});
+  });
+  window.addEventListener("pagehide", () => {
+    if (!pageLeft) {
+      pageLeft = true;
+      send("pageleave", {}, { reason: "pagehide" }, true);
     }
   });
-
-  function send(type, keepalive = false) {
-    if (state.ended && type !== "pageleave") return Promise.resolve(false);
-    const body = JSON.stringify(makePayload(type));
-    const url = `${worker}/collect`;
-
-    if (keepalive && navigator.sendBeacon) {
-      try {
-        if (navigator.sendBeacon(url, new Blob([body], { type: "application/json" }))) {
-          session.lastSeen = Date.now();
-          write(sessionStorage, `gpi:v5:session:${siteId}`, JSON.stringify(session));
-          return Promise.resolve(true);
-        }
-      } catch {}
+  window.addEventListener("beforeunload", () => {
+    if (!pageLeft) {
+      pageLeft = true;
+      send("pageleave", {}, { reason: "beforeunload" }, true);
     }
-
-    const promise = fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body,
-      mode: "cors",
-      credentials: "omit",
-      keepalive
-    }).then((response) => {
-      if (!response.ok) throw new Error(`Analytics collector HTTP ${response.status}`);
-      return response;
+  });
+  if (connection?.addEventListener) {
+    connection.addEventListener("change", () => {
+      send("custom", { connectionChanged: true, connection: conn() }, {});
     });
-
-    promise.catch(() => {});
-    session.lastSeen = Date.now();
-    write(sessionStorage, `gpi:v5:session:${siteId}`, JSON.stringify(session));
-    return promise.then(() => true).catch(() => false);
   }
-
-  function updateScroll() {
-    const doc = document.documentElement;
-    const total = Math.max(1, doc.scrollHeight - innerHeight);
-    state.maxScroll = Math.max(state.maxScroll, Math.min(100, Math.round((scrollY / total) * 100)));
-  }
-
-  function onClick(e) {
-    state.clicks++;
-    const a = e.target?.closest?.("a[href]");
-    if (!a) return;
-    try {
-      if (new URL(a.href, location.href).origin !== location.origin) state.outboundClicks++;
-    } catch {}
-  }
-
-  function onVisibility() {
-    if (document.hidden) send("visibility");
-    else send("heartbeat");
-  }
-
-  function finish() {
-    if (state.ended) return;
-    state.ended = true;
-    send("pageleave", true);
-  }
-
-  // The first event is intentionally exposed so the page can wait for the
-  // Worker to archive it before reading the public GitHub repository.
-  window.__GPI_PAGEVIEW_PROMISE__ = send("pageview");
-
-  const heartbeatMs = Math.max(15000, Number(cfg.heartbeatMs || 30000));
-  const timer = setInterval(() => {
-    if (!document.hidden && !state.ended) send("heartbeat");
-  }, heartbeatMs);
-
-  addEventListener("scroll", updateScroll, { passive: true });
-  addEventListener("click", onClick, { capture: true, passive: true });
-  addEventListener("visibilitychange", onVisibility);
-  addEventListener("pagehide", finish, { capture: true });
-  addEventListener("beforeunload", finish, { capture: true });
-  addEventListener("pageshow", () => { state.ended = false; });
-  addEventListener("pagehide", () => clearInterval(timer), { once: true });
+  window.addEventListener("online", flushQueue);
+  setInterval(flushQueue, Math.max(30000, Number(C.queueFlushMs || 60000)));
+  updateScroll();
+  send("pageview", {}, {});
+  setInterval(() => {
+    if (!pageLeft) send("heartbeat", {}, {});
+  }, Math.max(15000, Number(C.heartbeatMs || 30000)));
 })();
