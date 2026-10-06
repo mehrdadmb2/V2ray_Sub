@@ -34,7 +34,78 @@
     </script>
     <script src="./assets/js/analytics.js" defer></script>
 
+    <!-- V2ray Sub Radar — ONLY ADDITION TO THE EXISTING GitHub Pages HEADER -->
+<!-- Place the <style> block inside the existing <head>, before </style>. -->
+<style>
+    /* ===== V2ray Sub Radar Bot badge — additive only ===== */
+    .telegram-bot-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        text-decoration: none;
+        color: #e2e8f0;
+        background: linear-gradient(135deg, rgba(34, 158, 217, 0.15), rgba(96, 165, 250, 0.12));
+        border: 1px solid rgba(56, 189, 248, 0.26);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+        white-space: nowrap;
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+    .telegram-bot-chip:hover {
+        transform: translateY(-2px);
+        border-color: rgba(56, 189, 248, 0.55);
+        background: linear-gradient(135deg, rgba(34, 158, 217, 0.24), rgba(96, 165, 250, 0.18));
+        box-shadow: 0 12px 34px rgba(14, 165, 233, 0.14), 0 0 26px rgba(56, 189, 248, 0.08);
+    }
+    .telegram-bot-chip .telegram-icon {
+        width: 1.8rem;
+        height: 1.8rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #229ED9, #38bdf8);
+        color: #fff;
+        box-shadow: 0 0 18px rgba(34, 158, 217, 0.28);
+        flex: 0 0 auto;
+    }
+    .telegram-bot-chip .telegram-copy {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.1;
+    }
+    .telegram-bot-chip .telegram-label {
+        color: #7dd3fc;
+        font-size: 0.62rem;
+        margin-bottom: 0.18rem;
+        letter-spacing: 0.02em;
+    }
+    .telegram-bot-chip .telegram-id {
+        color: #f8fafc;
+        direction: ltr;
+        unicode-bidi: plaintext;
+        font-family: 'Inter', sans-serif;
+    }
+    @media (max-width: 720px) {
+        .telegram-bot-chip {
+            width: 100%;
+            justify-content: center;
+        }
+        .telegram-bot-chip .telegram-copy {
+            align-items: center;
+        }
+    }
+</style>
     <style>
+
+
+        
         /* ===== RESET & BASE ===== */
         * {
             margin: 0;
@@ -190,6 +261,20 @@
             font-weight: 500;
             color: #6ee7b7;
         }
+        <!-- Place this exact block inside the existing <header class="header">,
+     immediately after the existing .status-chip block. -->
+<a class="telegram-bot-chip"
+   href="https://t.me/V2raySubRadarBot"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="باز کردن ربات تلگرام V2ray Sub Radar">
+    <span class="telegram-icon"><i class="fab fa-telegram-plane"></i></span>
+    <span class="telegram-copy">
+        <span class="telegram-label">🤖 ربات رسمی V2ray_Sub</span>
+        <span class="telegram-id">@V2raySubRadarBot</span>
+    </span>
+</a>
+
         .status-dot {
             width: 10px;
             height: 10px;
