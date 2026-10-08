@@ -1,0 +1,3792 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>V2ray_Sub · مدیریت اشتراک حرفه‌ای</title>
+    <meta name="theme-color" content="#0b1020" />
+    <meta name="description" content="مرکز حرفه‌ای و سادهٔ V2ray_Sub برای کپی Subscription، انتخاب کلاینت، راهنمای مرحله‌به‌مرحله و بررسی کانفیگ‌ها." />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" href="./favicon.svg" />
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- GitHub Page Insights — official v11 browser integration -->
+    <meta name="uei-platform-id" content="v2ray-sub" />
+    <meta name="uei-platform-name" content="V2ray_Sub" />
+    <meta name="uei-platform-type" content="web" />
+    <meta name="uei-environment" content="production" />
+    <script>
+        window.PAGE_INSIGHTS_CONFIG = {
+            workerUrl: "https://github-page-insights-worker.game-developer-mb.workers.dev",
+            platformId: "v2ray-sub",
+            platformName: "V2ray_Sub",
+            platformType: "web",
+            environment: "production",
+            appVersion: "V5",
+            requestTimeoutMs: 12000,
+            heartbeatMs: 30000,
+            queueFlushMs: 60000
+        };
+    </script>
+    <script src="./assets/js/analytics.js" defer></script>
+
+    <!-- V2ray Sub Radar — ONLY ADDITION TO THE EXISTING GitHub Pages HEADER -->
+<!-- Place the <style> block inside the existing <head>, before </style>. -->
+<style>
+    /* ===== V2ray Sub Radar Bot badge — additive only ===== */
+    .telegram-bot-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        text-decoration: none;
+        color: #e2e8f0;
+        background: linear-gradient(135deg, rgba(34, 158, 217, 0.15), rgba(96, 165, 250, 0.12));
+        border: 1px solid rgba(56, 189, 248, 0.26);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+        white-space: nowrap;
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+    .telegram-bot-chip:hover {
+        transform: translateY(-2px);
+        border-color: rgba(56, 189, 248, 0.55);
+        background: linear-gradient(135deg, rgba(34, 158, 217, 0.24), rgba(96, 165, 250, 0.18));
+        box-shadow: 0 12px 34px rgba(14, 165, 233, 0.14), 0 0 26px rgba(56, 189, 248, 0.08);
+    }
+    .telegram-bot-chip .telegram-icon {
+        width: 1.8rem;
+        height: 1.8rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #229ED9, #38bdf8);
+        color: #fff;
+        box-shadow: 0 0 18px rgba(34, 158, 217, 0.28);
+        flex: 0 0 auto;
+    }
+    .telegram-bot-chip .telegram-copy {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.1;
+    }
+    .telegram-bot-chip .telegram-label {
+        color: #7dd3fc;
+        font-size: 0.62rem;
+        margin-bottom: 0.18rem;
+        letter-spacing: 0.02em;
+    }
+    .telegram-bot-chip .telegram-id {
+        color: #f8fafc;
+        direction: ltr;
+        unicode-bidi: plaintext;
+        font-family: 'Inter', sans-serif;
+    }
+    @media (max-width: 720px) {
+        .telegram-bot-chip {
+            width: 100%;
+            justify-content: center;
+        }
+        .telegram-bot-chip .telegram-copy {
+            align-items: center;
+        }
+    }
+</style>
+    <style>
+
+
+        
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #080b12;
+            color: #eef2f8;
+            min-height: 100vh;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #080b12 0%, #1a1040 20%, #2d1b5e 45%, #0f2a4a 70%, #080b12 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 24s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.2;
+            z-index: 0;
+            animation: floatOrb 28s infinite alternate ease-in-out;
+        }
+        .orb1 {
+            width: 700px;
+            height: 700px;
+            background: #7c3aed;
+            top: -20%;
+            left: -15%;
+        }
+        .orb2 {
+            width: 600px;
+            height: 600px;
+            background: #0ea5e9;
+            bottom: -20%;
+            right: -15%;
+            animation-duration: 32s;
+        }
+        .orb3 {
+            width: 500px;
+            height: 500px;
+            background: #d946ef;
+            top: 30%;
+            left: 30%;
+            animation-duration: 22s;
+            opacity: 0.12;
+        }
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(60px, -50px) scale(1.15);
+            }
+            66% {
+                transform: translate(-40px, 60px) scale(0.85);
+            }
+            100% {
+                transform: translate(50px, -40px) scale(1.05);
+            }
+        }
+
+        /* ===== GLASS CONTAINER ===== */
+        .glass-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1350px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.035);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border-radius: 4rem;
+            padding: 2.8rem 3.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 50px 120px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+        @media (max-width: 640px) {
+            .glass-container {
+                padding: 1.8rem 1.2rem;
+                border-radius: 2.2rem;
+            }
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .logo-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo-text {
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #c4b5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo-badge {
+            background: rgba(167, 139, 250, 0.2);
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            padding: 0.25rem 1rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #c4b5fd;
+        }
+        .status-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(52, 211, 153, 0.12);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            padding: 0.5rem 1.6rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #6ee7b7;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #34d399;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+        }
+
+        /* ===== OS DETECTION BANNER ===== */
+        .os-banner {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.8rem;
+            padding: 0.8rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: 0.3s;
+        }
+        .os-banner:hover {
+            border-color: rgba(167, 139, 250, 0.25);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .os-banner .os-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .os-banner .os-icon {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .os-banner .os-text {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .os-banner .os-text span {
+            color: #a78bfa;
+            font-weight: 700;
+        }
+        .os-banner .os-suggestion {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .os-banner .os-suggestion .label {
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+        .os-banner .os-suggestion a {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            color: #e2e8f0;
+            padding: 0.4rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+        }
+        .os-banner .os-suggestion a:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
+            border-color: #a78bfa;
+            transform: scale(1.03);
+        }
+        @media (max-width: 640px) {
+            .os-banner {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                padding: 1rem 1.2rem;
+            }
+            .os-banner .os-info {
+                justify-content: center;
+            }
+            .os-banner .os-suggestion {
+                justify-content: center;
+            }
+        }
+
+        /* ===== BADGE ROW ===== */
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 0.4rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #d1d9e6;
+            transition: 0.25s;
+            cursor: default;
+        }
+        .badge i {
+            color: #a78bfa;
+        }
+        .badge:hover {
+            background: rgba(255, 255, 255, 0.10);
+            border-color: rgba(167, 139, 250, 0.3);
+            transform: translateY(-2px);
+        }
+        .badge .highlight {
+            color: #fcd34d;
+        }
+        .badge .stat {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: #e2e8f0;
+        }
+        .section-title i {
+            color: #a78bfa;
+        }
+        .divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 2.5rem 0;
+        }
+
+        /* ===== SUBSCRIPTION CARDS ===== */
+        .sub-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.8rem;
+            padding: 1.2rem 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: 0.3s;
+        }
+        .sub-card:hover {
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .sub-card.active {
+            border-color: rgba(52, 211, 153, 0.3);
+            background: rgba(52, 211, 153, 0.04);
+        }
+        .sub-card.inactive {
+            opacity: 0.5;
+            border-color: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.015);
+        }
+        .sub-label {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 120px;
+        }
+        .sub-label i {
+            font-size: 1.3rem;
+            color: #a78bfa;
+        }
+        .sub-url {
+            background: rgba(0, 0, 0, 0.35);
+            padding: 0.5rem 1.4rem;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #c4b5fd;
+            border: 1px solid rgba(167, 139, 250, 0.15);
+            word-break: break-all;
+            flex: 1;
+            min-width: 180px;
+            font-family: 'Inter', monospace;
+        }
+        .copy-btn {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            color: #e2e8f0;
+            padding: 0.5rem 1.6rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .copy-btn:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
+            border-color: #a78bfa;
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(167, 139, 250, 0.15);
+        }
+        .inactive-badge {
+            background: rgba(248, 113, 113, 0.15);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            color: #f87171;
+            padding: 0.25rem 1rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        details summary {
+            cursor: pointer;
+            color: #64748b;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+        details summary i {
+            font-size: 0.7rem;
+        }
+
+        /* ===== EXTRA LINKS ===== */
+        .sub-input-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            align-items: center;
+        }
+        .sub-input-area input {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            padding: 0.7rem 1.5rem;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+            font-family: 'Inter', monospace;
+        }
+        .sub-input-area input:focus {
+            border-color: #a78bfa;
+        }
+        .sub-input-area button {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            color: #e2e8f0;
+            padding: 0.7rem 1.8rem;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+        }
+        .sub-input-area button:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
+            border-color: #a78bfa;
+        }
+        .extra-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .extra-link {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 100px;
+            padding: 0.3rem 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .extra-link button {
+            background: none;
+            border: none;
+            color: #f87171;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        /* ===== QUICK STATS ===== */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0 2rem 0;
+        }
+        .stat-item {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 1.2rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+        .stat-item:hover {
+            border-color: rgba(167, 139, 250, 0.2);
+            transform: translateY(-2px);
+        }
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.2rem;
+        }
+        .stat-sub {
+            font-size: 0.65rem;
+            color: #64748b;
+            margin-top: 0.2rem;
+        }
+
+        /* ===== GALLERY (Tutorial Images) ===== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0 2rem 0;
+        }
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 1.2rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: 0.3s;
+            text-align: center;
+            padding: 0.35rem;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+            border-color: rgba(167, 139, 250, 0.3);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.8rem;
+            display: block;
+        }
+        .gallery-item .caption {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            padding: 0.4rem 0;
+        }
+
+        /* ===== GALLERY: compact native-size frame ===== */
+        .gallery { align-items: start; }
+        .gallery-item {
+            width: fit-content; max-width: 100%; justify-self: center;
+            display: inline-flex; flex-direction: column; align-items: stretch;
+            padding: .3rem; background: rgba(255,255,255,.025);
+            border: 1px solid rgba(255,255,255,.075); border-radius: 1rem; overflow:hidden;
+        }
+        .gallery-item img {
+            width: auto !important; max-width: min(100%, 235px) !important; height:auto !important;
+            max-height:270px; aspect-ratio:auto !important; object-fit:contain !important;
+            background:transparent !important; border-radius:.7rem; display:block; margin:0 auto;
+        }
+        .gallery-item .caption { width:100%; max-width:235px; margin:0 auto; padding:.45rem .3rem .2rem; line-height:1.55; }
+        @media (max-width:430px){
+          .gallery-item img { max-width:min(100%,165px) !important; max-height:220px; }
+          .gallery-item .caption { max-width:165px; font-size:.66rem; }
+        }
+
+        /* ===== FEATURES GRID ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0 2.5rem 0;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 2rem;
+            padding: 1.5rem 1.2rem;
+            transition: 0.35s;
+            text-align: center;
+            cursor: default;
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .feature-icon {
+            font-size: 2.4rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .feature-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+        .feature-desc {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 0.3rem;
+            line-height: 1.6;
+        }
+
+        /* ===== CLIENTS SECTION ===== */
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0 2rem 0;
+        }
+        .client-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 2rem;
+            padding: 1.5rem 1.5rem 1.8rem;
+            transition: 0.35s;
+            text-align: center;
+        }
+        .client-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .client-icon {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .client-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #f1f5f9;
+        }
+        .client-desc {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin: 0.3rem 0 0.8rem 0;
+            line-height: 1.6;
+        }
+        .client-platform {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 0.2rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            margin-bottom: 0.8rem;
+        }
+        .client-btn {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(96, 165, 250, 0.2));
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            color: #e2e8f0;
+            padding: 0.5rem 1.6rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+        }
+        .client-btn:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.35), rgba(96, 165, 250, 0.35));
+            border-color: #a78bfa;
+            transform: scale(1.02);
+        }
+        .client-files {
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.7rem;
+            color: #64748b;
+            text-align: right;
+        }
+        .client-files .highlight-file {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        /* ===== TABLE (ADVANCED) ===== */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
+            margin-top: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 700px;
+        }
+        th {
+            text-align: right;
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, 0.04);
+            color: #94a3b8;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        td {
+            padding: 0.9rem 1.2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: #e2e8f0;
+            transition: 0.2s;
+        }
+        tr {
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.06);
+        }
+        tr.copied td {
+            background: rgba(52, 211, 153, 0.08);
+        }
+        .flag {
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+        .copy-single {
+            background: rgba(167, 139, 250, 0.15);
+            border: none;
+            color: #c4b5fd;
+            padding: 0.3rem 0.8rem;
+            border-radius: 100px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: 0.2s;
+        }
+        .copy-single:hover {
+            background: rgba(167, 139, 250, 0.3);
+        }
+        .badge-proto {
+            background: rgba(96, 165, 250, 0.15);
+            padding: 0.2rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            color: #60a5fa;
+            display: inline-block;
+        }
+
+        /* ===== FILTERS ===== */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1rem 0 1.5rem 0;
+            align-items: center;
+        }
+        .filters input,
+        .filters select {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            padding: 0.5rem 1.2rem;
+            color: #e2e8f0;
+            font-size: 0.8rem;
+            outline: none;
+            transition: 0.3s;
+            flex: 1;
+            min-width: 120px;
+        }
+        .filters input:focus,
+        .filters select:focus {
+            border-color: #a78bfa;
+        }
+        .filters select option {
+            background: #1a1a2e;
+        }
+
+        /* ===== DOWNLOAD ===== */
+        .download-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .download-btn {
+            background: rgba(167, 139, 250, 0.15);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            color: #e2e8f0;
+            padding: 0.6rem 1.6rem;
+            border-radius: 100px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+        }
+        .download-btn:hover {
+            background: rgba(167, 139, 250, 0.3);
+            border-color: #a78bfa;
+        }
+
+        /* ===== CHART ===== */
+        .chart-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== CODE BLOCK ===== */
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.8rem;
+            margin: 0.8rem 0 1.5rem 0;
+            font-family: 'Inter', monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+        }
+        .code-block .cmd {
+            color: #a78bfa;
+        }
+        .code-block .comment {
+            color: #64748b;
+        }
+
+        /* ===== FAQ ===== */
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 0.8rem;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .faq-item:hover {
+            border-color: rgba(167, 139, 250, 0.2);
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .faq-question i {
+            color: #a78bfa;
+            transition: 0.3s;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding-top: 0.8rem;
+        }
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* ===== CHANGELOG ===== */
+        .changelog-item {
+            display: flex;
+            gap: 1.2rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .changelog-date {
+            font-weight: 600;
+            color: #a78bfa;
+            min-width: 100px;
+            font-size: 0.85rem;
+        }
+        .changelog-text {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        /* ===== CONTRIBUTE ===== */
+        .contribute-box {
+            padding: 1.8rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin: 2.5rem 0;
+        }
+        .contribute-box ul {
+            list-style: none;
+            color: #94a3b8;
+            margin: 0.8rem 0;
+            line-height: 2.2;
+        }
+        .contribute-box ul li::before {
+            content: "🔹 ";
+            color: #a78bfa;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.8rem;
+            color: #64748b;
+            gap: 1rem;
+        }
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+        }
+        .social-links a {
+            color: #94a3b8;
+            font-size: 1.3rem;
+            transition: 0.25s;
+        }
+        .social-links a:hover {
+            color: #a78bfa;
+            transform: translateY(-3px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .status-chip {
+                align-self: flex-start;
+            }
+            .sub-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .sub-url {
+                text-align: center;
+            }
+            .copy-btn {
+                justify-content: center;
+            }
+            .sub-input-area {
+                flex-direction: column;
+            }
+            .sub-input-area input {
+                width: 100%;
+            }
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .quick-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .chart-container {
+                max-width: 100%;
+            }
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+            }
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .clients-grid {
+                grid-template-columns: 1fr;
+            }
+            .glass-container {
+                padding: 1.2rem 1rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            td,
+            th {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.75rem;
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(167, 139, 250, 0.3);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(167, 139, 250, 0.5);
+        }
+    
+/* ============================================================
+   V2ray_Sub v5 — Reference-Preserving UX Upgrade
+   Visual principle: premium, animated, lightweight, usable.
+   No global pointer/mouse animation listeners.
+   ============================================================ */
+:root {
+  --accent: #8b5cf6;
+  --accent-2: #38bdf8;
+  --accent-3: #34d399;
+  --hot: #f472b6;
+  --text: #eef2f8;
+  --muted: #94a3b8;
+  --panel: rgba(13, 16, 27, .52);
+  --panel-strong: rgba(12, 15, 25, .72);
+  --stroke: rgba(255,255,255,.085);
+  --stroke-strong: rgba(167,139,250,.28);
+  --shadow: 0 28px 90px rgba(0,0,0,.52), inset 0 1px 0 rgba(255,255,255,.045);
+  --radius-xl: 2.1rem;
+  --radius-lg: 1.5rem;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Vazirmatn','Inter',system-ui,sans-serif !important;
+  background: #070910 !important;
+  letter-spacing: 0;
+}
+body::selection { background: rgba(139,92,246,.32); color: white; }
+
+/* A richer background than the original, without mouse tracking. */
+.animated-bg {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(124,58,237,.17), transparent 28%),
+    radial-gradient(circle at 82% 22%, rgba(14,165,233,.13), transparent 30%),
+    radial-gradient(circle at 58% 85%, rgba(217,70,239,.09), transparent 28%),
+    linear-gradient(145deg, #060811 0%, #0b1020 28%, #13102b 58%, #081b2a 100%) !important;
+  background-size: 160% 160% !important;
+  animation: premiumGradient 34s ease-in-out infinite alternate !important;
+}
+.animated-bg::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: linear-gradient(to bottom, black, transparent 92%);
+  opacity: .55;
+}
+.animated-bg::after {
+  content: '';
+  position: absolute; inset: -30%;
+  background:
+    radial-gradient(circle, rgba(255,255,255,.055) 0 1px, transparent 1.6px) 0 0/70px 70px;
+  opacity: .12;
+  animation: starDrift 55s linear infinite;
+}
+@keyframes premiumGradient { 0% { background-position: 10% 20%; } 50% { background-position: 85% 65%; } 100% { background-position: 35% 90%; } }
+@keyframes starDrift { to { transform: translate3d(70px,55px,0); } }
+
+.orb { filter: blur(150px) !important; opacity: .13 !important; }
+.orb1 { background: #7c3aed !important; animation-duration: 40s !important; }
+.orb2 { background: #0ea5e9 !important; animation-duration: 46s !important; }
+.orb3 { background: #d946ef !important; animation-duration: 34s !important; }
+
+.glass-container {
+  max-width: 1400px !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
+    rgba(8, 11, 18, .56) !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  box-shadow: 0 50px 150px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.055) !important;
+}
+
+/* Lightweight navigation / quick actions added to the original flow. */
+.ux-strip {
+  display: grid;
+  grid-template-columns: 1.2fr .9fr .9fr;
+  gap: .85rem;
+  margin: 1rem 0 1.4rem;
+}
+.ux-action {
+  display: flex; align-items: center; gap: .85rem;
+  padding: .9rem 1rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, rgba(139,92,246,.11), rgba(56,189,248,.06));
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  text-decoration: none; color: var(--text);
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.ux-action:hover { transform: translateY(-2px); border-color: var(--stroke-strong); background: linear-gradient(135deg, rgba(139,92,246,.18), rgba(56,189,248,.09)); }
+.ux-action i { font-size: 1.15rem; color: #c4b5fd; width: 1.4rem; text-align: center; }
+.ux-action b { display:block; font-size:.88rem; }
+.ux-action small { display:block; color:var(--muted); margin-top:.15rem; font-size:.69rem; }
+
+.sub-card {
+  background: linear-gradient(135deg, rgba(255,255,255,.055), rgba(139,92,246,.035)) !important;
+  box-shadow: 0 18px 42px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.035);
+  border-color: rgba(255,255,255,.075) !important;
+}
+.sub-url {
+  font-family: 'Space Grotesk','Vazirmatn',monospace !important;
+  direction:ltr; text-align:left;
+  white-space: nowrap; overflow:auto;
+}
+.copy-btn, .download-btn, .client-btn {
+  font-family: 'Vazirmatn','Inter',sans-serif !important;
+}
+
+/* Client cards stay in the original location, but become clearer. */
+.client-card, .feature-card, .gallery-item, .stat-item, .chart-container, .faq-item, .contribute-box {
+  box-shadow: 0 16px 42px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.035);
+}
+.client-card { position: relative; overflow: hidden; }
+.client-card::before {
+  content:''; position:absolute; inset:0 0 auto; height:2px;
+  background:linear-gradient(90deg, transparent, rgba(139,92,246,.7), rgba(56,189,248,.55), transparent);
+  opacity:.55;
+}
+.client-icon.client-icon-image {
+  width: 74px; height: 74px; padding: 6px; margin: 0 auto .5rem;
+  border-radius: 22px; background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.1); box-shadow:0 10px 30px rgba(0,0,0,.3);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+}
+.client-icon.client-icon-image img { width:100%; height:100%; object-fit:cover; border-radius:16px; display:block; }
+.client-guide-btn {
+  margin-top:.65rem; width:100%; justify-content:center;
+}
+
+/* Tutorial */
+.tutorial-heading {
+  display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+}
+.tutorial-note {
+  color:#c4b5fd; font-size:.78rem; padding:.4rem .7rem;
+  background:rgba(139,92,246,.09); border:1px solid rgba(139,92,246,.18); border-radius:999px;
+}
+.gallery-item { cursor: zoom-in; position:relative; }
+.gallery-item::after {
+  content:'↗'; position:absolute; top:.75rem; left:.75rem; width:32px; height:32px;
+  display:grid; place-items:center; border-radius:50%; background:rgba(0,0,0,.45); color:#fff; opacity:.8;
+  backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.12);
+}
+
+/* Search: clearer for beginners but keeps advanced filtering. */
+.search-row-advanced {
+  display:grid; grid-template-columns:minmax(170px,1.6fr) minmax(140px,.7fr) minmax(150px,.7fr) auto;
+  gap:.7rem; margin: 1rem 0 1.1rem;
+}
+.search-row-advanced input, .search-row-advanced select {
+  width:100%; min-width:0; background:rgba(255,255,255,.055); border:1px solid rgba(255,255,255,.08);
+  border-radius:1rem; padding:.72rem .95rem; color:var(--text); outline:none; font:inherit;
+}
+.search-row-advanced input { font-family:'Space Grotesk','Vazirmatn',sans-serif; direction:auto; }
+.search-help { color:#64748b; font-size:.73rem; align-self:center; white-space:nowrap; }
+
+/* Modal for guides/lightbox */
+.guide-modal {
+  position:fixed; inset:0; z-index:50; display:none; place-items:center;
+  padding:1.2rem; background:rgba(2,4,10,.78); backdrop-filter:blur(16px);
+}
+.guide-modal.open { display:grid; }
+.guide-dialog {
+  width:min(980px, 100%); max-height:92vh; overflow:auto; border-radius:2rem;
+  background:linear-gradient(180deg,rgba(24,27,45,.96),rgba(8,11,18,.97));
+  border:1px solid rgba(255,255,255,.1); box-shadow:0 35px 120px rgba(0,0,0,.7);
+}
+.guide-top { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 1.2rem; border-bottom:1px solid rgba(255,255,255,.07); position:sticky; top:0; background:rgba(17,20,32,.9); backdrop-filter:blur(14px); }
+.guide-top h3 { font-size:1rem; }
+.guide-close { border:0; width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,.06); color:#fff; cursor:pointer; }
+.guide-body { padding:1.2rem; }
+.guide-step { display:grid; grid-template-columns:100px 1fr; gap:1rem; align-items:start; padding:1rem 0; border-bottom:1px solid rgba(255,255,255,.06); }
+.guide-step:last-child { border-bottom:0; }
+.guide-step img { width:100px; height:100px; object-fit:cover; border-radius:1rem; background:#0b0e16; border:1px solid rgba(255,255,255,.08); }
+.guide-step small { color:#a78bfa; font-weight:700; }
+.guide-step p { color:#cbd5e1; line-height:1.9; margin-top:.35rem; }
+.lightbox-image { width:100%; max-height:72vh; object-fit:contain; border-radius:1rem; background:#03050a; }
+.lightbox-caption { color:#cbd5e1; text-align:center; margin-top:.8rem; }
+
+/* Toast */
+.ux-toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(18px); opacity:0; pointer-events:none; z-index:70; padding:.75rem 1rem; border-radius:999px; background:rgba(9,12,20,.9); border:1px solid rgba(255,255,255,.1); color:#f8fafc; box-shadow:0 18px 48px rgba(0,0,0,.45); transition:.25s ease; font-size:.8rem; backdrop-filter:blur(12px); }
+.ux-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+.ltr { direction:ltr; text-align:left; font-family:'Space Grotesk','Inter',sans-serif; }
+code, .code-block, .sub-url, input[type=url] { font-family:'Space Grotesk','Vazirmatn',monospace !important; }
+
+@media (max-width: 850px) {
+  .ux-strip { grid-template-columns:1fr; }
+  .search-row-advanced { grid-template-columns:1fr 1fr; }
+  .search-help { white-space:normal; }
+}
+@media (max-width: 640px) {
+  body { padding:.65rem !important; }
+  .glass-container { padding:1.1rem .8rem !important; border-radius:1.75rem !important; }
+  .search-row-advanced { grid-template-columns:1fr; }
+  .guide-step { grid-template-columns:74px 1fr; }
+  .guide-step img { width:74px; height:74px; }
+  .sub-url { font-size:.68rem !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  .animated-bg, .animated-bg::after, .orb, .status-dot { animation:none !important; }
+  *, *::before, *::after { transition-duration:.01ms !important; }
+}
+
+
+/* ===== BRAND / REAL LOGO SYSTEM ===== */
+.brand-logo{width:54px;height:54px;display:grid;place-items:center;margin:0 auto .65rem;border-radius:16px;background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.10);box-shadow:0 12px 30px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.06);overflow:hidden}
+.brand-logo img{width:40px;height:40px;object-fit:contain;display:block}
+.brand-logo .fallback-mark{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:800;color:#fff}
+.os-icon{width:58px;height:58px;display:grid;place-items:center;flex:0 0 58px;border-radius:17px;background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(139,92,246,.08));border:1px solid rgba(255,255,255,.10);box-shadow:0 12px 28px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06);overflow:hidden}
+.os-icon img{width:40px;height:40px;object-fit:contain;display:block}
+.os-version{display:inline-flex;align-items:center;gap:.35rem;margin-inline-start:.45rem;padding:.18rem .55rem;border-radius:999px;background:rgba(96,165,250,.10);border:1px solid rgba(96,165,250,.18);color:#93c5fd;font-size:.67rem;font-family:'Space Grotesk',sans-serif;direction:ltr}
+.client-card .client-icon{height:74px!important;width:74px!important;border-radius:22px!important;display:grid!important;place-items:center!important;margin:0 auto .55rem!important;background:rgba(0,0,0,.22)!important;border:1px solid rgba(255,255,255,.10)!important;box-shadow:0 12px 30px rgba(0,0,0,.30)!important;overflow:hidden}
+.client-card .client-icon img{width:52px!important;height:52px!important;object-fit:contain!important;display:block!important}
+.client-card .client-icon.brand-icon{padding:0!important}
+.client-card .client-icon.brand-icon img{width:46px!important;height:46px!important}
+.client-card .client-actions{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin:.2rem 0 .2rem}
+.sub-extra-actions{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.6rem;align-items:center}
+.sub-mini-btn{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.045);color:#cbd5e1;padding:.4rem .75rem;border-radius:999px;font:600 .72rem 'Vazirmatn','Inter',sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;transition:.22s}
+.sub-mini-btn:hover{border-color:rgba(139,92,246,.35);background:rgba(139,92,246,.10);transform:translateY(-1px)}
+.sub-url-wrap{flex:1;min-width:260px}
+.sub-url-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;font-size:.67rem;color:#64748b}
+.sub-url-label .ltr-note{font-family:'Space Grotesk',sans-serif;direction:ltr}
+.quick-client-strip{display:flex;flex-wrap:wrap;gap:.55rem;margin:-.3rem 0 1.1rem}
+.quick-client-chip{display:inline-flex;align-items:center;gap:.45rem;padding:.48rem .7rem;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:#cbd5e1;text-decoration:none;font:.72rem 'Vazirmatn','Inter',sans-serif;transition:.22s}
+.quick-client-chip:hover{border-color:rgba(96,165,250,.30);background:rgba(96,165,250,.08);transform:translateY(-1px)}
+.quick-client-chip img{width:17px;height:17px;object-fit:contain}
+.utility-panel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin:0 0 1.25rem}
+.utility-item{padding:.85rem 1rem;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.025);border-radius:1.15rem;display:flex;align-items:center;gap:.7rem}
+.utility-item i{font-size:1rem;color:#a78bfa;width:28px;text-align:center}.utility-item b{font:700 .78rem 'Vazirmatn','Inter',sans-serif;color:#e2e8f0}.utility-item small{display:block;color:#64748b;font:.67rem 'Vazirmatn','Inter',sans-serif;margin-top:.12rem}
+@media(max-width:760px){.utility-panel{grid-template-columns:1fr}.sub-url-wrap{min-width:100%}}
+@media(prefers-reduced-motion:reduce){.brand-logo,.os-icon,.client-card,.sub-mini-btn,.quick-client-chip{transition:none!important}}
+
+
+/* ===== GITHUB PROJECT DETAILS ===== */
+.github-overview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.85rem;margin:1rem 0 1.35rem}
+.github-stat{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:1.15rem;padding:.9rem 1rem;display:flex;align-items:center;gap:.7rem;min-width:0}
+.github-stat i{width:30px;height:30px;display:grid;place-items:center;border-radius:.7rem;background:rgba(139,92,246,.09);color:#c4b5fd;flex:0 0 auto}
+.github-stat b{display:block;font:800 .9rem 'Space Grotesk','Vazirmatn',sans-serif;color:#f8fafc;direction:ltr;text-align:left}
+.github-stat small{display:block;font:.68rem 'Vazirmatn',sans-serif;color:#64748b;margin-top:.1rem}
+.release-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1rem}
+.release-card{background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));border:1px solid rgba(255,255,255,.07);border-radius:1.5rem;padding:1rem;position:relative;overflow:hidden}
+.release-card:before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(180deg,#a78bfa,#60a5fa);opacity:.9}
+.release-head{display:flex;align-items:center;gap:.75rem;margin-bottom:.7rem}
+.release-logo{width:44px;height:44px;border-radius:1rem;background:rgba(255,255,255,.06);display:grid;place-items:center;overflow:hidden;flex:0 0 auto}
+.release-logo img{width:28px;height:28px;object-fit:contain}
+.release-name{min-width:0}.release-name b{display:block;font:800 .95rem 'Space Grotesk','Vazirmatn',sans-serif;color:#f8fafc;direction:ltr;text-align:left}.release-name small{display:block;color:#64748b;font:.65rem 'Vazirmatn',sans-serif;margin-top:.08rem}
+.github-badges{display:flex;flex-wrap:wrap;gap:.35rem;margin:.55rem 0 .8rem}.gh-badge{display:inline-flex;align-items:center;gap:.3rem;padding:.28rem .48rem;border-radius:999px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.055);color:#94a3b8;font:.65rem 'Vazirmatn',sans-serif}.gh-badge strong{font-family:'Space Grotesk',sans-serif;color:#e2e8f0;direction:ltr}.release-version{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin:.45rem 0 .7rem;padding:.55rem .65rem;border-radius:.8rem;background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.10)}.release-version span{color:#94a3b8;font:.67rem 'Vazirmatn',sans-serif}.release-version b{font:800 .82rem 'Space Grotesk','Vazirmatn',sans-serif;color:#c4b5fd;direction:ltr}.release-meta{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin-bottom:.75rem}.release-meta-item{background:rgba(0,0,0,.12);border-radius:.7rem;padding:.45rem .55rem}.release-meta-item span{display:block;font:.6rem 'Vazirmatn',sans-serif;color:#64748b}.release-meta-item b{display:block;margin-top:.08rem;font:.68rem 'Space Grotesk','Vazirmatn',sans-serif;color:#cbd5e1;direction:ltr;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.asset-list{display:flex;flex-direction:column;gap:.4rem;margin:.65rem 0 .85rem}.asset-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.45rem .55rem;border-radius:.7rem;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.04)}.asset-label{min-width:0}.asset-label b{display:block;font:.68rem 'Space Grotesk','Vazirmatn',sans-serif;color:#dbeafe;direction:ltr;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.asset-label small{display:block;color:#64748b;font:.59rem 'Vazirmatn',sans-serif;margin-top:.08rem}.asset-download{flex:0 0 auto;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;padding:.34rem .55rem;border-radius:.55rem;background:rgba(96,165,250,.10);border:1px solid rgba(96,165,250,.12);color:#bfdbfe;font:.62rem 'Vazirmatn',sans-serif}.release-actions{display:flex;flex-wrap:wrap;gap:.45rem}.release-actions a{font:.68rem 'Vazirmatn',sans-serif!important;padding:.42rem .7rem!important}.release-note{color:#64748b;font:.62rem 'Vazirmatn',sans-serif;line-height:1.65;margin-top:.5rem}.github-loading{min-height:160px;display:grid;place-items:center;color:#64748b;background:rgba(255,255,255,.018);border:1px dashed rgba(255,255,255,.06);border-radius:1rem;font:.75rem 'Vazirmatn',sans-serif}.github-fallback{color:#fbbf24;background:rgba(251,191,36,.04);border-color:rgba(251,191,36,.12)}
+@media(max-width:1050px){.github-overview{grid-template-columns:repeat(2,minmax(0,1fr))}.release-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.github-overview,.release-grid{grid-template-columns:1fr}.release-card{padding:.9rem}}
+
+    
+/* ============================================================
+   V2ray_Sub Responsive Hardening v6
+   Goal: preserve reference design while making every section
+   resilient from very small phones to wide desktops.
+   ============================================================ */
+html, body { width:100%; min-width:0; overflow-x:hidden; }
+html { -webkit-text-size-adjust:100%; text-rendering:optimizeLegibility; }
+body {
+  margin:0;
+  padding:
+    max(.65rem, env(safe-area-inset-top))
+    max(.65rem, env(safe-area-inset-right))
+    max(.65rem, env(safe-area-inset-bottom))
+    max(.65rem, env(safe-area-inset-left));
+  font-size:clamp(.86rem, .25vw + .78rem, 1rem);
+}
+*, *::before, *::after { min-width:0; }
+img, svg, canvas, video { max-width:100%; }
+button, a, input, select, textarea { touch-action:manipulation; }
+a { overflow-wrap:anywhere; }
+
+.glass-container {
+  width:min(100%, 1400px);
+  max-width:1400px !important;
+  padding:clamp(1rem, 2.4vw, 3.2rem) !important;
+  border-radius:clamp(1.25rem, 3vw, 4rem) !important;
+}
+.header { align-items:flex-start; }
+.logo-area { min-width:0; flex-wrap:wrap; }
+.logo-text { overflow-wrap:anywhere; }
+.status-chip { max-width:100%; flex-wrap:wrap; justify-content:center; }
+
+.os-banner { min-width:0; }
+.os-banner .os-info, .os-banner .os-suggestion { min-width:0; flex:1 1 280px; }
+.os-banner .os-info { align-items:center; }
+.os-banner .os-text { min-width:0; overflow-wrap:anywhere; }
+.os-banner .os-suggestion { justify-content:flex-end; }
+.os-banner .os-suggestion a { max-width:100%; overflow-wrap:anywhere; }
+
+.badge-row { overflow-x:auto; flex-wrap:nowrap; padding-bottom:.65rem; scrollbar-width:thin; }
+.badge { flex:0 0 auto; }
+
+.ux-strip { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.ux-action { min-width:0; }
+.ux-action b, .ux-action small { overflow-wrap:anywhere; }
+
+.sub-card { display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; }
+.sub-label { min-width:0; }
+.sub-url {
+  min-width:0;
+  max-width:100%;
+  overflow:auto;
+  white-space:nowrap;
+  scrollbar-width:thin;
+}
+.sub-card > * { min-width:0; }
+.sub-extra-actions { min-width:0; }
+
+.sub-input-area { display:grid; grid-template-columns:minmax(0,1fr) auto auto; }
+.sub-input-area input { width:100%; min-width:0; }
+
+.quick-stats { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.stat-item { min-width:0; }
+.stat-number { overflow-wrap:anywhere; }
+
+.gallery { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.gallery-item { min-width:0; }
+.gallery-item img { width:auto; max-width:100%; height:auto; max-height:280px; object-fit:contain; aspect-ratio:auto; background:transparent; display:block; margin-inline:auto; }
+
+.clients-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.client-card { min-width:0; }
+.client-card .client-desc, .client-card .client-files { overflow-wrap:anywhere; }
+.client-actions, .release-actions { min-width:0; }
+.client-actions .client-btn, .release-actions .client-btn { min-width:0; }
+
+.features-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+
+.table-wrapper { width:100%; max-width:100%; overflow:auto; -webkit-overflow-scrolling:touch; }
+table { min-width:720px; }
+.search-row-advanced { min-width:0; }
+.search-row-advanced > * { min-width:0; }
+.search-row-advanced input, .search-row-advanced select { max-width:100%; }
+.filters { min-width:0; }
+.filters input, .filters select { max-width:100%; }
+
+.github-overview, .release-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.release-card { min-width:0; overflow:hidden; }
+.release-card * { min-width:0; }
+.asset-row { min-width:0; }
+.asset-label b, .asset-label small { overflow-wrap:anywhere; }
+.asset-download { flex:0 0 auto; }
+
+.code-block { max-width:100%; overflow:auto; -webkit-overflow-scrolling:touch; }
+.chart-container { width:100%; }
+canvas { max-width:100% !important; }
+.faq-question span { min-width:0; overflow-wrap:anywhere; }
+
+.guide-modal { padding:max(.65rem, env(safe-area-inset-top)) max(.65rem, env(safe-area-inset-right)) max(.65rem, env(safe-area-inset-bottom)) max(.65rem, env(safe-area-inset-left)); }
+.guide-dialog { width:min(980px,100%); max-height:calc(100dvh - 1.3rem); }
+.guide-top h3 { min-width:0; overflow-wrap:anywhere; }
+.guide-body { min-width:0; }
+.guide-step { min-width:0; }
+.guide-step img { width:100%; max-width:120px; height:auto; aspect-ratio:1; object-fit:contain; }
+.lightbox-image { max-height:calc(100dvh - 7rem); }
+
+/* Small/medium phones */
+@media (max-width: 900px) {
+  .glass-container { padding:1.2rem !important; }
+  .ux-strip { grid-template-columns:1fr; }
+  .clients-grid { grid-template-columns:1fr 1fr; }
+  .features-grid { grid-template-columns:1fr 1fr; }
+  .github-overview, .release-grid { grid-template-columns:1fr 1fr; }
+  .gallery { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .search-row-advanced { grid-template-columns:1fr 1fr; }
+}
+
+@media (max-width: 700px) {
+  body { padding:.55rem; }
+  .glass-container { padding:.9rem !important; border-radius:1.25rem !important; }
+  .header { align-items:stretch; }
+  .logo-area { gap:.55rem; }
+  .logo-icon { font-size:2.25rem; }
+  .logo-text { font-size:1.55rem; }
+  .status-chip { width:100%; justify-content:flex-start; padding:.45rem .75rem; }
+
+  .os-banner { padding:.8rem; gap:.7rem; }
+  .os-banner .os-info, .os-banner .os-suggestion { flex-basis:100%; }
+  .os-banner .os-suggestion { justify-content:stretch; }
+  .os-banner .os-suggestion a { width:100%; justify-content:center; }
+
+  .badge-row { margin-inline:0; }
+  .sub-card { grid-template-columns:1fr; gap:.65rem; padding:1rem !important; }
+  .sub-label { width:100%; }
+  .sub-url { width:100%; white-space:normal; overflow:visible; overflow-wrap:anywhere; word-break:break-word; line-height:1.55; border-radius:.9rem !important; }
+  .sub-card .copy-btn, .sub-card .sub-extra-actions { width:100%; }
+  .sub-card .copy-btn { justify-content:center; }
+
+  .sub-input-area { grid-template-columns:1fr; }
+  .sub-input-area button { width:100%; justify-content:center; }
+  .quick-stats { grid-template-columns:1fr 1fr; }
+
+  .gallery { grid-template-columns:1fr 1fr; gap:.65rem; }
+  .gallery-item img { width:auto; max-width:100%; max-height:230px; aspect-ratio:auto; background:transparent; }
+
+  .clients-grid, .features-grid, .github-overview, .release-grid { grid-template-columns:1fr; }
+  .client-card { padding:1rem !important; }
+  .client-actions { display:grid !important; grid-template-columns:1fr; }
+  .client-actions .client-btn, .release-actions .client-btn { width:100%; justify-content:center; }
+
+  .search-row-advanced { grid-template-columns:1fr; }
+  .search-help { white-space:normal; }
+  .filters { display:grid; grid-template-columns:1fr; }
+  .filters > * { width:100%; }
+
+  /* Turn the huge desktop table into readable, scroll-free cards. */
+  .table-wrapper { overflow:visible; border:0; background:transparent; }
+  table { min-width:0; width:100%; border-collapse:separate; border-spacing:0 .65rem; }
+  table thead { display:none; }
+  table tbody, table tr, table td { display:block; width:100%; }
+  table tr {
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:1rem;
+    overflow:hidden;
+    padding:.35rem .8rem;
+  }
+  table td {
+    display:grid;
+    grid-template-columns:minmax(74px,28%) minmax(0,1fr);
+    gap:.7rem;
+    align-items:start;
+    padding:.55rem 0 !important;
+    border-bottom:1px solid rgba(255,255,255,.045);
+    text-align:start !important;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+  }
+  table td:last-child { border-bottom:0; }
+  table td::before {
+    content:attr(data-label);
+    color:#64748b;
+    font-size:.68rem;
+    font-weight:600;
+  }
+  table td:first-child { display:none; }
+  table td .copy-single { justify-self:start; }
+
+  .chart-container { padding:.8rem; }
+  .guide-dialog { max-height:calc(100dvh - 1rem); border-radius:1.2rem; }
+  .guide-top { padding:.75rem .85rem; }
+  .guide-body { padding:.85rem; }
+  .guide-step { grid-template-columns:64px minmax(0,1fr); gap:.7rem; padding:.8rem 0; }
+  .guide-step img { width:64px; height:64px; }
+  .guide-step p { font-size:.76rem; line-height:1.75; }
+
+  .release-head { align-items:center; }
+  .release-version, .release-meta { grid-template-columns:1fr; }
+  .asset-row { flex-wrap:wrap; }
+  .asset-download { width:100%; justify-content:center; }
+
+  .footer { flex-direction:column; align-items:stretch; text-align:center; }
+  .social-links { justify-content:center; }
+}
+
+@media (max-width: 430px) {
+  body { padding:.4rem; }
+  .glass-container { padding:.72rem !important; border-radius:1rem !important; }
+  .section-title { font-size:1.12rem; line-height:1.5; }
+  .logo-badge { padding:.2rem .55rem; }
+  .status-chip { font-size:.72rem; }
+  .os-banner .os-icon { width:46px; height:46px; flex-basis:46px; }
+  .os-banner .os-icon img { width:32px; height:32px; }
+  .quick-stats { grid-template-columns:1fr; }
+  .gallery { grid-template-columns:1fr; }
+  .gallery-item img { width:auto; max-width:100%; max-height:210px; aspect-ratio:auto; background:transparent; }
+  .sub-url { font-size:.72rem !important; }
+  .guide-step { grid-template-columns:1fr; }
+  .guide-step img { width:100%; max-width:190px; justify-self:center; }
+  .changelog-item { flex-direction:column; gap:.25rem; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .glass-container { padding:.8rem !important; }
+  .os-banner { padding:.55rem .7rem; }
+  .guide-dialog { max-height:94dvh; }
+  .lightbox-image { max-height:78dvh; }
+}
+
+@media (hover:none) {
+  .sub-card:hover, .client-card:hover, .feature-card:hover, .gallery-item:hover, .stat-item:hover, .faq-item:hover { transform:none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-bg, .animated-bg::before, .animated-bg::after, .orb { animation:none !important; }
+}
+
+    
+@supports not ((backdrop-filter: blur(1px))) { .glass-container,.os-banner,.client-card,.feature-card,.gallery-item,.stat-item,.chart-container,.faq-item,.contribute-box,.guide-dialog,.guide-top { background:rgba(12,15,25,.94) !important; } }
+/* ===== FINAL MEDIA SAFETY ===== */
+.sub-url, .asset-label b, .release-name, .client-name, .client-desc, .client-files, td, th {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.sub-url {
+  direction: ltr;
+  unicode-bidi: plaintext;
+  text-align: left;
+}
+@media (max-width: 640px) {
+  body { padding: .65rem; }
+  .glass-container { width: min(100%, 100vw - 1.3rem); box-sizing: border-box; }
+  .header { align-items: stretch; }
+  .logo-area { min-width: 0; }
+  .status-chip { max-width: 100%; overflow-wrap:anywhere; }
+  .badge-row { gap: .45rem; }
+  .badge { padding: .35rem .7rem; font-size: .72rem; }
+  .sub-card { padding: .85rem; gap: .65rem; }
+  .copy-btn, .sub-mini-btn { min-height: 42px; }
+  .gallery { gap: .6rem; }
+  .gallery-item { padding: .2rem; background: transparent; border-color: rgba(255,255,255,.055); }
+  .gallery-item img { max-height: 205px; }
+  .section-title { font-size: 1.15rem; line-height: 1.5; }
+}
+
+
+        .site-analytics{margin-top:2rem;padding:1.35rem;border-radius:1.8rem;border:1px solid rgba(255,255,255,.07);background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(96,165,250,.025));box-shadow:0 18px 50px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.035)}
+        .site-analytics-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}.site-analytics-title{display:flex;align-items:center;gap:.7rem}.site-analytics-title i{color:#60a5fa}.site-analytics-title b{font-size:1rem}.site-analytics-meta{color:#64748b;font-size:.72rem}.analytics-refresh-btn{border:1px solid rgba(96,165,250,.2);background:rgba(96,165,250,.08);color:#cfe8ff;border-radius:.8rem;padding:.55rem .85rem;cursor:pointer;font:inherit;font-size:.75rem}.analytics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem}.analytics-metric{padding:1rem;border-radius:1.1rem;background:rgba(0,0,0,.14);border:1px solid rgba(255,255,255,.05);min-width:0}.analytics-metric span{display:block;color:#7f8baa;font-size:.68rem;margin-bottom:.3rem}.analytics-metric strong{display:block;color:#f8fbff;font-size:1.45rem;line-height:1.1}.analytics-metric small{display:block;color:#64748b;font-size:.64rem;margin-top:.28rem}.analytics-status{margin-top:.8rem;padding:.7rem .8rem;border-radius:.9rem;background:rgba(52,211,153,.055);border:1px solid rgba(52,211,153,.12);color:#9edcc4;font-size:.72rem}.analytics-status.error{background:rgba(248,113,113,.055);border-color:rgba(248,113,113,.14);color:#fca5a5}@media(max-width:800px){.analytics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:430px){.analytics-grid{gap:.6rem}.analytics-metric strong{font-size:1.15rem}.site-analytics{padding:1rem}}
+</style>
+
+<style id="v2ray-guide-first-v5">
+/* ============================================================
+   V2ray_Sub v5 — Guide-First / Beginner-First Enhancement
+   Additive UX layer. Existing sections/content are preserved.
+   ============================================================ */
+:root{
+  --guide-accent:#a78bfa;
+  --guide-cyan:#38bdf8;
+  --guide-green:#34d399;
+  --guide-amber:#fbbf24;
+  --guide-danger:#fb7185;
+}
+html{scroll-padding-top:1.5rem}
+
+/* ---------- Initial loading / boot screen ---------- */
+#v5Loader{
+  position:fixed;inset:0;z-index:99999;display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 50% 42%,rgba(124,58,237,.18),transparent 28%),
+    radial-gradient(circle at 80% 65%,rgba(14,165,233,.12),transparent 24%),
+    linear-gradient(145deg,#04050a 0%,#090b15 45%,#0d1022 100%);
+  transition:opacity .45s ease,visibility .45s ease;
+}
+#v5Loader.is-done{opacity:0;visibility:hidden;pointer-events:none}
+.v5-loader-grid{position:absolute;inset:0;overflow:hidden;opacity:.38;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:46px 46px;mask-image:linear-gradient(to bottom,#000,transparent 95%)}
+.v5-loader-orb{position:absolute;width:420px;height:420px;border-radius:50%;filter:blur(100px);opacity:.13;animation:v5LoaderFloat 9s ease-in-out infinite alternate}
+.v5-loader-orb.a{background:#7c3aed;left:-120px;top:-120px}
+.v5-loader-orb.b{background:#0ea5e9;right:-130px;bottom:-120px;animation-delay:-3s}
+@keyframes v5LoaderFloat{to{transform:translate3d(70px,35px,0) scale(1.08)}}
+.v5-loader-card{position:relative;width:min(540px,calc(100vw - 28px));padding:28px;border-radius:28px;border:1px solid rgba(255,255,255,.11);background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.018));box-shadow:0 40px 120px rgba(0,0,0,.58),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(26px);text-align:center}
+.v5-radar{width:118px;height:118px;margin:0 auto 18px;border-radius:50%;position:relative;border:1px solid rgba(167,139,250,.45);box-shadow:0 0 70px rgba(124,58,237,.18),inset 0 0 40px rgba(56,189,248,.06)}
+.v5-radar:before,.v5-radar:after{content:"";position:absolute;inset:14px;border-radius:50%;border:1px dashed rgba(56,189,248,.28)}
+.v5-radar:after{inset:30px;border-style:solid;border-color:rgba(255,255,255,.10)}
+.v5-radar i{position:absolute;left:50%;top:50%;width:8px;height:8px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;box-shadow:0 0 26px #38bdf8}
+.v5-radar span{position:absolute;left:50%;top:50%;width:42%;height:1px;transform-origin:left center;background:linear-gradient(90deg,rgba(56,189,248,.1),rgba(56,189,248,.95));box-shadow:0 0 16px rgba(56,189,248,.55);animation:v5Sweep 2.1s linear infinite}
+@keyframes v5Sweep{to{transform:rotate(360deg)}}
+.v5-loader-brand{font:800 1.25rem 'Space Grotesk','Vazirmatn',sans-serif;color:#f8fafc;direction:ltr}
+.v5-loader-brand span{color:#a78bfa}
+.v5-loader-sub{margin-top:.45rem;color:#94a3b8;font-size:.8rem;line-height:1.9}
+.v5-loader-status{margin-top:1.1rem;padding:.75rem 1rem;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);font-size:.73rem;color:#cbd5e1}
+.v5-loader-bar{height:4px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:10px}
+.v5-loader-bar span{display:block;height:100%;width:8%;border-radius:inherit;background:linear-gradient(90deg,#8b5cf6,#38bdf8,#34d399);box-shadow:0 0 18px rgba(56,189,248,.25);animation:v5LoaderProgress 2.25s ease forwards}
+@keyframes v5LoaderProgress{to{width:100%}}
+
+/* ---------- Guide-first control center ---------- */
+.v5-beginner-hub{margin:0 0 1.65rem;border-radius:2rem;padding:1.25rem;background:
+  radial-gradient(circle at 85% 15%,rgba(56,189,248,.10),transparent 28%),
+  linear-gradient(145deg,rgba(167,139,250,.10),rgba(255,255,255,.025));
+  border:1px solid rgba(167,139,250,.20);box-shadow:0 24px 70px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.045);position:relative;overflow:hidden}
+.v5-beginner-hub:before{content:"";position:absolute;width:280px;height:280px;right:-110px;top:-130px;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.14),transparent 70%);pointer-events:none}
+.v5-beginner-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;position:relative;z-index:1}
+.v5-eyebrow{display:inline-flex;align-items:center;gap:.4rem;padding:.32rem .65rem;border-radius:999px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.16);color:#86efac;font-size:.67rem}
+.v5-beginner-head h2{margin-top:.55rem;font-size:1.25rem;line-height:1.55;color:#f8fafc}
+.v5-beginner-head p{margin-top:.3rem;color:#94a3b8;font-size:.78rem;line-height:1.8;max-width:760px}
+.v5-beginner-actions{display:flex;gap:.55rem;flex-wrap:wrap;justify-content:flex-end;flex:0 0 auto}
+.v5-action{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;border-radius:999px;padding:.62rem .9rem;font:700 .72rem 'Vazirmatn','Inter',sans-serif;text-decoration:none;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:.22s}
+.v5-action:hover{transform:translateY(-2px)}
+.v5-action.primary{color:#fff;background:linear-gradient(135deg,rgba(139,92,246,.95),rgba(56,189,248,.82));box-shadow:0 12px 30px rgba(99,102,241,.20)}
+.v5-action.secondary{color:#e2e8f0;background:rgba(255,255,255,.045)}
+.v5-action.ghost{color:#cbd5e1;background:transparent}
+.v5-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:1rem;position:relative;z-index:1}
+.v5-step{min-width:0;display:grid;grid-template-columns:auto 1fr;gap:.72rem;align-items:start;padding:.9rem;border-radius:1.2rem;background:rgba(0,0,0,.13);border:1px solid rgba(255,255,255,.065);transition:.22s}
+.v5-step:hover{transform:translateY(-3px);border-color:rgba(167,139,250,.28);background:linear-gradient(145deg,rgba(167,139,250,.09),rgba(56,189,248,.035));box-shadow:0 15px 35px rgba(0,0,0,.18)}
+.v5-step-no{width:32px;height:32px;display:grid;place-items:center;border-radius:10px;background:rgba(167,139,250,.11);border:1px solid rgba(167,139,250,.18);color:#c4b5fd;font:800 .78rem 'Space Grotesk',sans-serif}
+.v5-step b{font-size:.78rem;color:#f8fafc}.v5-step small{display:block;color:#7f8da8;font-size:.67rem;line-height:1.65;margin-top:.22rem}
+.v5-step .v5-mini-copy{margin-top:.48rem}
+.v5-copy-url{display:flex;align-items:center;gap:.45rem;min-width:0;margin-top:.5rem}
+.v5-copy-url code{direction:ltr;unicode-bidi:plaintext;display:block;flex:1;min-width:0;padding:.45rem .55rem;border-radius:.7rem;background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.06);color:#c4b5fd;font:.65rem 'Space Grotesk',monospace;white-space:nowrap;overflow:auto}
+.v5-mini-copy{flex:0 0 auto;padding:.45rem .62rem;border-radius:.7rem;border:1px solid rgba(56,189,248,.14);background:rgba(56,189,248,.08);color:#c9f1ff;font:700 .65rem 'Vazirmatn';cursor:pointer;transition:.2s}.v5-mini-copy:hover{background:rgba(56,189,248,.15);transform:translateY(-1px)}
+.v5-beginner-note{margin-top:.85rem;padding:.72rem .8rem;border-radius:.95rem;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);display:flex;align-items:flex-start;justify-content:space-between;gap:.7rem;color:#8f9bb2;font-size:.7rem;line-height:1.8;position:relative;z-index:1}
+.v5-beginner-note strong{color:#dbeafe}.v5-beginner-note button{border:0;background:transparent;color:#a78bfa;font:700 .68rem 'Vazirmatn';cursor:pointer;white-space:nowrap}
+.v5-explain{display:none;margin-top:.7rem;padding:.85rem 1rem;border-radius:1rem;background:rgba(3,6,12,.34);border:1px solid rgba(255,255,255,.05);color:#a8b4c7;font-size:.72rem;line-height:2}
+.v5-explain.open{display:block}
+.v5-explain code{color:#d8ccff}
+.v5-client-row{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.8rem;position:relative;z-index:1}
+.v5-client-chip{display:inline-flex;align-items:center;gap:.42rem;padding:.43rem .65rem;border-radius:999px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.065);color:#cbd5e1;text-decoration:none;font-size:.67rem;transition:.2s;cursor:pointer}
+.v5-client-chip:hover{transform:translateY(-2px);background:rgba(167,139,250,.10);border-color:rgba(167,139,250,.22)}
+
+/* ---------- Visual section hierarchy ---------- */
+section[id]{scroll-margin-top:1.25rem}
+#subscriptions{position:relative}
+#subscriptions:before{content:"START HERE";position:absolute;right:0;top:-1.2rem;color:rgba(167,139,250,.5);font:700 .58rem 'Space Grotesk',sans-serif;letter-spacing:.18em;direction:ltr;opacity:.8}
+.sub-card.active{box-shadow:0 24px 65px rgba(52,211,153,.08),inset 0 1px 0 rgba(255,255,255,.04),0 0 0 1px rgba(52,211,153,.03)}
+.sub-card.active .copy-btn{position:relative;box-shadow:0 10px 35px rgba(139,92,246,.12)}
+.sub-card.active .copy-btn:after{content:"کپی سریع لینک";position:absolute;right:50%;top:calc(100% + .45rem);transform:translateX(50%);font-size:.58rem;color:#64748b;white-space:nowrap;pointer-events:none;opacity:.75}
+
+/* ---------- Sticky quick tools ---------- */
+.v5-quickbar{position:fixed;left:1rem;bottom:1rem;z-index:80;display:flex;gap:.45rem;padding:.45rem;border-radius:999px;background:rgba(7,10,18,.82);border:1px solid rgba(255,255,255,.095);box-shadow:0 18px 55px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.05);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.v5-qbtn{display:inline-flex;align-items:center;gap:.42rem;padding:.55rem .72rem;border-radius:999px;background:transparent;border:1px solid transparent;color:#9aa7bc;text-decoration:none;font:700 .66rem 'Vazirmatn';cursor:pointer;transition:.2s;white-space:nowrap}
+.v5-qbtn:hover,.v5-qbtn.is-active{color:#fff;background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(56,189,248,.08));border-color:rgba(167,139,250,.20);transform:translateY(-1px)}
+.v5-qbtn.primary{color:#fff;background:linear-gradient(135deg,rgba(139,92,246,.75),rgba(56,189,248,.58))}
+
+/* ---------- Beginner modal ---------- */
+.v5-beginner-modal{position:fixed;inset:0;z-index:1000;display:none;place-items:center;padding:1rem;background:rgba(2,4,10,.76);backdrop-filter:blur(16px)}
+.v5-beginner-modal.open{display:grid}
+.v5-beginner-dialog{width:min(880px,100%);max-height:92dvh;overflow:auto;border-radius:2rem;background:linear-gradient(180deg,rgba(23,27,46,.97),rgba(7,10,18,.98));border:1px solid rgba(255,255,255,.10);box-shadow:0 40px 140px rgba(0,0,0,.68)}
+.v5-beginner-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:1rem 1.15rem;border-bottom:1px solid rgba(255,255,255,.07);position:sticky;top:0;background:rgba(17,20,32,.9);backdrop-filter:blur(14px);z-index:2}
+.v5-beginner-dialog-head strong{font-size:.95rem}.v5-dialog-close{width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.05);color:#fff;cursor:pointer}
+.v5-dialog-body{padding:1.1rem}
+.v5-client-choice-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.65rem}
+.v5-client-choice{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);border-radius:1rem;padding:.75rem .55rem;color:#cbd5e1;cursor:pointer;transition:.2s;text-align:center}.v5-client-choice:hover,.v5-client-choice.active{border-color:rgba(167,139,250,.30);background:linear-gradient(145deg,rgba(167,139,250,.12),rgba(56,189,248,.04));transform:translateY(-2px)}
+.v5-client-choice i{font-size:1.2rem;color:#c4b5fd;display:block;margin-bottom:.35rem}.v5-client-choice b{font-size:.68rem;display:block}.v5-client-choice small{font-size:.58rem;color:#64748b;display:block;margin-top:.18rem}
+.v5-paste-panel{margin-top:.85rem;padding:1rem;border-radius:1.15rem;background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.06)}
+.v5-paste-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem}.v5-paste-head h3{font-size:.95rem}.v5-paste-head span{font-size:.62rem;color:#64748b}.v5-paste-step{display:grid;grid-template-columns:32px 1fr;gap:.65rem;margin-top:.85rem;align-items:start}.v5-paste-no{width:30px;height:30px;display:grid;place-items:center;border-radius:9px;color:#c4b5fd;background:rgba(167,139,250,.09);border:1px solid rgba(167,139,250,.15);font:800 .72rem 'Space Grotesk'}
+.v5-paste-step b{font-size:.75rem;color:#f1f5f9}.v5-paste-step p{font-size:.68rem;color:#8d99b0;line-height:1.9;margin-top:.15rem}.v5-paste-path{display:inline-flex;align-items:center;gap:.35rem;margin-top:.28rem;padding:.35rem .55rem;border-radius:7px;background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.10);color:#bfeaff;font-size:.62rem}
+.v5-paste-tip{margin-top:.85rem;padding:.7rem .8rem;border-radius:.85rem;color:#c4b5fd;background:rgba(167,139,250,.055);border:1px solid rgba(167,139,250,.12);font-size:.66rem;line-height:1.9}
+
+/* ---------- Better focus / affordance / accessibility ---------- */
+.v5-focusable:focus-visible,.v5-action:focus-visible,.v5-qbtn:focus-visible,.v5-mini-copy:focus-visible,.v5-dialog-close:focus-visible,.v5-client-choice:focus-visible{outline:2px solid rgba(56,189,248,.75);outline-offset:2px}
+body.v5-lock{overflow:hidden}
+
+@media (max-width: 1000px){
+  .v5-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .v5-client-choice-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width: 760px){
+  .v5-beginner-head{display:block}.v5-beginner-actions{justify-content:flex-start;margin-top:.75rem}.v5-steps{grid-template-columns:1fr}.v5-beginner-note{display:block}.v5-beginner-note button{margin-top:.35rem}
+  .v5-quickbar{left:.55rem;right:.55rem;bottom:.55rem;justify-content:space-between;gap:.25rem;border-radius:1.1rem;padding:.35rem}.v5-qbtn{flex:1;justify-content:center;padding:.62rem .45rem;font-size:.6rem}.v5-qbtn span{display:none}.v5-qbtn i{font-size:.82rem}.v5-client-choice-grid{grid-template-columns:1fr 1fr}.v5-beginner-dialog{border-radius:1.25rem}.v5-dialog-body{padding:.85rem}
+}
+@media (max-width: 430px){
+  .v5-beginner-hub{padding:.9rem;border-radius:1.35rem}.v5-beginner-head h2{font-size:1.02rem}.v5-beginner-head p{font-size:.7rem}.v5-action{width:100%}.v5-copy-url{display:grid;grid-template-columns:1fr}.v5-mini-copy{width:100%}.v5-client-choice-grid{grid-template-columns:1fr 1fr}.v5-loader-card{padding:20px}.v5-loader-sub{font-size:.72rem}.v5-quickbar .v5-qbtn:nth-child(4){display:none}
+}
+@media (prefers-reduced-motion: reduce){
+  #v5Loader{transition:none}.v5-loader-orb,.v5-radar span{animation:none}.v5-action:hover,.v5-step:hover,.v5-client-chip:hover,.v5-qbtn:hover{transform:none}
+}
+@media (hover:none){.v5-step:hover,.v5-action:hover,.v5-client-chip:hover,.v5-qbtn:hover{transform:none}}
+</style>
+
+
+<style id="v5-scroll-progress-css">
+#v5ScrollProgress{position:fixed;left:0;top:0;width:100%;height:3px;z-index:100001;pointer-events:none;background:rgba(255,255,255,.035)}
+#v5ScrollProgress span{display:block;height:100%;width:0%;background:linear-gradient(90deg,#8b5cf6,#38bdf8,#34d399);box-shadow:0 0 16px rgba(56,189,248,.45);transition:width .08s linear}
+</style>
+
+</head>
+
+<body>
+<div id="v5ScrollProgress" aria-hidden="true"><span></span></div>
+<noscript><div style="margin:1rem auto;max-width:1350px;padding:.8rem 1rem;border:1px solid rgba(251,191,36,.25);border-radius:1rem;background:rgba(251,191,36,.06);color:#fcd34d;font-family:Vazirmatn,sans-serif;text-align:center">⚠️ برای جستجو، فیلتر، کپی هوشمند و راهنماهای تعاملی، JavaScript مرورگر را فعال کنید.</div></noscript>
+
+<!-- ===== V2ray_Sub V5: topic-matched initial loading screen ===== -->
+<div id="v5Loader" role="status" aria-live="polite" aria-label="در حال آماده‌سازی V2ray_Sub">
+  <div class="v5-loader-grid" aria-hidden="true"></div>
+  <div class="v5-loader-orb a" aria-hidden="true"></div>
+  <div class="v5-loader-orb b" aria-hidden="true"></div>
+  <div class="v5-loader-card">
+    <div class="v5-radar" aria-hidden="true"><span></span><i></i></div>
+    <div class="v5-loader-brand">V2ray_<span>Sub</span></div>
+    <div class="v5-loader-sub">مرکز اشتراک و مدیریت کانفیگ‌ها</div>
+    <div class="v5-loader-status" id="v5LoaderStatus">در حال آماده‌سازی لینک‌ها و راهنماها…</div>
+    <div class="v5-loader-bar" aria-hidden="true"><span></span></div>
+  </div>
+</div>
+
+
+    <!-- ===== BACKGROUND ===== -->
+    <div class="animated-bg"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <!-- ===== MAIN CONTAINER ===== -->
+    <main class="glass-container">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <div class="logo-area">
+                <span class="logo-icon"><i class="fas fa-satellite-dish"></i></span>
+                <span class="logo-text">V2ray_Sub</span>
+                <span class="logo-badge"><i class="fas fa-code-branch"></i> v5.0</span>
+            </div>
+            <div class="status-chip">
+                <span class="status-dot"></span>
+                <span><i class="fas fa-sync-alt fa-fw"></i> فعال</span>
+                <span style="opacity:0.5;margin:0 0.2rem;">·</span>
+                <span><i class="far fa-clock"></i> <span id="lastFetchTime">دریافت...</span></span>
+            </div>
+            <a class="telegram-bot-chip"
+               href="https://t.me/V2raySubRadarBot"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="باز کردن ربات تلگرام V2ray Sub Radar">
+                <span class="telegram-icon"><i class="fab fa-telegram-plane"></i></span>
+                <span class="telegram-copy">
+                    <span class="telegram-label">🤖 ربات رسمی V2ray_Sub</span>
+                    <span class="telegram-id">@V2raySubRadarBot</span>
+                </span>
+            </a>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- ===== بنر تشخیص سیستم‌عامل ===== -->
+        <!-- ============================================================ -->
+        <div class="os-banner" id="osBanner">
+            <div class="os-info">
+                <span class="os-icon" id="osIcon"><i class="fab fa-windows" aria-hidden="true"></i></span>
+                <span class="os-text" id="osText">
+                    شما با <span id="osName">سیستم‌عامل</span> وارد سایت شده‌اید
+                    <span class="os-version" id="osVersion">Detecting…</span>
+                </span>
+            </div>
+            <div class="os-suggestion" id="osSuggestion">
+                <span class="label"><i class="fas fa-lightbulb"></i> پیشنهاد کلاینت:</span>
+                <a id="osClientLink" href="#" target="_blank">
+                    <i class="fas fa-download"></i> <span id="osClientName">دانلود</span>
+                </a>
+            </div>
+        </div>
+
+
+
+        <!-- ============================================================ -->
+        <!-- ===== V5: مرکز شروع سریع برای مبتدی‌ها ===== -->
+        <!-- ============================================================ -->
+        <section class="v5-beginner-hub" id="quickStart" aria-label="شروع سریع">
+            <div class="v5-beginner-head">
+                <div>
+                    <span class="v5-eyebrow"><i class="fas fa-wand-magic-sparkles"></i> مسیر ساده برای شروع</span>
+                    <h2>اگر عجله دارید، فقط همین ۴ مرحله را انجام دهید</h2>
+                    <p>لازم نیست با V2Ray آشنا باشید. <strong style="color:#e2e8f0">Mix</strong> را کپی کنید، کلاینت مناسب دستگاهتان را باز کنید، URL را در بخش Subscription/Profile وارد کنید و Update بزنید.</p>
+                </div>
+                <div class="v5-beginner-actions">
+                    <button type="button" class="v5-action primary v5-focusable" data-v5-copy-mix><i class="far fa-copy"></i> کپی سریع Mix</button>
+                    <button type="button" class="v5-action secondary v5-focusable" data-v5-open-client-picker><i class="fas fa-compass"></i> بگو از کدام برنامه استفاده می‌کنی</button>
+                </div>
+            </div>
+
+            <div class="v5-steps">
+                <article class="v5-step">
+                    <div class="v5-step-no">1</div>
+                    <div>
+                        <b>لینک اشتراک را بردار</b>
+                        <small>این URL، لینک اصلی Subscription است؛ خودِ کانفیگ تکی نیست.</small>
+                        <div class="v5-copy-url">
+                            <code id="v5MixUrl">https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt</code>
+                            <button type="button" class="v5-mini-copy v5-focusable" data-v5-copy-mix><i class="far fa-copy"></i> کپی</button>
+                        </div>
+                    </div>
+                </article>
+                <article class="v5-step">
+                    <div class="v5-step-no">2</div>
+                    <div>
+                        <b>کلاینت مناسب را باز کن</b>
+                        <small>دستگاهت را نمی‌دانی؟ بالاتر، سیستم‌عامل شناسایی‌شده و کلاینت پیشنهادی را می‌بینی.</small>
+                        <button type="button" class="v5-mini-copy v5-mini-copy-wide v5-focusable" data-v5-open-clients style="margin-top:.5rem"><i class="fas fa-download"></i> دیدن کلاینت‌ها</button>
+                    </div>
+                </article>
+                <article class="v5-step">
+                    <div class="v5-step-no">3</div>
+                    <div>
+                        <b>URL را Paste کن</b>
+                        <small>داخل برنامه، دنبال گزینه‌ای با یکی از این عنوان‌ها بگرد: Subscription / Profile / Remote Profile / Subscription Group.</small>
+                        <button type="button" class="v5-mini-copy v5-mini-copy-wide v5-focusable" data-v5-open-client-picker style="margin-top:.5rem"><i class="fas fa-location-crosshairs"></i> دقیقاً کجاست؟</button>
+                    </div>
+                </article>
+                <article class="v5-step">
+                    <div class="v5-step-no">4</div>
+                    <div>
+                        <b>Update → انتخاب → اتصال</b>
+                        <small>بعد از دریافت لیست، Update/Refresh بزن، یک Server/Node را انتخاب کن و اتصال را فعال کن.</small>
+                        <a class="v5-mini-copy v5-mini-copy-wide v5-focusable" href="#guides" style="text-decoration:none;margin-top:.5rem"><i class="fas fa-book-open"></i> راهنمای تصویری</a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="v5-beginner-note">
+                <div><strong>💡 Subscription چیست؟</strong> یک URL است که کلاینت با آن فهرست کانفیگ‌ها را می‌گیرد و بعداً می‌تواند همان فهرست را Refresh/Update کند. برای استفاده معمول، همین لینک را داخل کلاینت وارد کنید.</div>
+                <button type="button" class="v5-focusable" data-v5-toggle-explain>توضیح ساده‌تر</button>
+            </div>
+            <div class="v5-explain" id="v5Explain">
+                اشتباه رایج این است که آدرس Repository یعنی <code>github.com/mehrdadmb2/V2ray_Sub</code> را جای Subscription URL بگذارید. برای دریافت لیست کانفیگ‌ها باید URL فایل <code>Mix.txt</code> را وارد کنید. لینک‌های قدیمی <code>Irancell</code> و <code>MCI</code> در بخش اصلی سایت هم برای آرشیو باقی مانده‌اند و حذف نشده‌اند.
+            </div>
+            <div class="v5-client-row" aria-label="میانبر کلاینت‌ها">
+                <button type="button" class="v5-client-chip v5-focusable" data-v5-select-client="v2rayng"><i class="fab fa-android"></i> Android · V2rayNG</button>
+                <button type="button" class="v5-client-chip v5-focusable" data-v5-select-client="v2rayn"><i class="fab fa-windows"></i> Windows · v2rayN</button>
+                <button type="button" class="v5-client-chip v5-focusable" data-v5-select-client="hiddify"><i class="fas fa-layer-group"></i> Hiddify</button>
+                <button type="button" class="v5-client-chip v5-focusable" data-v5-select-client="npv"><i class="fas fa-mobile-screen-button"></i> NPV Tunnel</button>
+                <button type="button" class="v5-client-chip v5-focusable" data-v5-select-client="v2box"><i class="fas fa-cubes"></i> V2Box</button>
+            </div>
+        </section>
+
+        <!-- ===== BADGE ROW ===== -->
+        <div class="badge-row">
+            <span class="badge"><i class="fas fa-shield-alt"></i> مجوز <span class="highlight">MIT</span></span>
+            <span class="badge"><i class="fas fa-star"></i> ستاره‌ها <span class="stat" id="starsCount">…</span></span>
+            <span class="badge"><i class="fas fa-code-fork"></i> فورک <span class="stat" id="forksCount">…</span></span>
+            <span class="badge"><i class="fas fa-exclamation-triangle"></i> Issues <span class="stat" id="issuesCount">…</span></span>
+            <span class="badge"><i class="fas fa-commit"></i> آخرین کامیت <span class="stat" id="lastCommit">…</span></span>
+            <span class="badge"><i class="fas fa-tags"></i> <span class="highlight">#V2ray</span> <span class="highlight">#Xray</span></span>
+            <span class="badge"><i class="fas fa-server"></i> <span class="stat" id="totalConfigs">۰</span> کانفیگ</span>
+        </div>
+
+        <div class="utility-panel" aria-label="اطلاعات سریع">
+            <div class="utility-item"><i class="fas fa-bolt"></i><div><b>شروع سریع</b><small>Subscription را Copy کنید و وارد کلاینت شوید</small></div></div>
+            <div class="utility-item"><i class="fas fa-shield-halved"></i><div><b>منبع مستقیم</b><small>لینک‌ها مستقیماً از GitHub خام خوانده می‌شوند</small></div></div>
+            <div class="utility-item"><i class="fas fa-arrows-rotate"></i><div><b>تازه‌سازی</b><small id="dataFreshnessHint">در حال آماده‌سازی داده‌ها…</small></div></div>
+        </div>
+
+        <div class="quick-client-strip" aria-label="کلاینت‌های محبوب">
+            <a class="quick-client-chip" href="#clients"><i class="fab fa-android" aria-hidden="true"></i>Android · V2rayNG</a>
+            <a class="quick-client-chip" href="#clients"><i class="fab fa-apple" aria-hidden="true"></i>iOS · NPV / V2Box</a>
+            <a class="quick-client-chip" href="#clients"><i class="fab fa-windows" aria-hidden="true"></i>Windows · v2rayN</a>
+            <a class="quick-client-chip" href="#clients"><i class="fab fa-linux" aria-hidden="true"></i>Linux · Hiddify</a>
+        </div>
+
+        <!-- ===== QUICK ACTIONS / BEGINNER PATH ===== -->
+        <div class="ux-strip" aria-label="مسیر سریع استفاده">
+            <a class="ux-action" href="#subscriptions"><i class="fas fa-link"></i><span><b>۱. اشتراک را انتخاب کن</b><small>لینک مناسب را پیدا کن و مستقیم کپی کن</small></span></a>
+            <a class="ux-action" href="#clients"><i class="fas fa-mobile-screen-button"></i><span><b>۲. برنامه‌ات را پیدا کن</b><small>Android · iOS · Windows · macOS · Linux</small></span></a>
+            <a class="ux-action" href="#guides"><i class="fas fa-book-open"></i><span><b>۳. راهنما را باز کن</b><small>مرحله‌به‌مرحله، تصویری و ساده</small></span></a>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش اول: لینک‌های اشتراک (اولویت اصلی) ===== -->
+        <!-- ============================================================ -->
+
+        <section id="subscriptions">
+        <h2 class="section-title"><i class="fas fa-link"></i> 🌎 لینک‌های اشتراک</h2>
+        <p style="color:#94a3b8; margin-bottom:1rem; font-size:0.9rem;">لینک مورد نظر را کپی کرده و در اپلیکیشن V2ray خود جای‌گذاری کنید.</p>
+
+        <!-- لینک Mix (فعال) -->
+        <div class="sub-card active">
+            <span class="sub-label"><i class="fas fa-layer-group"></i> Mix <span style="font-size:0.65rem; color:#34d399; font-weight:400;">(فعال)</span></span>
+            <div class="sub-url-wrap">
+                <div class="sub-url-label"><span>Subscription URL</span><span class="ltr-note">raw.githubusercontent.com</span></div>
+                <span class="sub-url" id="subMix">https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt</span>
+                <div class="sub-extra-actions">
+                    <button class="sub-mini-btn" data-target="subMix" data-action="copy"><i class="far fa-copy"></i> Copy URL</button>
+                    <button class="sub-mini-btn" data-target="subMix" data-action="share"><i class="fas fa-share-nodes"></i> Share</button>
+                    <a class="sub-mini-btn" href="https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt" target="_blank" rel="noopener"><i class="fas fa-up-right-from-square"></i> Open</a>
+                    <a class="sub-mini-btn" href="#guides"><i class="fas fa-book-open"></i> راهنما</a>
+                </div>
+            </div>
+            <button class="copy-btn" data-target="subMix"><i class="far fa-copy"></i> کپی اصلی</button>
+        </div>
+
+        <!-- لینک‌های قدیمی (غیرفعال) -->
+        <details style="margin-top:0.5rem;">
+            <summary><i class="fas fa-chevron-down" style="font-size:0.7rem;"></i> لینک‌های قدیمی (غیرفعال) — بروزرسانی نمی‌شوند</summary>
+            <div style="margin-top:0.8rem;">
+                <div class="sub-card inactive">
+                    <span class="sub-label"><i class="fas fa-sim-card"></i> Irancell</span>
+                    <span class="sub-url" id="subIrancell">https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Irancell.txt</span>
+                    <button class="copy-btn" data-target="subIrancell"><i class="far fa-copy"></i> کپی لینک</button>
+                    <span class="inactive-badge"><i class="fas fa-lock"></i> آرشیوی</span>
+                </div>
+                <div class="sub-card inactive">
+                    <span class="sub-label"><i class="fas fa-wifi"></i> MCI</span>
+                    <span class="sub-url" id="subMci">https://github.com/mehrdadmb2/V2ray_Sub/raw/refs/heads/main/Mci.txt</span>
+                    <button class="copy-btn" data-target="subMci"><i class="far fa-copy"></i> کپی لینک</button>
+                    <span class="inactive-badge"><i class="fas fa-lock"></i> آرشیوی</span>
+                </div>
+                <p style="color:#64748b; font-size:0.75rem; margin-top:0.5rem;">⚠️ این لینک‌ها دیگر بروزرسانی نمی‌شوند و فقط برای آرشیو نگهداری شده‌اند.</p>
+            </div>
+        </details>
+
+        </section>
+        <!-- ===== افزودن لینک جدید ===== -->
+        <div class="sub-input-area">
+            <input type="text" id="subInput" placeholder="لینک اشتراک جدید (اختیاری) ..." />
+            <button id="addSubBtn"><i class="fas fa-plus"></i> افزودن</button>
+            <button id="loadDefaultBtn" style="background:rgba(255,255,255,0.05);"><i class="fas fa-undo"></i> بازنشانی</button>
+        </div>
+        <div class="extra-links" id="extraLinks"></div>
+
+        <!-- ===== آمار سریع ===== -->
+        <div class="quick-stats">
+            <div class="stat-item">
+                <div class="stat-number" id="quickConfigCount">-</div>
+                <div class="stat-label">تعداد کانفیگ‌ها</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="quickCountryCount">-</div>
+                <div class="stat-label">تعداد کشورها</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="quickProtocolCount">-</div>
+                <div class="stat-label">پروتکل‌های مختلف</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="quickFileSize">-</div>
+                <div class="stat-label">حجم فایل اشتراک</div>
+            </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش دوم: راهنمای تصویری (Tutorial) ===== -->
+        <!-- ============================================================ -->
+
+        <section id="guides">
+        <div class="tutorial-heading">
+          <div><h2 class="section-title"><i class="fas fa-mobile-alt"></i> 📲 راهنمای اضافه کردن اشتراک به V2rayNG (اندروید)</h2>
+          <span class="tutorial-note"><i class="fas fa-mouse-pointer"></i> روی هر تصویر بزنید تا بزرگ شود</span>
+        </div>
+        <p style="color:#94a3b8; margin-bottom:0.8rem;">مراحل زیر را به‌ترتیب دنبال کنید:</p>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg" alt="Step 1" />
+                <div class="caption">1️⃣ اجرای V2rayNG</div>
+            </div>
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit.jpg" alt="Step 2" />
+                <div class="caption">2️⃣ منوی اشتراک‌ها</div>
+            </div>
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit.jpg" alt="Step 3" />
+                <div class="caption">3️⃣ افزودن اشتراک جدید</div>
+            </div>
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit.jpg" alt="Step 4" />
+                <div class="caption">4️⃣ وارد کردن اطلاعات</div>
+            </div>
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit.jpg" alt="Step 5" />
+                <div class="caption">5️⃣ به‌روزرسانی</div>
+            </div>
+            <div class="gallery-item">
+                <img src="Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg" alt="Step 6" />
+                <div class="caption">✅ اشتراک اضافه شد! 🎉</div>
+            </div>
+        </div>
+        <p style="color:#94a3b8; font-size:0.9rem;">💡 <strong>نکته:</strong> همیشه اشتراک‌های خود را به‌روزرسانی کنید تا از سرورهای فعال استفاده کنید. 🔄</p>
+
+        <!-- NPV Tunnel tutorial, using the reference repository images -->
+        <div class="tutorial-heading" style="margin-top:2rem;">
+          <h2 class="section-title"><img src="Pic/NPV tunnel/icon.jpg" alt="NPV Tunnel" style="width:30px;height:30px;border-radius:9px;object-fit:cover;"> 📲 راهنمای اضافه کردن اشتراک به NPV Tunnel</h2>
+          <span class="tutorial-note">۵ مرحله · Config → + → Add Subscription → URL → Refresh & Ping</span>
+        </div>
+        <div class="gallery" id="npvGallery">
+          <div class="gallery-item" data-image="Pic/NPV tunnel/1.jpg" data-caption="1️⃣ باز کردن برنامه و ورود به Config"><img src="Pic/NPV tunnel/1.jpg" alt="NPV Tunnel step 1" loading="lazy"><div class="caption">1️⃣ باز کردن برنامه و کلیک روی Config</div></div>
+          <div class="gallery-item" data-image="Pic/NPV tunnel/2.jpg" data-caption="2️⃣ زدن دکمه + پایین صفحه"><img src="Pic/NPV tunnel/2.jpg" alt="NPV Tunnel step 2" loading="lazy"><div class="caption">2️⃣ زدن دکمه +</div></div>
+          <div class="gallery-item" data-image="Pic/NPV tunnel/3.jpg" data-caption="3️⃣ انتخاب Add Subscription"><img src="Pic/NPV tunnel/3.jpg" alt="NPV Tunnel step 3" loading="lazy"><div class="caption">3️⃣ انتخاب Add Subscription</div></div>
+          <div class="gallery-item" data-image="Pic/NPV tunnel/4.jpg" data-caption="4️⃣ وارد کردن نام دلخواه و Subscription URL"><img src="Pic/NPV tunnel/4.jpg" alt="NPV Tunnel step 4" loading="lazy"><div class="caption">4️⃣ نام دلخواه + Subscription URL</div></div>
+          <div class="gallery-item" data-image="Pic/NPV tunnel/5.jpg" data-caption="5️⃣ تأیید، Refresh و Ping"><img src="Pic/NPV tunnel/5.jpg" alt="NPV Tunnel step 5" loading="lazy"><div class="caption">5️⃣ تأیید → Refresh → Ping → تمام</div></div>
+        </div>
+        </section>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش سوم: راهنمای دانلود اپلیکیشن‌ها ===== -->
+        <!-- ============================================================ -->
+
+        <section id="clients">
+        <h2 class="section-title"><i class="fas fa-download"></i> 📥 دانلود اپلیکیشن‌های کلاینت V2ray</h2>
+        <p style="color:#94a3b8; margin-bottom:1rem; font-size:0.9rem;">
+            برای استفاده از اشتراک‌های V2ray، به یک کلاینت (برنامه) نیاز دارید. 
+            بهترین و معروف‌ترین کلاینت‌ها را در زیر معرفی کرده‌ایم.
+        </p>
+
+        <div class="clients-grid">
+
+            <!-- V2rayNG (Android) -->
+            <div class="client-card">
+                <div class="client-icon client-icon-image" role="button" tabindex="0" data-guide="v2rayng" title="باز کردن راهنمای V2rayNG"><img src="Pic/iconv2rayng.jpg" alt="V2rayNG logo" loading="eager" onerror="this.onerror=null;this.closest('.client-icon')?.classList.add('fallback-brand');this.remove();"></div>
+                <div class="client-name">V2rayNG</div>
+                <div class="client-platform">📱 اندروید (Android)</div>
+                <div class="client-desc">
+                    محبوب‌ترین کلاینت V2ray برای اندروید. سبک، سریع و متن‌باز.
+                    پشتیبانی از VMess, VLESS, Trojan, Shadowsocks و Reality.
+                </div>
+                <a href="https://github.com/2dust/v2rayNG/releases" target="_blank" class="client-btn">
+                    <i class="fab fa-github"></i> دانلود از گیت‌هاب
+                </a>
+                <button type="button" class="client-btn client-guide-btn" data-guide="v2rayng"><i class="fas fa-book-open"></i> راهنمای تصویری</button>
+                <div class="client-files">
+                    <strong>نحوه انتخاب فایل:</strong>
+                    <br />
+                    • <span class="highlight-file">arm64-v8a.apk</span> — گوشی‌های جدید (۹۹٪ گوشی‌های امروزی) — <strong>پیشنهادی</strong>
+                    <br />
+                    • <strong>armeabi-v7a.apk</strong> — گوشی‌های قدیمی (۲۰۱۷ به پایین)
+                    <br />
+                    • <strong>x86.apk</strong> — شبیه‌سازهای کامپیوتر (مثل BlueStacks)
+                    <br />
+                    • <strong>universal.apk</strong> — همه معماری‌ها (حجم بیشتر)
+                </div>
+            </div>
+
+            <!-- v2rayN (Windows) -->
+            <div class="client-card">
+                <div class="client-icon brand-icon"><i class="fab fa-windows" aria-hidden="true"></i><span class="fallback-mark" hidden>WIN</span></div>
+                <div class="client-name">v2rayN</div>
+                <div class="client-platform">💻 ویندوز (Windows)</div>
+                <div class="client-desc">
+                    قدرتمندترین کلاینت V2ray برای ویندوز. رابط کاربری حرفه‌ای، 
+                    پشتیبانی از تمام پروتکل‌ها و قابلیت‌های پیشرفته.
+                </div>
+                <a href="https://github.com/2dust/v2rayN/releases" target="_blank" class="client-btn">
+                    <i class="fab fa-github"></i> دانلود از گیت‌هاب
+                </a>
+                <div class="client-files">
+                    <strong>نحوه انتخاب فایل:</strong>
+                    <br />
+                    • <span class="highlight-file">v2rayN.zip</span> — نسخه کامل (همراه با Xray Core) — <strong>پیشنهادی</strong>
+                    <br />
+                    • <strong>v2rayN-With-Core.zip</strong> — دقیقاً همان نسخه کامل
+                    <br />
+                    • <strong>v2rayN-Without-Core.zip</strong> — فقط برنامه (بدون Xray Core)
+                </div>
+            </div>
+
+            <!-- Hiddify (Multi-Platform) -->
+            <div class="client-card">
+                <div class="client-icon brand-icon"><img src="https://raw.githubusercontent.com/hiddify/hiddify.com/main/docs/assets/hiddify-app-logo.svg" alt="Hiddify official logo" loading="eager"></div>
+                <div class="client-name">Hiddify</div>
+                <div class="client-platform">📱 اندروید · 🍎 iOS · 💻 ویندوز · 🐧 لینوکس · 🍏 مک</div>
+                <div class="client-desc">
+                    کلاینت مدرن و زیبا با پشتیبانی از تمام پروتکل‌ها. 
+                    رابط کاربری ساده و امکانات پیشرفته مانند 
+                    <strong>Reality</strong> و <strong>Hysteria2</strong>.
+                </div>
+                <a href="https://github.com/hiddify/hiddify-app/releases" target="_blank" class="client-btn">
+                    <i class="fab fa-github"></i> دانلود از گیت‌هاب
+                </a>
+                <div class="client-files">
+                    <strong>نحوه انتخاب فایل:</strong>
+                    <br />
+                    • <span class="highlight-file">Hiddify-Android.apk</span> — اندروید (arm64-v8a)
+                    <br />
+                    • <strong>Hiddify-Windows.zip</strong> — ویندوز
+                    <br />
+                    • <strong>Hiddify-macOS.dmg</strong> — مک
+                    <br />
+                    • <strong>Hiddify-Linux.AppImage</strong> — لینوکس
+                </div>
+            </div>
+
+            <!-- NPV Tunnel (iOS + Android) -->
+            <div class="client-card">
+                <div class="client-icon client-icon-image" role="button" tabindex="0" data-guide="npv" title="باز کردن راهنمای NPV Tunnel"><img src="Pic/NPV tunnel/icon.jpg" alt="NPV Tunnel logo" loading="eager" onerror="this.onerror=null;this.closest('.client-icon')?.classList.add('fallback-brand');this.remove();"></div>
+                <div class="client-name">NPV Tunnel (NapsternetV)</div>
+                <div class="client-platform">📱 اندروید · 🍎 iOS</div>
+                <div class="client-desc">
+                    کلاینت قدرتمند با پشتیبانی از V2Ray, SSH, Hysteria2, WireGuard.
+                    قابلیت مدیریت چندین اشتراک و اتصال همزمان.
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin-bottom:0.5rem;">
+                    <a href="https://play.google.com/store/apps/details?id=com.napsternetlabs.napsternetv&hl=en" target="_blank" class="client-btn" style="font-size:0.7rem; padding:0.4rem 1rem;">
+                        <i class="fab fa-google-play"></i> گوگل‌پلی
+                    </a>
+                    <a href="https://apps.apple.com/us/app/npv-tunnel/id1629465476" target="_blank" class="client-btn" style="font-size:0.7rem; padding:0.4rem 1rem;">
+                        <i class="fab fa-app-store"></i> اپ‌استور
+                    </a>
+                </div>
+                <button type="button" class="client-btn client-guide-btn" data-guide="npv"><i class="fas fa-book-open"></i> راهنمای اضافه کردن اشتراک</button>
+                <div class="client-files">
+                    <span style="color:#94a3b8; font-size:0.75rem;">
+                        ✅ برای اندروید از گوگل‌پلی و برای iOS از اپ‌استور دانلود کنید.
+                    </span>
+                </div>
+            </div>
+
+            <!-- V2Box (iOS + Android) -->
+            <div class="client-card">
+                <div class="client-icon brand-icon"><i class="fas fa-box-open" aria-hidden="true"></i></div>
+                <div class="client-name">V2Box</div>
+                <div class="client-platform">📱 اندروید · 🍎 iOS</div>
+                <div class="client-desc">
+                    کلاینت سبک و سریع با پشتیبانی از V2ray, Xray, Reality, Hysteria.
+                    رابط کاربری ساده و قابلیت تست پینگ.
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin-bottom:0.5rem;">
+                    <a href="https://play.google.com/store/apps/details?id=dev.hexasoftware.v2box&hl=en" target="_blank" class="client-btn" style="font-size:0.7rem; padding:0.4rem 1rem;">
+                        <i class="fab fa-google-play"></i> گوگل‌پلی
+                    </a>
+                    <a href="https://apps.apple.com/us/app/v2box-v2ray-client/id6446814690" target="_blank" class="client-btn" style="font-size:0.7rem; padding:0.4rem 1rem;">
+                        <i class="fab fa-app-store"></i> اپ‌استور
+                    </a>
+                </div>
+                <div class="client-files">
+                    <span style="color:#94a3b8; font-size:0.75rem;">
+                        ✅ برای اندروید از گوگل‌پلی و برای iOS از اپ‌استور دانلود کنید.
+                        <br />
+                        ℹ️ پشتیبانی از Reality و Hysteria2
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        </section>
+
+
+        <hr class="divider" />
+
+        <!-- ===== GITHUB PROJECT INTELLIGENCE ===== -->
+        <section id="githubProjects">
+          <h2 class="section-title"><i class="fab fa-github"></i> جزئیات زنده پروژه‌ها | GitHub Project Intelligence</h2>
+          <p style="color:#94a3b8;margin-bottom:.8rem;font-size:.88rem;">
+            نسخهٔ انتشار، ستاره‌ها، Fork، Issue، License، تاریخ آخرین انتشار و فایل‌های واقعی دانلود مستقیماً از GitHub خوانده می‌شوند.
+            این بخش در صورت در دسترس بودن API به‌صورت خودکار تازه می‌شود و نتیجهٔ کوتاه‌مدت در مرورگر cache می‌شود.
+          </p>
+          <div class="github-overview" id="githubOverview">
+            <div class="github-stat"><i class="fas fa-code-branch"></i><div><b id="ghRepoCount">—</b><small>پروژه‌های GitHub</small></div></div>
+            <div class="github-stat"><i class="fas fa-box-open"></i><div><b id="ghReleaseCount">—</b><small>Release قابل شناسایی</small></div></div>
+            <div class="github-stat"><i class="fas fa-download"></i><div><b id="ghAssetCount">—</b><small>Assetهای قابل دانلود</small></div></div>
+            <div class="github-stat"><i class="fas fa-clock"></i><div><b id="ghUpdated">—</b><small>آخرین به‌روزرسانی داده‌ها</small></div></div>
+          </div>
+          <div class="release-grid" id="githubReleaseGrid" aria-live="polite">
+            <div class="github-loading" style="grid-column:1/-1;"><i class="fas fa-circle-notch fa-spin"></i>&nbsp; در حال دریافت اطلاعات واقعی GitHub…</div>
+          </div>
+        </section>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش چهارم: ویژگی‌ها ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title" id="advanced"><i class="fas fa-bolt"></i> ✨ ویژگی‌های پیشرفته</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
+                <div class="feature-title">به‌روزرسانی خودکار</div>
+                <div class="feature-desc">دادهٔ اشتراک از فایل‌های پروژه خوانده می‌شود و با هر بار بارگذاری صفحه تازه‌سازی می‌شود 🔄</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-folder-tree"></i></div>
+                <div class="feature-title">مدیریت چندگانه</div>
+                <div class="feature-desc">امکان مدیریت همزمان چندین اشتراک با تفکیک اپراتور 🗂</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-microchip"></i></div>
+                <div class="feature-title">سبک و کم‌مصرف</div>
+                <div class="feature-desc">ساختار سبک و قابل استفاده روی مرورگر، موبایل و دسکتاپ 🛠</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+                <div class="feature-title">تجربه کاربری روان</div>
+                <div class="feature-desc">خروجی بهینه‌شده برای V2rayNG و سایر کلاینت‌ها 🚀</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-shield-virus"></i></div>
+                <div class="feature-title">امنیت بالا</div>
+                <div class="feature-desc">پشتیبانی از VMess, VLESS, Trojan با Reality 🔒</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-code"></i></div>
+                <div class="feature-title">متن‌باز و قابل توسعه</div>
+                <div class="feature-desc">کد کامل در گیت‌هاب، قابل تغییر 💻</div>
+            </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش پنجم: امکانات پیشرفته (جدول، فیلتر، نمودار) ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-table"></i> 📋 جزئیات کانفیگ‌ها</h2>
+        <p style="color:#94a3b8; margin-bottom:0.8rem; font-size:0.9rem;">
+            لیست کامل کانفیگ‌ها به‌همراه اطلاعات جغرافیایی و پروتکل. 
+            پرچم‌ها مستقیماً از اسم کانفیگ‌ها استخراج شده‌اند.
+            <span style="color:#60a5fa; font-weight:500;">💡 برای کپی کردن هر کانفیگ، روی ردیف آن کلیک کنید.</span>
+        </p>
+
+        <!-- فیلترها -->
+        <div class="search-row-advanced">
+            <input type="text" id="searchInput" placeholder="جستجو… نام، IP، کشور، پروتکل یا بخشی از کانفیگ" aria-label="جستجو" />
+            <select id="searchField" aria-label="فیلد جستجو">
+                <option value="all">همه فیلدها</option>
+                <option value="name">نام</option>
+                <option value="ip">IP / Host</option>
+                <option value="country">کشور</option>
+                <option value="protocol">Protocol</option>
+                <option value="raw">متن کامل کانفیگ</option>
+            </select>
+            <select id="protocolFilter">
+                <option value="all">همه پروتکل‌ها</option>
+                <option value="vless">VLESS</option>
+                <option value="vmess">VMess</option>
+                <option value="trojan">Trojan</option>
+                <option value="shadowsocks">Shadowsocks</option>
+            </select>
+            <select id="countryFilter">
+                <option value="all">همه کشورها</option>
+            </select>
+            <span class="search-help"><i class="fas fa-lightbulb"></i> برای کپی، ردیف کانفیگ را لمس/کلیک کنید.</span>
+            <span style="color:#64748b; font-size:0.8rem;" id="filteredCount">نمایش ۰ از ۰</span>
+        </div>
+
+        <!-- جدول -->
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>پروتکل</th>
+                        <th>نام / آی‌پی</th>
+                        <th>پورت</th>
+                        <th>کشور</th>
+                        <th>رمزنگاری</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody id="configTableBody">
+                    <tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">⏳ در حال بارگذاری...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- دانلود -->
+        <div class="download-area">
+            <button class="download-btn" id="downloadAllBtn"><i class="fas fa-download"></i> دانلود همه</button>
+            <button class="download-btn" id="downloadFilteredBtn"><i class="fas fa-filter"></i> دانلود فیلترشده</button>
+            <span style="color:#64748b; font-size:0.8rem; margin-right:auto;">📋 برای کپی هر کانفیگ، روی ردیف آن کلیک کنید.</span>
+        </div>
+
+        <!-- نمودار -->
+        <div class="chart-container">
+            <h3 style="text-align:center; color:#e2e8f0; font-weight:600; margin-bottom:1rem;">
+                <i class="fas fa-chart-bar" style="color:#a78bfa;"></i> توزیع کانفیگ‌ها بر اساس کشور
+            </h3>
+            <canvas id="countryChart" width="400" height="220"></canvas>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش ششم: راه‌اندازی اولیه ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-cogs"></i> 🛠 راه‌اندازی اولیه | Getting Started</h2>
+        <div class="code-block">
+            <span class="comment"># 1️⃣ دانلود و نصب</span><br />
+            <span class="cmd">git clone</span> https://github.com/mehrdadmb2/V2ray_Sub.git<br />
+            <span class="cmd">cd</span> V2ray_Sub<br /><br />
+            <span class="comment"># 2️⃣ نصب پیش‌نیازها</span><br />
+            <span class="cmd">pip install</span> -r requirements.txt<br /><br />
+            <span class="comment"># 3️⃣ اجرای برنامه</span><br />
+            <span class="cmd">python</span> v2ray_sub_manager.py
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش هفتم: سوالات متداول (FAQ) ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-question-circle"></i> ❓ سوالات متداول | FAQ</h2>
+        <div class="faq-item">
+            <div class="faq-question"><span>چطور می‌توانم اشتراک را به V2rayNG اضافه کنم؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">مراحل کامل در بخش راهنمای تصویری بالا توضیح داده شده است. کافی است لینک اشتراک را کپی کرده و در اپلیکیشن V2rayNG در قسمت Subscription قرار دهید.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question"><span>آیا این ابزار رایگان است؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">بله، این پروژه کاملاً متن‌باز و رایگان است و تحت مجوز MIT منتشر شده است.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question"><span>چند وقت یکبار اشتراک‌ها بروزرسانی می‌شوند؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">اشتراک‌ها به‌صورت خودکار هر ۶ ساعت یکبار از مخزن گیت‌هاب دریافت می‌شوند.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question"><span>چطور می‌توانم در توسعه پروژه مشارکت کنم؟</span><i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">می‌توانید مخزن را Fork کرده، تغییرات خود را اعمال و سپس یک Pull Request ارسال کنید.</div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش هشتم: تغییرات اخیر (Changelog) ===== -->
+        <!-- ============================================================ -->
+
+        <h2 class="section-title"><i class="fas fa-history"></i> 📋 تغییرات اخیر | Changelog</h2>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
+            <span class="changelog-text">✨ اضافه شدن کلیک روی ردیف جدول برای کپی خودکار کانفیگ</span>
+        </div>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
+            <span class="changelog-text">✨ اصلاح کامل تشخیص پرچم‌ها با استفاده از decodeURIComponent</span>
+        </div>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
+            <span class="changelog-text">✨ اضافه شدن تشخیص خودکار سیستم‌عامل کاربر با بنر هوشمند</span>
+        </div>
+        <div class="changelog-item">
+            <span class="changelog-date">۲۰۲۶-۰۸-۲۷</span>
+            <span class="changelog-text">✨ اضافه شدن لینک‌های دانلود iOS (NPV Tunnel و V2Box)</span>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- ============================================================ -->
+        <!-- ===== بخش نهم: همکاری ===== -->
+        <!-- ============================================================ -->
+
+        <div class="contribute-box">
+            <h2 style="font-size:1.5rem; font-weight:600; display:flex; align-items:center; gap:0.7rem; color:#e2e8f0;">
+                <i class="fas fa-handshake" style="color:#a78bfa;"></i> 🤝 همکاری در پروژه | Contribute
+            </h2>
+            <p style="color:#cbd5e1; margin-top:0.5rem;">💡 آیا می‌خواهید <strong>V2ray_Sub</strong> را بهتر کنید؟ 🎯</p>
+            <ul>
+                <li>۱️⃣ مخزن را <strong>Fork</strong> کنید و یک شاخه جدید ایجاد کنید.</li>
+                <li>۲️⃣ تغییرات خود را اعمال و تست کنید.</li>
+                <li>۳️⃣ یک <strong>Pull Request</strong> ارسال کنید.</li>
+            </ul>
+            <p style="color:#94a3b8; font-size:0.9rem;">📝 مجوز پروژه <strong>MIT</strong> است. جزئیات در فایل <code>LICENSE</code>.</p>
+        </div>
+
+        <!-- ===== VISITOR ANALYTICS (BOTTOM) ===== -->
+        <section class="site-analytics" id="siteAnalytics" aria-label="آمار بازدید سایت">
+            <div class="site-analytics-head">
+                <div>
+                    <div class="site-analytics-title"><i class="fas fa-chart-line"></i><b>آمار بازدید سایت | Visitor Analytics</b></div>
+                    <div class="site-analytics-meta">Powered by GitHub Page Insights · ۷ روز اخیر</div>
+                </div>
+                <button class="analytics-refresh-btn" id="analyticsRefreshBtn" type="button"><i class="fas fa-rotate"></i> بروزرسانی</button>
+            </div>
+            <div class="analytics-grid">
+                <div class="analytics-metric"><span>بازدید صفحه</span><strong id="analyticsViews">—</strong><small>Page Views</small></div>
+                <div class="analytics-metric"><span>بازدیدکنندهٔ یکتا</span><strong id="analyticsVisitors">—</strong><small>Unique Visitors</small></div>
+                <div class="analytics-metric"><span>جلسات</span><strong id="analyticsSessions">—</strong><small>Sessions</small></div>
+                <div class="analytics-metric"><span>مدت حضور میانگین</span><strong id="analyticsDuration">—</strong><small>Average Duration</small></div>
+            </div>
+            <div class="analytics-status" id="analyticsStatus">در حال دریافت آمار بازدید…</div>
+        </section>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer">
+            <span>
+                <i class="far fa-copyright"></i> ۲۰۲۶ · 
+                <span style="color:#94a3b8;">توسعه‌یافته با ❤️ توسط <a href="https://github.com/mehrdadmb2" style="color:#a78bfa; text-decoration:none;">Mehrdad</a></span>
+            </span>
+            <div class="social-links">
+                <a href="https://github.com/mehrdadmb2/V2ray_Sub" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="mailto:game.developer.mb@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://t.me/IIMehrdadII" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+                <span class="badge" style="background:rgba(255,255,255,0.04); border:none; padding:0.25rem 0.8rem;">
+                    <i class="fas fa-heart" style="color:#f43f5e;"></i> ۴۲۰
+                </span>
+            </div>
+        </footer>
+
+
+    <!-- ===== V5: always-available quick tools ===== -->
+    <nav class="v5-quickbar" id="v5Quickbar" aria-label="میانبرهای سریع">
+      <button type="button" class="v5-qbtn primary v5-focusable" data-v5-copy-mix title="کپی لینک Mix"><i class="far fa-copy"></i><span>کپی Mix</span></button>
+      <a class="v5-qbtn" href="#subscriptions" data-v5-section="subscriptions"><i class="fas fa-link"></i><span>اشتراک</span></a>
+      <a class="v5-qbtn" href="#clients" data-v5-section="clients"><i class="fas fa-mobile-screen-button"></i><span>کلاینت</span></a>
+      <a class="v5-qbtn" href="#guides" data-v5-section="guides"><i class="fas fa-book-open"></i><span>راهنما</span></a>
+      <a class="v5-qbtn" href="#advanced" data-v5-section="advanced"><i class="fas fa-microscope"></i><span>حرفه‌ای</span></a>
+      <button type="button" class="v5-qbtn v5-focusable" data-v5-top title="بازگشت به بالا"><i class="fas fa-arrow-up"></i><span>بالا</span></button>
+    </nav>
+
+    <!-- ===== V5: client/paste helper modal ===== -->
+    <div class="v5-beginner-modal" id="v5ClientModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="v5ClientModalTitle">
+      <div class="v5-beginner-dialog">
+        <div class="v5-beginner-dialog-head">
+          <strong id="v5ClientModalTitle">📍 لینک را در کجای برنامه قرار بدهم؟</strong>
+          <button type="button" class="v5-dialog-close v5-focusable" data-v5-close-modal aria-label="بستن"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="v5-dialog-body">
+          <p style="color:#94a3b8;font-size:.72rem;line-height:1.9;margin-bottom:.8rem">برنامه‌ات را انتخاب کن؛ مسیر پیشنهادی نمایش داده می‌شود. نام گزینه‌ها ممکن است با توجه به نسخهٔ کلاینت کمی متفاوت باشد، اما دنبال واژه‌های Subscription / Profile / Remote Profile / Subscription Group بگرد.</p>
+          <div class="v5-client-choice-grid">
+            <button type="button" class="v5-client-choice v5-focusable" data-v5-client-choice="v2rayng"><i class="fab fa-android"></i><b>V2rayNG</b><small>Android</small></button>
+            <button type="button" class="v5-client-choice v5-focusable" data-v5-client-choice="v2rayn"><i class="fab fa-windows"></i><b>v2rayN</b><small>Windows</small></button>
+            <button type="button" class="v5-client-choice v5-focusable" data-v5-client-choice="hiddify"><i class="fas fa-layer-group"></i><b>Hiddify</b><small>Multi-platform</small></button>
+            <button type="button" class="v5-client-choice v5-focusable" data-v5-client-choice="npv"><i class="fas fa-mobile-screen-button"></i><b>NPV Tunnel</b><small>Android / iOS</small></button>
+            <button type="button" class="v5-client-choice v5-focusable" data-v5-client-choice="v2box"><i class="fas fa-cubes"></i><b>V2Box</b><small>Android / iOS</small></button>
+          </div>
+          <div class="v5-paste-panel" id="v5PastePanel">
+            <div class="v5-paste-head"><h3 id="v5PasteTitle">یک برنامه را انتخاب کنید</h3><span>Step-by-step</span></div>
+            <div id="v5PasteSteps"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    </main>
+
+    <!-- ========== JAVASCRIPT ========== -->
+    <script>
+        // Shared resilient fetch helper must be defined before the main application IIFE runs.
+        // This fixes the previous ReferenceError and keeps GitHub/API requests bounded.
+        window.resilientFetch = async function(url, options = {}) {
+            const controller = new AbortController();
+            const timeoutMs = Math.max(4000, options.timeout || 12000);
+            const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+            try {
+                const requestOptions = { ...options, signal: controller.signal, cache: 'no-store' };
+                const res = await fetch(url, requestOptions);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res;
+            } finally {
+                clearTimeout(timeoutId);
+            }
+        };
+    </script>
+
+    <script>
+        (function() {
+            'use strict';
+            const resilientFetch = window.resilientFetch;
+
+            // ===== CONFIG =====
+            const DEFAULT_URL =
+                'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt';
+
+            // ===== STATE =====
+            let allConfigs = [];
+            let extraUrls = [];
+            let chartInstance = null;
+
+            // ===== DOM REFS =====
+            const tbody = document.getElementById('configTableBody');
+            const searchInput = document.getElementById('searchInput');
+            const searchField = document.getElementById('searchField');
+            const protocolFilter = document.getElementById('protocolFilter');
+            const countryFilter = document.getElementById('countryFilter');
+            const filteredCount = document.getElementById('filteredCount');
+            const totalConfigsSpan = document.getElementById('totalConfigs');
+            const lastFetchTimeEl = document.getElementById('lastFetchTime');
+            const extraLinksDiv = document.getElementById('extraLinks');
+            const subInput = document.getElementById('subInput');
+            const addSubBtn = document.getElementById('addSubBtn');
+            const loadDefaultBtn = document.getElementById('loadDefaultBtn');
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            const downloadFilteredBtn = document.getElementById('downloadFilteredBtn');
+            const quickConfigCount = document.getElementById('quickConfigCount');
+            const quickCountryCount = document.getElementById('quickCountryCount');
+            const quickProtocolCount = document.getElementById('quickProtocolCount');
+            const quickFileSize = document.getElementById('quickFileSize');
+
+            // ===== OS DETECTION =====
+            function detectOS() {
+                const ua = navigator.userAgent;
+                const osNameEl = document.getElementById('osName');
+                const osIconEl = document.getElementById('osIcon');
+                const osClientLink = document.getElementById('osClientLink');
+                const osClientName = document.getElementById('osClientName');
+
+                let os = 'unknown';
+                let icon = 'fas fa-desktop';
+                let assetIcon = './favicon.svg';
+                let clientName = 'V2rayNG';
+                let clientUrl = 'https://github.com/2dust/v2rayNG/releases';
+
+                if (/Android/i.test(ua)) {
+                    os = 'اندروید (Android)';
+                    icon = 'fab fa-android';
+                    clientName = 'V2rayNG (اندروید)';
+                    clientUrl = 'https://github.com/2dust/v2rayNG/releases';
+                    assetIcon = './android.svg';
+                } else if (/iPhone|iPad|iPod/i.test(ua)) {
+                    os = 'iOS (iPhone/iPad)';
+                    icon = 'fab fa-apple';
+                    clientName = 'NPV Tunnel (iOS)';
+                    clientUrl = 'https://apps.apple.com/us/app/npv-tunnel/id1629465476';
+                    assetIcon = './apple.svg';
+                } else if (/Windows/i.test(ua)) {
+                    os = 'ویندوز (Windows)';
+                    icon = 'fab fa-windows';
+                    clientName = 'v2rayN (ویندوز)';
+                    clientUrl = 'https://github.com/2dust/v2rayN/releases';
+                    assetIcon = './windows.svg';
+                } else if (/Macintosh|Mac OS/i.test(ua)) {
+                    os = 'مک (macOS)';
+                    icon = 'fab fa-apple';
+                    clientName = 'Hiddify (مک)';
+                    clientUrl = 'https://github.com/hiddify/hiddify-app/releases';
+                    assetIcon = './apple.svg';
+                } else if (/Linux/i.test(ua)) {
+                    os = 'لینوکس (Linux)';
+                    icon = 'fab fa-linux';
+                    clientName = 'Hiddify (لینوکس)';
+                    clientUrl = 'https://github.com/hiddify/hiddify-app/releases';
+                    assetIcon = './linux.svg';
+                } else {
+                    os = 'سیستم‌عامل ناشناخته';
+                    icon = 'fas fa-question-circle';
+                    clientName = 'مشاهده کلاینت‌ها';
+                    clientUrl = '#clients';
+                    assetIcon = './favicon.svg';
+                }
+
+                osNameEl.textContent = os;
+                osIconEl.innerHTML = `<img src="${assetIcon}" alt="" aria-hidden="true" onerror="this.remove();this.parentElement.insertAdjacentHTML('beforeend','<i class=\"${icon}\"></i>')">`;
+                osClientLink.href = clientUrl;
+                osClientName.textContent = clientName;
+            }
+
+            // ===== HELPERS =====
+            function decodeFlagFromName(name) {
+                try {
+                    // Decode URL-encoded characters like %F0%9F%87%A9%F0%9F%87%AA
+                    const decoded = decodeURIComponent(name);
+                    const flagMatch = decoded.match(/^([\u{1F1E6}-\u{1F1FF}]{2})/u);
+                    if (flagMatch) return flagMatch[1];
+                    return '🏳️';
+                } catch (e) {
+                    return '🏳️';
+                }
+            }
+
+            function extractCountryFromFlag(flag) {
+                const countryMap = {
+                    '🇩🇪': 'آلمان',
+                    '🇫🇷': 'فرانسه',
+                    '🇳🇱': 'هلند',
+                    '🇬🇧': 'بریتانیا',
+                    '🇺🇸': 'ایالات متحده',
+                    '🇨🇦': 'کانادا',
+                    '🇯🇵': 'ژاپن',
+                    '🇸🇬': 'سنگاپور',
+                    '🇦🇪': 'امارات متحده عربی',
+                    '🇹🇷': 'ترکیه',
+                    '🇷🇺': 'روسیه',
+                    '🇮🇷': 'ایران',
+                    '🇮🇱': 'اسرائیل',
+                    '🇫🇮': 'فنلاند',
+                    '🇸🇪': 'سوئد',
+                    '🇳🇴': 'نروژ',
+                    '🇩🇰': 'دانمارک',
+                    '🇧🇪': 'بلژیک',
+                    '🇨🇭': 'سوئیس',
+                    '🇦🇹': 'اتریش',
+                    '🇮🇹': 'ایتالیا',
+                    '🇪🇸': 'اسپانیا',
+                    '🇵🇹': 'پرتغال',
+                    '🇬🇷': 'یونان',
+                    '🇵🇱': 'لهستان',
+                    '🇨🇿': 'جمهوری چک',
+                    '🇭🇺': 'مجارستان',
+                    '🇷🇴': 'رومانی',
+                    '🇧🇬': 'بلغارستان',
+                    '🇺🇦': 'اوکراین',
+                    '🇰🇿': 'قزاقستان',
+                    '🇮🇳': 'هند',
+                    '🇨🇳': 'چین',
+                    '🇰🇷': 'کره جنوبی',
+                    '🇦🇺': 'استرالیا',
+                    '🇳🇿': 'نیوزیلند',
+                    '🇧🇷': 'برزیل',
+                    '🇦🇷': 'آرژانتین',
+                    '🇲🇽': 'مکزیک',
+                    '🇿🇦': 'آفریقای جنوبی',
+                    '🇪🇬': 'مصر',
+                    '🇸🇦': 'عربستان سعودی',
+                    '🇵🇰': 'پاکستان',
+                    '🇦🇫': 'افغانستان',
+                    '🇮🇶': 'عراق',
+                    '🇸🇾': 'سوریه',
+                    '🇱🇧': 'لبنان',
+                    '🇯🇴': 'اردن',
+                    '🇰🇼': 'کویت',
+                    '🇶🇦': 'قطر',
+                    '🇧🇭': 'بحرین',
+                    '🇴🇲': 'عمان',
+                    '🇾🇪': 'یمن',
+                    '🇬🇪': 'گرجستان',
+                    '🇦🇿': 'آذربایجان',
+                    '🇦🇲': 'ارمنستان',
+                    '🇹🇲': 'ترکمنستان',
+                    '🇺🇿': 'ازبکستان',
+                    '🇹🇯': 'تاجیکستان',
+                    '🇰🇬': 'قرقیزستان',
+                    '🇲🇳': 'مغولستان'
+                };
+                return countryMap[flag] || 'نامشخص';
+            }
+
+            function parseConfigLine(line) {
+                const rawLine = String(line || '').trim();
+                if (!rawLine) return null;
+
+                let raw = rawLine;
+                let protocol = 'unknown';
+                let ip = '';
+                let port = '';
+                let encryption = '';
+                let name = '';
+
+                const protoMatch = raw.match(/^([a-z0-9+.-]+):\/\//i);
+                if (protoMatch) protocol = protoMatch[1].toLowerCase();
+
+                try {
+                    if (protocol === 'vmess') {
+                        let payload = raw.slice('vmess://'.length);
+                        const decoded = decodeBase64Text(payload);
+                        if (decoded) {
+                            const json = JSON.parse(decoded.trim());
+                            ip = String(json.add || json.address || '');
+                            port = String(json.port || '');
+                            encryption = String(json.scy || json.security || '');
+                            name = String(json.ps || json.name || '');
+                        }
+                    } else if (['vless','trojan','ss','socks','socks5','http'].includes(protocol)) {
+                        const u = new URL(raw);
+                        ip = u.hostname || '';
+                        port = u.port || '';
+                        name = u.hash ? decodeURIComponent(u.hash.slice(1)) : '';
+                        encryption = u.searchParams.get('encryption') || u.searchParams.get('security') || u.searchParams.get('method') || '';
+                    }
+                } catch {
+                    // Keep partial parsing below rather than dropping the config.
+                }
+
+                if (!ip && raw.includes('@')) {
+                    try {
+                        const tail = raw.split('@').pop().split('?')[0].split('#')[0];
+                        if (tail.startsWith('[')) {
+                            const close = tail.indexOf(']');
+                            ip = close >= 0 ? tail.slice(1, close) : tail;
+                            port = close >= 0 && tail.charAt(close + 1) === ':' ? tail.slice(close + 2) : '';
+                        } else {
+                            const idx = tail.lastIndexOf(':');
+                            if (idx > -1 && /^\d+$/.test(tail.slice(idx + 1))) { ip = tail.slice(0, idx); port = tail.slice(idx + 1); }
+                            else ip = tail;
+                        }
+                    } catch {}
+                }
+
+                if (!name) {
+                    const hash = raw.match(/#(.+)$/);
+                    if (hash) {
+                        try { name = decodeURIComponent(hash[1].trim()); } catch { name = hash[1].trim(); }
+                    }
+                }
+                if (!name) name = ip || 'بدون نام';
+                if (!encryption) {
+                    const q = raw.includes('?') ? raw.split('?')[1].split('#')[0] : '';
+                    const m = q.match(/(?:^|&)security=([^&]+)/i) || q.match(/(?:^|&)encryption=([^&]+)/i) || q.match(/(?:^|&)method=([^&]+)/i);
+                    if (m) encryption = decodeURIComponent(m[1]);
+                }
+
+                const flag = decodeFlagFromName(name);
+                const country = extractCountryFromFlag(flag);
+
+                return {
+                    raw,
+                    protocol,
+                    ip: ip || '-',
+                    port: port || '-',
+                    encryption: encryption || '-',
+                    name,
+                    country,
+                    flag
+                };
+            }
+
+            // ===== FETCH / SUBSCRIPTION DECODING =====
+            function cleanSubscriptionText(text) {
+                return String(text || '').replace(/^\uFEFF/, '').trim();
+            }
+
+            function decodeBase64Text(input) {
+                try {
+                    let value = cleanSubscriptionText(input).replace(/\s+/g, '');
+                    value = value.replace(/-/g, '+').replace(/_/g, '/');
+                    while (value.length % 4) value += '=';
+                    const binary = atob(value);
+                    const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+                    try { return new TextDecoder('utf-8', { fatal: false }).decode(bytes); }
+                    catch { return Array.from(bytes, b => String.fromCharCode(b)).join(''); }
+                } catch { return null; }
+            }
+
+            function extractSubscriptionLines(text) {
+                const raw = cleanSubscriptionText(text);
+                if (!raw) return [];
+                let normalized = raw.replace(/\r/g, '');
+                const directLines = normalized.split('\n').map(v => v.trim()).filter(Boolean);
+                const uriCount = directLines.filter(v => /^(vless|vmess|trojan|ss|socks|http):\/\//i.test(v)).length;
+                if (uriCount) return directLines;
+
+                const decoded = decodeBase64Text(raw);
+                if (decoded) {
+                    const decodedLines = decoded.replace(/\r/g, '').split('\n').map(v => v.trim()).filter(Boolean);
+                    const decodedUriCount = decodedLines.filter(v => /^(vless|vmess|trojan|ss|socks|http):\/\//i.test(v)).length;
+                    if (decodedUriCount) return decodedLines;
+                    // Some feeds are one base64 blob whose decoded payload contains an extra header.
+                    const embedded = decoded.match(/(?:vless|vmess|trojan|ss|socks|http):\/\/[^\s]+/gi);
+                    if (embedded?.length) return embedded;
+                }
+
+                // Last-resort extraction for feeds containing labels/headers around URIs.
+                const embedded = normalized.match(/(?:vless|vmess|trojan|ss|socks|http):\/\/[^\s]+/gi);
+                return embedded?.length ? embedded : directLines;
+            }
+
+            // ===== FETCH =====
+            async function fetchConfigsFromUrl(url) {
+                const res = await resilientFetch(url, { timeout: 12000 });
+                const text = await res.text();
+                const lines = extractSubscriptionLines(text);
+                const configs = lines.map(parseConfigLine).filter(c => c !== null);
+                if (!configs.length) throw new Error('Subscription دریافت شد اما URI قابل‌خواندن پیدا نشد');
+                return configs;
+            }
+
+            async function loadAllConfigs() {
+                const urls = [DEFAULT_URL, ...extraUrls];
+                let combined = [];
+                for (const url of urls) {
+                    try {
+                        const configs = await fetchConfigsFromUrl(url);
+                        combined = combined.concat(configs);
+                    } catch (e) {
+                        console.warn('Failed to load', url, e);
+                    }
+                }
+                const seen = new Set();
+                combined = combined.filter(c => {
+                    const key = c.raw;
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+                return combined;
+            }
+
+            // ===== RENDER TABLE =====
+            function renderTable(configs) {
+                if (configs.length === 0) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">🚫 هیچ کانفیگی یافت نشد.</td></tr>`;
+                    return;
+                }
+                let html = '';
+                configs.forEach((c, idx) => {
+                    const protoBadge = `<span class="badge-proto">${c.protocol.toUpperCase()}</span>`;
+                    const flag = c.flag || '🏳️';
+                    const countryDisplay = c.country || '...';
+                    html += `<tr data-raw="${c.raw.replace(/"/g, '&quot;')}">
+                        <td>${idx+1}</td>
+                        <td data-label="پروتکل">${protoBadge}</td>
+                        <td data-label="نام / IP">${c.name}</td>
+                        <td data-label="پورت">${c.port}</td>
+                        <td data-label="کشور"><span class="flag">${flag}</span> ${countryDisplay}</td>
+                        <td data-label="رمزنگاری">${c.encryption}</td>
+                        <td data-label="عملیات">
+                            <button class="copy-single" data-raw="${c.raw.replace(/"/g, '&quot;')}"><i class="far fa-copy"></i> کپی</button>
+                        </td>
+                    </tr>`;
+                });
+                tbody.innerHTML = html;
+
+                // Click on row to copy
+                document.querySelectorAll('#configTableBody tr').forEach(row => {
+                    row.addEventListener('click', function(e) {
+                        // Don't trigger if clicked on the copy button
+                        if (e.target.closest('.copy-single')) return;
+                        const raw = this.dataset.raw;
+                        if (raw) {
+                            copyToClipboard(raw, this);
+                            // highlight row
+                            this.classList.add('copied');
+                            setTimeout(() => this.classList.remove('copied'), 2000);
+                        }
+                    });
+                });
+
+                // Copy button
+                document.querySelectorAll('.copy-single').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        copyToClipboard(this.dataset.raw, this.closest('tr'));
+                    });
+                });
+
+                totalConfigsSpan.textContent = configs.length;
+                filteredCount.textContent = `نمایش ${configs.length} از ${allConfigs.length}`;
+
+                const uniqueCountries = new Set(configs.map(c => c.country).filter(c => c && c !== 'نامشخص'));
+                const uniqueProtocols = new Set(configs.map(c => c.protocol));
+                quickConfigCount.textContent = configs.length;
+                quickCountryCount.textContent = uniqueCountries.size;
+                quickProtocolCount.textContent = uniqueProtocols.size;
+                const totalSize = configs.reduce((sum, c) => sum + c.raw.length, 0);
+                const kb = (totalSize / 1024).toFixed(1);
+                quickFileSize.textContent = kb + ' KB';
+            }
+
+            // ===== FILTERS =====
+            function getFilteredConfigs() {
+                const search = searchInput.value.trim().toLocaleLowerCase('fa-IR');
+                const field = searchField ? searchField.value : 'all';
+                const proto = protocolFilter.value;
+                const country = countryFilter.value;
+                return allConfigs.filter(c => {
+                    const values = {
+                        name: c.name,
+                        ip: c.ip,
+                        country: c.country,
+                        protocol: c.protocol,
+                        raw: c.raw,
+                        all: `${c.name} ${c.ip} ${c.country} ${c.protocol} ${c.raw}`
+                    };
+                    const haystack = String(values[field] ?? values.all).toLocaleLowerCase('fa-IR');
+                    const matchSearch = haystack.includes(search);
+                    const matchProto = proto === 'all' || c.protocol === proto;
+                    const matchCountry = country === 'all' || c.country === country;
+                    return matchSearch && matchProto && matchCountry;
+                });
+            }
+
+            function applyFilters() {
+                const filtered = getFilteredConfigs();
+                renderTable(filtered);
+                updateChart(filtered);
+            }
+
+            // ===== CHART =====
+            function updateChart(configs) {
+                const ctx = document.getElementById('countryChart').getContext('2d');
+                const countryMap = {};
+                configs.forEach(c => {
+                    const key = c.country || 'نامشخص';
+                    countryMap[key] = (countryMap[key] || 0) + 1;
+                });
+                const labels = Object.keys(countryMap);
+                const data = Object.values(countryMap);
+
+                if (chartInstance) chartInstance.destroy();
+
+                if (labels.length === 0) {
+                    chartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: { labels: ['بدون داده'], datasets: [{ label: 'تعداد', data: [0], backgroundColor: '#64748b' }] },
+                        options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#e2e8f0' } } }, scales: { y: { ticks: { color: '#94a3b8' } }, x: { ticks: { color: '#94a3b8' } } } }
+                    });
+                    return;
+                }
+
+                const colors = ['#a78bfa', '#60a5fa', '#34d399', '#fbbf24', '#f87171', '#f472b6', '#818cf8', '#2dd4bf'];
+                const bgColors = labels.map((_, i) => colors[i % colors.length]);
+
+                chartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'تعداد کانفیگ',
+                            data: data,
+                            backgroundColor: bgColors,
+                            borderRadius: 6,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { ticks: { color: '#94a3b8', stepSize: 1 }, beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
+                            x: { ticks: { color: '#94a3b8' }, grid: { display: false } }
+                        }
+                    }
+                });
+            }
+
+            // ===== POPULATE COUNTRY FILTER =====
+            function populateCountryFilter(configs) {
+                const countries = new Set();
+                configs.forEach(c => {
+                    if (c.country && c.country !== 'نامشخص') countries.add(c.country);
+                });
+                const sorted = Array.from(countries).sort();
+                const select = countryFilter;
+                const currentVal = select.value;
+                select.innerHTML = '<option value="all">همه کشورها</option>';
+                sorted.forEach(c => {
+                    select.innerHTML += `<option value="${c}">${c}</option>`;
+                });
+                if (currentVal && sorted.includes(currentVal)) select.value = currentVal;
+            }
+
+            // ===== COPY =====
+            function copyToClipboard(text, element) {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showCopied(element);
+                    }).catch(() => {
+                        fallbackCopy(text, element);
+                    });
+                } else {
+                    fallbackCopy(text, element);
+                }
+            }
+
+            function fallbackCopy(text, element) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                try {
+                    document.execCommand('copy');
+                    showCopied(element);
+                } catch (e) {
+                    alert('✅ کپی شد!');
+                }
+                document.body.removeChild(ta);
+            }
+
+            function showCopied(element) {
+                const origColor = element.style.backgroundColor;
+                element.style.backgroundColor = 'rgba(52,211,153,0.15)';
+                element.style.transition = '0.3s';
+                setTimeout(() => {
+                    element.style.backgroundColor = origColor || '';
+                }, 1500);
+            }
+
+            // ===== DOWNLOAD =====
+            function downloadConfigs(configs, filename = 'configs.txt') {
+                const text = configs.map(c => c.raw).join('\n');
+                const blob = new Blob([text], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            // ===== EXTRA LINKS =====
+            function renderExtraLinks() {
+                extraLinksDiv.innerHTML = '';
+                extraUrls.forEach((url, idx) => {
+                    const span = document.createElement('span');
+                    span.className = 'extra-link';
+                    span.innerHTML = `
+                        <i class="fas fa-link"></i> ${url.length > 40 ? url.slice(0,40)+'…' : url}
+                        <button data-idx="${idx}" class="remove-extra"><i class="fas fa-times"></i></button>
+                    `;
+                    extraLinksDiv.appendChild(span);
+                });
+                document.querySelectorAll('.remove-extra').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const idx = parseInt(this.dataset.idx);
+                        extraUrls.splice(idx, 1);
+                        refreshAll();
+                    });
+                });
+            }
+
+            // ===== GITHUB STATS =====
+            async function fetchRepoStats() {
+                try {
+                    const res = await fetch('https://api.github.com/repos/mehrdadmb2/V2ray_Sub');
+                    if (!res.ok) throw new Error();
+                    const data = await res.json();
+                    document.getElementById('starsCount').textContent = data.stargazers_count || '۰';
+                    document.getElementById('forksCount').textContent = data.forks_count || '۰';
+                    document.getElementById('issuesCount').textContent = data.open_issues_count || '۰';
+                    if (data.updated_at) {
+                        const d = new Date(data.updated_at);
+                        document.getElementById('lastCommit').textContent = d.toLocaleDateString('fa-IR');
+                    }
+                } catch (e) {}
+            }
+
+            // ===== MAIN REFRESH =====
+            async function refreshAll() {
+                try {
+                    tbody.innerHTML =
+                        `<tr><td colspan="7" style="text-align:center; color:#64748b; padding:2rem;">⏳ در حال بارگذاری...</td></tr>`;
+                    const configs = await loadAllConfigs();
+                    allConfigs = configs;
+
+                    populateCountryFilter(allConfigs);
+                    applyFilters();
+                    renderExtraLinks();
+
+                    const now = new Date();
+                    lastFetchTimeEl.textContent = now.toLocaleTimeString('fa-IR');
+
+                    fetchRepoStats();
+
+                    document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const targetId = this.dataset.target;
+                            const el = document.getElementById(targetId);
+                            if (el) copyToClipboard(el.textContent.trim(), this);
+                        });
+                    });
+
+                } catch (e) {
+                    console.error(e);
+                    tbody.innerHTML =
+                        `<tr><td colspan="7" style="text-align:center; color:#f87171; padding:2rem;">❌ خطا: ${e.message}</td></tr>`;
+                }
+            }
+
+            // ===== EVENT LISTENERS =====
+            searchInput.addEventListener('input', applyFilters);
+            if (searchField) searchField.addEventListener('change', applyFilters);
+            protocolFilter.addEventListener('change', applyFilters);
+            countryFilter.addEventListener('change', applyFilters);
+
+            addSubBtn.addEventListener('click', function() {
+                const url = subInput.value.trim();
+                if (!url) return;
+                if (!extraUrls.includes(url)) {
+                    extraUrls.push(url);
+                    subInput.value = '';
+                    refreshAll();
+                } else {
+                    alert('این لینک قبلاً اضافه شده است.');
+                }
+            });
+
+            loadDefaultBtn.addEventListener('click', function() {
+                extraUrls = [];
+                subInput.value = '';
+                refreshAll();
+            });
+
+            downloadAllBtn.addEventListener('click', function() {
+                if (allConfigs.length === 0) return alert('هیچ کانفیگی موجود نیست.');
+                downloadConfigs(allConfigs, 'v2ray_all_configs.txt');
+            });
+
+            downloadFilteredBtn.addEventListener('click', function() {
+                const filtered = getFilteredConfigs();
+                if (filtered.length === 0) return alert('هیچ کانفیگی با فیلترهای فعلی مطابقت ندارد.');
+                downloadConfigs(filtered, 'v2ray_filtered_configs.txt');
+            });
+
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('open');
+                });
+            });
+
+            // ===== INIT =====
+            detectOS();
+            refreshAll();
+
+        })();
+    </script>
+
+
+    <!-- ===== GUIDE / IMAGE MODAL ===== -->
+    <div class="guide-modal" id="guideModal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="guide-dialog" id="guideDialog">
+        <div class="guide-top">
+          <div><h3 id="guideTitle">راهنمای استفاده</h3><small id="guideSubtitle" style="color:#64748b;"></small></div>
+          <button class="guide-close" id="guideClose" aria-label="بستن"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="guide-body" id="guideBody"></div>
+      </div>
+    </div>
+    <div class="guide-modal" id="lightboxModal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="guide-dialog" style="width:min(1100px,100%);">
+        <div class="guide-top"><strong id="lightboxTitle">تصویر</strong><button class="guide-close" id="lightboxClose" aria-label="بستن"><i class="fas fa-times"></i></button></div>
+        <div class="guide-body"><img id="lightboxImage" class="lightbox-image" src="" alt=""><div id="lightboxCaption" class="lightbox-caption"></div></div>
+      </div>
+    </div>
+    <div class="ux-toast" id="uxToast"></div>
+
+
+<script>
+(function(){
+  'use strict';
+  const ROOT = window.location.origin + (window.location.pathname.endsWith('/') ? window.location.pathname : window.location.pathname.replace(/[^/]+$/, ''));
+  const rawBase = 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/main/';
+  const urlMap = {
+    'Pic/iconv2rayng.jpg': rawBase + 'Pic/iconv2rayng.jpg',
+    'Pic/NPV tunnel/icon.jpg': rawBase + 'Pic/NPV%20tunnel/icon.jpg',
+    'Pic/NPV tunnel/1.jpg': rawBase + 'Pic/NPV%20tunnel/1.jpg',
+    'Pic/NPV tunnel/2.jpg': rawBase + 'Pic/NPV%20tunnel/2.jpg',
+    'Pic/NPV tunnel/3.jpg': rawBase + 'Pic/NPV%20tunnel/3.jpg',
+    'Pic/NPV tunnel/4.jpg': rawBase + 'Pic/NPV%20tunnel/4.jpg',
+    'Pic/NPV tunnel/5.jpg': rawBase + 'Pic/NPV%20tunnel/5.jpg',
+    'Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg': rawBase + 'Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg',
+    'Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit.jpg': rawBase + 'Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit.jpg',
+    'Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit.jpg': rawBase + 'Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit.jpg',
+    'Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit.jpg': rawBase + 'Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit.jpg',
+    'Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit.jpg': rawBase + 'Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit.jpg',
+    'Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg': rawBase + 'Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg'
+  };
+
+  // Image fallback: local repo path first, raw GitHub second.
+  document.querySelectorAll('img[src]').forEach(img=>{
+    img.addEventListener('error',function(){ this.classList.add('broken-media'); },{once:false});
+    const original = img.getAttribute('src');
+    if (urlMap[original]) {
+      img.addEventListener('error', function(){
+        if (!this.dataset.fallback) { this.dataset.fallback='1'; this.src=urlMap[original]; }
+      }, {once:false});
+    }
+  });
+
+  const toast = document.getElementById('uxToast');
+  let toastTimer;
+  function notify(msg){
+    if(!toast) return;
+    toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(toastTimer); toastTimer=setTimeout(()=>toast.classList.remove('show'),1800);
+  }
+
+  // Advanced search is implemented directly in the reference filtering pipeline above.
+
+  const guides={
+    v2rayng:{
+      title:'راهنمای V2rayNG', subtitle:'Android · افزودن Subscription',
+      steps:[
+        ['Pic/Screenshot_2025-02-27-14-41-55-096_com.v2ray.ang-edit.jpg','۱','برنامه V2rayNG را باز کنید.','سپس وارد بخش مربوط به Subscription/تنظیمات آن شوید.'],
+        ['Pic/Screenshot_2025-02-27-14-42-51-665_com.v2ray.ang-edit.jpg','۲','منوی Subscription را باز کنید.','از همان صفحه، گزینه افزودن Subscription را پیدا کنید.'],
+        ['Pic/Screenshot_2025-02-27-14-43-25-782_com.v2ray.ang-edit.jpg','۳','افزودن Subscription جدید.','گزینه مربوط به اضافه کردن آدرس اشتراک را انتخاب کنید.'],
+        ['Pic/Screenshot_2025-02-27-14-44-08-341_com.v2ray.ang-edit.jpg','۴','آدرس Subscription را وارد کنید.','نام دلخواه و URL کپی‌شده از همین سایت را قرار دهید.'],
+        ['Pic/Screenshot_2025-02-27-14-46-29-900_com.v2ray.ang-edit.jpg','۵','Subscription را ذخیره/تأیید کنید.','بعد از آن Refresh/Update را بزنید تا لیست سرورها دریافت شود.'],
+        ['Pic/Screenshot_2025-02-27-14-46-54-915_com.v2ray.ang.jpg','۶','تمام شد!','حالا می‌توانید یک کانفیگ را انتخاب و اتصال را برقرار کنید.']
+      ]
+    },
+    npv:{
+      title:'راهنمای NPV Tunnel', subtitle:'Android / iOS · افزودن Subscription',
+      steps:[
+        ['Pic/NPV tunnel/1.jpg','۱','برنامه را باز کنید و روی Config بزنید.','از صفحه اصلی NPV Tunnel وارد بخش Config شوید.'],
+        ['Pic/NPV tunnel/2.jpg','۲','دکمه + پایین صفحه را بزنید.','منوی افزودن گزینه‌های جدید باز می‌شود.'],
+        ['Pic/NPV tunnel/3.jpg','۳','گزینه Add Subscription را انتخاب کنید.','گزینه افزودن Subscription را از منوی بازشده انتخاب کنید.'],
+        ['Pic/NPV tunnel/4.jpg','۴','نام دلخواه و Subscription URL را وارد کنید.','لینک Subscription را از کارت‌های بالای سایت Copy کرده و اینجا Paste کنید.'],
+        ['Pic/NPV tunnel/5.jpg','۵','تأیید، Refresh و سپس Ping.','Subscription را ذخیره کنید، Refresh بزنید، بعد Ping بگیرید و یکی از کانفیگ‌ها را انتخاب کنید.']
+      ]
+    }
+  };
+
+  const guideModal=document.getElementById('guideModal'), guideTitle=document.getElementById('guideTitle'), guideSubtitle=document.getElementById('guideSubtitle'), guideBody=document.getElementById('guideBody');
+  function openGuide(key){
+    const g=guides[key]; if(!g || !guideModal) return;
+    guideTitle.textContent=g.title; guideSubtitle.textContent=g.subtitle;
+    guideBody.innerHTML=g.steps.map(s=>`<div class="guide-step"><img data-smart-image="${s[0]}" src="${s[0]}" alt="${s[1]}" loading="lazy"><div><small>STEP ${s[1]}</small><h4 style="margin-top:.2rem;font-size:.95rem;">${s[2]}</h4><p>${s[3]}</p></div></div>`).join('');
+    guideBody.querySelectorAll('img[data-smart-image]').forEach(img=>{ const k=img.dataset.smartImage; if(urlMap[k]) img.addEventListener('error',()=>{if(!img.dataset.fallback){img.dataset.fallback='1'; img.src=urlMap[k];}}); });
+    guideModal.classList.add('open'); guideModal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+  }
+  function closeGuide(){guideModal?.classList.remove('open'); guideModal?.setAttribute('aria-hidden','true'); if(!document.getElementById('lightboxModal')?.classList.contains('open')) document.body.style.overflow='';}
+  document.querySelectorAll('[data-guide]').forEach(el=>{
+    el.addEventListener('click',e=>{ e.preventDefault(); openGuide(el.dataset.guide); });
+    el.addEventListener('keydown',e=>{ if(e.key==='Enter' || e.key===' '){e.preventDefault(); openGuide(el.dataset.guide);} });
+  });
+  document.getElementById('guideClose')?.addEventListener('click',closeGuide);
+  guideModal?.addEventListener('click',e=>{if(e.target===guideModal) closeGuide();});
+
+  // Click-to-zoom for all tutorial images, including reference V2rayNG and NPV.
+  const lightbox=document.getElementById('lightboxModal'), lightboxImage=document.getElementById('lightboxImage'), lightboxCaption=document.getElementById('lightboxCaption'), lightboxTitle=document.getElementById('lightboxTitle');
+  function openImage(src, caption){
+    let finalSrc=src; if(urlMap[src]) finalSrc=src;
+    lightboxImage.src=finalSrc; lightboxImage.dataset.original=src; lightboxCaption.textContent=caption||''; lightboxTitle.textContent='راهنمای تصویری';
+    lightboxImage.onerror=()=>{if(!lightboxImage.dataset.fallback && urlMap[src]){lightboxImage.dataset.fallback='1'; lightboxImage.src=urlMap[src];}};
+    lightbox.classList.add('open'); lightbox.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+  }
+  function closeLightbox(){lightbox?.classList.remove('open');lightbox?.setAttribute('aria-hidden','true');if(!guideModal?.classList.contains('open'))document.body.style.overflow='';}
+  document.querySelectorAll('.gallery-item').forEach(item=>{
+    const img=item.querySelector('img'); if(!img) return;
+    item.addEventListener('click',()=>openImage(item.dataset.image||img.getAttribute('src'), item.dataset.caption || item.querySelector('.caption')?.textContent));
+  });
+  document.getElementById('lightboxClose')?.addEventListener('click',closeLightbox);
+  lightbox?.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox();});
+
+  // Safer copy feedback for the reference buttons.
+  document.addEventListener('click', e=>{
+    const btn=e.target.closest('.copy-btn[data-target]');
+    if(!btn) return;
+    const el=document.getElementById(btn.dataset.target);
+    if(el){ notify('لینک Subscription کپی شد ✓'); }
+  });
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){closeGuide();closeLightbox();}
+    if(e.key==='/' && !/input|textarea|select/i.test(document.activeElement?.tagName||'')){e.preventDefault();searchInput?.focus();}
+  });
+
+  // ===== OS VERSION + REAL LOGOS =====
+  async function detectPlatformVersion(){
+    const osNameEl=document.getElementById('osName');
+    const osVersionEl=document.getElementById('osVersion');
+    const osIconEl=document.getElementById('osIcon');
+    const osClientLink=document.getElementById('osClientLink');
+    const osClientName=document.getElementById('osClientName');
+    const ua=navigator.userAgent||'';
+    const navPlatform=navigator.platform||'';
+    const touchPoints=Number(navigator.maxTouchPoints||0);
+
+    let platform='Unknown', version='Unknown', logo='fas fa-desktop';
+    let clientName='مشاهده کلاینت‌ها', clientUrl='#clients';
+
+    // iPadOS can advertise itself as Macintosh/Safari. Touch points are a strong fallback.
+    const isIPadLike=/iPad|iPod/i.test(ua) || (/Macintosh/i.test(ua) && touchPoints>1);
+    const isIPhone=/iPhone/i.test(ua);
+    const isAndroid=/Android/i.test(ua);
+    const isChromeOS=/CrOS/i.test(ua);
+    const isWindows=/Windows/i.test(ua) || /Win/i.test(navPlatform);
+    const isMac=/Macintosh|Mac OS X/i.test(ua) && !isIPadLike;
+    const isLinux=/Linux/i.test(ua) && !isAndroid && !isChromeOS;
+
+    if(isAndroid){
+      platform='Android';
+      version=(ua.match(/Android\s([0-9._]+)/i)||[])[1]?.replace(/_/g,'.')||'Android';
+      logo='fab fa-android';
+      clientName='V2rayNG';
+      clientUrl='https://github.com/2dust/v2rayNG/releases';
+    }else if(isIPadLike || isIPhone){
+      platform=isIPadLike?'iPadOS':'iOS';
+      version=isIPadLike?'iPad / iPadOS':'iPhone / iOS';
+      logo='fab fa-apple';
+      clientName='NPV Tunnel';
+      clientUrl='https://apps.apple.com/us/app/npv-tunnel/id1629465476';
+    }else if(isWindows){
+      platform='Windows';
+      logo='fab fa-windows';
+      let pv='';
+      try{
+        if(navigator.userAgentData?.getHighEntropyValues){
+          const d=await navigator.userAgentData.getHighEntropyValues(['platformVersion']);
+          pv=d.platformVersion||'';
+        }
+      }catch(e){/* best effort */}
+      const nt=(ua.match(/Windows NT\s([0-9.]+)/i)||[])[1]||'';
+      const source=pv||nt;
+      const parts=source.split('.').map(x=>parseInt(x,10));
+      const major=parts[0]||0;
+      const build=(pv?0:parseInt(parts[2]||'0',10));
+      if(major===6 && parts[1]===1) version='Windows 7';
+      else if(major===6 && parts[1]===2) version='Windows 8';
+      else if(major===6 && parts[1]===3) version='Windows 8.1';
+      else if((major===10 && build>=22000) || (pv && major>=13)) version='Windows 11';
+      else if(major===10) version='Windows 10';
+      else version='Windows';
+      // Never claim an exact Windows version if only a reduced UA is available.
+      if(version==='Windows 10' && !nt && pv==='10.0.0') version='Windows 10';
+      clientName='v2rayN';
+      clientUrl='https://github.com/2dust/v2rayN/releases';
+    }else if(isMac){
+      platform='macOS'; version='macOS'; logo='fab fa-apple';
+      clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
+    }else if(isChromeOS){
+      platform='ChromeOS'; version='ChromeOS'; logo='fab fa-chrome';
+      clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
+    }else if(isLinux){
+      platform='Linux'; version='Linux'; logo='fab fa-linux';
+      clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
+    }else if(/FreeBSD/i.test(ua)){
+      platform='FreeBSD'; version='FreeBSD'; logo='fas fa-server';
+      clientName='Hiddify'; clientUrl='https://github.com/hiddify/hiddify-app/releases';
+    }else if(/Xbox/i.test(ua)){
+      platform='Xbox'; version='Xbox'; logo='fab fa-xbox';
+      clientName='مشاهده کلاینت‌ها'; clientUrl='#clients';
+    }
+
+    osNameEl.textContent=version;
+    osVersionEl.textContent=platform;
+    osIconEl.innerHTML=`<i class="${logo}" aria-hidden="true"></i>`;
+    if(osClientLink){ osClientLink.href=clientUrl; osClientLink.dataset.client=clientName; }
+    if(osClientName) osClientName.textContent=clientName;
+  }
+  detectPlatformVersion();
+
+
+  // ===== LIVE GITHUB PROJECT INTELLIGENCE =====
+  const githubProjects = [
+    {owner:'2dust',repo:'v2rayNG',name:'V2rayNG',logo:'Pic/iconv2rayng.jpg',platform:'Android',note:'Mobile V2Ray client with Xray / v2fly core support.',releaseUrl:'https://github.com/2dust/v2rayNG/releases'},
+    {owner:'2dust',repo:'v2rayN',name:'v2rayN',logo:'https://github.com/2dust.png?size=128',platform:'Windows · Linux · macOS',note:'Desktop client supporting Xray, sing-box and related stacks.',releaseUrl:'https://github.com/2dust/v2rayN/releases'},
+    {owner:'hiddify',repo:'Hiddify-app',name:'Hiddify',logo:'https://raw.githubusercontent.com/hiddify/hiddify.com/main/docs/assets/hiddify-app-logo.svg',platform:'Android · iOS · Windows · macOS · Linux',note:'Multi-platform client with broad proxy protocol support.',releaseUrl:'https://github.com/hiddify/hiddify-app/releases'}
+  ];
+
+  function compactNum(n){
+    if(!Number.isFinite(n)) return '—';
+    if(n>=1000000) return (n/1000000).toFixed(1).replace('.0','')+'M';
+    if(n>=1000) return (n/1000).toFixed(1).replace('.0','')+'k';
+    return String(n);
+  }
+  function formatBytes(n){
+    if(!Number.isFinite(n)||n<=0) return '—';
+    const u=['B','KB','MB','GB']; let i=0,v=n;
+    while(v>=1024&&i<u.length-1){v/=1024;i++;}
+    return v.toFixed(v>=100?0:v>=10?1:2)+' '+u[i];
+  }
+  function formatDate(iso){
+    if(!iso) return '—';
+    try{return new Intl.DateTimeFormat('fa-IR',{dateStyle:'medium',timeStyle:'short'}).format(new Date(iso));}catch(e){return iso;}
+  }
+  function assetType(name){
+    const n=name.toLowerCase();
+    if(/android|arm64|armv7|universal|\.apk$/.test(n)) return 'Android';
+    if(/windows|win|\.msi$|\.exe$|\.zip$/.test(n)) return 'Desktop / Windows';
+    if(/mac|darwin|\.dmg$|\.pkg$/.test(n)) return 'macOS';
+    if(/linux|\.deb$|\.rpm$|appimage|\.tar\.gz$/.test(n)) return 'Linux';
+    return 'Release asset';
+  }
+  function pickAssets(project, assets){
+    const scored=assets.map(a=>{
+      const n=a.name.toLowerCase(); let score=0;
+      if(/arm64|x64|x86_64|amd64/.test(n)) score+=4;
+      if(/\.apk$|\.msi$|\.dmg$|\.pkg$|\.deb$|appimage|\.zip$/.test(n)) score+=2;
+      if(/debug|symbols|source|checksums|sig$/.test(n)) score-=3;
+      if(project.repo==='v2rayNG' && /arm64-v8a\.apk$/.test(n)) score+=8;
+      if(project.repo==='v2rayN' && /win.*x64|windows.*x64|v2rayn.*zip$/.test(n)) score+=6;
+      if(project.repo==='Hiddify-app' && /Android-arm64/i.test(n)) score+=6;
+      return {...a,score};
+    }).sort((a,b)=>b.score-a.score);
+    const out=[]; const seen=new Set();
+    for(const a of scored){const key=assetType(a.name); if(!seen.has(key)){out.push(a);seen.add(key);} if(out.length>=4)break;}
+    return out;
+  }
+  function projectCardHtml(p,repo,release){
+    const assets=pickAssets(p,release?.assets||[]);
+    const badge=(icon,label,value)=>`<span class="gh-badge"><i class="${icon}"></i> ${label} <strong>${value}</strong></span>`;
+    const releaseTag=release?.tag_name||release?.name||'No release';
+    const releaseType=release?.prerelease?'Pre-release':(release?.draft?'Draft':'Latest release');
+    const releaseAssetCount=release?.assets?.length||0;
+    const assetHtml=assets.length?assets.map(a=>`<div class="asset-row"><div class="asset-label"><b title="${a.name}">${a.name}</b><small>${assetType(a.name)} · ${formatBytes(a.size)}</small></div><a class="asset-download" href="${a.browser_download_url}" target="_blank" rel="noopener"><i class="fas fa-download"></i> دانلود</a></div>`).join(''):`<div class="release-note">Asset قابل دانلود از API پیدا نشد؛ صفحهٔ Release را باز کنید.</div>`;
+    const description=(repo.description||p.note||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `<article class="release-card"><div class="release-head"><div class="release-logo"><img src="${p.logo}" alt="${p.name} logo" onerror="this.onerror=null;this.src='https://github.githubassets.com/favicons/favicon.svg';"></div><div class="release-name"><b>${p.name}</b><small>${p.platform}</small></div></div><div style="color:#94a3b8;font:.64rem 'Vazirmatn';line-height:1.65;min-height:2.3em">${description}</div><div class="github-badges">${badge('fas fa-star','Stars',compactNum(repo.stargazers_count))}${badge('fas fa-code-fork','Forks',compactNum(repo.forks_count))}${badge('fas fa-eye','Watchers',compactNum(repo.watchers_count))}${badge('fas fa-circle-exclamation','Issues',compactNum(repo.open_issues_count))}</div><div class="release-version"><span>${releaseType}</span><b>${releaseTag}</b></div><div class="release-meta"><div class="release-meta-item"><span>License</span><b>${repo.license?.spdx_id||repo.license?.name||'—'}</b></div><div class="release-meta-item"><span>Released</span><b>${release?.published_at?new Date(release.published_at).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'2-digit'}):'—'}</b></div><div class="release-meta-item"><span>Release assets</span><b>${releaseAssetCount}</b></div><div class="release-meta-item"><span>Default branch</span><b>${repo.default_branch||'—'}</b></div></div><div class="asset-list">${assetHtml}</div><div class="release-actions"><a class="client-btn" href="${release?.html_url||p.releaseUrl}" target="_blank" rel="noopener"><i class="fab fa-github"></i> صفحه Release</a><a class="client-btn" href="https://github.com/${p.owner}/${p.repo}" target="_blank" rel="noopener"><i class="fas fa-code"></i> Repository</a></div><div class="release-note">آخرین داده: ${formatDate(release?.published_at||repo.updated_at)} · ${assets.length?`نمایش ${assets.length} دانلود پیشنهادی`:'دانلود مستقیم در دسترس نیست'}</div></article>`;
+  }
+  async function githubFetch(url){
+    const cacheKey='v2ray_sub_gh_'+url; const cached=sessionStorage.getItem(cacheKey);
+    if(cached){try{const c=JSON.parse(cached);if(Date.now()-c.t<1800000)return c.d;}catch(e){}}
+    const res=await resilientFetch(url,{timeout:10000,headers:{'Accept':'application/vnd.github+json'}});
+    if(!res.ok) throw new Error('GitHub API '+res.status);
+    const data=await res.json();
+    try{sessionStorage.setItem(cacheKey,JSON.stringify({t:Date.now(),d:data}));}catch(e){}
+    return data;
+  }
+  async function loadGithubProjectData(){
+    const grid=document.getElementById('githubReleaseGrid'); if(!grid)return;
+    const results=[]; let assets=0;
+    for(const p of githubProjects){
+      try{
+        const [repo,release]=await Promise.all([githubFetch(`https://api.github.com/repos/${p.owner}/${p.repo}`),githubFetch(`https://api.github.com/repos/${p.owner}/${p.repo}/releases/latest`)]);
+        assets += release.assets?.length||0; results.push(projectCardHtml(p,repo,release));
+      }catch(err){
+        results.push(`<article class="release-card github-fallback"><div class="release-head"><div class="release-logo"><img src="${p.logo}" alt="${p.name}"></div><div class="release-name"><b>${p.name}</b><small>${p.platform}</small></div></div><div class="release-note">اطلاعات زندهٔ GitHub در این لحظه در دسترس نیست. از لینک رسمی پروژه و Release استفاده کنید.</div><div class="release-actions"><a class="client-btn" href="${p.releaseUrl}" target="_blank" rel="noopener"><i class="fab fa-github"></i> باز کردن Releases</a><a class="client-btn" href="https://github.com/${p.owner}/${p.repo}" target="_blank" rel="noopener"><i class="fas fa-code"></i> Repository</a></div></article>`);
+      }
+    }
+    grid.innerHTML=results.join('');
+    const repoCount=document.getElementById('ghRepoCount'); if(repoCount)repoCount.textContent=results.length;
+    const releaseCount=document.getElementById('ghReleaseCount'); if(releaseCount)releaseCount.textContent=results.filter(x=>x.includes('release-version')).length;
+    const assetCount=document.getElementById('ghAssetCount'); if(assetCount)assetCount.textContent=assets;
+    const updated=document.getElementById('ghUpdated'); if(updated)updated.textContent=new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});
+  }
+  loadGithubProjectData();
+
+  // ===== SUBSCRIPTION UTILITIES =====
+  document.addEventListener('click',async e=>{
+    const btn=e.target.closest('.sub-mini-btn'); if(!btn) return;
+    const target=document.getElementById(btn.dataset.target); if(!target) return;
+    const url=target.textContent.trim();
+    if(btn.dataset.action==='copy'){try{await navigator.clipboard.writeText(url);notify('Subscription URL کپی شد ✓');}catch(err){}}
+    if(btn.dataset.action==='share'){try{if(navigator.share){await navigator.share({title:'V2ray_Sub Subscription',text:url,url});}else{await navigator.clipboard.writeText(url);notify('لینک کپی شد؛ Share در این مرورگر پشتیبانی نمی‌شود');}}catch(err){}}
+  });
+
+  // Small freshness hint without adding a polling loop.
+  const freshness=document.getElementById('dataFreshnessHint');
+  if(freshness) freshness.textContent='آخرین دریافت همین نشست: '+new Date().toLocaleTimeString('fa-IR');
+
+  // ===== IMAGE / RESOURCE RESILIENCE =====
+  const RAW_BASE='https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/';
+  function rawAsset(src){
+    if(!src || /^https?:/i.test(src) || src.startsWith('data:')) return src;
+    return RAW_BASE + src.split('./').pop().split('/').map((part,i)=>i?encodeURIComponent(part):part).join('/');
+  }
+  document.querySelectorAll('img[src]').forEach(img=>{
+    img.addEventListener('error',()=>{
+      const original=img.getAttribute('src');
+      if(img.dataset.remoteTried!=='1' && /^\.?\/?Pic\//i.test(original||'')){
+        img.dataset.remoteTried='1'; img.src=rawAsset(original); return;
+      }
+      if(img.dataset.fallback!=='1' && !/favicon\.svg$/.test(original||'')){
+        img.dataset.fallback='1'; img.src='./favicon.svg';
+      }
+    },{passive:true});
+  });
+
+  // Make the main Mix URL visually selectable and semantically LTR.
+  document.querySelectorAll('.sub-url').forEach(el=>{el.setAttribute('dir','ltr'); el.setAttribute('role','text');});
+})();
+</script>
+
+
+<script id="v2ray-guide-first-v5-js">
+(function(){
+  'use strict';
+  const MIX='https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt';
+  const loader=document.getElementById('v5Loader');
+  const loaderStatus=document.getElementById('v5LoaderStatus');
+  const modal=document.getElementById('v5ClientModal');
+  const explain=document.getElementById('v5Explain');
+  const pasteTitle=document.getElementById('v5PasteTitle');
+  const pasteSteps=document.getElementById('v5PasteSteps');
+  const quickBtns=[...document.querySelectorAll('[data-v5-section]')];
+  const progress=document.querySelector('#v5ScrollProgress span');
+  function updateProgress(){
+    if(!progress)return;
+    const d=document.documentElement;
+    const max=Math.max(1,d.scrollHeight-d.clientHeight);
+    progress.style.width=Math.min(100,Math.max(0,(window.scrollY/max)*100))+'%';
+  }
+  window.addEventListener('scroll',updateProgress,{passive:true});
+  window.addEventListener('resize',updateProgress,{passive:true});
+  updateProgress();
+
+  function setLoader(text){ if(loaderStatus) loaderStatus.textContent=text; }
+  function finishLoader(){
+    setLoader('مرکز آماده است — می‌توانید با کپی Mix شروع کنید.');
+    setTimeout(()=>loader&&loader.classList.add('is-done'),260);
+  }
+  if(loader){
+    const warm=()=>{
+      setLoader('در حال آماده‌سازی راهنمای کلاینت…');
+      setTimeout(()=>setLoader('در حال آماده‌سازی Subscription و ابزارهای سریع…'),380);
+      setTimeout(()=>setLoader('همه‌چیز آماده است.'),760);
+      setTimeout(finishLoader,1050);
+    };
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',warm,{once:true}); else warm();
+    window.addEventListener('load',()=>setTimeout(finishLoader,160),{once:true});
+    setTimeout(finishLoader,3200);
+  }
+
+  function toast(msg){
+    const t=document.getElementById('uxToast');
+    if(t){t.textContent=msg;t.classList.add('show');clearTimeout(window.__v5Toast);window.__v5Toast=setTimeout(()=>t.classList.remove('show'),1900);return;}
+    // Fallback when the existing toast is unavailable.
+    try{console.info('[V2ray_Sub]',msg)}catch{}
+  }
+
+  async function copyText(text){
+    try{
+      if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);return true;}
+    }catch{}
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();
+    let ok=false;try{ok=document.execCommand('copy')}catch{}
+    ta.remove();return ok;
+  }
+
+  async function copyMix(btn){
+    const ok=await copyText(MIX);
+    if(btn){
+      const old=btn.innerHTML;
+      btn.innerHTML=ok?'<i class="fas fa-check"></i> کپی شد':'<i class="fas fa-triangle-exclamation"></i> کپی نشد';
+      btn.disabled=true;
+      setTimeout(()=>{btn.innerHTML=old;btn.disabled=false},1500);
+    }
+    toast(ok?'✅ لینک Mix کپی شد — حالا آن را داخل Subscription/Profile کلاینت Paste کنید.':'⚠️ کپی خودکار در این مرورگر در دسترس نیست؛ URL را دستی انتخاب و Copy کنید.');
+  }
+
+  const clientData={
+    v2rayng:{
+      title:'V2rayNG · Android',
+      steps:[
+        ['V2rayNG را باز کنید.','برنامهٔ V2rayNG را اجرا کنید.'],
+        ['به بخش Subscription بروید.','در منوی Subscription، مدیریت اشتراک‌ها را باز کنید.'],
+        ['افزودن Subscription را بزنید.','گزینهٔ افزودن Subscription/Subscription Settings را انتخاب کنید.','Subscription → Add / Subscription Settings'],
+        ['URL را در فیلد مربوط وارد کنید.','لینک Mix را Paste کنید و نام دلخواه بدهید.','Subscription URL → Paste Mix'],
+        ['Update و سپس Server را انتخاب کنید.','لیست را Refresh/Update کنید، یک Server/Node را انتخاب و اتصال را فعال کنید.','Update → Select Server → Connect']
+      ]
+    },
+    v2rayn:{
+      title:'v2rayN · Windows',
+      steps:[
+        ['v2rayN را باز کنید.','برنامهٔ دسکتاپ را اجرا کنید.'],
+        ['بخش Subscription/Group را پیدا کنید.','دنبال گزینه‌هایی مانند Subscription Group یا Subscription Settings بگردید.'],
+        ['یک Remote Subscription بسازید.','URL جدید را اضافه کنید و لینک Mix را وارد کنید.','Subscription / Remote Profile → URL'],
+        ['Update subscription را اجرا کنید.','بعد از ذخیره، Update/Refresh را بزنید تا سرورها دریافت شوند.','Update Subscription → Refresh'],
+        ['یک Node انتخاب و اتصال را فعال کنید.','از لیست یک سرور مناسب انتخاب کنید و Set as Active/Connect را انجام دهید.','Select Node → Active']
+      ]
+    },
+    hiddify:{
+      title:'Hiddify · چندسکویی',
+      steps:[
+        ['Hiddify را باز کنید.','برنامه را اجرا کنید و وارد بخش Profiles/Profiles Manager شوید.'],
+        ['افزودن Profile را انتخاب کنید.','گزینهٔ Add/New Profile را پیدا کنید.'],
+        ['Remote Profile / URL را انتخاب کنید.','لینک Mix را به‌عنوان URL اشتراک وارد کنید.','Remote Profile / Subscription URL → Paste Mix'],
+        ['Profile را ذخیره و Update کنید.','بعد از دریافت Nodes/Configs، پروفایل را Refresh کنید.','Save → Update'],
+        ['Node را انتخاب و Connect کنید.','یک سرور را انتخاب کنید و اتصال را فعال کنید.','Select Node → Connect']
+      ]
+    },
+    npv:{
+      title:'NPV Tunnel · Android / iOS',
+      steps:[
+        ['NPV Tunnel را باز کنید.','وارد برنامه شوید و بخش Config را باز کنید.'],
+        ['دکمهٔ + را بزنید.','در پایین صفحه گزینهٔ افزودن را انتخاب کنید.','Config → +'],
+        ['Add Subscription را بزنید.','نوع ورود را روی Subscription قرار دهید.','Add Subscription'],
+        ['نام و URL را وارد کنید.','لینک Mix را در Subscription URL Paste کنید.','Subscription URL → Paste Mix'],
+        ['تأیید، Refresh و Ping.','اشتراک را ذخیره کنید، Refresh/Ping انجام دهید و سرور را انتخاب کنید.','Save → Refresh → Ping']
+      ]
+    },
+    v2box:{
+      title:'V2Box · Android / iOS',
+      steps:[
+        ['V2Box را باز کنید.','به بخش Profiles/Subscription بروید.'],
+        ['پروفایل Remote/Subscription بسازید.','گزینهٔ افزودن Profile یا Subscription را انتخاب کنید.'],
+        ['URL را Paste کنید.','لینک Mix را در فیلد URL/Subscription وارد کنید.','Subscription URL → Paste Mix'],
+        ['Sync/Update را بزنید.','اجازه دهید لیست کانفیگ‌ها از URL دریافت شود.','Save → Update/Sync'],
+        ['Server را انتخاب و اتصال را فعال کنید.','یک Node مناسب را انتخاب کنید و Connect را بزنید.','Select Node → Connect']
+      ]
+    }
+  };
+
+  function openModal(client){
+    if(!modal)return;
+    modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.classList.add('v5-lock');
+    selectClient(client||guessClient());
+    setTimeout(()=>modal.querySelector('.v5-client-choice.active')?.focus(),30);
+  }
+  function closeModal(){if(!modal)return;modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.classList.remove('v5-lock')}
+  function guessClient(){
+    const ua=navigator.userAgent||'';
+    if(/Android/i.test(ua))return 'v2rayng';
+    if(/iPhone|iPad|iPod/i.test(ua))return 'npv';
+    if(/Windows/i.test(ua))return 'v2rayn';
+    if(/Macintosh|Mac OS|Linux/i.test(ua))return 'hiddify';
+    return 'v2rayng';
+  }
+  function selectClient(key){
+    const data=clientData[key]||clientData.v2rayng;
+    modal?.querySelectorAll('[data-v5-client-choice]').forEach(b=>b.classList.toggle('active',b.dataset.v5ClientChoice===key));
+    if(pasteTitle)pasteTitle.textContent=data.title;
+    if(pasteSteps)pasteSteps.innerHTML=data.steps.map((st,i)=>`<div class="v5-paste-step"><div class="v5-paste-no">${i+1}</div><div><b>${st[0]}</b><p>${st[1]}</p>${st[2]?`<span class="v5-paste-path"><i class="fas fa-location-dot"></i> ${st[2]}</span>`:''}</div></div>`).join('');
+  }
+
+  document.addEventListener('click',e=>{
+    const copy=e.target.closest('[data-v5-copy-mix]');if(copy){e.preventDefault();copyMix(copy);return;}
+    const picker=e.target.closest('[data-v5-open-client-picker]');if(picker){e.preventDefault();openModal();return;}
+    const clients=e.target.closest('[data-v5-open-clients]');if(clients){e.preventDefault();document.getElementById('clients')?.scrollIntoView({behavior:'smooth',block:'start'});return;}
+    const choice=e.target.closest('[data-v5-client-choice]');if(choice){selectClient(choice.dataset.v5ClientChoice);return;}
+    const quickChoice=e.target.closest('[data-v5-select-client]');if(quickChoice){openModal(quickChoice.dataset.v5SelectClient);return;}
+    const close=e.target.closest('[data-v5-close-modal]');if(close){closeModal();return;}
+    if(e.target===modal)closeModal();
+    const exp=e.target.closest('[data-v5-toggle-explain]');if(exp){explain?.classList.toggle('open');exp.textContent=explain?.classList.contains('open')?'بستن توضیح':'توضیح ساده‌تر';return;}
+    const top=e.target.closest('[data-v5-top]');if(top){window.scrollTo({top:0,behavior:'smooth'});return;}
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&modal?.classList.contains('open'))closeModal();
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){
+      e.preventDefault();openModal();
+    }
+    if(e.key==='/'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||'')){
+      e.preventDefault();document.getElementById('searchInput')?.focus();
+    }
+  });
+
+  // Mark the most relevant quick section while scrolling.
+  const sections=['subscriptions','guides','clients','githubProjects','siteAnalytics'].map(id=>document.getElementById(id)).filter(Boolean);
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(en=>{
+        if(en.isIntersecting){
+          const id=en.target.id;
+          quickBtns.forEach(b=>b.classList.toggle('is-active',b.dataset.v5Section===id));
+          if(id==='githubProjects'||id==='siteAnalytics') quickBtns.forEach(b=>b.classList.toggle('is-active',b.dataset.v5Section==='advanced'));
+        }
+      })
+    },{rootMargin:'-25% 0px -65% 0px',threshold:0});
+    sections.forEach(s=>io.observe(s));
+  }
+
+  // Keyboard hint on search field without adding visible clutter.
+  const search=document.getElementById('searchInput');
+  if(search)search.setAttribute('title','میانبر: / برای رفتن مستقیم به جستجو');
+
+  // Active visual on Copy Mix controls after successful copy.
+  document.querySelectorAll('[data-v5-copy-mix]').forEach(btn=>btn.addEventListener('click',()=>btn.classList.add('is-copied'),{passive:true}));
+})();
+</script>
+
+<script>
+(function(){
+  'use strict';
+  const WORKER='https://github-page-insights-worker.game-developer-mb.workers.dev';
+  const PLATFORM='v2ray-sub';
+  const e={
+    v:document.getElementById('analyticsViews'),
+    u:document.getElementById('analyticsVisitors'),
+    s:document.getElementById('analyticsSessions'),
+    d:document.getElementById('analyticsDuration'),
+    st:document.getElementById('analyticsStatus'),
+    r:document.getElementById('analyticsRefreshBtn')
+  };
+  const fmt=n=>new Intl.NumberFormat().format(Number(n)||0);
+  const dur=ms=>{
+    const total=Math.max(0,Math.round(Number(ms||0)/1000));
+    if(total<60)return total+'s';
+    const m=Math.floor(total/60),r=total%60;
+    if(m<60)return m+'m '+r+'s';
+    return Math.floor(m/60)+'h '+(m%60)+'m';
+  };
+  const dayKey=()=>{
+    const d=new Date(),p=n=>String(n).padStart(2,'0');
+    return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+  };
+  function status(text,error){
+    if(!e.st)return;
+    e.st.textContent=text;
+    e.st.classList.toggle('error',!!error);
+  }
+  async function load(){
+    if(!e.st)return;
+    status('در حال دریافت آمار زنده از GitHub Page Insights…',false);
+    const c=new AbortController(),t=setTimeout(()=>c.abort(),12000);
+    try{
+      const r=await fetch(WORKER+'/v1/platforms/'+encodeURIComponent(PLATFORM)+'?days=7',{
+        headers:{Accept:'application/json'},
+        cache:'no-store',
+        signal:c.signal
+      });
+      let d=null; try{d=await r.json()}catch{}
+      if(!r.ok) throw Error('HTTP '+r.status+(d&&d.error?' — '+d.error:''));
+      const totals=d&&d.totals?d.totals:{};
+      const recent=Array.isArray(d&&d.recentEvents)?d.recentEvents:[];
+      const today=dayKey();
+      const todayViews=recent.filter(x=>{
+        if(String(x&&x.eventType||'').toLowerCase()!=='pageview')return false;
+        const raw=x&&((x.occurredAt||x.receivedAt||x.timestamp));
+        if(!raw)return false;
+        try{return new Date(raw).toISOString().slice(0,10)===today}catch{return false}
+      }).length;
+      if(e.v)e.v.textContent=fmt(totals.pageviews??totals.views??0);
+      if(e.u)e.u.textContent=fmt(totals.uniqueVisitors??0);
+      if(e.s)e.s.textContent=fmt(totals.sessions??0);
+      if(e.d)e.d.textContent=dur(totals.avgDurationMs??0);
+      status('متصل · '+fmt(todayViews)+' بازدید امروز · '+new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'}),false);
+    }catch(err){
+      status('آمار بازدید در این لحظه در دسترس نیست؛ ثبت بازدید مستقل از این پنل ادامه دارد.',true);
+      console.warn('V2ray_Sub Visitor Analytics:',err);
+    }finally{clearTimeout(t)}
+  }
+  e.r&&e.r.addEventListener('click',load);
+  load();
+  setInterval(()=>{if(!document.hidden)load()},60000);
+})();
+</script>
+</body>
+</html>
