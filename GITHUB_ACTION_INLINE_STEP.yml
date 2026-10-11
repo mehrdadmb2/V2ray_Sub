@@ -1,0 +1,28 @@
+# Use this step at the END of the workflow that GENERATES and commits Mix.txt itself.
+# Why: pushes performed with the built-in GITHUB_TOKEN intentionally do not start another
+# push-triggered workflow. This step calls the Worker from that same workflow run.
+# Add the two repository secrets listed in README.md before using this snippet.
+
+- name: Notify V2ray Sub Radar Worker after config generation
+  if: success()
+  shell: bash
+  env:
+    WORKER_URL: ${{ secrets.V2RAY_RADAR_WORKER_URL }}
+    ACTION_SECRET: ${{ secrets.V2RAY_RADAR_ACTION_SECRET }}
+    EVENT_REF: ${{ github.ref }}
+    EVENT_SHA: ${{ github.sha }}
+    EVENT_REPOSITORY: ${{ github.repository }}
+  run: |
+    set -euo pipefail
+    test -n "$WORKER_URL"
+    test -n "$ACTION_SECRET"
+    WORKER_URL="${WORKER_URL%/}"
+    content_sha=$(git cat-file blob "HEAD:Mix.txt" | sha256sum | awk '{print $1}')
+    payload=$(printf '{"ref":"%s","sha":"%s","repository":"%s","content_sha256":"%s","source":"inline-updater-step"}' "$EVENT_REF" "$EVENT_SHA" "$EVENT_REPOSITORY" "$content_sha")
+    curl --fail-with-body --silent --show-error \
+      --retry 3 --retry-all-errors --retry-delay 2 \
+      --connect-timeout 10 --max-time 30 \
+      -X POST "$WORKER_URL/github/action" \
+      -H "Content-Type: application/json" \
+      -H "X-V2SR-Action-Secret: $ACTION_SECRET" \
+      --data "$payload"

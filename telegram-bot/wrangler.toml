@@ -1,0 +1,25 @@
+name = "v2ray-sub-radar-bot"
+main = "src/index.js"
+compatibility_date = "2026-10-11"
+workers_dev = true
+
+[vars]
+REPO_OWNER = "mehrdadmb2"
+REPO_NAME = "V2ray_Sub"
+REPO_BRANCH = "main"
+BOT_USERNAME = "V2raySubRadarBot"
+SITE_URL = "https://mehrdadmb2.github.io/V2ray_Sub/"
+TIMEZONE = "Asia/Tehran"
+CONFIG_TIMESTAMP_TIMEZONE = "Asia/Tehran"
+BROADCAST_BATCH = "2"
+SEND_ALL_FILES_ON_UPDATE = "true"
+ARCHIVE_MAX_SNAPSHOTS = "250"
+ARCHIVE_MAX_CONFIG_ROWS = "25000"
+ARCHIVE_MAX_BYTES = "300000000"
+
+# Intentionally no [triggers] Cron entry. GitHub Actions is the primary sync trigger.
+# Keep the existing D1 database ID exactly as it is in your deployed Worker.
+[[d1_databases]]
+binding = "DB"
+database_name = "v2ray-sub-radar"
+database_id = "PASTE_YOUR_EXISTING_D1_DATABASE_ID_HERE"
