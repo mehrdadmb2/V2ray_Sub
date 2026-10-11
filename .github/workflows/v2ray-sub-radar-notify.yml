@@ -1,0 +1,60 @@
+name: V2ray Sub Radar — notify Cloudflare Worker
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Mix.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: v2ray-sub-radar-notify
+  cancel-in-progress: false
+
+jobs:
+  notify-worker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout the exact commit so the Worker can verify the file hash
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Validate repository secrets
+        shell: bash
+        env:
+          WORKER_URL: ${{ secrets.V2RAY_RADAR_WORKER_URL }}
+          ACTION_SECRET: ${{ secrets.V2RAY_RADAR_ACTION_SECRET }}
+        run: |
+          set -euo pipefail
+          test -n "$WORKER_URL" || { echo "Missing secret V2RAY_RADAR_WORKER_URL"; exit 1; }
+          test -n "$ACTION_SECRET" || { echo "Missing secret V2RAY_RADAR_ACTION_SECRET"; exit 1; }
+          case "$WORKER_URL" in https://*) ;; *) echo "Worker URL must start with https://"; exit 1 ;; esac
+
+      - name: Tell Worker to check the just-updated Mix.txt
+        shell: bash
+        env:
+          WORKER_URL: ${{ secrets.V2RAY_RADAR_WORKER_URL }}
+          ACTION_SECRET: ${{ secrets.V2RAY_RADAR_ACTION_SECRET }}
+          EVENT_REF: ${{ github.ref }}
+          EVENT_SHA: ${{ github.sha }}
+          EVENT_REPOSITORY: ${{ github.repository }}
+          EVENT_CONTENT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          WORKER_URL="${WORKER_URL%/}"
+          content_sha=$(git cat-file blob "${EVENT_CONTENT_SHA}:Mix.txt" | sha256sum | awk '{print $1}')
+          payload=$(printf '{"ref":"%s","sha":"%s","repository":"%s","content_sha256":"%s","source":"github-actions"}' "$EVENT_REF" "$EVENT_SHA" "$EVENT_REPOSITORY" "$content_sha")
+          curl --fail-with-body --silent --show-error \
+            --retry 3 --retry-all-errors --retry-delay 2 \
+            --connect-timeout 10 --max-time 30 \
+            -X POST "$WORKER_URL/github/action" \
+            -H "Content-Type: application/json" \
+            -H "X-V2SR-Action-Secret: $ACTION_SECRET" \
+            --data "$payload"
