@@ -1,4 +1,4 @@
-name: V2ray Sub Radar — notify Worker
+name: V2ray Sub Radar — notify Cloudflare Worker
 
 on:
   push:
@@ -17,143 +17,27 @@ concurrency:
 
 jobs:
   notify-worker:
-    name: Verify Mix.txt and notify Cloudflare
     runs-on: ubuntu-latest
-    timeout-minutes: 4
-
+    timeout-minutes: 3
     steps:
-      - name: Checkout triggering commit
+      - name: Checkout the exact commit so the Worker can verify the file hash
         uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
           fetch-depth: 1
 
-      - name: Print safe run diagnostics
-        shell: bash
-        env:
-          EVENT_REF: ${{ github.ref }}
-          EVENT_SHA: ${{ github.sha }}
-          EVENT_REPOSITORY: ${{ github.repository }}
-          EVENT_NAME: ${{ github.event_name }}
-          EVENT_ACTOR: ${{ github.actor }}
-        run: |
-          set -Eeuo pipefail
-          echo "============================================================"
-          echo "V2ray Sub Radar — GitHub Actions diagnostics"
-          echo "============================================================"
-          printf 'Event       : %s\n' "$EVENT_NAME"
-          printf 'Repository  : %s\n' "$EVENT_REPOSITORY"
-          printf 'Branch ref  : %s\n' "$EVENT_REF"
-          printf 'Commit      : %s\n' "$EVENT_SHA"
-          printf 'Actor       : %s\n' "$EVENT_ACTOR"
-          printf 'Started UTC : %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-          echo "Secrets are intentionally not printed."
-          echo "============================================================"
-
-      - name: Validate secrets, branch and Worker health
+      - name: Validate repository secrets
         shell: bash
         env:
           WORKER_URL: ${{ secrets.V2RAY_RADAR_WORKER_URL }}
           ACTION_SECRET: ${{ secrets.V2RAY_RADAR_ACTION_SECRET }}
-          EVENT_REF: ${{ github.ref }}
         run: |
-          set -Eeuo pipefail
+          set -euo pipefail
+          test -n "$WORKER_URL" || { echo "Missing secret V2RAY_RADAR_WORKER_URL"; exit 1; }
+          test -n "$ACTION_SECRET" || { echo "Missing secret V2RAY_RADAR_ACTION_SECRET"; exit 1; }
+          case "$WORKER_URL" in https://*) ;; *) echo "Worker URL must start with https://"; exit 1 ;; esac
 
-          WORKER_URL="${WORKER_URL%/}"
-          if [[ -z "$WORKER_URL" ]]; then
-            echo "::error title=Missing Worker URL::Add repository secret V2RAY_RADAR_WORKER_URL with the Worker base URL."
-            exit 1
-          fi
-          if [[ -z "$ACTION_SECRET" ]]; then
-            echo "::error title=Missing Action secret::Add repository secret V2RAY_RADAR_ACTION_SECRET."
-            exit 1
-          fi
-          if [[ "$WORKER_URL" != https://* ]]; then
-            echo "::error title=Invalid Worker URL::V2RAY_RADAR_WORKER_URL must start with https://."
-            exit 1
-          fi
-          if [[ "$WORKER_URL" == */github/action ]]; then
-            echo "::error title=Worker URL must be the base URL::Remove /github/action from V2RAY_RADAR_WORKER_URL; the workflow adds that path itself."
-            exit 1
-          fi
-          if [[ "$EVENT_REF" != "refs/heads/main" ]]; then
-            echo "::error title=Wrong branch::This workflow is configured for main. Select main for workflow_dispatch."
-            exit 1
-          fi
-
-          echo "Worker base URL : $WORKER_URL"
-          echo "Worker health   : $WORKER_URL/health"
-          echo "Action endpoint : $WORKER_URL/github/action"
-
-          health_body="$(mktemp)"
-          health_headers="$(mktemp)"
-          trap 'rm -f "$health_body" "$health_headers"' EXIT
-
-          set +e
-          health_code=$(curl --silent --show-error --connect-timeout 10 --max-time 20 \
-            --dump-header "$health_headers" --output "$health_body" \
-            --write-out '%{http_code}' "$WORKER_URL/health")
-          health_curl_rc=$?
-          set -e
-
-          if [[ "$health_curl_rc" -ne 0 ]]; then
-            echo "::error title=Worker health request failed::curl exit code $health_curl_rc. Check the Worker URL, deployment and network availability."
-            exit 1
-          fi
-
-          echo "Health HTTP status: $health_code"
-          echo "Relevant response headers:"
-          grep -iE '^(content-type|cf-ray|server|date):' "$health_headers" || true
-          if [[ -s "$health_body" ]]; then
-            echo "Safe health summary:"
-            if jq -e . "$health_body" >/dev/null 2>&1; then
-              jq '{ok, app: (if (.app|type)=="object" then {name:.app.name, username:.app.username, version:.app.version} else .app end), hasDb, configured, githubActionsConfigured, time}' "$health_body"
-            else
-              head -c 1200 "$health_body"; echo
-            fi
-          fi
-
-          if [[ ! "$health_code" =~ ^2[0-9][0-9]$ ]]; then
-            echo "::error title=Worker health endpoint returned an error::HTTP $health_code. Verify V2RAY_RADAR_WORKER_URL and the deployed Worker."
-            exit 1
-          fi
-
-          if ! jq -e '.ok == true' "$health_body" >/dev/null 2>&1; then
-            echo "::error title=Unexpected health response::The Worker did not return JSON with ok=true."
-            exit 1
-          fi
-
-          if ! jq -e '.githubActionsConfigured == true' "$health_body" >/dev/null 2>&1; then
-            echo "::error title=Worker secret is missing::Set GITHUB_ACTION_SECRET on Cloudflare, then redeploy if necessary. This is separate from the GitHub repository secret."
-            exit 1
-          fi
-
-          echo "Health check passed. Note: it confirms the Worker secret exists, not that both secret values match."
-
-      - name: Calculate exact Mix.txt digest
-        id: mix
-        shell: bash
-        env:
-          EVENT_SHA: ${{ github.sha }}
-        run: |
-          set -Eeuo pipefail
-          object_path="${EVENT_SHA}:Mix.txt"
-          if ! git cat-file -e "$object_path" 2>/dev/null; then
-            echo "::error title=Mix.txt missing from triggering commit::Could not read $object_path. Check the branch and repository path."
-            exit 1
-          fi
-          content_sha=$(git cat-file blob "$object_path" | sha256sum | awk '{print $1}')
-          bytes=$(git cat-file -s "$object_path")
-          lines=$(git cat-file blob "$object_path" | awk 'END {print NR}')
-          echo "content_sha256=$content_sha" >> "$GITHUB_OUTPUT"
-          echo "bytes=$bytes" >> "$GITHUB_OUTPUT"
-          echo "lines=$lines" >> "$GITHUB_OUTPUT"
-          echo "Mix.txt blob details:"
-          printf '  SHA-256 : %s\n' "$content_sha"
-          printf '  Bytes   : %s\n' "$bytes"
-          printf '  Lines   : %s\n' "$lines"
-
-      - name: Notify Worker with HTTP diagnostics and safe retries
+      - name: Tell Worker to check the just-updated Mix.txt
         shell: bash
         env:
           WORKER_URL: ${{ secrets.V2RAY_RADAR_WORKER_URL }}
@@ -161,132 +45,16 @@ jobs:
           EVENT_REF: ${{ github.ref }}
           EVENT_SHA: ${{ github.sha }}
           EVENT_REPOSITORY: ${{ github.repository }}
-          CONTENT_SHA: ${{ steps.mix.outputs.content_sha256 }}
-          FILE_BYTES: ${{ steps.mix.outputs.bytes }}
-          FILE_LINES: ${{ steps.mix.outputs.lines }}
-          EVENT_NAME: ${{ github.event_name }}
+          EVENT_CONTENT_SHA: ${{ github.sha }}
         run: |
-          set -Eeuo pipefail
+          set -euo pipefail
           WORKER_URL="${WORKER_URL%/}"
-          endpoint="$WORKER_URL/github/action"
-          payload=$(jq -cn \
-            --arg ref "$EVENT_REF" \
-            --arg sha "$EVENT_SHA" \
-            --arg repository "$EVENT_REPOSITORY" \
-            --arg content_sha256 "$CONTENT_SHA" \
-            --arg source "github-actions" \
-            --arg event "$EVENT_NAME" \
-            --argjson bytes "$FILE_BYTES" \
-            --argjson lines "$FILE_LINES" \
-            '{ref:$ref,sha:$sha,repository:$repository,content_sha256:$content_sha256,source:$source,event:$event,file_bytes:$bytes,file_lines:$lines}')
-
-          echo "============================================================"
-          echo "Sending update request to Worker"
-          echo "Endpoint     : $endpoint"
-          echo "Expected SHA : $CONTENT_SHA"
-          echo "Payload size : ${#payload} bytes (no secrets included)"
-          echo "============================================================"
-
-          body_file="$(mktemp)"
-          headers_file="$(mktemp)"
-          trap 'rm -f "$body_file" "$headers_file"' EXIT
-          max_attempts=4
-
-          for attempt in $(seq 1 "$max_attempts"); do
-            : > "$body_file"
-            : > "$headers_file"
-            echo "[Attempt $attempt/$max_attempts] POST $endpoint"
-            started=$(date +%s)
-
-            set +e
-            http_code=$(curl --silent --show-error \
-              --connect-timeout 10 --max-time 35 \
-              --dump-header "$headers_file" --output "$body_file" \
-              --write-out '%{http_code}' \
-              -X POST "$endpoint" \
-              -H 'Content-Type: application/json' \
-              -H "X-V2SR-Action-Secret: $ACTION_SECRET" \
-              --data "$payload")
-            curl_rc=$?
-            set -e
-
-            elapsed=$(( $(date +%s) - started ))
-            echo "curl_exit_code=$curl_rc; http_status=${http_code:-none}; elapsed_seconds=$elapsed"
-            echo "Relevant response headers:"
-            grep -iE '^(content-type|cf-ray|server|date|retry-after):' "$headers_file" || true
-
-            if [[ "$curl_rc" -ne 0 ]]; then
-              echo "Transport failure: curl could not complete the request."
-              if [[ "$attempt" -lt "$max_attempts" ]]; then
-                wait_seconds=$(( attempt * 2 ))
-                echo "Retrying transport failure in ${wait_seconds}s..."
-                sleep "$wait_seconds"
-                continue
-              fi
-              echo "::error title=Worker request transport failure::curl failed after $max_attempts attempts. Review the network error above."
-              exit 1
-            fi
-
-            if [[ -s "$body_file" ]]; then
-              echo "Worker response body (secrets are not included):"
-              if jq -e . "$body_file" >/dev/null 2>&1; then
-                jq . "$body_file"
-              else
-                head -c 2000 "$body_file"; echo
-              fi
-            else
-              echo "Worker response body: <empty>"
-            fi
-
-            if [[ "$http_code" =~ ^2[0-9][0-9]$ ]]; then
-              if jq -e 'type == "object" and (.ok == false)' "$body_file" >/dev/null 2>&1; then
-                echo "::error title=Worker reported an application error::HTTP was successful, but JSON contains ok=false. Review the response body above."
-                exit 1
-              fi
-              echo "✅ Worker accepted the update request (HTTP $http_code)."
-              echo "The endpoint processes sync/broadcast asynchronously after it returns. Check /health or /admin/status for processing results."
-              exit 0
-            fi
-
-            if [[ "$http_code" == "403" ]]; then
-              echo "::error title=Worker rejected the Action secret (HTTP 403)::The endpoint exists but X-V2SR-Action-Secret did not match GITHUB_ACTION_SECRET on the Worker. The GitHub repository secret V2RAY_RADAR_ACTION_SECRET must be byte-for-byte identical."
-              echo "Fix: run 'npx wrangler secret put GITHUB_ACTION_SECRET' and paste the same value saved in GitHub Settings → Secrets and variables → Actions → V2RAY_RADAR_ACTION_SECRET. Do not print either value in logs."
-              echo "403 is not transient, so this workflow intentionally does not retry it."
-              exit 1
-            fi
-
-            if [[ "$http_code" == "503" ]]; then
-              echo "::error title=Worker action endpoint is not configured (HTTP 503)::Check that GITHUB_ACTION_SECRET exists on the deployed Worker. See the response body above."
-              exit 1
-            fi
-
-            if [[ "$http_code" == "404" ]]; then
-              echo "::error title=Worker endpoint not found (HTTP 404)::Check the base URL and ensure the deployed Worker version includes POST /github/action."
-              exit 1
-            fi
-
-            if [[ "$http_code" == "400" || "$http_code" == "401" || "$http_code" == "422" ]]; then
-              echo "::error title=Worker rejected the request (HTTP $http_code)::This is a non-retryable client/request error. Check the response body and payload fields above."
-              exit 1
-            fi
-
-            if [[ "$http_code" == "429" || "$http_code" =~ ^5[0-9][0-9]$ ]]; then
-              if [[ "$attempt" -lt "$max_attempts" ]]; then
-                retry_after=$(awk 'BEGIN{IGNORECASE=1} /^Retry-After:/ {gsub("\r", "", $2); print $2; exit}' "$headers_file")
-                if [[ "$retry_after" =~ ^[0-9]+$ ]] && (( retry_after <= 20 )); then
-                  wait_seconds="$retry_after"
-                else
-                  wait_seconds=$(( attempt * 3 ))
-                fi
-                echo "Transient HTTP error $http_code; retrying in ${wait_seconds}s..."
-                sleep "$wait_seconds"
-                continue
-              fi
-            fi
-
-            echo "::error title=Worker request failed::Unexpected non-success HTTP status $http_code after attempt $attempt."
-            exit 1
-          done
-
-          echo "::error title=Worker request failed::Retry loop ended without success."
-          exit 1
+          content_sha=$(git cat-file blob "${EVENT_CONTENT_SHA}:Mix.txt" | sha256sum | awk '{print $1}')
+          payload=$(printf '{"ref":"%s","sha":"%s","repository":"%s","content_sha256":"%s","source":"github-actions"}' "$EVENT_REF" "$EVENT_SHA" "$EVENT_REPOSITORY" "$content_sha")
+          curl --fail-with-body --silent --show-error \
+            --retry 3 --retry-all-errors --retry-delay 2 \
+            --connect-timeout 10 --max-time 30 \
+            -X POST "$WORKER_URL/github/action" \
+            -H "Content-Type: application/json" \
+            -H "X-V2SR-Action-Secret: $ACTION_SECRET" \
+            --data "$payload"
