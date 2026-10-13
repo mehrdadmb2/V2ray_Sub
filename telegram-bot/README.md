@@ -1,67 +1,50 @@
-# V2ray Sub Radar — Worker + Telegram + D1 Archive
+# V2ray Sub Radar v5 — Cloudflare Worker + D1
 
-نسخه ارتقای Worker برای `@V2raySubRadarBot`.
+This upgrade targets the currently deployed `@V2raySubRadarBot` and the existing D1 database. It does not require Cron and must not create a new D1 database.
 
-## چه چیزهایی اضافه شده؟
+## v5 changes
 
-- `/text`: ارسال همه کانفیگ‌های Mix به‌صورت متن؛ هر پیام شامل یک بلوک HTML `<pre>` است تا در Telegram با فونت monospace نمایش داده شود و به‌صورت یک بلوک قابل Copy باشد. ارسال در بخش‌های متعدد ادامه پیدا می‌کند تا همه موارد برسند.
-- `/history`: انتخاب Snapshotهای ذخیره‌شده قبلی و دریافت فایل کامل یا کانفیگ‌های همان Snapshot.
-- `/country` و `/protocol`: انتخاب و دریافت کانفیگ‌ها بر اساس کشور یا پروتکل؛ مثال `/country US` و `/protocol VLESS`.
-- آرشیو D1 برای نسخه‌ها و کانفیگ‌های هر Snapshot.
-- پاک‌سازی FIFO: قدیمی‌ترین Snapshotهای تاریخی حذف می‌شوند؛ Snapshot آخر هرگز برای آزادسازی فضا حذف نمی‌شود. Snapshotهایی که یک job ارسال متنی فعال استفاده می‌کند هم موقتاً محافظت می‌شوند.
-- Sync خودکار با GitHub Actions به جای وابستگی به Cron. این پکیج عمداً Cron را فعال نمی‌کند.
-- راهکار برای دو حالت بروزرسانی GitHub: یک Workflow جدا برای Push عادی و یک Step که باید در همان Workflow تولیدکننده Mix.txt قرار بگیرد، اگر آن Workflow با `GITHUB_TOKEN` فایل را Push می‌کند.
-- Admin endpoints برای Health، Sync، Status، بررسی SHAها و Telegram webhook.
+- Broadcast selects every active subscriber with notifications enabled. A historical cursor can no longer permanently skip later users.
+- A `broadcast_delivery` row tracks each recipient and digest independently. One user's send failure does not stop delivery to the rest.
+- Non-blocking delivery failures are retried up to three times per recipient. Telegram-blocked/deactivated users are marked blocked/inactive; other recipients still receive the update.
+- `/admin`, `/adminusers`, `/adminstatus`, and `/adminretry` provide admin-only tools. Admin identity comes from the Cloudflare secret `ADMIN_TELEGRAM_IDS`.
+- A `Mix.txt` change sends only `Mix.txt`; the three-file `/files` command remains available for manual requests.
+- Admin user list includes name, username when present, numeric Telegram ID, active/notification state, join time, last activity, and last successful update delivery. The ID is a `tg://user?id=...` link; whether Telegram can open the profile may depend on privacy/client settings.
 
-## ساختار
+## Deploy safely
 
-- `src/index.js`: کد Worker.
-- `database/0001_initial.sql`: ساختار اولیه برای نصب کاملاً جدید؛ برای Worker فعلی اجرا نکن مگر واقعاً DB تازه ساخته باشی.
-- `database/upgrade_002_archive.sql`: Migration افزایشیِ امن برای D1 فعلی. فقط همین فایل را در DB فعلی اجرا کن.
-- `wrangler.toml`: تنظیمات Worker؛ قبل از Deploy مقدار `database_id` را با شناسه فعلی D1 خودت جایگزین کن.
-- `../.github/workflows/v2ray-sub-radar-notify.yml`: فایل Workflow که باید در ریشه ریپوی GitHub قرار بگیرد.
-- `../GITHUB_ACTION_INLINE_STEP.yml`: Step اختیاری برای اضافه کردن به Workflow موجودی که Mix.txt را با GITHUB_TOKEN می‌سازد و Push می‌کند.
+1. Back up the current `src/index.js` and `wrangler.toml`.
+2. Replace `src/index.js` with the v5 file. Keep your actual current `database_id` and all existing secrets.
+3. Apply the additive migration to the existing D1:
 
-## Secretهای Cloudflare Worker
+   ```powershell
+   npx wrangler d1 execute v2ray-sub-radar --remote --file=./database/upgrade_003_broadcast_delivery.sql
+   ```
 
-Secretهای قبلی را نگه دار:
+   If your D1 is named differently, use its real name. Do not rerun the initial schema or create a new database.
+4. In Telegram, run `/id` and note your numeric `User ID`. In PowerShell, run:
 
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_WEBHOOK_SECRET`
-- `ADMIN_KEY`
+   ```powershell
+   npx wrangler secret put ADMIN_TELEGRAM_IDS
+   ```
 
-فقط این Secret جدید لازم است:
+   Enter numeric admin IDs separated by commas, such as `123456789,987654321` (example IDs only).
+5. Deploy the Worker:
 
-- `GITHUB_ACTION_SECRET`
+   ```powershell
+   npx wrangler deploy
+   ```
 
-مقدار این Secret باید دقیقاً با GitHub Actions Secret به نام `V2RAY_RADAR_ACTION_SECRET` یکسان باشد.
+6. In Telegram test `/admin`, `/adminusers`, `/adminstatus`, and `/adminretry`.
 
-## Secrets در GitHub
+## Diagnosing a friend who did not receive updates
 
-در `Settings → Secrets and variables → Actions` این دو Repository Secret را اضافه کن:
+- `/adminusers` shows whether the friend is actually present in D1 and whether `active` and `notifications` are enabled.
+- If notification state is off, the person should send `/unmute`.
+- If the subscriber was deactivated after Telegram rejected a delivery, the person should send `/start` again.
+- `/adminstatus` reports counts of successful, retry, failed, and blocked deliveries for the latest/current digest.
+- `/adminretry` retries failed recipients for that digest, without resending to users already recorded as delivered.
 
-- `V2RAY_RADAR_WORKER_URL`: URL پایه Worker، مانند `https://v2ray-sub-radar-bot.<account>.workers.dev`؛ مسیر `/github/action` را اضافه نکن.
-- `V2RAY_RADAR_ACTION_SECRET`: همان مقدار `GITHUB_ACTION_SECRET` در Cloudflare.
+## Automatic update behavior
 
-## محدودیت آرشیو
-
-مقادیر پیش‌فرض نگهداری:
-
-- حداکثر 250 Snapshot.
-- حداکثر 25,000 ردیف کانفیگ آرشیوشده.
-- حداکثر 300,000,000 بایت برآوردی برای داده‌های آرشیو.
-
-این اعداد guardrail هستند، نه اندازه‌گیری دقیق فایل SQLite روی دیسک. D1 Free سقف 500 MB برای هر دیتابیس دارد؛ برای باقی جدول‌ها و ایندکس‌ها حاشیه می‌گذاریم. اگر هرکدام از سقف‌ها رد شود، قدیمی‌ترین Snapshotها اول حذف می‌شوند؛ Snapshot تازه حفظ می‌شود. Snapshotهای قبل از نصب آرشیو که ذخیره نشده‌اند قابل بازیابی از D1 نیستند، مگر اینکه جداگانه از تاریخچه GitHub بازسازی شوند.
-
-## Worker endpoints
-
-- `GET /health`
-- `POST /github/action` — فقط با `X-V2SR-Action-Secret`
-- `POST /admin/setup` — با `X-Admin-Key`
-- `POST /admin/sync` — با `X-Admin-Key`
-- `GET /admin/status` — با `X-Admin-Key`
-- `GET /admin/live-debug` — با `X-Admin-Key`
-
-## نکته مهم برای Actionهای داخلی GitHub
-
-GitHub طبق سیاست امنیتی خود، Pushهایی که با built-in `GITHUB_TOKEN` انجام می‌شوند معمولاً Workflow دیگری با رویداد `push` را فعال نمی‌کنند. اگر Workflow شما خودِ `Mix.txt` را تولید و با `GITHUB_TOKEN` Push می‌کند، Step فایل `GITHUB_ACTION_INLINE_STEP.yml` را در همان Workflow و بعد از مرحله‌ای که commit/push را انجام می‌دهد قرار بده. Workflow جدا برای Pushهای عادیِ دستی یا pushهایی که با توکن/کاربر دیگری انجام می‌شوند کار می‌کند.
+The existing GitHub Action is still the source of update signals, and no Cron trigger is needed. Its current path filter watches `Mix.txt`. When Mix changes, the Worker broadcasts the Mix update and Mix file only. Irancell/MCI remain accessible through `/irancell`, `/mci`, and `/files` for manual download.

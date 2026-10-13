@@ -14,7 +14,7 @@
 const APP = {
   name: 'V2ray Sub Radar',
   username: '@V2raySubRadarBot',
-  version: '4.1.0',
+  version: '5.0.0',
   siteUrl: 'https://mehrdadmb2.github.io/V2ray_Sub/',
   repoUrl: 'https://github.com/mehrdadmb2/V2ray_Sub',
   repoApi: 'https://api.github.com/repos/mehrdadmb2/V2ray_Sub',
@@ -25,7 +25,9 @@ const APP = {
   textBatchMessages: 7,
   maxArchiveLinesPerSnapshot: 8000,
   maxDocumentBytes: 50 * 1024 * 1024,
-  defaultBroadcastBatch: 6,
+  defaultBroadcastBatch: 2,
+  maxBroadcastAttemptsPerUser: 3,
+  adminUserPageSize: 5,
   githubApiVersion: '2026-03-10',
   rawRetryDelaysMs: [0, 1200, 3000],
   fetchTimeoutMs: 20000,
@@ -675,8 +677,12 @@ async function releaseLock(env, holder) {
   await env.DB.prepare(`UPDATE worker_lock SET holder = '', lease_until = '1970-01-01T00:00:00.000Z' WHERE id = 1 AND holder = ?1`).bind(holder).run();
 }
 
-async function upsertSubscriber(env, chat) {
+async function upsertSubscriber(env, chat, fromUser = null) {
   const now = nowIso();
+  const actor = fromUser || chat || {};
+  const chatId = String(chat?.id ?? actor.id ?? '');
+  const userId = String(actor.id ?? chat?.id ?? '');
+  if (!chatId || !userId) throw new Error('شناسه کاربر/چت Telegram نامعتبر است.');
   await env.DB.prepare(`
     INSERT INTO subscribers(
       chat_id, user_id, username, first_name, last_name,
@@ -685,17 +691,17 @@ async function upsertSubscriber(env, chat) {
     ) VALUES (?1, ?2, ?3, ?4, ?5, 1, 1, NULL, NULL, ?6, ?6)
     ON CONFLICT(chat_id) DO UPDATE SET
       user_id = excluded.user_id,
-      username = excluded.username,
-      first_name = excluded.first_name,
-      last_name = excluded.last_name,
+      username = COALESCE(excluded.username, subscribers.username),
+      first_name = COALESCE(excluded.first_name, subscribers.first_name),
+      last_name = COALESCE(excluded.last_name, subscribers.last_name),
       active = 1,
-      updated_at = ?6
+      updated_at = excluded.updated_at
   `).bind(
-    String(chat.id),
-    String(chat.id),
-    chat.username || null,
-    chat.first_name || null,
-    chat.last_name || null,
+    chatId,
+    userId,
+    actor.username || chat?.username || null,
+    actor.first_name || chat?.first_name || null,
+    actor.last_name || chat?.last_name || null,
     now,
   ).run();
 }
@@ -712,7 +718,7 @@ async function markSubscriberSent(env, chatId, digest) {
 }
 
 function isBlockedTelegramError(description) {
-  return /blocked|deactivated|chat not found|user is deactivated|forbidden/i.test(String(description || ''));
+  return /bot was blocked by the user|blocked by the user|user is deactivated|chat not found|bot can.t initiate conversation with a user|bot was kicked|chat_write_forbidden|user is inaccessible|bot was kicked from/i.test(String(description || ''));
 }
 
 async function deactivateSubscriber(env, chatId) {
@@ -1381,11 +1387,26 @@ function meaningfulPendingPayload(snapshot, change, enabled) {
   if (!enabled) return null;
   return {
     digest: snapshot.configSha256,
+    sourceKey: snapshot.key || 'mix',
+    sourceFileName: snapshot.fileName || 'Mix.txt',
     rawSha256: snapshot.rawSha256,
     cursor: 0,
     createdAt: nowIso(),
     change,
   };
+}
+
+async function recordBroadcastDelivery(env, digest, chatId, sourceKey, status, attempts, error = null) {
+  const now = nowIso();
+  await env.DB.prepare(`
+    INSERT INTO broadcast_delivery(digest, chat_id, source_key, status, attempts, last_error, created_at, updated_at)
+    VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?7)
+    ON CONFLICT(digest, chat_id, source_key) DO UPDATE SET
+      status = excluded.status,
+      attempts = excluded.attempts,
+      last_error = excluded.last_error,
+      updated_at = excluded.updated_at
+  `).bind(String(digest), String(chatId), String(sourceKey || 'mix'), String(status), Number(attempts || 0), error ? String(error).slice(0, 500) : null, now).run();
 }
 
 async function processPendingBroadcast(env, origin = null) {
@@ -1394,17 +1415,20 @@ async function processPendingBroadcast(env, origin = null) {
   const snapshot = state?.snapshot;
   if (!pending || !snapshot) return { sent: 0, pending: 0, done: true };
 
-  const fetched = await fetchSource(SOURCES[0]);
-  const currentConfigText = fetched.normalized;
+  const sourceKey = String(pending.sourceKey || snapshot.key || 'mix');
+  const source = SOURCES.find(item => item.key === sourceKey) || SOURCES[0];
+  const fetched = await fetchSource(source, { cacheBust: true });
   const currentRawSha = await sha256Hex(fetched.text);
-  const currentNormalizedSha = await sha256Hex(currentConfigText);
+  const currentNormalizedSha = await sha256Hex(fetched.normalized);
   if (currentRawSha !== snapshot.rawSha256 || (snapshot.normalizedSha256 && currentNormalizedSha !== snapshot.normalizedSha256)) {
     const retryCount = Number(pending.retryCount || 0) + 1;
-    state.pending.retryCount = retryCount;
-    state.pending.lastError = 'Raw GitHub هنوز با Snapshot آماده ارسال همگام نیست.';
-    await putState(env, state);
-    // CDN propagation or a second push during broadcast: retry in a fresh invocation with a cap.
-    if (origin && retryCount <= 4) {
+    const latestState = await getState(env);
+    if (latestState?.pending?.digest === pending.digest) {
+      latestState.pending.retryCount = retryCount;
+      latestState.pending.lastError = 'Raw GitHub هنوز با Snapshot آماده ارسال همگام نیست.';
+      await putState(env, latestState);
+    }
+    if (origin && retryCount <= 5) {
       const internalUrl = `${origin.replace(/\/$/, '')}/internal/process-broadcast`;
       await fetchWithTimeout(internalUrl, {
         method: 'POST',
@@ -1412,136 +1436,159 @@ async function processPendingBroadcast(env, origin = null) {
         body: JSON.stringify({ digest: pending.digest, retry_count: retryCount }),
       }, 10000).catch(error => console.error('could not retry stale-source broadcast', error?.message || error));
     }
-    return { sent: 0, pending: -1, done: false, warning: 'Mix.txt در حال همگام‌شدن با GitHub است؛ تلاش مجدد صف‌بندی شد.' };
+    return { sent: 0, pending: -1, done: false, warning: 'منبع هنوز با Snapshot آماده ارسال همگام نیست.' };
   }
 
   const batchSize = Math.max(1, Math.min(Number(env.BROADCAST_BATCH || APP.defaultBroadcastBatch), 8));
+  const maxAttempts = APP.maxBroadcastAttemptsPerUser;
+  // Deliberately do not use pending.cursor as a filter: a prior interrupted/retried campaign
+  // must be able to discover every still-unsent subscriber, including rows beyond an old cursor.
   const rows = await env.DB.prepare(`
-    SELECT rowid AS db_rowid, chat_id
-    FROM subscribers
-    WHERE active = 1 AND notifications = 1
-      AND (last_sent_digest IS NULL OR last_sent_digest != ?1)
-      AND rowid > ?2
-    ORDER BY rowid ASC
-    LIMIT ?3
-  `).bind(pending.digest, Number(pending.cursor || 0), batchSize).all();
+    SELECT s.rowid AS db_rowid, s.chat_id, COALESCE(d.attempts, 0) AS attempts
+    FROM subscribers s
+    LEFT JOIN broadcast_delivery d
+      ON d.digest = ?1 AND d.chat_id = s.chat_id AND d.source_key = ?2
+    WHERE s.active = 1 AND s.notifications = 1
+      AND (s.last_sent_digest IS NULL OR s.last_sent_digest != ?1)
+      AND (d.status IS NULL OR d.status IN ('pending', 'retry', 'sending'))
+      AND COALESCE(d.attempts, 0) < ?3
+    ORDER BY s.rowid ASC
+    LIMIT ?4
+  `).bind(pending.digest, sourceKey, maxAttempts, batchSize).all();
 
   const users = rows.results || [];
   if (!users.length) {
-    state.pending = null;
-    state.lastBroadcast = { digest: pending.digest, finishedAt: nowIso() };
-    await putState(env, state);
-    return { sent: 0, pending: 0, done: true };
-  }
-
-  let lastHandledRowId = Number(pending.cursor || 0);
-  let sent = 0;
-  let transientFailure = false;
-  const sendTime = nowIso();
-  const fullMessageSections = buildDetailedSections(snapshot, pending.change, sendTime, 'بروزرسانی جدید');
-
-  // Fetch document sources once per broadcast batch, not once per user.
-  const docs = shouldSendAllFiles(env) ? SOURCES : [SOURCES[0]];
-  const preparedDocs = [];
-  for (const source of docs) {
-    if (source.key === 'mix') {
-      preparedDocs.push({ source, fetched, snapshot });
-      continue;
-    }
-    const sourceFetched = await fetchSource(source);
-    const sourceSnapshot = await createSnapshot(env, source, sourceFetched, null);
-    preparedDocs.push({ source, fetched: sourceFetched, snapshot: sourceSnapshot });
-  }
-
-  for (const row of users) {
-    try {
-      await sendHtmlSections(env, row.chat_id, fullMessageSections, mainKeyboard());
-      for (const item of preparedDocs) {
-        const caption = shortDocumentCaption(
-          item.snapshot,
-          sendTime,
-          item.source.active ? '🟢 فعال' : '🗂 آرشیوی',
-        );
-        await sendDocument(
-          env,
-          row.chat_id,
-          item.fetched.text,
-          `V2ray_Sub_${item.source.fileName.replace(/\.txt$/i, '')}_${item.snapshot.rawSha256.slice(0, 12)}.txt`,
-          caption,
-          item.source.key === 'mix' ? mainKeyboard() : undefined,
-        );
-        await sleep(1050);
-      }
-      await markSubscriberSent(env, row.chat_id, pending.digest);
-      sent++;
-      lastHandledRowId = Number(row.db_rowid);
-    } catch (error) {
-      const description = error?.telegram?.description || error?.message || '';
-      if (isBlockedTelegramError(description)) {
-        await deactivateSubscriber(env, row.chat_id);
-        lastHandledRowId = Number(row.db_rowid);
-        continue;
-      }
-      // Transient error: stop this batch. The authenticated continuation retries with a short delay.
-      transientFailure = true;
-      state.pending.retryCount = Number(state.pending.retryCount || 0) + 1;
-      state.pending.lastError = description.slice(0, 240);
-      await putState(env, state);
-      if (state.pending.retryCount > 3) {
-        console.error('broadcast paused after repeated failure', row.chat_id, description);
-      }
-      break;
-    }
-  }
-
-  if (!transientFailure && lastHandledRowId > Number(pending.cursor || 0) && state.pending) {
-    state.pending.retryCount = 0;
-    delete state.pending.lastError;
-  }
-  state.pending.cursor = lastHandledRowId;
-  state.lastBroadcastAttemptAt = sendTime;
-  state.lastBroadcastSent = sent;
-  await putState(env, state);
-
-  const nextUser = await env.DB.prepare(`
-    SELECT rowid AS db_rowid FROM subscribers
-    WHERE active = 1 AND notifications = 1
-      AND (last_sent_digest IS NULL OR last_sent_digest != ?1)
-      AND rowid > ?2
-    ORDER BY rowid ASC LIMIT 1
-  `).bind(pending.digest, Number(lastHandledRowId || 0)).first();
-
-  if (!nextUser) {
+    const deliveryCounts = await env.DB.prepare(`
+      SELECT
+        SUM(CASE WHEN status = 'sent' THEN 1 ELSE 0 END) AS sent,
+        SUM(CASE WHEN status = 'retry' THEN 1 ELSE 0 END) AS retry,
+        SUM(CASE WHEN status = 'failed' THEN 1 ELSE 0 END) AS failed,
+        SUM(CASE WHEN status = 'blocked' THEN 1 ELSE 0 END) AS blocked,
+        SUM(CASE WHEN status = 'sending' THEN 1 ELSE 0 END) AS sending
+      FROM broadcast_delivery WHERE digest = ?1 AND source_key = ?2
+    `).bind(pending.digest, sourceKey).first();
     const latestState = await getState(env);
     if (latestState?.pending?.digest === pending.digest) {
       latestState.pending = null;
-      latestState.lastBroadcast = { digest: pending.digest, finishedAt: nowIso(), sentDigest: pending.digest };
+      latestState.lastBroadcast = {
+        digest: pending.digest, sourceKey, finishedAt: nowIso(),
+        sent: Number(deliveryCounts?.sent || 0), retry: Number(deliveryCounts?.retry || 0),
+        failed: Number(deliveryCounts?.failed || 0), blocked: Number(deliveryCounts?.blocked || 0),
+      };
       await putState(env, latestState);
     }
-    return { sent, pending: 0, done: true, cursor: lastHandledRowId };
+    console.log('Broadcast completed:', JSON.stringify({ digest: pending.digest, sourceKey, ...deliveryCounts }));
+    return { sent: 0, pending: 0, done: true, deliveryCounts };
   }
 
-  // Continue in a fresh Worker invocation so free-tier subrequest limits do not cap subscriber count.
-  if (origin) {
-    const retryCount = Number(state.pending.retryCount || 0);
-    const waitMs = retryCount ? Math.min(5000 * retryCount, 15000) : 0;
-    if (retryCount <= 3 && waitMs <= 15000) {
-      const url = `${origin.replace(/\/$/, '')}/internal/process-broadcast`;
-      const response = await fetchWithTimeout(url, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', 'X-Text-Queue-Key': String(env.ADMIN_KEY || '') },
-        body: JSON.stringify({ digest: pending.digest, retry_count: retryCount }),
-      }, 10000);
-      if (!response.ok) console.error('could not continue broadcast', response.status, pending.digest);
+  const sendTime = nowIso();
+  const fullMessageSections = buildDetailedSections(snapshot, pending.change, sendTime, 'بروزرسانی جدید');
+  // IMPORTANT: an update of Mix.txt sends Mix.txt only. Do not read/send archived sources.
+  const documentSource = source;
+  let sentThisBatch = 0;
+  let attemptedThisBatch = 0;
+  let failedThisBatch = 0;
+  let blockedThisBatch = 0;
+  let lastHandledRowId = Number(pending.cursor || 0);
+
+  for (const row of users) {
+    const attemptNo = Number(row.attempts || 0) + 1;
+    attemptedThisBatch++;
+    try {
+      await recordBroadcastDelivery(env, pending.digest, row.chat_id, sourceKey, 'sending', attemptNo, null);
+      await sendHtmlSections(env, row.chat_id, fullMessageSections, mainKeyboard());
+      await sendDocument(
+        env,
+        row.chat_id,
+        fetched.text,
+        `V2ray_Sub_${documentSource.fileName.replace(/\.txt$/i, '')}_${snapshot.rawSha256.slice(0, 12)}.txt`,
+        shortDocumentCaption(snapshot, sendTime, '🔄 بروزرسانی همین فایل'),
+        mainKeyboard(),
+      );
+      await markSubscriberSent(env, row.chat_id, pending.digest);
+      await recordBroadcastDelivery(env, pending.digest, row.chat_id, sourceKey, 'sent', attemptNo, null);
+      sentThisBatch++;
+      lastHandledRowId = Math.max(lastHandledRowId, Number(row.db_rowid));
+    } catch (error) {
+      const description = error?.telegram?.description || error?.message || String(error || 'unknown error');
+      const blocked = isBlockedTelegramError(description);
+      if (blocked) {
+        await deactivateSubscriber(env, row.chat_id);
+        await recordBroadcastDelivery(env, pending.digest, row.chat_id, sourceKey, 'blocked', attemptNo, description);
+        blockedThisBatch++;
+        console.warn('Broadcast recipient deactivated after Telegram rejected delivery:', JSON.stringify({ chatId: String(row.chat_id), attempt: attemptNo, error: description.slice(0, 300) }));
+      } else {
+        const status = attemptNo >= maxAttempts ? 'failed' : 'retry';
+        await recordBroadcastDelivery(env, pending.digest, row.chat_id, sourceKey, status, attemptNo, description);
+        failedThisBatch++;
+        console.error('Broadcast recipient delivery failed:', JSON.stringify({ chatId: String(row.chat_id), attempt: attemptNo, maxAttempts, status, error: description.slice(0, 400) }));
+      }
+      // Do not stop the campaign on one user's transient error. Continue to other subscribers;
+      // the failed recipient remains independently retryable up to maxAttempts.
+      lastHandledRowId = Math.max(lastHandledRowId, Number(row.db_rowid));
     }
+    await sleep(450);
   }
-  return { sent, pending: true, done: false, cursor: lastHandledRowId };
+
+  const latestState = await getState(env);
+  if (latestState?.pending?.digest === pending.digest) {
+    latestState.pending.cursor = Math.max(Number(latestState.pending.cursor || 0), lastHandledRowId);
+    latestState.pending.lastBatchAt = sendTime;
+    latestState.pending.lastBatchSent = sentThisBatch;
+    latestState.pending.lastBatchAttempted = attemptedThisBatch;
+    latestState.pending.lastBatchFailed = failedThisBatch;
+    latestState.pending.lastBatchBlocked = blockedThisBatch;
+    latestState.pending.retryCount = 0;
+    delete latestState.pending.lastError;
+    await putState(env, latestState);
+  }
+
+  const nextUser = await env.DB.prepare(`
+    SELECT s.rowid AS db_rowid FROM subscribers s
+    LEFT JOIN broadcast_delivery d
+      ON d.digest = ?1 AND d.chat_id = s.chat_id AND d.source_key = ?2
+    WHERE s.active = 1 AND s.notifications = 1
+      AND (s.last_sent_digest IS NULL OR s.last_sent_digest != ?1)
+      AND (d.status IS NULL OR d.status IN ('pending', 'retry', 'sending'))
+      AND COALESCE(d.attempts, 0) < ?3
+    ORDER BY s.rowid ASC LIMIT 1
+  `).bind(pending.digest, sourceKey, maxAttempts).first();
+
+  if (!nextUser) {
+    // Finalize in this same invocation when there is no next recipient; a subsequent chain
+    // can finish after the last batch when the prior function has released its execution slot.
+    const latest = await getState(env);
+    if (latest?.pending?.digest === pending.digest) {
+      const count = await env.DB.prepare(`
+        SELECT
+          SUM(CASE WHEN status = 'sent' THEN 1 ELSE 0 END) AS sent,
+          SUM(CASE WHEN status = 'retry' THEN 1 ELSE 0 END) AS retry,
+          SUM(CASE WHEN status = 'failed' THEN 1 ELSE 0 END) AS failed,
+          SUM(CASE WHEN status = 'blocked' THEN 1 ELSE 0 END) AS blocked
+        FROM broadcast_delivery WHERE digest = ?1 AND source_key = ?2
+      `).bind(pending.digest, sourceKey).first();
+      latest.pending = null;
+      latest.lastBroadcast = { digest: pending.digest, sourceKey, finishedAt: nowIso(), sent: Number(count?.sent || 0), retry: Number(count?.retry || 0), failed: Number(count?.failed || 0), blocked: Number(count?.blocked || 0) };
+      latest.monitor = { ...(latest.monitor || {}), lastBroadcastAt: latest.lastBroadcast.finishedAt, lastBroadcastDigest: pending.digest, lastBroadcastSent: latest.lastBroadcast.sent, lastBroadcastFailed: latest.lastBroadcast.failed };
+      await putState(env, latest);
+    }
+    return { sent: sentThisBatch, attempted: attemptedThisBatch, failed: failedThisBatch, blocked: blockedThisBatch, pending: 0, done: true, cursor: lastHandledRowId };
+  }
+
+  // Queue the next small batch. Recipient delivery state is stored per digest/chat, not only
+  // in a fragile global cursor, so an interruption cannot permanently skip later subscribers.
+  if (origin) {
+    const url = `${origin.replace(/\/$/, '')}/internal/process-broadcast`;
+    const response = await fetchWithTimeout(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'X-Text-Queue-Key': String(env.ADMIN_KEY || '') },
+      body: JSON.stringify({ digest: pending.digest, source_key: sourceKey }),
+    }, 10000);
+    if (!response.ok) console.error('Broadcast continuation enqueue failed:', JSON.stringify({ status: response.status, digest: pending.digest, sourceKey }));
+  }
+  return { sent: sentThisBatch, attempted: attemptedThisBatch, failed: failedThisBatch, blocked: blockedThisBatch, pending: true, done: false, cursor: lastHandledRowId };
 }
 
-function shouldSendAllFiles(env) {
-  const raw = String(env.SEND_ALL_FILES_ON_UPDATE ?? 'true').toLowerCase();
-  return !['0', 'false', 'no', 'off'].includes(raw);
-}
 
 async function getMixForUser(env, chatId) {
   const sync = await runSync(env, { broadcast: false });
@@ -1644,7 +1691,7 @@ async function replyHelp(env, chatId) {
 
 async function handleCommand(env, message, rawCommand, fullText = '', request = null) {
   const chat = message.chat;
-  await upsertSubscriber(env, chat);
+  await upsertSubscriber(env, chat, message.from || null);
   const command = String(rawCommand || '').split('@')[0].toLowerCase();
   const args = String(fullText || '').trim().split(/\s+/).slice(1).join(' ').trim();
   const origin = request ? new URL(request.url).origin : 'https://v2ray-sub-radar-bot.workers.dev';
@@ -1714,8 +1761,36 @@ async function handleCommand(env, message, rawCommand, fullText = '', request = 
       await setNotifications(env, chat.id, true);
       await sendMessage(env, chat.id, '🔔 اعلان‌های بروزرسانی دوباره فعال شد.', mainKeyboard());
       return;
+    case '/admin':
+      if (chat.type !== 'private' || !isTelegramAdmin(env, message.from?.id ?? chat.id)) {
+        await sendMessage(env, chat.id, '⛔ این بخش فقط در چت خصوصی مدیر ربات فعال است.', mainKeyboard());
+        return;
+      }
+      await sendAdminPanel(env, chat.id);
+      return;
+    case '/adminusers':
+      if (chat.type !== 'private' || !isTelegramAdmin(env, message.from?.id ?? chat.id)) {
+        await sendMessage(env, chat.id, '⛔ این بخش فقط در چت خصوصی مدیر ربات فعال است.', mainKeyboard());
+        return;
+      }
+      await sendAdminUsers(env, chat.id, Math.max(0, Number.parseInt(args || '0', 10) || 0));
+      return;
+    case '/adminstatus':
+      if (chat.type !== 'private' || !isTelegramAdmin(env, message.from?.id ?? chat.id)) {
+        await sendMessage(env, chat.id, '⛔ این بخش فقط در چت خصوصی مدیر ربات فعال است.', mainKeyboard());
+        return;
+      }
+      await sendAdminStatusMessage(env, chat.id);
+      return;
+    case '/adminretry':
+      if (chat.type !== 'private' || !isTelegramAdmin(env, message.from?.id ?? chat.id)) {
+        await sendMessage(env, chat.id, '⛔ این بخش فقط در چت خصوصی مدیر ربات فعال است.', mainKeyboard());
+        return;
+      }
+      await retryPendingBroadcast(env, new URL(request?.url || 'https://v2ray-sub-radar-bot.game-developer-mb.workers.dev').origin, chat.id);
+      return;
     case '/id':
-      await sendMessage(env, chat.id, `🆔 Chat ID این چت:\n${chat.id}`, mainKeyboard());
+      await sendMessage(env, chat.id, `🆔 Chat ID این چت:\n${chat.id}\n🆔 User ID: ${message.from?.id ?? chat.id}`, mainKeyboard());
       return;
     case '/help':
       await replyHelp(env, chat.id);
@@ -1751,6 +1826,16 @@ async function handleCallback(env, callback, request, ctx) {
     await setNotifications(env, chatId, true);
     return sendMessage(env, chatId, '🔔 اعلان‌ها فعال هستند.', mainKeyboard());
   }
+  if (data === 'adminpanel' || data.startsWith('adminusers|') || data === 'adminstatus' || data === 'adminretry') {
+    if (callback.message?.chat?.type !== 'private' || !isTelegramAdmin(env, callback.from?.id)) {
+      return sendMessage(env, chatId, '⛔ این گزینه فقط در چت خصوصی مدیر ربات فعال است.');
+    }
+    if (data === 'adminpanel') return sendAdminPanel(env, chatId);
+    if (data === 'adminstatus') return sendAdminStatusMessage(env, chatId);
+    if (data === 'adminretry') return retryPendingBroadcast(env, origin, chatId);
+    const offset = Math.max(0, Number.parseInt(data.split('|')[1] || '0', 10) || 0);
+    return sendAdminUsers(env, chatId, offset);
+  }
   const [action, idPart, value] = data.split('|');
   const snapshotId = Number(idPart);
   if (action === 'hist' && Number.isInteger(snapshotId)) return sendArchiveDetails(env, chatId, snapshotId, origin);
@@ -1760,6 +1845,145 @@ async function handleCallback(env, callback, request, ctx) {
   if (action === 'pl' && Number.isInteger(snapshotId)) return sendProtocolPicker(env, chatId, snapshotId);
   if (action === 'country' && Number.isInteger(snapshotId) && value) return startTextForSnapshot(env, chatId, snapshotId, { country: value }, origin);
   if (action === 'protocol' && Number.isInteger(snapshotId) && value) return startTextForSnapshot(env, chatId, snapshotId, { protocol: value }, origin);
+}
+
+function telegramAdminIds(env) {
+  return String(env.ADMIN_TELEGRAM_IDS || env.ADMIN_TELEGRAM_ID || '')
+    .split(/[\s,;]+/)
+    .map(value => value.trim())
+    .filter(value => /^\d{1,22}$/.test(value));
+}
+
+function isTelegramAdmin(env, userId) {
+  const id = String(userId ?? '').trim();
+  return Boolean(id && telegramAdminIds(env).includes(id));
+}
+
+function telegramProfileHref(userId) {
+  const id = String(userId ?? '').trim();
+  return /^\d{1,22}$/.test(id) ? `tg://user?id=${id}` : null;
+}
+
+function adminPanelKeyboard() {
+  return {
+    inline_keyboard: [
+      [{ text: '👥 فهرست کاربران', callback_data: 'adminusers|0' }],
+      [{ text: '📊 وضعیت ارسال و اعلان‌ها', callback_data: 'adminstatus' }],
+      [{ text: '🔁 ادامه/تلاش دوباره اعلان‌های ناموفق', callback_data: 'adminretry' }],
+      [{ text: '🏠 منوی اصلی', callback_data: 'menu' }],
+    ],
+  };
+}
+
+async function sendAdminPanel(env, chatId) {
+  const counts = await env.DB.prepare(`
+    SELECT COUNT(*) AS total,
+      SUM(CASE WHEN active = 1 THEN 1 ELSE 0 END) AS active,
+      SUM(CASE WHEN active = 1 AND notifications = 1 THEN 1 ELSE 0 END) AS notifications,
+      SUM(CASE WHEN active = 1 AND notifications = 0 THEN 1 ELSE 0 END) AS muted
+    FROM subscribers
+  `).first();
+  const body = `<blockquote>🛡️ <b>پنل مدیریت · V2ray Sub Radar</b>\nدسترسی فقط برای Telegram IDهای تعریف‌شده در <code>ADMIN_TELEGRAM_IDS</code>.</blockquote>\n\n` +
+    `<pre>╭─[ 👥 مشترکان ]\n│ کل ثبت‌شده‌ها : ${formatNumber(counts?.total || 0)}\n│ فعال           : ${formatNumber(counts?.active || 0)}\n│ اعلان روشن     : ${formatNumber(counts?.notifications || 0)}\n│ اعلان خاموش    : ${formatNumber(counts?.muted || 0)}\n╰────────────────────</pre>\n\n` +
+    `از فهرست کاربران وضعیت هر مشترک، شناسه قابل‌کلیک، username و آخرین زمان فعالیت را ببین. خطاهای ارسال هم از بخش وضعیت قابل بررسی‌اند.`;
+  return sendHtmlMessage(env, chatId, body, adminPanelKeyboard());
+}
+
+async function sendAdminUsers(env, chatId, requestedOffset = 0) {
+  const pageSize = APP.adminUserPageSize;
+  const totalRow = await env.DB.prepare('SELECT COUNT(*) AS total FROM subscribers').first();
+  const total = Number(totalRow?.total || 0);
+  const maxOffset = Math.max(0, Math.floor((Math.max(total, 1) - 1) / pageSize) * pageSize);
+  const offset = Math.min(Math.max(0, Math.floor(Number(requestedOffset) || 0)), maxOffset);
+  const result = await env.DB.prepare(`
+    SELECT chat_id, user_id, username, first_name, last_name, active, notifications,
+      last_sent_digest, last_sent_at, created_at, updated_at
+    FROM subscribers
+    ORDER BY rowid DESC
+    LIMIT ?1 OFFSET ?2
+  `).bind(pageSize, offset).all();
+  const users = result.results || [];
+  if (!users.length) {
+    return sendHtmlMessage(env, chatId, '<blockquote>👥 <b>فهرست کاربران</b></blockquote>هنوز هیچ کاربری در دیتابیس ثبت نشده است.', adminPanelKeyboard());
+  }
+  const pages = Math.max(1, Math.ceil(total / pageSize));
+  const pageNo = Math.floor(offset / pageSize) + 1;
+  const rows = users.map((user, index) => {
+    const userId = String(user.user_id || user.chat_id || '');
+    const href = telegramProfileHref(userId);
+    const profileName = [user.first_name, user.last_name].filter(Boolean).join(' ').trim() || 'کاربر بدون نام';
+    const linkedId = href ? `<a href="${href}"><code>${escapeHtml(userId)}</code></a>` : `<code>${escapeHtml(userId || 'نامشخص')}</code>`;
+    const username = user.username
+      ? `🔗 <a href="https://t.me/${encodeURIComponent(String(user.username).replace(/^@/, ''))}">@${escapeHtml(String(user.username).replace(/^@/, ''))}</a>`
+      : '🔗 username عمومی ثبت نشده';
+    const active = Number(user.active) === 1 ? '🟢 فعال' : '⚫ غیرفعال';
+    const notifications = Number(user.notifications) === 1 ? '🔔 روشن' : '🔕 خاموش';
+    const joined = user.created_at ? escapeHtml(String(user.created_at).replace('T', ' ').replace('Z', ' UTC')) : 'نامشخص';
+    const seen = user.updated_at ? escapeHtml(String(user.updated_at).replace('T', ' ').replace('Z', ' UTC')) : 'نامشخص';
+    const sent = user.last_sent_at ? escapeHtml(String(user.last_sent_at).replace('T', ' ').replace('Z', ' UTC')) : 'هنوز ارسال موفق ثبت نشده';
+    return `${index + offset + 1}. <b>${escapeHtml(profileName)}</b>\n   🆔 شناسه: ${linkedId}\n   ${username}\n   📣 وضعیت: ${active} · ${notifications}\n   🗓️ عضویت: <code>${joined}</code>\n   🕒 آخرین فعالیت: <code>${seen}</code>\n   📤 آخرین اعلان موفق: <code>${sent}</code>`;
+  });
+  const body = `<blockquote>👥 <b>مشترکان ربات</b>\nصفحه ${pageNo} از ${pages} · مجموع ${formatNumber(total)} کاربر</blockquote>\n\n` + rows.join('\n\n━━━━━━━━━━━━━━\n\n') +
+    '\n\n<blockquote>برای باز کردن پروفایل، روی شناسه کاربر بزن. اگر کاربر username عمومی نداشته باشد، Telegram ممکن است بسته به تنظیمات حریم خصوصی نتواند پروفایل را مستقیم باز کند.</blockquote>';
+  const keyboard = [];
+  const navigation = [];
+  if (offset > 0) navigation.push({ text: '⬅️ قبلی', callback_data: `adminusers|${Math.max(0, offset - pageSize)}` });
+  navigation.push({ text: `📄 ${pageNo}/${pages}`, callback_data: `adminusers|${offset}` });
+  if (offset + pageSize < total) navigation.push({ text: 'بعدی ➡️', callback_data: `adminusers|${offset + pageSize}` });
+  if (navigation.length) keyboard.push(navigation);
+  keyboard.push([{ text: '🔄 تازه‌سازی', callback_data: `adminusers|${offset}` }, { text: '📊 وضعیت', callback_data: 'adminstatus' }]);
+  keyboard.push([{ text: '🛡️ پنل مدیریت', callback_data: 'adminpanel' }]);
+  return sendHtmlMessage(env, chatId, body.slice(0, APP.maxTelegramText), { inline_keyboard: keyboard });
+}
+
+async function sendAdminStatusMessage(env, chatId) {
+  const state = await getState(env);
+  const general = await env.DB.prepare(`
+    SELECT COUNT(*) AS total,
+      SUM(CASE WHEN active = 1 THEN 1 ELSE 0 END) AS active,
+      SUM(CASE WHEN active = 1 AND notifications = 1 THEN 1 ELSE 0 END) AS notifications,
+      SUM(CASE WHEN active = 1 AND notifications = 0 THEN 1 ELSE 0 END) AS muted
+    FROM subscribers
+  `).first();
+  const digest = state?.pending?.digest || state?.lastBroadcast?.digest || null;
+  let deliveries = { sent: 0, retry: 0, failed: 0, blocked: 0, sending: 0 };
+  if (digest) {
+    const result = await env.DB.prepare(`
+      SELECT status, COUNT(*) AS count FROM broadcast_delivery WHERE digest = ?1 GROUP BY status
+    `).bind(digest).all();
+    for (const row of result.results || []) if (Object.hasOwn(deliveries, row.status)) deliveries[row.status] = Number(row.count || 0);
+  }
+  const monitor = state?.monitor || {};
+  const error = monitor.lastError ? escapeHtml(String(monitor.lastError).slice(0, 450)) : 'بدون خطای ثبت‌شده';
+  const pending = state?.pending ? `در صف: ${escapeHtml(String(state.pending.sourceKey || 'mix'))} · ${escapeHtml(String(state.pending.digest || '').slice(0, 12))}` : 'صف جاری خالی است';
+  const body = `<blockquote>📊 <b>گزارش وضعیت ربات</b></blockquote>\n` +
+    `<pre>╭─[ 👥 کاربران ]\n│ کل ثبت‌شده‌ها : ${formatNumber(general?.total || 0)}\n│ فعال           : ${formatNumber(general?.active || 0)}\n│ اعلان روشن     : ${formatNumber(general?.notifications || 0)}\n│ اعلان خاموش    : ${formatNumber(general?.muted || 0)}\n╰────────────────────</pre>\n` +
+    `<pre>╭─[ 📣 Broadcast فعلی/اخیر ]\n│ تحویل موفق     : ${formatNumber(deliveries.sent)}\n│ تلاش مجدد      : ${formatNumber(deliveries.retry)}\n│ ارسال درحال کار: ${formatNumber(deliveries.sending)}\n│ ناموفق نهایی   : ${formatNumber(deliveries.failed)}\n│ مسدود/غیرفعال  : ${formatNumber(deliveries.blocked)}\n╰────────────────────</pre>\n` +
+    `<pre>╭─[ 🩺 پایش Worker ]\n│ آخرین بررسی    : ${escapeHtml(monitor.lastCheckAt || 'نامشخص')}\n│ نتیجه           : ${monitor.lastCheckOk === true ? 'OK' : monitor.lastCheckOk === false ? 'ERROR' : 'نامشخص'}\n│ Trigger         : ${escapeHtml(monitor.lastTrigger || 'نامشخص')}\n│ وضعیت صف        : ${pending}\n╰────────────────────</pre>\n` +
+    `<blockquote>آخرین خطا:\n<code>${error}</code></blockquote>`;
+  return sendHtmlMessage(env, chatId, body, { inline_keyboard: [[{ text: '👥 کاربران', callback_data: 'adminusers|0' }, { text: '🛡️ پنل مدیریت', callback_data: 'adminpanel' }], [{ text: '🔁 تلاش مجدد ارسال‌های ناموفق', callback_data: 'adminretry' }]] });
+}
+
+async function retryPendingBroadcast(env, origin, chatId) {
+  const state = await getState(env);
+  const digest = state?.pending?.digest || state?.lastBroadcast?.digest || state?.snapshot?.configSha256;
+  if (!digest) return sendHtmlMessage(env, chatId, 'ℹ️ صف Broadcast یا نسخه‌ای برای تلاش مجدد وجود ندارد.', adminPanelKeyboard());
+  const sourceKey = state?.pending?.sourceKey || state?.snapshot?.key || 'mix';
+  if (!state?.pending && (!state?.snapshot || state.snapshot.configSha256 !== digest)) {
+    return sendHtmlMessage(env, chatId, '⚠️ نسخه‌ای برای ادامه‌ی Broadcast در وضعیت فعلی موجود نیست. برای جزئیات /adminstatus را ببین.', adminPanelKeyboard());
+  }
+  await env.DB.prepare(`UPDATE broadcast_delivery SET status = 'retry', attempts = 0, last_error = NULL, updated_at = ?1 WHERE digest = ?2 AND status = 'failed'`)
+    .bind(nowIso(), digest).run();
+  let activeState = state;
+  if (!activeState?.pending) {
+    const snapshot = activeState?.snapshot;
+    activeState = { ...activeState, pending: { digest, sourceKey, cursor: 0, createdAt: nowIso(), change: snapshot.lastChange || { added: 0, removed: 0, unchanged: snapshot.stats?.logicalUniqueCount || 0, firstRun: false } } };
+    await putState(env, activeState);
+  }
+  await sendHtmlMessage(env, chatId, '🔁 تلاش مجدد برای گیرندگان ناموفق آغاز شد. کاربران دریافت‌کننده‌ی موفق دوباره پیام نمی‌گیرند.', adminPanelKeyboard());
+  const result = await processPendingBroadcast(env, origin);
+  return sendHtmlMessage(env, chatId,
+    `📣 <b>گزارش تلاش مجدد</b>\n✅ موفق در این مرحله: <code>${formatNumber(result.sent || 0)}</code>\n⏳ هنوز در صف: <code>${result.pending === true || result.done === false ? 'بله' : 'خیر'}</code>`, adminPanelKeyboard());
 }
 
 function requireAdmin(request, env) {
@@ -1795,8 +2019,8 @@ async function adminStatus(env) {
   `).first();
   let pending = null;
   if (state?.pending) {
-    const row = await env.DB.prepare(`SELECT COUNT(*) AS count FROM subscribers WHERE active = 1 AND notifications = 1 AND rowid > ?1`)
-      .bind(Number(state.pending.cursor || 0)).first();
+    const row = await env.DB.prepare(`SELECT COUNT(*) AS count FROM subscribers s LEFT JOIN broadcast_delivery d ON d.digest = ?1 AND d.chat_id = s.chat_id AND d.source_key = ?2 WHERE s.active = 1 AND s.notifications = 1 AND (s.last_sent_digest IS NULL OR s.last_sent_digest != ?1) AND (d.status IS NULL OR d.status IN ('pending','retry','sending')) AND COALESCE(d.attempts,0) < ?3`)
+      .bind(state.pending.digest, state.pending.sourceKey || 'mix', APP.maxBroadcastAttemptsPerUser).first();
     pending = Number(row?.count || 0);
   }
   const archive = await env.DB.prepare(`
@@ -1817,6 +2041,12 @@ async function adminStatus(env) {
     pendingEligibleUsers: pending,
     archive: { snapshots: Number(archive?.snapshots || 0), configs: Number(archive?.configs || 0), estimatedBytes: Number(archive?.estimated_bytes || 0), maxSnapshots: archiveLimits(env).maxSnapshots, maxConfigRows: archiveLimits(env).maxConfigRows, maxBytes: archiveLimits(env).maxBytes },
     activeTextJobs: Number(textJobs?.count || 0),
+    deliveryHistory: await (async () => {
+      const digest = state?.pending?.digest || state?.lastBroadcast?.digest;
+      if (!digest) return null;
+      const rows = await env.DB.prepare('SELECT status, COUNT(*) AS count FROM broadcast_delivery WHERE digest = ?1 GROUP BY status').bind(digest).all();
+      return Object.fromEntries((rows.results || []).map(row => [String(row.status), Number(row.count || 0)]));
+    })(),
     subscribers: {
       total: Number(subscribers?.total || 0),
       active: Number(subscribers?.active || 0),
@@ -2076,7 +2306,7 @@ export default {
     if (url.pathname === '/health' && request.method === 'GET') {
       try {
         const state = await getState(env);
-        return json({ ok: true, app: APP, time: nowIso(), hasDb: Boolean(env.DB), configured: Boolean(env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_WEBHOOK_SECRET && env.ADMIN_KEY), githubActionsConfigured: Boolean(env.GITHUB_ACTION_SECRET), monitor: state?.monitor || null, lastSnapshot: state?.snapshot ? { rawSha256: state.snapshot.rawSha256, configSha256: state.snapshot.configSha256, sourceUpdatedAt: state.snapshot.sourceUpdatedAt, detectedAt: state.snapshot.detectedAt, sourceDateBasis: state.snapshot.sourceDateBasis } : null });
+        return json({ ok: true, app: APP, time: nowIso(), hasDb: Boolean(env.DB), configured: Boolean(env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_WEBHOOK_SECRET && env.ADMIN_KEY), githubActionsConfigured: Boolean(env.GITHUB_ACTION_SECRET), telegramAdminConfigured: telegramAdminIds(env).length > 0, monitor: state?.monitor || null, lastSnapshot: state?.snapshot ? { rawSha256: state.snapshot.rawSha256, configSha256: state.snapshot.configSha256, sourceUpdatedAt: state.snapshot.sourceUpdatedAt, detectedAt: state.snapshot.detectedAt, sourceDateBasis: state.snapshot.sourceDateBasis } : null });
       } catch (error) {
         return json({ ok: false, error: error.message }, 500);
       }

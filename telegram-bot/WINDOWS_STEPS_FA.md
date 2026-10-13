@@ -1,145 +1,49 @@
-# راه‌اندازی v4 از PowerShell — بدون اجرای هیچ فایل ps1
+# راهنمای ارتقای V2ray Sub Radar v5 — PowerShell مستقیم
 
-> **برای Bot فعلی:** دیتابیس جدید نساز، توکن تلگرام فعلی را عوض نکن و Migration اولیه `0001_initial.sql` را اجرا نکن. فقط Migration افزایشی را روی همان D1 اجرا کن.
+این نسخه برای Worker فعلی است؛ دیتابیس جدید نساز و `TELEGRAM_BOT_TOKEN`، `TELEGRAM_WEBHOOK_SECRET`، `ADMIN_KEY`، `GITHUB_ACTION_SECRET` را عوض نکن.
 
-## 0) بکاپ و پوشه کاری
+## 1) Backup
+از `src/index.js` و `wrangler.toml` فعلی کپی پشتیبان بگیر. فایل `src/index.js` را با نسخه این بسته جایگزین کن. در `wrangler.toml` حتماً همان `database_id` واقعی D1 فعلی را نگه دار؛ شناسه placeholder را Deploy نکن.
 
-از فایل‌های فعلی `src/index.js` و `wrangler.toml` کپی پشتیبان بگیر. محتویات پوشه `telegram-bot` این بسته را در پوشه محلی پروژه Worker قرار بده. `database_id` داخل `wrangler.toml` باید UUID همان D1 فعلی باشد، نه placeholder.
-
-```powershell
-cd C:\V2raySubRadar\telegram-bot
-node -v
-npx wrangler --version
-npx wrangler whoami
-```
-
-اگر هنوز وارد Cloudflare نشده‌ای:
+## 2) Migration افزایشی جدید
+از پوشه Worker در PowerShell اجرا کن:
 
 ```powershell
-npx wrangler login
+npx wrangler d1 execute v2ray-sub-radar --remote --file=./database/upgrade_003_broadcast_delivery.sql
 ```
 
-## 1) اجرای Migration افزایشی آرشیو
+اگر نام دیتابیس تو متفاوت است، نام واقعی را جایگزین کن. Migration قبلی `upgrade_002_archive.sql` را دوباره لازم نیست اجرا کنی.
 
-ابتدا در `wrangler.toml` بررسی کن `database_name` دقیقاً نام دیتابیس فعلی تو است. در نسخه قبلی نام `v2ray-sub-radar` بود. سپس:
+## 3) تعیین ادمین تلگرام
+در Telegram به ربات برو و `/id` را بزن. `User ID` عددی خودت را یادداشت کن. سپس در پوشه Worker اجرا کن:
 
 ```powershell
-npx wrangler d1 execute v2ray-sub-radar --remote --file=./database/upgrade_002_archive.sql
+npx wrangler secret put ADMIN_TELEGRAM_IDS
 ```
 
-اگر نام D1 در تنظیمات تو متفاوت است، همان نام واقعی را جایگزین کن. این فایل فقط جدول‌های آرشیو را با `CREATE TABLE IF NOT EXISTS` اضافه می‌کند؛ مشترکان و `bot_state` فعلی پاک نمی‌شوند.
+مقدار Secret را به صورت فهرست ID عددی، با کاما جدا کن. مثال ساختگی: `123456789,987654321`. فقط ID خودت/مدیرهای مطمئن را وارد کن. این مقدار را داخل سورس یا GitHub نگذار.
 
-برای بررسی جدول‌ها:
-
-```powershell
-npx wrangler d1 execute v2ray-sub-radar --remote --command="SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"
-```
-
-باید `subscription_snapshots`، `archived_configs` و `text_delivery_jobs` را ببینی.
-
-## 2) Secret جدید برای فراخوانی Worker از GitHub Actions
-
-یک مقدار تصادفی بساز:
-
-```powershell
-$ActionSecret = [guid]::NewGuid().ToString('N') + [guid]::NewGuid().ToString('N')
-Write-Host $ActionSecret
-```
-
-مقدار نمایش داده‌شده را موقتاً کپی کن. سپس:
-
-```powershell
-npx wrangler secret put GITHUB_ACTION_SECRET
-```
-
-همان مقدار را Paste کن. Secretهای فعلی `TELEGRAM_BOT_TOKEN`، `TELEGRAM_WEBHOOK_SECRET` و `ADMIN_KEY` را دوباره نساز و حذف نکن.
-
-## 3) Deploy Worker بدون Cron
+## 4) Deploy
 
 ```powershell
 npx wrangler deploy
 ```
 
-`wrangler.toml` این بسته عمداً بخش `triggers.crons` ندارد؛ منبع اصلی Sync، GitHub Actions است.
+هیچ Secret موجودی را حذف نکن. Workflow GitHub Actions فعلی‌ات هم حفظ می‌شود.
 
-Health را بررسی کن:
-
-```powershell
-$WorkerUrl = "https://YOUR-EXISTING-WORKER.workers.dev"
-Invoke-RestMethod -Uri "$WorkerUrl/health"
-```
-
-آدرس را با URL واقعی Worker جایگزین کن.
-
-## 4) Telegram Webhook را حفظ/تأیید کن
-
-با `ADMIN_KEY` فعلی:
+## 5) بررسی D1 و ادمین
 
 ```powershell
-$AdminKey = Read-Host "Paste your existing ADMIN_KEY"
-Invoke-RestMethod -Method Post -Uri "$WorkerUrl/admin/setup" -Headers @{ "X-Admin-Key" = $AdminKey }
+npx wrangler d1 execute v2ray-sub-radar --remote --command="SELECT name FROM sqlite_master WHERE type='table' AND name='broadcast_delivery';"
 ```
 
-## 5) GitHub Repository Secrets
+در Telegram اجرا کن: `/admin`، `/adminusers`، `/adminstatus`. برای مشاهده پروفایل روی ID لینک‌شده کلیک کن؛ اگر کاربر تنظیمات حریم خصوصی خاصی داشته باشد، Telegram ممکن است بازکردن پروفایل را محدود کند.
 
-در مخزن `mehrdadmb2/V2ray_Sub` برو به:
+## 6) بررسی تحویل همه مشترکان
+`/adminstatus` شمارنده‌های `sent`, `retry`, `failed`, `blocked` را نشان می‌دهد. `failed`ها پس از حداکثر 3 تلاش برای همان کاربر از صف اصلی کنار گذاشته می‌شوند تا خرابی یک مقصد بقیه مشترکان را متوقف نکند. با `/adminretry` می‌توانی ارسال‌های ناموفق همان Digest را دوباره امتحان کنی؛ کسانی که دریافت موفق ثبت کرده‌اند دوباره پیام نمی‌گیرند.
 
-`Settings → Secrets and variables → Actions → New repository secret`
+## نکته اعلان‌ها
+فقط کاربرانی دریافت خودکار دارند که در D1 `active=1` و `notifications=1` داشته باشند. کاربر باید در چت خصوصی ربات `/start` یا `/unmute` را اجرا کرده باشد. اگر `/adminusers` نشان داد اعلان دوستت خاموش است، او باید `/unmute` بزند. اگر غیرفعال شده، با `/start` دوباره فعال می‌شود.
 
-دو Secret اضافه کن:
-
-- `V2RAY_RADAR_WORKER_URL` = URL پایه Worker، مثلاً `https://v2ray-sub-radar-bot.<account>.workers.dev`، بدون `/github/action` و بدون اسلش انتهایی.
-- `V2RAY_RADAR_ACTION_SECRET` = دقیقاً همان مقداری که برای `GITHUB_ACTION_SECRET` به Cloudflare دادی.
-
-## 6) فایل Workflow را به ریپو اضافه کن
-
-از بسته، فایل:
-
-`/.github/workflows/v2ray-sub-radar-notify.yml`
-
-را به همین مسیر در ریشه مخزن GitHub کپی کن. اگر پوشه `.github/workflows` وجود ندارد، آن را بساز. Commit کن.
-
-این Workflow روی `push` شاخه `main` فقط وقتی `Mix.txt` تغییر کرده باشد اجرا می‌شود. همچنین `workflow_dispatch` دارد تا از تب Actions دستی هم بتوانی اجرا کنی.
-
-### اگر فایل Mix.txt با یک Workflow دیگر ساخته می‌شود
-
-اگر Workflow تولیدکننده با `GITHUB_TOKEN` فایل را commit/push می‌کند، GitHub عمداً یک Workflow دوم را به‌صورت خودکار از آن push اجرا نمی‌کند. در آن صورت محتوای فایل `GITHUB_ACTION_INLINE_STEP.yml` را در همان Workflow تولیدکننده، به‌عنوان آخرین Step بعد از ایجاد و Push فایل قرار بده. آن Step از همان Workflow مستقیماً Worker را خبر می‌کند.
-
-## 7) آزمایش دستی Worker → Telegram
-
-```powershell
-$ActionSecret = Read-Host "Paste GITHUB_ACTION_SECRET"
-$Payload = @{ ref = "refs/heads/main"; sha = "manual-test"; repository = "mehrdadmb2/V2ray_Sub"; source = "manual-test" } | ConvertTo-Json -Compress
-Invoke-RestMethod -Method Post -Uri "$WorkerUrl/github/action" -Headers @{ "X-V2SR-Action-Secret" = $ActionSecret } -ContentType "application/json" -Body $Payload
-```
-
-پاسخ `queued` یعنی درخواست پذیرفته شده است. سپس وضعیت Worker را نگاه کن:
-
-```powershell
-Invoke-RestMethod -Uri "$WorkerUrl/admin/status" -Headers @{ "X-Admin-Key" = $AdminKey }
-Invoke-RestMethod -Uri "$WorkerUrl/admin/live-debug" -Headers @{ "X-Admin-Key" = $AdminKey }
-```
-
-یا Sync دستی مستقیم:
-
-```powershell
-Invoke-RestMethod -Method Post -Uri "$WorkerUrl/admin/sync" -Headers @{ "X-Admin-Key" = $AdminKey }
-```
-
-## 8) فرمان‌های جدید در تلگرام
-
-- `/text` — همه کانفیگ‌های نسخه جاری را در چند پیام متن monospace می‌فرستد.
-- `/history` — انتخاب Snapshot تاریخی ذخیره‌شده.
-- `/country` یا `/country US` — انتخاب کشور یا مستقیم کشور موردنظر.
-- `/protocol` یا `/protocol VLESS` — انتخاب/فیلتر پروتکل.
-- `/latest` — فایل کامل Mix فعلی.
-- `/stats`, `/countries`, `/protocols` — آمار.
-
-برای نسخه‌های قدیمی، از `/history` یک Snapshot را انتخاب کن و بعد «کانفیگ‌ها به‌صورت متن»، «دریافت فایل» یا فیلتر کشور/پروتکل را انتخاب کن.
-
-## 9) بررسی اجرای خودکار
-
-1. `Mix.txt` را با commit عادی تغییر بده.
-2. تب Actions را باز کن و اجرای `V2ray Sub Radar — notify Cloudflare Worker` را بررسی کن.
-3. در Telegram باید فقط در صورت تغییر واقعی مجموعه کانفیگ‌ها اعلان دریافت شود.
-4. در صورت عدم ارسال، خروجی‌های `admin/status` و `admin/live-debug` را بررسی کن؛ tokenها و Admin Key را داخل Issue یا پیام عمومی نفرست.
+## فقط فایل تغییرکرده
+برای رویداد فعلی `Mix.txt`، ربات فقط `Mix.txt` را برای مشترکان ارسال می‌کند. `/files` همچنان برای دریافت دستی هر سه فایل وجود دارد.
