@@ -57,7 +57,7 @@
       "category": "github",
       "url": "https://raw.githubusercontent.com/mehrdadmb2/Family-Sub/refs/heads/main/Sub.text",
       "enabled": true,
-      "includeInAggregate": false,
+      "includeInAggregate": true,
       "requiresOptionalSecret": "EXTERNAL_GITHUB_TOKEN",
       "apiUrl": "https://api.github.com/repos/mehrdadmb2/Family-Sub/contents/Sub.text?ref=main"
     },

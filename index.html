@@ -27,7 +27,7 @@
             platformName: "V2ray_Sub",
             platformType: "web",
             environment: "production",
-            appVersion: "V5.1",
+            appVersion: "V5.2",
             requestTimeoutMs: 12000,
             heartbeatMs: 30000,
             queueFlushMs: 60000
@@ -2498,18 +2498,6 @@ body.v5-lock{overflow:hidden}
         </footer>
 
 
-    <!-- ===== V5: always-available quick tools ===== -->
-    <nav class="v5-quickbar" id="v5Quickbar" aria-label="میانبرهای سریع">
-      <button type="button" class="v5-qbtn primary v5-focusable" data-v5-copy-mix title="کپی لینک Mix"><i class="far fa-copy"></i><span>کپی Mix</span></button>
-      <a class="v5-qbtn" href="#subscriptions" data-v5-section="subscriptions"><i class="fas fa-link"></i><span>اشتراک</span></a>
-      <a class="v5-qbtn" href="#clients" data-v5-section="clients"><i class="fas fa-mobile-screen-button"></i><span>کلاینت</span></a>
-      <a class="v5-qbtn" href="#guides" data-v5-section="guides"><i class="fas fa-book-open"></i><span>راهنما</span></a>
-      <a class="v5-qbtn" href="#advanced" data-v5-section="advanced"><i class="fas fa-microscope"></i><span>حرفه‌ای</span></a>
-      <button type="button" class="v5-qbtn external-tab-trigger" data-external-open title="بازکردن فضای جداگانه منابع متفرقه"><i class="fas fa-box-archive"></i><span>متفرقه</span></button>
-      <button type="button" class="v5-qbtn v6-theme-trigger" data-v6-theme-toggle title="تغییر پوسته رنگی" aria-label="تغییر پوسته رنگی"><i class="fas fa-palette"></i><span data-v6-theme-label>پوسته · آبی</span></button>
-      <button type="button" class="v5-qbtn v5-focusable" data-v5-top title="بازگشت به بالا"><i class="fas fa-arrow-up"></i><span>بالا</span></button>
-    </nav>
-
     <!-- ===== V5: client/paste helper modal ===== -->
     <div class="v5-beginner-modal" id="v5ClientModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="v5ClientModalTitle">
       <div class="v5-beginner-dialog">
@@ -2537,6 +2525,19 @@ body.v5-lock{overflow:hidden}
 
     </main>
 
+    <!-- ===== V5: always-available quick tools ===== -->
+    <nav class="v5-quickbar" id="v5Quickbar" aria-label="نوار شناور دسترسی سریع">
+      <button type="button" class="v5-qbtn primary v5-focusable" data-v5-copy-mix title="کپی لینک Mix"><i class="far fa-copy"></i><span>کپی Mix</span></button>
+      <a class="v5-qbtn" href="#subscriptions" data-v5-section="subscriptions"><i class="fas fa-link"></i><span>اشتراک</span></a>
+      <a class="v5-qbtn" href="#clients" data-v5-section="clients"><i class="fas fa-mobile-screen-button"></i><span>کلاینت</span></a>
+      <a class="v5-qbtn" href="#guides" data-v5-section="guides"><i class="fas fa-book-open"></i><span>راهنما</span></a>
+      <a class="v5-qbtn" href="#advanced" data-v5-section="advanced"><i class="fas fa-microscope"></i><span>حرفه‌ای</span></a>
+      <button type="button" class="v5-qbtn external-tab-trigger" data-external-open title="بازکردن فضای جداگانه منابع متفرقه"><i class="fas fa-box-archive"></i><span>متفرقه</span></button>
+      <button type="button" class="v5-qbtn v6-theme-trigger" data-v6-theme-toggle title="تغییر پوسته رنگی" aria-label="تغییر پوسته رنگی"><i class="fas fa-palette"></i><span data-v6-theme-label>پوسته · آبی</span></button>
+      <button type="button" class="v5-qbtn v5-focusable" data-v5-top title="بازگشت به بالا"><i class="fas fa-arrow-up"></i><span>بالا</span></button>
+    </nav>
+
+
     <!-- ===== Isolated third-party subscriptions workspace (hidden by default) ===== -->
     <section id="externalSourcesView" class="external-view" hidden aria-labelledby="externalViewTitle">
       <div class="external-ambient" aria-hidden="true"></div>
@@ -2544,7 +2545,7 @@ body.v5-lock{overflow:hidden}
         <div class="external-brandline">
           <span class="external-mark"><i class="fas fa-satellite-dish"></i></span>
           <span class="external-eyebrow">SEPARATE WORKSPACE · OPT-IN SOURCES</span>
-          <span class="external-version">V5.1 / LAB</span>
+          <span class="external-version">V5.2 / LAB</span>
         </div>
         <div class="external-title-row">
           <div>
@@ -2579,6 +2580,49 @@ body.v5-lock{overflow:hidden}
           <button type="button" id="externalAggregateCopy" class="external-action" hidden><i class="far fa-copy"></i> کپی لینک</button>
         </div>
       </div>
+
+      <section class="external-config-workbench" aria-labelledby="externalConfigTitle">
+        <div class="external-workbench-head">
+          <div>
+            <span class="external-kicker">RENAMED CONFIGURATION INDEX</span>
+            <h2 id="externalConfigTitle">کتابخانه کانفیگ‌های پردازش‌شده</h2>
+            <p>فایل External.txt پس از هر جمع‌آوری، نام‌گذاری، کشوربندی، حذف تکراری و ایندکس می‌شود. اینجا بر اساس پروتکل، کشور و منبع فیلتر کن.</p>
+          </div>
+          <span class="external-index-state" id="externalIndexState">در انتظار ایندکس</span>
+        </div>
+        <div class="external-library-metrics" id="externalLibraryMetrics">
+          <div><strong id="externalUniqueMetric">—</strong><span>کانفیگ یکتا</span></div>
+          <div><strong id="externalDuplicateMetric">—</strong><span>تکراری حذف‌شده</span></div>
+          <div><strong id="externalInvalidMetric">—</strong><span>ردشده</span></div>
+          <div><strong id="externalProtocolMetric">—</strong><span>پروتکل فعال</span></div>
+          <div><strong id="externalCountryMetric">—</strong><span>گروه کشور</span></div>
+        </div>
+        <div class="external-distribution-grid">
+          <section class="external-distribution-card"><div class="external-distribution-head"><strong>توزیع پروتکل‌ها</strong><span>Top protocols</span></div><div id="externalProtocolBars" class="external-bars"><span class="external-chart-empty">در انتظار داده…</span></div></section>
+          <section class="external-distribution-card"><div class="external-distribution-head"><strong>توزیع کشورها</strong><span>Top countries</span></div><div id="externalCountryBars" class="external-bars"><span class="external-chart-empty">در انتظار داده…</span></div></section>
+        </div>
+        <div class="external-config-toolbar">
+          <label><span>پروتکل</span><select id="externalProtocolFilter"><option value="all">همه پروتکل‌ها</option></select></label>
+          <label><span>کشور / پرچم</span><select id="externalCountryFilter"><option value="all">همه کشورها</option></select></label>
+          <label><span>منبع</span><select id="externalSourceFilter"><option value="all">همه منابع</option></select></label>
+          <label class="external-config-search"><span>جستجوی نام یا Host</span><input id="externalConfigSearch" type="search" placeholder="SkyBit-0، example.com…" autocomplete="off" /></label>
+        </div>
+        <div class="external-config-actions">
+          <button type="button" class="external-action primary" id="externalCopyFiltered" disabled><i class="far fa-copy"></i> کپی همه نتایج</button>
+          <button type="button" class="external-action" id="externalDownloadFiltered" disabled><i class="fas fa-file-arrow-down"></i> دانلود فیلترشده</button>
+          <button type="button" class="external-action" id="externalResetConfigFilters"><i class="fas fa-filter-circle-xmark"></i> پاک‌کردن فیلترها</button>
+          <span id="externalConfigResultCount" role="status">در انتظار داده پردازش‌شده…</span>
+        </div>
+        <div class="external-config-list" id="externalConfigsGrid" aria-live="polite">
+          <div class="external-empty"><i class="fas fa-database"></i><strong>کتابخانه هنوز بارگذاری نشده است.</strong><span>با بازکردن این بخش، خروجی پردازش‌شده و ایندکس آن دریافت می‌شود.</span></div>
+        </div>
+        <div class="external-config-pagination" id="externalConfigPagination">
+          <button type="button" id="externalConfigPrev" disabled><i class="fas fa-chevron-right"></i> قبلی</button>
+          <span id="externalConfigPageInfo">صفحه ۱ از ۱</span>
+          <button type="button" id="externalConfigNext" disabled>بعدی <i class="fas fa-chevron-left"></i></button>
+        </div>
+        <div class="external-library-footer" id="externalLibraryFooter">نام‌گذاری: SkyBit · زمان تهران · حفظ پرچم صریح · پرچم دزدان دریایی برای کشور نامشخص</div>
+      </section>
 
       <div class="external-toolbar">
         <div class="external-search"><i class="fas fa-search"></i><input id="externalSearch" type="search" placeholder="جستجوی نام منبع یا دامنه..." autocomplete="off" /></div>

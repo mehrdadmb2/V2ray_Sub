@@ -1,102 +1,113 @@
-# راهنمای نصب ارتقای V2ray_Sub · نسخه 5.1 / External Lab
+# V2ray_Sub 5.2 · External Lab & Config Renamer
 
-این بسته بر اساس نسخهٔ موجود ریپازیتوری `mehrdadmb2/V2ray_Sub` ساخته شده است. فایل‌های فعلی اصلی (`index.html`، `telegram-bot/src/index.js`، `assets/css/app.css` و Workflow فعلی Mix) با نسخهٔ آپلودی شما تطبیق داده شده‌اند؛ SHA فایل‌های اصلی با نسخهٔ فعلی GitHub یکسان بود. لینک ShadowProxy شمارهٔ ۲ در متن ارسالی به URL اصلی Mix چسبیده بود؛ آن را به‌عنوان دو URL مستقل تفسیر کردم و Mix تکراری را وارد فهرست متفرقه نکردم.
+این نسخه، بخش منابع شخص ثالث را به یک خط پردازش دو‌مرحله‌ای تبدیل می‌کند. فایل خام هرگز جای فایل نهایی را نمی‌گیرد و `Mix.txt`، `Irancell.txt` و `Mci.txt` در این فرایند تغییر نمی‌کنند.
 
-## نتیجهٔ بررسی لینک‌های اولیه
+## خروجی‌های جدید
 
-در ۱۳ نوامبر ۲۰۲۶:
-- `Danialsamadi/v2go/AllConfigsSub.txt`: دریافت شد؛ ۶۴۴ ردیف با پیشوند URI قابل‌شناسایی در نسخهٔ بررسی‌شده.
-- `igareck/vpn-configs-for-russia/BLACK_VLESS_RUS_mobile.txt`: دریافت شد؛ ۱۵۰ ردیف VLESS قابل‌شناسایی.
-- `itsyebekhe/PSG/subscriptions/xray/mix`: دریافت شد؛ ۳۱۲ ردیف با پیشوند URI قابل‌شناسایی. در نمونهٔ پاسخ یک placeholder با `127.0.0.1` دیده شد؛ parser جدید آن را از خروجی معتبر حذف می‌کند.
-- `Epodonios/v2ray-configs/All_Configs_Sub.txt`: مخزن/فایل با پاسخ 404 در بررسی فعلی.
-- `AvenCores/goida-vpn-configs/githubmirror/1.txt`: مخزن اصلی با پاسخ 404 در بررسی فعلی.
-- `mehrdadmb2/Family-Sub/Sub.text`: بدون دسترسی عمومی پاسخ 404 گرفت؛ URL در بسته بدون token قرار دارد و از token افشاشده استفاده نمی‌شود.
-- پنج لینک `ShadowProxy66` و لینک `EZAccess NFZ`: ابزار بررسی این نشست درخواست به این Workerها را مسدود کرد؛ وضعیت آن‌ها «بررسی‌نشده» ثبت می‌شود، نه قطع‌شده. پس از اجرای Workflow در GitHub Actions، وضعیت واقعی دریافت، HTTP، تعداد URI، پروتکل‌ها و زمان پاسخ ثبت خواهد شد.
-
-**محدودیت مهم:** شمارش URI و دریافت HTTP با تست اتصال واقعی V2Ray/Xray تفاوت دارد. این بسته ساختار URI و اعتبار اولیهٔ host/port را بررسی می‌کند؛ هیچ ادعایی دربارهٔ handshake، ping یا کارکرد عملی سرور نمی‌کند.
-
-## فایل‌هایی که باید جایگزین/اضافه شوند
-
-فایل‌های کامل را دقیقاً با مسیر زیر در ریشهٔ ریپازیتوری قرار بده:
-
-| عملیات | مسیر |
+| فایل | نقش |
 |---|---|
-| جایگزینی | `index.html` |
-| اضافه‌کردن | `assets/css/external-sources.css` |
-| اضافه‌کردن | `assets/js/external-sources.js` |
-| اضافه‌کردن | `assets/js/theme-controller.js` |
-| اضافه‌کردن | `data/external-sources.json` |
-| اضافه‌کردن | `data/external-sources-status.json` |
-| اضافه‌کردن | `scripts/fetch-external-sources.mjs` |
-| اضافه‌کردن | `scripts/fetch-external-sources.test.mjs` |
-| اضافه‌کردن | `.github/workflows/external-sources-check.yml` |
-| اضافه‌کردن | `External.txt` |
-| اضافه‌کردن | `Pic/GitHub Pages Guide/1.jpg` تا `4.jpg` |
-| جایگزینی | `telegram-bot/src/index.js` |
-| جایگزینی | `telegram-bot/package.json` |
-| جایگزینی | `telegram-bot/README.md` |
-| اضافه‌کردن | `telegram-bot/CHANGELOG_v5_1.md` |
+| `External-raw.txt` | دادهٔ خام جمع‌آوری‌شده از منابع مستقل |
+| `data/external-raw-index.json` | انتساب هش هر URI خام به شناسهٔ منبع |
+| `External.txt` | خروجی نهایی؛ تغییرنام‌یافته، یکتا و قابل اشتراک |
+| `data/external-processed.json` | ایندکس پروتکل، کشور، Host، Port، نام جدید و منبع هر کانفیگ |
+| `data/external-sources-status.json` | سلامت منابع و وضعیت آخرین پردازش |
 
-فایل‌های `Mix.txt`، `Irancell.txt`، `Mci.txt`، Workflow فعلی `v2ray-sub-radar-notify.yml`، SQLهای D1، و `telegram-bot/wrangler.toml` را جایگزین نکن. این موارد برای جریان اصلی و تنظیمات مستقر شما هستند و در این ارتقا نیازی به تغییر ندارند.
+## منطق تغییر نام
 
-## ۱. آپلود در GitHub
+پردازش‌گر `scripts/process-external-subscriptions.mjs` منطق عملی ConfigRenamerPro را به Node منتقل می‌کند:
 
-1. از ZIP، مسیرهای جدول بالا را در همان مسیرهای ریپازیتوری کپی کن.
-2. فقط فایل‌های مشخص‌شده را commit/push کن؛ از جایگزینی کامل پوشه‌های دیگر خودداری کن.
-3. در GitHub برو به **Settings → Actions → General → Workflow permissions** و برای Workflow جدید، دسترسی `Read and write permissions` را فعال کن.
-4. از تب **Actions**، Workflow با نام **External Subscriptions · Health & Parser** را باز کن و `Run workflow` را بزن.
-5. خروجی گزارش در `data/external-sources-status.json` و فایل جداگانهٔ ترکیبی در `External.txt` تولید می‌شود. Workflow هر ۶ ساعت نیز خودکار اجرا می‌شود.
+- پیشوند `SkyBit-` و شماره‌گذاری از صفر؛
+- قالب نام `SkyBit-0_yyyy-MM-dd_HH-mm`؛
+- منطقهٔ زمانی `Asia/Tehran`؛
+- حفظ پرچم/کشور قابل‌تشخیص از نام قبلی کانفیگ؛
+- استفاده از پرچم `🏴‍☠️` وقتی نام قبلی کشور صریحی ندارد؛
+- تغییر نام VLESS، VMess، Trojan، Shadowsocks، SSR، SOCKS، Hysteria2، TUIC و WireGuard بدون بازنویسی پارامترهای اتصال؛
+- برای VMess مقدار `ps` در JSON داخلی تغییر می‌کند؛ برای سایر URIها فقط Fragment نام‌گذاری می‌شود؛
+- حذف تکراری بر اساس URI پیش از `#fragment`؛
+- نگهداری نام اصلی، نام جدید، پروتکل، Host، Port، کشور و شناسهٔ منبع در فایل JSON.
 
-این Workflow فقط `External.txt` و `data/external-sources-status.json` را commit می‌کند. با فایل `Mix.txt` کاری ندارد و Workflow اعلان عادی ربات را فراخوانی نمی‌کند. اگر در یک نوبت همه منابع خطا بدهند، فایل آخرین اجرای موفق حفظ می‌شود و در گزارش با وضعیت قدیمی (`stale`) مشخص خواهد شد؛ خروجی قدیمی بی‌صدا به‌عنوان تازه معرفی نمی‌شود.
+این پردازش به‌صورت آگاهانه GeoIP را از راه دور حدس نمی‌زند. کشور تنها از پرچم یا برچسب روشن نام قبلی استخراج می‌شود؛ موارد مبهم با پرچم دزدان دریایی مشخص می‌شوند. در نتیجه فیلتر کشور دقیقاً بر اساس دادهٔ قابل‌استناد است.
 
-## ۲. دسترسی خصوصی Family-Sub
+## ترتیب خودکار GitHub Actions
 
-اگر `Family-Sub` خصوصی است، یک Fine-grained Personal Access Token جدید با دسترسی فقط `Contents: Read-only` برای همان مخزن بساز و آن را در **Settings → Secrets and variables → Actions** با نام زیر ذخیره کن. در صورت وجود Secret، Workflow فایل را با GitHub Contents API دریافت می‌کند و token را فقط به `api.github.com` می‌فرستد؛ در غیر این صورت URL عمومی Raw را امتحان می‌کند:
+۱. `.github/workflows/external-sources-check.yml` طبق زمان‌بندی هر شش ساعت منابع را می‌خواند و `External-raw.txt` و ایندکس خام را می‌سازد.
+
+۲. پس از پایان موفق Workflow اول، `.github/workflows/external-renamer.yml` با رویداد `workflow_run` اجرا می‌شود؛ فایل خام را پردازش می‌کند و `External.txt`، ایندکس نهایی و وضعیت را Commit می‌کند.
+
+۳. Workflow دوم در صورت نیاز از `workflow_dispatch` نیز قابل اجرای دستی است.
+
+### مجوز مخزن
+
+در GitHub به مسیر زیر برو:
+
+`Settings → Actions → General → Workflow permissions`
+
+گزینهٔ `Read and write permissions` را انتخاب کن. هر دو Workflow با `contents: write` کار می‌کنند.
+
+### Secret اختیاری برای Family-Sub
+
+منبع `Family-Sub` نیز در خروجی ادغام می‌شود. اگر مخزن `mehrdadmb2/Family-Sub` خصوصی است، یک Fine-grained Personal Access Token تازه با دسترسی فقط `Contents: Read-only` برای همان مخزن ایجاد و در Repository Secrets با نام زیر ذخیره کن:
 
 `EXTERNAL_GITHUB_TOKEN`
 
-توکن قدیمی که در URL پیام قبلی قرار گرفته بود افشا شده است؛ آن را در GitHub باطل کن. هیچ token را داخل URL، `data/external-sources.json`، کد جاوااسکریپت یا فایل‌های عمومی قرار نده. اگر مخزن خصوصی نیست، Secret لازم نیست.
+بدون این Secret، سایر منابع همچنان پردازش می‌شوند و Family-Sub به شکل `unknown / requires authentication` گزارش خواهد شد. در اجرای نخست از دادهٔ قدیمی، انتساب منبع برای کانفیگ‌های تاریخی قابل بازیابی نیست؛ پس از اولین اجرای تازهٔ collector، انتساب هر URI به همهٔ منابع منتشرکننده‌اش ثبت می‌شود، حتی وقتی Fragment نام کانفیگ در هر منبع متفاوت باشد. هیچ Token را داخل URL، کد یا فایل JSON ذخیره نکن.
 
-محتوای `Family-Sub` به‌صورت پیش‌فرض وارد `External.txt` نمی‌شود (`includeInAggregate: false`) تا دادهٔ احتمالی خصوصی به خروجی عمومی منتقل نشود. فقط بعد از اطمینان از عمومی‌بودن داده و مالکیت/مجوز انتشار آن، این گزینه را آگاهانه تغییر بده.
+## صفحهٔ GitHub Pages
 
-## ۳. به‌روزرسانی Cloudflare Worker ربات
+- نوار میانبر از داخل `main` خارج شده و به صورت `position: fixed` نسبت به viewport در پایین صفحه باقی می‌ماند؛ بنابراین به scroll container وابسته نیست.
+- نوار در دسکتاپ و موبایل با عرض کم قابل اسکرول افقی است و حاشیهٔ امن پایین موبایل را رعایت می‌کند.
+- فضای متفرقه تا زمان کلیک روی تب جداگانه مخفی می‌ماند.
+- پس از بازکردن بخش، گزارش سلامت، `external-processed.json` و `External.txt` بارگذاری می‌شوند.
+- فیلترهای پروتکل، کشور، منبع و متن؛ صفحه‌بندی ۱۰۰تایی؛ کپی همهٔ نتایج منطبق؛ دانلود فایل فیلترشده؛ نمایش نام، Host، Port، کشور، پروتکل و منبع هر کانفیگ اضافه شده‌اند.
 
-1. پیش از هر کاری از `telegram-bot/src/index.js` فعلی و `telegram-bot/wrangler.toml` نسخهٔ فعال خود پشتیبان بگیر.
-2. فایل `telegram-bot/src/index.js` و `telegram-bot/package.json` را جایگزین کن.
-3. `database_id` واقعی D1، Secretها و Bindingهای Worker را حفظ کن. Migration جدید لازم نیست.
-4. از پوشهٔ `telegram-bot` اجرا کن:
+## دستورات ربات
+
+این دستورات عمداً به `/start`، `/help` یا منوی عمومی BotFather اضافه نشده‌اند تا لینک‌های شخص ثالث در مسیر عادی کاربر نمایش داده نشوند. کاربر فقط با واردکردن مستقیم دستور وارد بخش می‌شود:
+
+| دستور | عملکرد |
+|---|---|
+| `/external` | گزارش سلامت منابع و خلاصهٔ خروجی نهایی |
+| `/externalmix` | دریافت همهٔ کانفیگ‌های نهایی در TXT |
+| `/externalprotocol` | انتخاب پروتکل و دریافت تمام کانفیگ‌های آن |
+| `/externalcountry` | انتخاب کشور و دریافت تمام کانفیگ‌های آن |
+
+در صفحهٔ انتخاب، دکمه‌های Inline نیز وجود دارد. اعلان‌های عادی ربات همچنان فقط به Mix اصلی مربوط می‌شوند.
+
+## استقرار Worker
+
+از پوشهٔ `telegram-bot`:
 
 ```bash
-npm install
 npm run check
-npm run test
+npm test
 npx wrangler deploy
 ```
 
-5. برای ثبت دوبارهٔ فرمان‌های `/guide` و `/npvguide` در فهرست دستورات Telegram، از endpoint موجود و احراز‌شدهٔ `POST /admin/setup` استفاده کن. دو فرمان `/external` و `/externalmix` عمداً در فهرست عمومی BotFather و `/help` نمایش داده نمی‌شوند؛ فقط با تایپ مستقیم و درخواست کاربر اجرا می‌شوند.
+فایل‌های Worker که باید جایگزین شوند:
 
-## رفتار نهایی
+- `telegram-bot/src/index.js`
+- `telegram-bot/package.json`
 
-- نوار میانبر سه پوستهٔ رنگی **آبی/زمردی/کهربایی** دارد؛ انتخاب کاربر در همان مرورگر ذخیره می‌شود و ظاهر کلاینت‌های قدیمی هم بدون تغییر نسخهٔ داده حفظ می‌شود.
-
-- صفحهٔ اصلی GitHub Pages فقط همان اشتراک‌های اصلی فعلی را نشان می‌دهد. اطلاعات و URLهای ثالث در کارت یا بخش اصلی ظاهر نمی‌شوند.
-- دکمهٔ کوچک **متفرقه** در نوار میانبر، یک فضای مستقل باز می‌کند. داخل آن جستجو، فیلتر نوع منبع/وضعیت، تعداد URI معتبر، URIهای ردشده، پروتکل‌ها، زمان آخرین بررسی و لینک خروجی ترکیبی وجود دارد.
-- Bot در `/start` و اعلان‌های عادی هیچ لینک ثالثی ارسال نمی‌کند. در پیام به‌روزرسانی Mix، لینک اشتراک اصلی نمایش داده می‌شود.
-- `/external` گزارش و لینک‌های منابع ثالث را فقط در پاسخ به درخواست مستقیم کاربر نشان می‌دهد.
-- `/externalmix` فایل پردازش‌شدهٔ مستقل `External.txt` را ارسال می‌کند.
-- `/guide` چهار تصویر آموزشی اختصاصی GitHub Pages را می‌فرستد: ورود به سایت، کپی اشتراک اصلی، بازکردن فضای جداگانه متفرقه و افزودن لینک در کلاینت. این تصاویر گرافیکیِ راهنما هستند، نه اسکرین‌شات زنده از دستگاه کاربر.
-- `/npvguide` پنج تصویر موجود راهنمای افزودن Subscription در NPV Tunnel را به ترتیب ارسال می‌کند.
-- خروجی ثالث با Mix اصلی ادغام نمی‌شود و خرابی هر منبع، بررسی منابع دیگر را متوقف نمی‌کند.
+`telegram-bot/wrangler.toml` را از بستهٔ جایگزینی اعمال نکن؛ شناسهٔ واقعی D1 در فایل فعلی مستقرشده را حفظ کن. فایل نمونهٔ ZIP ممکن است شناسهٔ جایگزین/Placeholder داشته باشد. نام Bindingها و متغیرهای محیطی موجود را نیز حفظ کن. Secretهای قبلی Worker مانند `TELEGRAM_BOT_TOKEN`، `TELEGRAM_WEBHOOK_SECRET`، `GITHUB_ACTION_SECRET` و `ADMIN_KEY` را حذف یا بازنویسی نکن.
 
 ## تست محلی
 
-در ریشهٔ پروژه:
-
 ```bash
 node --check scripts/fetch-external-sources.mjs
-node --test scripts/fetch-external-sources.test.mjs
-node --check assets/js/external-sources.js
-node --check telegram-bot/src/index.js
+node --check scripts/process-external-subscriptions.mjs
+node --test scripts/fetch-external-sources.test.mjs scripts/process-external-subscriptions.test.mjs
 ```
 
-این تست‌ها parsing، حذف placeholder محلی، تشخیص duplicate و decode اشتراک Base64 را پوشش می‌دهند.
+تست‌ها parser پروتکل‌ها، Base64، حذف تکراری، نگه‌داری پرچم، پرچم ناشناس، تغییر نام VMess و زمان تهران را پوشش می‌دهند.
+
+## راه‌اندازی اولیه
+
+۱. فایل‌های بسته را با حفظ مسیرهای نسبی در ریشهٔ ریپو جایگزین کن؛ فایل `telegram-bot/wrangler.toml` را نگه دار و روی آن ننویس.
+۲. Workflow اول را از Actions دستی اجرا کن.
+۳. پس از پایان موفق آن، منتظر شروع خودکار Workflow دوم بمان؛ یا Workflow دوم را دستی اجرا کن.
+۴. در هر دو Workflow بررسی کن که Commit موفق باشد.
+۵. GitHub Pages را با Hard Refresh باز کن و تب «متفرقه» را انتخاب کن.
+۶. در Worker، `npm run check`، `npm test` و `npx wrangler deploy` را اجرا کن.
+۷. در تلگرام ابتدا `/external`، سپس `/externalprotocol` یا `/externalcountry` را امتحان کن.
+
+> نکتهٔ فنی: شمار URI معتبر صرفاً بررسی ساختار، مقصد و پورت است. این سیستم اتصال واقعی، TLS handshake، سرعت یا پایداری پروکسی را تست نمی‌کند. برای چنین تستی به Runnerهای اتصال واقعی و محدودیت‌های شبکهٔ جداگانه نیاز است.

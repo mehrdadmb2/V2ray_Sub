@@ -59,6 +59,20 @@ The existing GitHub Action is still the source of update signals, and no Cron tr
   - `/external` — show the separate third-party source report and openable links only after a user explicitly asks.
   - `/externalmix` — send the separately generated `External.txt` bundle, if it contains valid configurations.
 - External source checks are performed by the repository workflow. They never modify `Mix.txt`, do not trigger the normal Mix broadcast and do not require a D1 migration.
-- The external workflow reads `data/external-sources.json` and writes only `data/external-sources-status.json` and `External.txt`.
+- The collector workflow reads `data/external-sources.json` and writes `External-raw.txt`, `data/external-raw-index.json`, and the source status report. A second workflow, triggered by `workflow_run`, renames and indexes the feed into `External.txt` and `data/external-processed.json`. The two workflows are isolated from the main Mix notification pipeline.
 
 After deploying `src/index.js`, refresh Telegram's command list using the existing authenticated setup endpoint (`POST /admin/setup`). Do not change the existing D1 ID or redeploy any other Worker settings from a placeholder template.
+
+
+## External Lab (on-demand)
+
+برای دیدن گزارش منابع شخص ثالث و فیلتر خروجی پردازش‌شده، دستورهای مخفی `/external`، `/externalmix`، `/externalprotocol` و `/externalcountry` را مستقیماً ارسال کن. این دستورها به منوی عمومی BotFather، پیام `/start` و اعلان‌های معمولی اضافه نشده‌اند. توضیحات کامل در `EXTERNAL_LAB_FA.md` است.
+
+
+## v5.2 — processed External Lab
+
+- Read `CHANGELOG_v5_2.md` for the current release details.
+- The External collector and renamer are separate workflows; the renamer follows the collector through `workflow_run`.
+- The final `External.txt` is renamed and de-duplicated; `External-raw.txt` is retained separately for audit/reprocessing.
+- See `EXTERNAL_LAB_FA.md` and the root `README_UPGRADE_FA.md` for setup, filtering and deployment instructions.
+- Preserve the deployed `wrangler.toml` and its real D1 ID.

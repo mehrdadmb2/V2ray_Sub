@@ -16,7 +16,8 @@ import { isIP } from 'node:net';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const MANIFEST_PATH = path.join(ROOT, 'data', 'external-sources.json');
 const STATUS_PATH = path.join(ROOT, 'data', 'external-sources-status.json');
-const OUTPUT_PATH = path.join(ROOT, 'External.txt');
+const OUTPUT_PATH = path.join(ROOT, 'External-raw.txt');
+const RAW_INDEX_PATH = path.join(ROOT, 'data', 'external-raw-index.json');
 const FETCH_TIMEOUT_MS = Number(process.env.EXTERNAL_FETCH_TIMEOUT_MS || 15000);
 const MAX_BODY_BYTES = 4 * 1024 * 1024;
 const MAX_REDIRECTS = 4;
@@ -112,7 +113,7 @@ function parseSsr(uri) {
   return { protocol: 'ssr', host: match[1], port };
 }
 
-function parseConfigUri(raw) {
+export function parseConfigUri(raw) {
   const value = String(raw || '').trim().replace(/^\uFEFF/, '');
   const schemeMatch = value.match(URI_RE);
   if (!schemeMatch) return null;
@@ -150,7 +151,7 @@ function parseConfigUri(raw) {
   return null;
 }
 
-function extractCandidates(input) {
+export function extractCandidates(input) {
   const original = String(input || '').replace(/^\uFEFF/, '');
   const lines = original.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
   let candidates = lines.filter(line => URI_RE.test(line));
@@ -338,6 +339,7 @@ async function main() {
   const results = [];
   const aggregate = [];
   const aggregateSeen = new Set();
+  const aggregateSources = new Map();
   let successCount = 0;
   let offlineCount = 0;
   let unknownCount = 0;
@@ -372,6 +374,11 @@ async function main() {
             aggregateSeen.add(config);
             aggregate.push(config);
           }
+          // Attribute all provider variants of the same endpoint URI, even when their #labels differ.
+          const identityHash = sha256(config.split('#')[0].trim());
+          const sourceRecord = aggregateSources.get(identityHash) || { identitySha256: identityHash, sourceIds: [] };
+          if (!sourceRecord.sourceIds.includes(source.id)) sourceRecord.sourceIds.push(source.id);
+          aggregateSources.set(identityHash, sourceRecord);
         }
       }
 
@@ -423,17 +430,29 @@ async function main() {
     .catch(() => null);
   const previousAnalysis = analyzeFeed(previous);
   const canWriteAggregate = aggregate.length > 0;
-  let aggregateStale = false;
+  let rawStale = false;
+  let rawUpdatedAt = previousStatus?.aggregate?.rawUpdatedAt || null;
   if (canWriteAggregate) {
     await fs.writeFile(OUTPUT_PATH, `${aggregate.join('\n')}\n`, 'utf8');
+    await fs.writeFile(RAW_INDEX_PATH, `${JSON.stringify({
+      schemaVersion: 1,
+      generatedAt: checkedAt,
+      configs: [...aggregateSources.values()],
+    }, null, 2)}\n`, 'utf8');
+    rawUpdatedAt = checkedAt;
   } else {
-    aggregateStale = Boolean(previous.trim() && !previous.includes('No third-party source'));
-    if (!previous.trim()) await fs.writeFile(OUTPUT_PATH, '# No third-party source currently returned a valid config.\n', 'utf8');
+    rawStale = Boolean(previous.trim());
+    if (!previous.trim()) {
+      await fs.writeFile(OUTPUT_PATH, '# No third-party source currently returned a valid config.\n', 'utf8');
+      await fs.writeFile(RAW_INDEX_PATH, `${JSON.stringify({ schemaVersion: 1, generatedAt: checkedAt, configs: [] }, null, 2)}\n`, 'utf8');
+    }
   }
 
   const aggregateText = await fs.readFile(OUTPUT_PATH, 'utf8');
+  const aggregateRawCount = canWriteAggregate ? aggregate.length : previousAnalysis.validCount;
+  const previousProcessed = previousStatus?.processed || {};
   const status = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: checkedAt,
     checkMode: 'github-actions',
     checkNotice: 'Source reachability and URI syntax are checked. This is not a live proxy connectivity test.',
@@ -443,28 +462,37 @@ async function main() {
     unknownSources: unknownCount,
     aggregate: {
       file: 'External.txt',
+      rawFile: 'External-raw.txt',
       url: 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/External.txt',
-      configCount: canWriteAggregate ? aggregate.length : previousAnalysis.validCount,
-      uniqueCount: canWriteAggregate ? aggregate.length : previousAnalysis.validCount,
+      rawUrl: 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/External-raw.txt',
+      configCount: Number(previousStatus?.aggregate?.configCount || 0),
+      rawCount: aggregateRawCount,
+      uniqueCount: Number(previousStatus?.aggregate?.configCount || 0),
       bytes: Buffer.byteLength(aggregateText, 'utf8'),
-      sha256: sha256(aggregateText),
-      updatedAt: canWriteAggregate ? checkedAt : (previousStatus?.aggregate?.updatedAt || null),
-      stale: aggregateStale,
+      rawSha256: sha256(aggregateText),
+      rawUpdatedAt,
+      rawStale,
+      processedAt: previousStatus?.aggregate?.processedAt || null,
+      processedStale: (canWriteAggregate || rawStale) ? true : Boolean(previousStatus?.aggregate?.processedStale ?? true),
+      sha256: previousStatus?.aggregate?.sha256 || null,
+      updatedAt: previousStatus?.aggregate?.updatedAt || null,
+      stale: canWriteAggregate || rawStale,
     },
+    processed: previousProcessed,
     sources: results,
   };
 
   await fs.writeFile(STATUS_PATH, `${JSON.stringify(status, null, 2)}\n`, 'utf8');
 
   const countLabel = results.map(item => `${item.id}:${item.health}/${item.validConfigCount ?? 0}`).join(' | ');
-  console.log(`External sources checked: ${successCount} available, ${offlineCount} unavailable, ${aggregate.length} unique configs`);
+  console.log(`External sources checked: ${successCount} available, ${offlineCount} unavailable, ${aggregateRawCount} raw unique configs`);
   console.log(countLabel);
   if (process.env.GITHUB_STEP_SUMMARY) {
     const summaryPath = process.env.GITHUB_STEP_SUMMARY;
     const rows = results.map(item => `| ${item.name.replace(/\|/g, '\\|')} | ${item.health} | ${item.httpStatus ?? '—'} | ${item.validConfigCount ?? 0} | ${Object.entries(item.protocols || {}).map(([p,n]) => `${p}: ${n}`).join(', ') || '—'} |`).join('\n');
     await fs.appendFile(summaryPath,
-      `\n## External subscription check\n\n> Endpoint availability is not proof of proxy connectivity.\n\n` +
-      `- Sources: ${results.length}\n- Available: ${successCount}\n- Unique aggregate configs: ${aggregate.length}\n\n` +
+      `\n## External subscription fetch check\n\n> Endpoint availability is not proof of proxy connectivity. A separate workflow renames and indexes the raw feed.\n\n` +
+      `- Sources: ${results.length}\n- Available: ${successCount}\n- Raw unique configs: ${aggregateRawCount}\n- Raw feed: External-raw.txt\n\n` +
       `| Source | Health | HTTP | Valid URI | Protocols |\n|---|---:|---:|---:|---|\n${rows}\n`);
   }
 }

@@ -1,13 +1,13 @@
 {
   "name": "v2ray-sub-radar-bot",
   "private": true,
-  "version": "5.1.0",
-  "description": "Telegram bot + Cloudflare Workers + D1 archive for V2ray_Sub",
+  "version": "5.2.0",
+  "description": "Telegram bot + Cloudflare Workers + D1 archive + isolated External Lab processor",
   "scripts": {
-    "check": "node --check src/index.js && node --check ../assets/js/external-sources.js && node --check ../assets/js/theme-controller.js && node --check ../scripts/fetch-external-sources.mjs",
+    "check": "node --check src/index.js && node --check ../assets/js/external-sources.js && node --check ../assets/js/theme-controller.js && node --check ../scripts/fetch-external-sources.mjs && node --check ../scripts/process-external-subscriptions.mjs",
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
-    "test": "node --test ../scripts/fetch-external-sources.test.mjs"
+    "test": "node --test ../scripts/fetch-external-sources.test.mjs ../scripts/process-external-subscriptions.test.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.45.0"

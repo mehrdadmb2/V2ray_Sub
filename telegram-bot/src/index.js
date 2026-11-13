@@ -14,11 +14,12 @@
 const APP = {
   name: 'V2ray Sub Radar',
   username: '@V2raySubRadarBot',
-  version: '5.1.0',
+  version: '5.2.0',
   siteUrl: 'https://mehrdadmb2.github.io/V2ray_Sub/',
   subscriptionUrl: 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt',
   externalStatusUrl: 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/data/external-sources-status.json',
   externalFileUrl: 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/External.txt',
+  externalProcessedUrl: 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/data/external-processed.json',
   repoUrl: 'https://github.com/mehrdadmb2/V2ray_Sub',
   repoApi: 'https://api.github.com/repos/mehrdadmb2/V2ray_Sub',
   webhookPath: '/telegram/webhook',
@@ -1713,37 +1714,125 @@ async function fetchExternalReport() {
 
 // Optional on-demand area: this function is deliberately not added to COMMANDS,
 // BotFather's menu, /start or normal update broadcasts.
+function externalMenuKeyboard() {
+  return {
+    inline_keyboard: [
+      [{ text: '📦 دریافت همه کانفیگ‌های پردازش‌شده', callback_data: 'ext:all' }],
+      [
+        { text: '🔌 انتخاب پروتکل', callback_data: 'ext:protocol' },
+        { text: '🌍 انتخاب کشور', callback_data: 'ext:country' },
+      ],
+      [{ text: '🌐 فضای متفرقه در GitHub Pages', url: APP.siteUrl }],
+    ],
+  };
+}
+
+async function fetchExternalProcessed() {
+  const response = await fetchWithTimeout(`${APP.externalProcessedUrl}?v=${Date.now()}`, {
+    method: 'GET', headers: { accept: 'application/json', 'cache-control': 'no-cache' },
+  }, 20000);
+  if (!response.ok) throw new Error(`ایندکس پردازش‌شده در دسترس نیست (HTTP ${response.status}).`);
+  const data = await response.json();
+  if (!Array.isArray(data?.configs) || !data?.stats) throw new Error('ساختار ایندکس External معتبر نیست.');
+  return data;
+}
+
+async function fetchExternalBundle() {
+  const [report, processed] = await Promise.all([fetchExternalReport(), fetchExternalProcessed()]);
+  const response = await fetchWithTimeout(`${APP.externalFileUrl}?v=${Date.now()}`, {
+    method: 'GET', headers: { accept: 'text/plain,*/*', 'cache-control': 'no-cache' },
+  }, 25000);
+  if (!response.ok) throw new Error(`دریافت External.txt ناموفق بود (HTTP ${response.status}).`);
+  const bounded = await readTextLimited(response, APP.maxExternalDocumentBytes);
+  if (bounded.tooLarge) throw new Error('فایل External.txt از سقف دریافت Worker بزرگ‌تر است. از لینک مستقیم GitHub استفاده کن.');
+  const lines = extractConfigLines(bounded.text);
+  if (!lines.length) throw new Error('External.txt خالی است یا کانفیگ قابل‌شناسایی ندارد.');
+  return { report, processed, lines };
+}
+
 async function replyExternalSources(env, chatId) {
   const report = await fetchExternalReport();
+  const processed = await fetchExternalProcessed().catch(() => null);
   const statusLabel = {
-    available: '🟢 قابل دریافت',
-    partial: '🟠 دارای ردیف نامعتبر',
-    offline: '🔴 خطا / قطع',
-    empty: '⚪ بدون کانفیگ معتبر',
-    unknown: '⚫ بررسی‌نشده',
-    disabled: '⏸ غیرفعال',
+    available: '🟢 قابل دریافت', partial: '🟠 دارای ردیف نامعتبر', offline: '🔴 خطا / قطع',
+    empty: '⚪ بدون کانفیگ معتبر', unknown: '⚫ بررسی‌نشده', disabled: '⏸ غیرفعال',
   };
   const rows = report.sources.map((source, index) => {
-    const hasValidatedCount = source.validConfigCount != null;
-    const rawCount = hasValidatedCount ? source.validConfigCount : source.configCount;
-    const count = rawCount == null ? '—' : formatNumber(rawCount);
-    const countType = report.checkMode === 'initial-tool-check' && !hasValidatedCount ? 'URI شناسایی‌شده اولیه' : 'URI معتبر';
+    const count = source.validConfigCount == null ? '—' : formatNumber(source.validConfigCount);
+    const processedCount = source.processedConfigCount == null ? '—' : formatNumber(source.processedConfigCount);
     const url = safeExternalLink(source.url);
-    const link = url ? ` · <a href="${escapeHtml(url)}">بازکردن لینک</a>` : '';
+    const link = url ? ` · <a href="${escapeHtml(url)}">منبع</a>` : '';
     const code = source.httpStatus ? ` · HTTP ${escapeHtml(source.httpStatus)}` : '';
-    return `${index + 1}. <b>${escapeHtml(source.name || source.id)}</b>\n${statusLabel[source.health] || statusLabel.unknown} · <code>${count}</code> ${countType}${code}${link}`;
+    return `${index + 1}. <b>${escapeHtml(source.name || source.id)}</b>\n${statusLabel[source.health] || statusLabel.unknown} · URI معتبر <code>${count}</code> · در خروجی نهایی <code>${processedCount}</code>${code}${link}`;
   });
-  const aggregateCount = Number(report.aggregate?.configCount || 0);
-  const aggregateLine = aggregateCount > 0
-    ? `\n\n📦 <a href="${escapeHtml(safeExternalLink(APP.externalFileUrl) || APP.externalFileUrl)}">خروجی ترکیبی External.txt</a> · <code>${formatNumber(aggregateCount)}</code> کانفیگ${report.aggregate?.stale ? ' · ⚠️ آخرین خروجی موفق (قدیمی)' : ''}`
-    : '\n\n📦 خروجی ترکیبی هنوز ساخته نشده است؛ Workflow مربوط به منابع متفرقه را اجرا کن.';
-  const header = `<blockquote>🧪 <b>منابع متفرقه · بررسی دستی</b>\nاین بخش از Mix اصلی مستقل است و فقط با درخواست مستقیم نمایش داده می‌شود.</blockquote>`;
-  const notes = `<blockquote>⏱ آخرین گزارش: <code>${escapeHtml(formatTehran(report.generatedAt))}</code>\n⚠️ تعداد URI معتبر به معنی آنلاین بودن یا کارکرد قطعی سرور نیست.${aggregateLine}</blockquote>`;
-  await sendHtmlSections(env, chatId, [
-    header,
-    rows.join('\n\n'),
-    notes,
-  ], mainKeyboard());
+  const aggregateCount = Number(report.aggregate?.configCount || processed?.stats?.processedCount || 0);
+  const protocolCount = Object.keys(processed?.stats?.protocols || {}).length;
+  const countryCount = (processed?.stats?.countries || []).length;
+  const stale = report.aggregate?.processedStale === true || report.aggregate?.stale === true;
+  const summary = `<blockquote>🧪 <b>External Lab · کتابخانه مستقل</b>
+📦 کانفیگ‌های نام‌گذاری‌شده: <code>${formatNumber(aggregateCount)}</code>
+🔌 پروتکل‌های موجود: <code>${formatNumber(protocolCount)}</code> · 🌍 گروه کشور: <code>${formatNumber(countryCount)}</code>
+♻️ تکراری حذف‌شده: <code>${formatNumber(processed?.stats?.duplicateCount || 0)}</code> · ❌ نامعتبر: <code>${formatNumber(processed?.stats?.invalidCount || 0)}</code>
+⏱ آخرین پردازش: <code>${escapeHtml(formatTehran(processed?.generatedAt || report.aggregate?.processedAt || report.generatedAt))}</code>
+${stale ? '⚠️ خروجی نهایی ممکن است از آخرین جمع‌آوری عقب باشد.' : '✅ خروجی خام و پردازش‌شده همگام هستند.'}</blockquote>`;
+  const note = '<blockquote>این منابع مستقل از Mix اصلی هستند. وضعیت دریافت HTTP و اعتبار URI به معنی تست اتصال واقعی پروکسی نیست. این بخش فقط با دستور مستقیم باز می‌شود و وارد اعلان‌های معمولی نخواهد شد.</blockquote>';
+  await sendHtmlSections(env, chatId, [summary, rows.join('\n\n'), note], externalMenuKeyboard());
+}
+
+async function sendExternalPicker(env, chatId, kind) {
+  const processed = await fetchExternalProcessed();
+  const rows = [];
+  if (kind === 'protocol') {
+    const items = Object.entries(processed.stats.protocols || {}).sort((a, b) => Number(b[1]) - Number(a[1]));
+    for (let i = 0; i < items.length; i += 2) {
+      rows.push(items.slice(i, i + 2).map(([protocol, count]) => ({
+        text: `🔌 ${protocol.toUpperCase()} · ${formatNumber(count)}`,
+        callback_data: `extp|${protocol}`,
+      })));
+    }
+    await sendHtmlMessage(env, chatId,
+      `<b>🔌 انتخاب پروتکل · External Lab</b>\nیک پروتکل را انتخاب کن تا تمام کانفیگ‌های همان نوع در یک فایل متنی ارسال شوند.`,
+      { inline_keyboard: [...rows, [{ text: '⬅️ بازگشت به External Lab', callback_data: 'ext:home' }]] });
+    return;
+  }
+  const items = [...(processed.stats.countries || [])].sort((a, b) => Number(b.count) - Number(a.count));
+  for (let i = 0; i < items.length; i += 2) {
+    rows.push(items.slice(i, i + 2).map(country => ({
+      text: `${country.flag || '🏴‍☠️'} ${country.label || country.code} · ${formatNumber(country.count)}`.slice(0, 60),
+      callback_data: `extc|${String(country.code || 'ZZ').slice(0, 3)}`,
+    })));
+  }
+  await sendHtmlMessage(env, chatId,
+    `<b>🌍 انتخاب کشور · External Lab</b>\nیک کشور را انتخاب کن تا همه کانفیگ‌های دارای همان پرچم در یک فایل متنی ارسال شوند.`,
+    { inline_keyboard: [...rows, [{ text: '⬅️ بازگشت به External Lab', callback_data: 'ext:home' }]] });
+}
+
+async function sendExternalFiltered(env, chatId, filter = {}) {
+  const { report, processed, lines } = await fetchExternalBundle();
+  const selected = processed.configs.filter(item => {
+    if (filter.protocol && String(item.protocol).toLowerCase() !== String(filter.protocol).toLowerCase()) return false;
+    if (filter.country && String(item.countryCode) !== String(filter.country)) return false;
+    return true;
+  });
+  const output = selected.map(item => lines[Number(item.index)] || '').filter(Boolean);
+  if (!output.length) {
+    await sendHtmlMessage(env, chatId, '🔎 برای فیلتر انتخاب‌شده کانفیگی پیدا نشد.', externalMenuKeyboard());
+    return;
+  }
+  const content = `${output.join('\n')}\n`;
+  const bytes = new TextEncoder().encode(content).byteLength;
+  if (bytes > APP.maxDocumentBytes) throw new Error('فایل فیلترشده از سقف فعلی ارسال تلگرام بزرگ‌تر است. از فیلتر دقیق‌تری استفاده کن.');
+  const stale = report.aggregate?.processedStale === true || report.aggregate?.stale === true;
+  const label = filter.protocol ? `پروتکل ${String(filter.protocol).toUpperCase()}`
+    : filter.country ? `کشور ${selected[0]?.countryFlag || ''} ${selected[0]?.countryLabel || filter.country}` : 'همه کانفیگ‌ها';
+  const filename = `External_${filter.protocol || filter.country || 'All'}_${Date.now()}.txt`;
+  await sendDocument(env, chatId, content, filename,
+    `🧪 <b>External Lab · خروجی فیلترشده</b>\n🎯 ${escapeHtml(label)}\n📦 کانفیگ یکتا: <code>${formatNumber(output.length)}</code>\n🕒 ${escapeHtml(formatTehran(processed.generatedAt))}${stale ? '\n⚠️ این خروجی ممکن است از آخرین جمع‌آوری عقب باشد.' : ''}\n🔒 مستقل از Mix اصلی`,
+    externalMenuKeyboard());
+}
+
+async function sendExternalMix(env, chatId) {
+  return sendExternalFiltered(env, chatId, {});
 }
 
 async function readTextLimited(response, maxBytes) {
@@ -1784,45 +1873,6 @@ async function readTextLimited(response, maxBytes) {
   return { tooLarge: false, text: new TextDecoder('utf-8').decode(merged) };
 }
 
-async function sendExternalMix(env, chatId) {
-  const report = await fetchExternalReport();
-  const expected = Number(report.aggregate?.configCount || 0);
-  if (expected < 1) {
-    await sendMessage(env, chatId, '⚠️ خروجی ترکیبی منابع متفرقه هنوز کانفیگ معتبر ندارد. ابتدا Workflow منابع متفرقه را در GitHub Actions اجرا کن.', mainKeyboard());
-    return;
-  }
-  const response = await fetchWithTimeout(`${APP.externalFileUrl}?v=${Date.now()}`, {
-    method: 'GET',
-    headers: { accept: 'text/plain,*/*', 'cache-control': 'no-cache' },
-  }, 20000);
-  if (!response.ok) throw new Error(`دریافت External.txt ناموفق بود (HTTP ${response.status}).`);
-  const declaredBytes = Number(response.headers.get('content-length') || 0);
-  if (declaredBytes > APP.maxExternalDocumentBytes) {
-    await sendHtmlMessage(env, chatId,
-      `📦 <b>بسته متفرقه حجیم است.</b>\nبرای جلوگیری از ارسال فایل بسیار بزرگ از Worker، لینک مستقیم دانلود را باز کن:\n<a href="${escapeHtml(APP.externalFileUrl)}">دانلود External.txt</a>\n\nحجم ثبت‌شده: <code>${formatBytes(declaredBytes)}</code>${report.aggregate?.stale ? '\n⚠️ این آخرین خروجی موفق قبلی است و ممکن است قدیمی باشد.' : ''}`,
-      mainKeyboard());
-    return;
-  }
-  const bounded = await readTextLimited(response, APP.maxExternalDocumentBytes);
-  if (bounded.tooLarge) {
-    await sendHtmlMessage(env, chatId,
-      `📦 <b>بسته متفرقه از سقف ارسال مستقیم بزرگ‌تر است.</b>
-برای جلوگیری از مصرف حافظهٔ Worker، لینک دانلود مستقیم را باز کن:
-<a href="${escapeHtml(APP.externalFileUrl)}">دانلود External.txt</a>${report.aggregate?.stale ? '\n⚠️ این آخرین خروجی موفق قبلی است و ممکن است قدیمی باشد.' : ''}`,
-      mainKeyboard());
-    return;
-  }
-  const text = bounded.text;
-  if (!text.trim() || !extractConfigLines(text).length) throw new Error('External.txt خالی است یا کانفیگ قابل‌شناسایی ندارد.');
-  await sendDocument(
-    env,
-    chatId,
-    text,
-    `V2ray_Sub_External_${Date.now()}.txt`,
-    `🧪 <b>بسته مستقل منابع متفرقه</b>\n📦 URI معتبر گزارش‌شده: <code>${formatNumber(expected)}</code>\n${report.aggregate?.stale ? '⚠️ آخرین خروجی موفق قبلی؛ ممکن است قدیمی باشد.\n' : ''}🔒 مستقل از Mix اصلی · ${escapeHtml(formatTehran(report.generatedAt))}`,
-    mainKeyboard(),
-  );
-}
 
 async function sendGuideImages(env, chatId, images, closingText) {
   for (let index = 0; index < images.length; index += 1) {
@@ -1973,6 +2023,12 @@ async function handleCommand(env, message, rawCommand, fullText = '', request = 
     case '/external':
       await replyExternalSources(env, chat.id);
       return;
+    case '/externalprotocol':
+      await sendExternalPicker(env, chat.id, 'protocol');
+      return;
+    case '/externalcountry':
+      await sendExternalPicker(env, chat.id, 'country');
+      return;
     case '/externalmix':
     case '/external_text':
       await sendExternalMix(env, chat.id);
@@ -2036,6 +2092,12 @@ async function handleCallback(env, callback, request, ctx) {
   if (!chatId) return;
   const data = String(callback.data || '');
   const origin = new URL(request.url).origin;
+  if (data === 'ext:home') return replyExternalSources(env, chatId);
+  if (data === 'ext:all') return sendExternalMix(env, chatId);
+  if (data === 'ext:protocol') return sendExternalPicker(env, chatId, 'protocol');
+  if (data === 'ext:country') return sendExternalPicker(env, chatId, 'country');
+  if (data.startsWith('extp|')) return sendExternalFiltered(env, chatId, { protocol: data.split('|')[1] });
+  if (data.startsWith('extc|')) return sendExternalFiltered(env, chatId, { country: data.split('|')[1] });
   if (data === 'guide') return sendVisualGuide(env, chatId);
   if (data === 'npvguide') return sendNpvGuide(env, chatId);
   if (data === 'latest') return getMixForUser(env, chatId);
