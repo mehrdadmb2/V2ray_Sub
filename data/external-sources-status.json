@@ -15,19 +15,19 @@
     "configCount": 3165,
     "rawCount": 3777,
     "uniqueCount": 3165,
-    "bytes": 1066714,
+    "bytes": 861168,
     "rawSha256": "3fb1c7da7ffc93b728b945a9203dee70442be26615dd0854cf71b5ec874bd0fc",
     "rawUpdatedAt": "2026-11-13T09:55:39.222Z",
     "rawStale": false,
-    "processedAt": "2026-11-13T09:54:54.521Z",
-    "processedStale": true,
-    "sha256": "68ddf52b4e7c4c118fcd7e7a0ec6fb3d5522fea0a67ee48920cd9aee7909f374",
-    "updatedAt": "2026-11-13T09:54:54.521Z",
-    "stale": true
+    "processedAt": "2026-11-13T09:55:58.214Z",
+    "processedStale": false,
+    "sha256": "c5e0c7ad0c3b65efaf5238a7774d2479b691daf1b5658746f266579d9c197431",
+    "updatedAt": "2026-11-13T09:55:58.214Z",
+    "stale": false
   },
   "processed": {
     "file": "data/external-processed.json",
-    "generatedAt": "2026-11-13T09:54:54.521Z",
+    "generatedAt": "2026-11-13T09:55:58.214Z",
     "inputCount": 3777,
     "processedCount": 3165,
     "duplicateCount": 590,
@@ -392,7 +392,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "shadow-214",
@@ -411,7 +412,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "epodonios",
@@ -430,7 +432,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "avencores",
@@ -449,7 +452,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "danialsamadi",
@@ -477,7 +481,8 @@
       "etag": "W/\"742f60f60972e7e17feb37f25353baf7cd9d0f939612097db50093b8ba561077\"",
       "lastModified": null,
       "contentSha256": "c5c1e29a1f0b3f789df1999be7741554696e700302c8432188f08bb5a9241699",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 644
     },
     {
       "id": "family-sub",
@@ -496,7 +501,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "igareck",
@@ -523,7 +529,8 @@
       "etag": "W/\"c0ffd677bc629869137f5c31d58661d3571a260fd809ddb71642adf6b90504da\"",
       "lastModified": null,
       "contentSha256": "5c3bb6159dc68f9857fa2ae2a81f438c50b729084a4249acc352507d332d163c",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 149
     },
     {
       "id": "ezaccess-nfz",
@@ -542,7 +549,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 500"
+      "note": "HTTP 500",
+      "processedConfigCount": 0
     },
     {
       "id": "psg-xray",
@@ -569,7 +577,8 @@
       "etag": "W/\"2199895b7aabd2bf3d02cfa130514c69c479e440030c95aa512e6b95705d95fe\"",
       "lastModified": null,
       "contentSha256": "edd8184f483725fa99fd7e3abf6769fb6a438df533c758093ee48531dbc3d1db",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 309
     },
     {
       "id": "shadow-736",
@@ -598,7 +607,8 @@
       "etag": null,
       "lastModified": null,
       "contentSha256": "63e04d2ebe9ceec37af1a8c40d46894610220b22daf454dfadfb524a77731dbc",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 1026
     },
     {
       "id": "shadow-e298",
@@ -627,7 +637,8 @@
       "etag": null,
       "lastModified": null,
       "contentSha256": "e615378a539f38424979b0ad6804b5deb3e328f78c9cc3b0f489bbf8ef2b1a78",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 524
     },
     {
       "id": "shadow-e7c",
@@ -655,7 +666,8 @@
       "etag": null,
       "lastModified": null,
       "contentSha256": "6ca355a9dc08961391eefbd5c488ab9b8feaf6c83bfd9a70149bed38bcd181a0",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 1103
     }
   ]
 }
