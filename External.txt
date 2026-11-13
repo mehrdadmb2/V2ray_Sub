@@ -1,0 +1,2 @@
+# No third-party source currently returned a valid config.
+# This file is refreshed by the External Subscriptions GitHub Actions workflow.

@@ -27,7 +27,7 @@
             platformName: "V2ray_Sub",
             platformType: "web",
             environment: "production",
-            appVersion: "V5",
+            appVersion: "V5.1",
             requestTimeoutMs: 12000,
             heartbeatMs: 30000,
             queueFlushMs: 60000
@@ -1794,6 +1794,7 @@ body.v5-lock{overflow:hidden}
 #v5ScrollProgress span{display:block;height:100%;width:0%;background:linear-gradient(90deg,#8b5cf6,#38bdf8,#34d399);box-shadow:0 0 16px rgba(56,189,248,.45);transition:width .08s linear}
 </style>
 
+    <link rel="stylesheet" href="./assets/css/external-sources.css" />
 </head>
 
 <body>
@@ -1829,7 +1830,7 @@ body.v5-lock{overflow:hidden}
             <div class="logo-area">
                 <span class="logo-icon"><i class="fas fa-satellite-dish"></i></span>
                 <span class="logo-text">V2ray_Sub</span>
-                <span class="logo-badge"><i class="fas fa-code-branch"></i> v5.0</span>
+                <span class="logo-badge"><i class="fas fa-code-branch"></i> v5.1</span>
             </div>
             <div class="status-chip">
                 <span class="status-dot"></span>
@@ -2504,6 +2505,8 @@ body.v5-lock{overflow:hidden}
       <a class="v5-qbtn" href="#clients" data-v5-section="clients"><i class="fas fa-mobile-screen-button"></i><span>کلاینت</span></a>
       <a class="v5-qbtn" href="#guides" data-v5-section="guides"><i class="fas fa-book-open"></i><span>راهنما</span></a>
       <a class="v5-qbtn" href="#advanced" data-v5-section="advanced"><i class="fas fa-microscope"></i><span>حرفه‌ای</span></a>
+      <button type="button" class="v5-qbtn external-tab-trigger" data-external-open title="بازکردن فضای جداگانه منابع متفرقه"><i class="fas fa-box-archive"></i><span>متفرقه</span></button>
+      <button type="button" class="v5-qbtn v6-theme-trigger" data-v6-theme-toggle title="تغییر پوسته رنگی" aria-label="تغییر پوسته رنگی"><i class="fas fa-palette"></i><span data-v6-theme-label>پوسته · آبی</span></button>
       <button type="button" class="v5-qbtn v5-focusable" data-v5-top title="بازگشت به بالا"><i class="fas fa-arrow-up"></i><span>بالا</span></button>
     </nav>
 
@@ -2533,6 +2536,71 @@ body.v5-lock{overflow:hidden}
 
 
     </main>
+
+    <!-- ===== Isolated third-party subscriptions workspace (hidden by default) ===== -->
+    <section id="externalSourcesView" class="external-view" hidden aria-labelledby="externalViewTitle">
+      <div class="external-ambient" aria-hidden="true"></div>
+      <header class="external-hero">
+        <div class="external-brandline">
+          <span class="external-mark"><i class="fas fa-satellite-dish"></i></span>
+          <span class="external-eyebrow">SEPARATE WORKSPACE · OPT-IN SOURCES</span>
+          <span class="external-version">V5.1 / LAB</span>
+        </div>
+        <div class="external-title-row">
+          <div>
+            <h1 id="externalViewTitle">منابع متفرقه <span>External Sources</span></h1>
+            <p>منابع شخص ثالث در یک فضای کاملاً جدا؛ وضعیت دریافت، شمار URIها و خروجی پردازش‌شده را فقط همین‌جا ببین.</p>
+          </div>
+          <button type="button" id="externalBackButton" class="external-back"><i class="fas fa-arrow-right"></i><span>بازگشت به صفحه اصلی</span></button>
+        </div>
+      </header>
+
+      <div class="external-notice" role="note">
+        <i class="fas fa-shield-halved"></i>
+        <div><strong>توجه درباره منابع مستقل</strong><span>این لینک‌ها تحت مالکیت پروژه نیستند و ممکن است حذف، تغییر یا آلوده شوند. «قابل دریافت» به معنی اتصال واقعی سرور نیست؛ قبل از استفاده، منبع و کلاینت را بررسی کن.</span></div>
+      </div>
+
+      <div class="external-metrics" id="externalMetrics" aria-live="polite">
+        <article class="external-metric"><span>تعداد منابع</span><strong id="externalMetricTotal">—</strong><small>تعریف‌شده در فهرست</small></article>
+        <article class="external-metric"><span>منابع قابل دریافت</span><strong id="externalMetricAvailable">—</strong><small>آخرین بررسی HTTP</small></article>
+        <article class="external-metric"><span>URIهای معتبر</span><strong id="externalMetricConfigs">—</strong><small>پس از بررسی ساختار</small></article>
+        <article class="external-metric"><span>آخرین بررسی</span><strong id="externalMetricUpdated">—</strong><small>زمان ثبت‌شده توسط Actions</small></article>
+      </div>
+
+      <div class="external-aggregate" id="externalAggregateCard">
+        <div class="external-aggregate-icon"><i class="fas fa-layer-group"></i></div>
+        <div class="external-aggregate-copy">
+          <span class="external-kicker">PROCESSED BUNDLE</span>
+          <strong>خروجی ترکیبی منابع متفرقه</strong>
+          <p id="externalAggregateInfo">پس از اولین اجرای GitHub Actions، کانفیگ‌های قابل‌پردازش و بدون تکرار در یک فایل جدا ساخته می‌شوند.</p>
+        </div>
+        <div class="external-aggregate-actions">
+          <a id="externalAggregateOpen" href="https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/External.txt" target="_blank" rel="noopener noreferrer" class="external-action primary" hidden><i class="fas fa-arrow-up-right-from-square"></i> بازکردن خروجی</a>
+          <button type="button" id="externalAggregateCopy" class="external-action" hidden><i class="far fa-copy"></i> کپی لینک</button>
+        </div>
+      </div>
+
+      <div class="external-toolbar">
+        <div class="external-search"><i class="fas fa-search"></i><input id="externalSearch" type="search" placeholder="جستجوی نام منبع یا دامنه..." autocomplete="off" /></div>
+        <select id="externalStatusFilter" aria-label="فیلتر وضعیت">
+          <option value="all">همه وضعیت‌ها</option><option value="available">قابل دریافت</option><option value="partial">دارای ردیف نامعتبر</option><option value="offline">قطع / خطا</option><option value="unknown">بررسی‌نشده</option><option value="disabled">غیرفعال</option>
+        </select>
+        <select id="externalCategoryFilter" aria-label="فیلتر نوع منبع">
+          <option value="all">همه گروه‌ها</option><option value="github">GitHub</option><option value="workers">Workers</option>
+        </select>
+        <button type="button" id="externalRefreshButton" class="external-refresh"><i class="fas fa-rotate"></i><span>بررسی دوباره گزارش</span></button>
+      </div>
+
+      <div class="external-results-head"><div><strong>فهرست منابع</strong><span id="externalResultsCount">—</span></div><span id="externalReportStatus" role="status">در انتظار دریافت گزارش…</span></div>
+      <div class="external-grid" id="externalSourcesGrid" aria-live="polite">
+        <div class="external-empty"><i class="fas fa-circle-notch fa-spin"></i><strong>در حال آماده‌سازی فهرست منابع…</strong></div>
+      </div>
+      <footer class="external-footer">
+        <span><i class="fas fa-clock"></i> بررسی دوره‌ای با GitHub Actions · هر ۶ ساعت</span>
+        <span>V2ray_Sub · External Lab</span>
+      </footer>
+    </section>
+
 
     <!-- ========== JAVASCRIPT ========== -->
     <script>
@@ -3788,5 +3856,7 @@ body.v5-lock{overflow:hidden}
   setInterval(()=>{if(!document.hidden)load()},60000);
 })();
 </script>
+  <script src="./assets/js/theme-controller.js" defer></script>
+  <script src="./assets/js/external-sources.js" defer></script>
 </body>
 </html>

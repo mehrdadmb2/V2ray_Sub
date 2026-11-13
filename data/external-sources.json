@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "title": "V2ray_Sub · Third-party subscriptions",
+  "description": "External subscriptions are isolated from the primary Mix feed. URLs are opt-in only and are never sent in regular bot updates.",
+  "checkIntervalHours": 6,
+  "maxResponseBytes": 4194304,
+  "sources": [
+    {
+      "id": "shadow-be80",
+      "name": "ShadowProxy · 01",
+      "provider": "ShadowProxy66",
+      "category": "workers",
+      "url": "https://sub.shadowproxy66.workers.dev/sub/be80a76c-6044-417c-9bff-e587f9380d05#ShadowProxy66(1)",
+      "enabled": true,
+      "includeInAggregate": true
+    },
+    {
+      "id": "shadow-214",
+      "name": "ShadowProxy · 02",
+      "provider": "ShadowProxy66",
+      "category": "workers",
+      "url": "https://sub.shadowproxy66.workers.dev/sub/214abfe9-791e-44ba-bd8e-0afe298119f6#ShadowProxy66(2)",
+      "enabled": true,
+      "includeInAggregate": true
+    },
+    {
+      "id": "epodonios",
+      "name": "Epodonios · All Configs",
+      "provider": "Epodonios/v2ray-configs",
+      "category": "github",
+      "url": "https://github.com/Epodonios/v2ray-configs/raw/main/All_Configs_Sub.txt",
+      "enabled": true,
+      "includeInAggregate": true
+    },
+    {
+      "id": "avencores",
+      "name": "AvenCores · Goida 01",
+      "provider": "AvenCores/goida-vpn-configs",
+      "category": "github",
+      "url": "https://raw.githubusercontent.com/AvenCores/goida-vpn-configs/refs/heads/main/githubmirror/1.txt",
+      "enabled": true,
+      "includeInAggregate": true
+    },
+    {
+      "id": "danialsamadi",
+      "name": "Danialsamadi · v2go",
+      "provider": "Danialsamadi/v2go",
+      "category": "github",
+      "url": "https://raw.githubusercontent.com/Danialsamadi/v2go/refs/heads/main/AllConfigsSub.txt",
+      "enabled": true,
+      "includeInAggregate": true
+    },
+    {
+      "id": "family-sub",
+      "name": "Family-Sub · Private candidate",
+      "provider": "mehrdadmb2/Family-Sub",
+      "category": "github",
+      "url": "https://raw.githubusercontent.com/mehrdadmb2/Family-Sub/refs/heads/main/Sub.text",
+      "enabled": true,
+      "includeInAggregate": false,
+      "requiresOptionalSecret": "EXTERNAL_GITHUB_TOKEN",
+      "apiUrl": "https://api.github.com/repos/mehrdadmb2/Family-Sub/contents/Sub.text?ref=main"
+    },
+    {
+      "id": "igareck",
+      "name": "Igareck · Russia Mobile",
+      "provider": "igareck/vpn-configs-for-russia",
+      "category": "github",
+      "url": "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/BLACK_VLESS_RUS_mobile.txt",
+      "enabled": true,
+      "includeInAggregate": true
+    },
+    {
+      "id": "ezaccess-nfz",
+      "name": "EZAccess · NFZ Feed",
+      "provider": "ezaccess125d3a7",
+      "category": "workers",
+      "url": "https://ez-c12347.ezaccess125d3a7.workers.dev/feed/NFZ",
+      "enabled": true,
+      "includeInAggregate": true
+    },
+    {
+      "id": "psg-xray",
+      "name": "PSG · Xray Mix",
+      "provider": "itsyebekhe/PSG",
+      "category": "github",
+      "url": "https://raw.githubusercontent.com/itsyebekhe/PSG/main/subscriptions/xray/mix",
+      "enabled": true,
+      "includeInAggregate": true
+    },
+    {
+      "id": "shadow-736",
+      "name": "ShadowProxy · 03",
+      "provider": "ShadowProxy66",
+      "category": "workers",
+      "url": "https://sub.shadowproxy66.workers.dev/sub/736218dc-3cdf-4e93-bb5b-1d726418e43e#ShadowProxy66(1)",
+      "enabled": true,
+      "includeInAggregate": true
+    },
+    {
+      "id": "shadow-e298",
+      "name": "ShadowProxy · 04",
+      "provider": "ShadowProxy66",
+      "category": "workers",
+      "url": "https://sub.shadowproxy66.workers.dev/sub/e298329f-2274-4b24-8d7c-84183c77dba8#ShadowProxy66(2)",
+      "enabled": true,
+      "includeInAggregate": true
+    },
+    {
+      "id": "shadow-e7c",
+      "name": "ShadowProxy · 05",
+      "provider": "ShadowProxy66",
+      "category": "workers",
+      "url": "https://sub.shadowproxy66.workers.dev/sub/e7c122fa-35f6-4962-9ff4-70ab55e6fbac#ShadowProxy66(3)",
+      "enabled": true,
+      "includeInAggregate": true
+    }
+  ]
+}

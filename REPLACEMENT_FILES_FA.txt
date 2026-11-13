@@ -1,0 +1,25 @@
+V2ray_Sub v5.1 · Replacement package
+
+Extract this archive into the repository root and preserve the included relative paths.
+Do not replace telegram-bot/wrangler.toml, Mix.txt, Irancell.txt, Mci.txt, or existing D1 migrations.
+
+Included complete files:
+- index.html
+- assets/css/external-sources.css
+- assets/js/external-sources.js
+- assets/js/theme-controller.js
+- data/external-sources.json
+- data/external-sources-status.json
+- scripts/fetch-external-sources.mjs
+- scripts/fetch-external-sources.test.mjs
+- .github/workflows/external-sources-check.yml
+- External.txt
+- telegram-bot/src/index.js
+- telegram-bot/package.json
+- telegram-bot/README.md
+- telegram-bot/CHANGELOG_v5_1.md
+- README_UPGRADE_FA.md
+- Pic/GitHub Pages Guide/1.jpg
+- Pic/GitHub Pages Guide/2.jpg
+- Pic/GitHub Pages Guide/3.jpg
+- Pic/GitHub Pages Guide/4.jpg

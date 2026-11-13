@@ -14,8 +14,11 @@
 const APP = {
   name: 'V2ray Sub Radar',
   username: '@V2raySubRadarBot',
-  version: '5.0.0',
+  version: '5.1.0',
   siteUrl: 'https://mehrdadmb2.github.io/V2ray_Sub/',
+  subscriptionUrl: 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/Mix.txt',
+  externalStatusUrl: 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/data/external-sources-status.json',
+  externalFileUrl: 'https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/External.txt',
   repoUrl: 'https://github.com/mehrdadmb2/V2ray_Sub',
   repoApi: 'https://api.github.com/repos/mehrdadmb2/V2ray_Sub',
   webhookPath: '/telegram/webhook',
@@ -25,6 +28,7 @@ const APP = {
   textBatchMessages: 7,
   maxArchiveLinesPerSnapshot: 8000,
   maxDocumentBytes: 50 * 1024 * 1024,
+  maxExternalDocumentBytes: 12 * 1024 * 1024,
   defaultBroadcastBatch: 2,
   maxBroadcastAttemptsPerUser: 3,
   adminUserPageSize: 5,
@@ -88,6 +92,8 @@ const COMMANDS = [
   { command: 'countries', description: '🌍 آمار کشورها + فیلتر' },
   { command: 'protocols', description: '🔌 آمار پروتکل‌ها + فیلتر' },
   { command: 'files', description: '📦 دریافت هر ۳ فایل' },
+  { command: 'guide', description: '🖼 راهنمای تصویری GitHub Pages' },
+  { command: 'npvguide', description: '📲 آموزش افزودن اشتراک در NPV Tunnel' },
   { command: 'mix', description: '🚀 دریافت Mix.txt' },
   { command: 'irancell', description: '📱 دریافت Irancell.txt' },
   { command: 'mci', description: '📡 دریافت Mci.txt' },
@@ -169,7 +175,7 @@ function textResponse(text, status = 200) {
 
 function isConfigCandidate(line) {
   const l = line.toLowerCase();
-  return /^(?:vless|vmess|trojan|ss|socks|http):\/\//.test(l);
+  return /^(?:vless|vmess|trojan|ss|ssr|socks5?|http|hysteria2?|tuic|wireguard):\/\//.test(l);
 }
 
 function normalizeLine(line) {
@@ -482,7 +488,7 @@ ${countryLines.join('\n')}${countryExtra}
 │ SHA-256 منطقی : ${escapeHtml(snapshot.configSha256)}
 ${snapshot.githubCommitSha ? `│ Commit        : ${escapeHtml(snapshot.githubCommitSha.slice(0, 12))}` : '│ Commit        : نامشخص'}
 ╰────────────────────────</pre>`;
-  const links = `<blockquote>🔗 <a href="${escapeHtml(snapshot.url)}">دانلود ${escapeHtml(snapshot.fileName)}</a>
+  const links = `<blockquote>🔗 <a href="${escapeHtml(snapshot.url)}">لینک Subscription · ${escapeHtml(snapshot.label)}</a>
 🌐 <a href="${escapeHtml(APP.siteUrl)}">V2ray_Sub · GitHub Pages</a>${snapshot.githubCommitUrl ? `
 🧾 <a href="${escapeHtml(snapshot.githubCommitUrl)}">مشاهده Commit</a>` : ''}</blockquote>`;
   // Keep the update readable without flooding the chat: three logical messages.
@@ -545,6 +551,10 @@ function mainKeyboard() {
       [
         { text: '🌐 وب‌سایت', url: APP.siteUrl },
         { text: '🛠 راهنما', callback_data: 'help' },
+      ],
+      [
+        { text: '🖼 راهنمای سایت', callback_data: 'guide' },
+        { text: '📲 آموزش NPV Tunnel', callback_data: 'npvguide' },
       ],
       [
         { text: '📦 فایل‌های Subscription', callback_data: 'files' },
@@ -1676,6 +1686,213 @@ async function replyProtocols(env, chatId) {
   ], { inline_keyboard: [[{ text: '🔌 دریافت کانفیگ‌های یک پروتکل', callback_data: `pl|${archiveId}` }], ...mainKeyboard().inline_keyboard] });
 }
 
+
+function safeExternalLink(value) {
+  try {
+    const url = new URL(String(value || ''));
+    if (url.protocol !== 'https:' || url.username || url.password) return null;
+    for (const key of [...url.searchParams.keys()]) {
+      if (/(token|key|secret|auth|password|credential)/i.test(key)) url.searchParams.delete(key);
+    }
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
+async function fetchExternalReport() {
+  const response = await fetchWithTimeout(`${APP.externalStatusUrl}?v=${Date.now()}`, {
+    method: 'GET',
+    headers: { accept: 'application/json', 'cache-control': 'no-cache' },
+  }, 15000);
+  if (!response.ok) throw new Error(`گزارش منابع متفرقه در دسترس نیست (HTTP ${response.status}).`);
+  const report = await response.json();
+  if (!Array.isArray(report?.sources)) throw new Error('ساختار گزارش منابع متفرقه معتبر نیست.');
+  return report;
+}
+
+// Optional on-demand area: this function is deliberately not added to COMMANDS,
+// BotFather's menu, /start or normal update broadcasts.
+async function replyExternalSources(env, chatId) {
+  const report = await fetchExternalReport();
+  const statusLabel = {
+    available: '🟢 قابل دریافت',
+    partial: '🟠 دارای ردیف نامعتبر',
+    offline: '🔴 خطا / قطع',
+    empty: '⚪ بدون کانفیگ معتبر',
+    unknown: '⚫ بررسی‌نشده',
+    disabled: '⏸ غیرفعال',
+  };
+  const rows = report.sources.map((source, index) => {
+    const hasValidatedCount = source.validConfigCount != null;
+    const rawCount = hasValidatedCount ? source.validConfigCount : source.configCount;
+    const count = rawCount == null ? '—' : formatNumber(rawCount);
+    const countType = report.checkMode === 'initial-tool-check' && !hasValidatedCount ? 'URI شناسایی‌شده اولیه' : 'URI معتبر';
+    const url = safeExternalLink(source.url);
+    const link = url ? ` · <a href="${escapeHtml(url)}">بازکردن لینک</a>` : '';
+    const code = source.httpStatus ? ` · HTTP ${escapeHtml(source.httpStatus)}` : '';
+    return `${index + 1}. <b>${escapeHtml(source.name || source.id)}</b>\n${statusLabel[source.health] || statusLabel.unknown} · <code>${count}</code> ${countType}${code}${link}`;
+  });
+  const aggregateCount = Number(report.aggregate?.configCount || 0);
+  const aggregateLine = aggregateCount > 0
+    ? `\n\n📦 <a href="${escapeHtml(safeExternalLink(APP.externalFileUrl) || APP.externalFileUrl)}">خروجی ترکیبی External.txt</a> · <code>${formatNumber(aggregateCount)}</code> کانفیگ${report.aggregate?.stale ? ' · ⚠️ آخرین خروجی موفق (قدیمی)' : ''}`
+    : '\n\n📦 خروجی ترکیبی هنوز ساخته نشده است؛ Workflow مربوط به منابع متفرقه را اجرا کن.';
+  const header = `<blockquote>🧪 <b>منابع متفرقه · بررسی دستی</b>\nاین بخش از Mix اصلی مستقل است و فقط با درخواست مستقیم نمایش داده می‌شود.</blockquote>`;
+  const notes = `<blockquote>⏱ آخرین گزارش: <code>${escapeHtml(formatTehran(report.generatedAt))}</code>\n⚠️ تعداد URI معتبر به معنی آنلاین بودن یا کارکرد قطعی سرور نیست.${aggregateLine}</blockquote>`;
+  await sendHtmlSections(env, chatId, [
+    header,
+    rows.join('\n\n'),
+    notes,
+  ], mainKeyboard());
+}
+
+async function readTextLimited(response, maxBytes) {
+  if (!response.body) {
+    const text = await response.text();
+    return new TextEncoder().encode(text).byteLength > maxBytes ? { tooLarge: true, text: '' } : { tooLarge: false, text };
+  }
+  const reader = response.body.getReader();
+  const chunks = [];
+  let total = 0;
+  let timedOut = false;
+  const readTimer = setTimeout(() => {
+    timedOut = true;
+    reader.cancel().catch(() => {});
+  }, 20000);
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (timedOut) throw new Error('دریافت فایل External.txt بیش از حد طول کشید.');
+      if (done) break;
+      total += value.byteLength;
+      if (total > maxBytes) {
+        await reader.cancel();
+        return { tooLarge: true, text: '' };
+      }
+      chunks.push(value);
+    }
+  } finally {
+    clearTimeout(readTimer);
+    reader.releaseLock();
+  }
+  const merged = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    merged.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return { tooLarge: false, text: new TextDecoder('utf-8').decode(merged) };
+}
+
+async function sendExternalMix(env, chatId) {
+  const report = await fetchExternalReport();
+  const expected = Number(report.aggregate?.configCount || 0);
+  if (expected < 1) {
+    await sendMessage(env, chatId, '⚠️ خروجی ترکیبی منابع متفرقه هنوز کانفیگ معتبر ندارد. ابتدا Workflow منابع متفرقه را در GitHub Actions اجرا کن.', mainKeyboard());
+    return;
+  }
+  const response = await fetchWithTimeout(`${APP.externalFileUrl}?v=${Date.now()}`, {
+    method: 'GET',
+    headers: { accept: 'text/plain,*/*', 'cache-control': 'no-cache' },
+  }, 20000);
+  if (!response.ok) throw new Error(`دریافت External.txt ناموفق بود (HTTP ${response.status}).`);
+  const declaredBytes = Number(response.headers.get('content-length') || 0);
+  if (declaredBytes > APP.maxExternalDocumentBytes) {
+    await sendHtmlMessage(env, chatId,
+      `📦 <b>بسته متفرقه حجیم است.</b>\nبرای جلوگیری از ارسال فایل بسیار بزرگ از Worker، لینک مستقیم دانلود را باز کن:\n<a href="${escapeHtml(APP.externalFileUrl)}">دانلود External.txt</a>\n\nحجم ثبت‌شده: <code>${formatBytes(declaredBytes)}</code>${report.aggregate?.stale ? '\n⚠️ این آخرین خروجی موفق قبلی است و ممکن است قدیمی باشد.' : ''}`,
+      mainKeyboard());
+    return;
+  }
+  const bounded = await readTextLimited(response, APP.maxExternalDocumentBytes);
+  if (bounded.tooLarge) {
+    await sendHtmlMessage(env, chatId,
+      `📦 <b>بسته متفرقه از سقف ارسال مستقیم بزرگ‌تر است.</b>
+برای جلوگیری از مصرف حافظهٔ Worker، لینک دانلود مستقیم را باز کن:
+<a href="${escapeHtml(APP.externalFileUrl)}">دانلود External.txt</a>${report.aggregate?.stale ? '\n⚠️ این آخرین خروجی موفق قبلی است و ممکن است قدیمی باشد.' : ''}`,
+      mainKeyboard());
+    return;
+  }
+  const text = bounded.text;
+  if (!text.trim() || !extractConfigLines(text).length) throw new Error('External.txt خالی است یا کانفیگ قابل‌شناسایی ندارد.');
+  await sendDocument(
+    env,
+    chatId,
+    text,
+    `V2ray_Sub_External_${Date.now()}.txt`,
+    `🧪 <b>بسته مستقل منابع متفرقه</b>\n📦 URI معتبر گزارش‌شده: <code>${formatNumber(expected)}</code>\n${report.aggregate?.stale ? '⚠️ آخرین خروجی موفق قبلی؛ ممکن است قدیمی باشد.\n' : ''}🔒 مستقل از Mix اصلی · ${escapeHtml(formatTehran(report.generatedAt))}`,
+    mainKeyboard(),
+  );
+}
+
+async function sendGuideImages(env, chatId, images, closingText) {
+  for (let index = 0; index < images.length; index += 1) {
+    const { path, title, description } = images[index];
+    const photo = `https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/${path.split('/').map(encodeURIComponent).join('/')}`;
+    const caption = `<b>گام ${index + 1} از ${images.length} · ${escapeHtml(title)}</b>\n${escapeHtml(description)}`;
+    try {
+      await sendTelegram(env, 'sendPhoto', {
+        chat_id: String(chatId),
+        photo,
+        caption,
+        parse_mode: 'HTML',
+      });
+    } catch (error) {
+      // Telegram may occasionally fail to fetch an image from GitHub Raw.
+      // Keep the guide usable: send its direct image URL and step description.
+      await sendHtmlMessage(env, chatId,
+        `${caption}\n\n🖼 <a href="${escapeHtml(photo)}">بازکردن تصویر این مرحله</a>\n<code>${escapeHtml(String(error?.message || 'ارسال تصویر ناموفق بود').slice(0, 180))}</code>`);
+    }
+    if (index < images.length - 1) await sleep(1050);
+  }
+  await sendHtmlMessage(env, chatId, closingText, mainKeyboard());
+}
+
+async function sendVisualGuide(env, chatId) {
+  const images = [
+    {
+      path: 'Pic/GitHub Pages Guide/1.jpg',
+      title: 'ورود به صفحه اصلی',
+      description: 'آدرس رسمی GitHub Pages را باز کن. کارت اشتراک اصلی در صفحه اول قرار دارد.',
+    },
+    {
+      path: 'Pic/GitHub Pages Guide/2.jpg',
+      title: 'کپی لینک اشتراک اصلی',
+      description: 'از کارت اشتراک اصلی یا میانبر کپی لینک استفاده کن. این لینک متعلق به Mix اصلی پروژه است.',
+    },
+    {
+      path: 'Pic/GitHub Pages Guide/3.jpg',
+      title: 'فضای جداگانه متفرقه',
+      description: 'منابع شخص ثالث در صفحه اصلی نمایش داده نمی‌شوند. برای دیدن آن‌ها روی دکمه متفرقه بزن.',
+    },
+    {
+      path: 'Pic/GitHub Pages Guide/4.jpg',
+      title: 'افزودن لینک در کلاینت',
+      description: 'لینک کپی‌شده را در بخش Subscription یا Profile کلاینت وارد کن و سپس Update یا Refresh بزن.',
+    },
+  ];
+  await sendGuideImages(env, chatId, images,
+    `✅ <b>راهنمای تصویری سایت تمام شد.</b>\n\nلینک اشتراک اصلی Mix:\n<code>${escapeHtml(APP.subscriptionUrl)}</code>\n\n🌐 <a href="${escapeHtml(APP.siteUrl)}">بازکردن GitHub Pages</a>`,
+  );
+}
+
+async function sendNpvGuide(env, chatId) {
+  const steps = [
+    ['برنامه را باز کن و وارد Config شو', 'NPV Tunnel را باز کن و از نوار پایین وارد بخش Configs شو.'],
+    ['دکمه + را بزن', 'در پایین صفحه روی دکمه + برای افزودن تنظیم جدید بزن.'],
+    ['Add Subscription را انتخاب کن', 'از گزینه‌های نمایش‌داده‌شده، Add Subscription را انتخاب کن.'],
+    ['نام و لینک را وارد کن', 'نام دلخواه و لینک Subscription اصلی را وارد کن.'],
+    ['Refresh و اتصال را بررسی کن', 'ذخیره کن، Refresh بزن و سپس یک سرور مناسب را انتخاب کن.'],
+  ];
+  const images = steps.map(([title, description], index) => ({
+    path: `Pic/NPV tunnel/${index + 1}.jpg`,
+    title,
+    description,
+  }));
+  await sendGuideImages(env, chatId, images,
+    `✅ <b>آموزش NPV Tunnel تمام شد.</b>\n\nلینک اشتراک اصلی Mix:\n<code>${escapeHtml(APP.subscriptionUrl)}</code>`,
+  );
+}
+
 async function replyHelp(env, chatId) {
   const commands = COMMANDS.filter(c => c.command !== 'id').map(c => `/${c.command} — ${c.description}`).join('\n');
   await sendHtmlSections(env, chatId, [
@@ -1747,6 +1964,19 @@ async function handleCommand(env, message, rawCommand, fullText = '', request = 
     case '/files':
       await sendAllFiles(env, chat.id);
       return;
+    case '/guide':
+      await sendVisualGuide(env, chat.id);
+      return;
+    case '/npvguide':
+      await sendNpvGuide(env, chat.id);
+      return;
+    case '/external':
+      await replyExternalSources(env, chat.id);
+      return;
+    case '/externalmix':
+    case '/external_text':
+      await sendExternalMix(env, chat.id);
+      return;
     case '/irancell':
       await sendSingleSource(env, chat.id, SOURCES[1]);
       return;
@@ -1806,6 +2036,8 @@ async function handleCallback(env, callback, request, ctx) {
   if (!chatId) return;
   const data = String(callback.data || '');
   const origin = new URL(request.url).origin;
+  if (data === 'guide') return sendVisualGuide(env, chatId);
+  if (data === 'npvguide') return sendNpvGuide(env, chatId);
   if (data === 'latest') return getMixForUser(env, chatId);
   if (data === 'text:latest') return sendLatestText(env, chatId, origin);
   if (data === 'history') return sendHistoryList(env, chatId);

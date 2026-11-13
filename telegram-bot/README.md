@@ -48,3 +48,17 @@ This upgrade targets the currently deployed `@V2raySubRadarBot` and the existing
 ## Automatic update behavior
 
 The existing GitHub Action is still the source of update signals, and no Cron trigger is needed. Its current path filter watches `Mix.txt`. When Mix changes, the Worker broadcasts the Mix update and Mix file only. Irancell/MCI remain accessible through `/irancell`, `/mci`, and `/files` for manual download.
+
+
+## v5.1 — isolated external sources and visual guide
+
+- `/guide` sends a four-step illustrated GitHub Pages guide: open the site, copy the main subscription, enter the separate External workspace, and import a link in a client. The inline keyboard opens the same guide.
+- `/npvguide` sends the five existing NPV Tunnel screenshots for users who need app-specific import steps.
+- Every normal Mix update includes the direct link to the current primary subscription in its update details.
+- Two optional commands are intentionally kept out of `/start`, `/help`, the regular inline keyboard and BotFather's command menu:
+  - `/external` — show the separate third-party source report and openable links only after a user explicitly asks.
+  - `/externalmix` — send the separately generated `External.txt` bundle, if it contains valid configurations.
+- External source checks are performed by the repository workflow. They never modify `Mix.txt`, do not trigger the normal Mix broadcast and do not require a D1 migration.
+- The external workflow reads `data/external-sources.json` and writes only `data/external-sources-status.json` and `External.txt`.
+
+After deploying `src/index.js`, refresh Telegram's command list using the existing authenticated setup endpoint (`POST /admin/setup`). Do not change the existing D1 ID or redeploy any other Worker settings from a placeholder template.
