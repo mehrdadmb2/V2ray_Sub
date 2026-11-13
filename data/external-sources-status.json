@@ -12,31 +12,31 @@
     "rawFile": "External-raw.txt",
     "url": "https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/External.txt",
     "rawUrl": "https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/External-raw.txt",
-    "configCount": 3154,
+    "configCount": 3165,
     "rawCount": 3777,
-    "uniqueCount": 3154,
-    "bytes": 1066714,
+    "uniqueCount": 3165,
+    "bytes": 861168,
     "rawSha256": "3fb1c7da7ffc93b728b945a9203dee70442be26615dd0854cf71b5ec874bd0fc",
     "rawUpdatedAt": "2026-11-13T09:54:37.982Z",
     "rawStale": false,
-    "processedAt": "2026-11-13T09:46:51.736Z",
-    "processedStale": true,
-    "sha256": "7cde72e0254fc9b0f92563a10d4faad3e3650e14be9f4e375e2465177d7470ba",
-    "updatedAt": "2026-11-13T09:46:51.736Z",
-    "stale": true
+    "processedAt": "2026-11-13T09:54:54.521Z",
+    "processedStale": false,
+    "sha256": "68ddf52b4e7c4c118fcd7e7a0ec6fb3d5522fea0a67ee48920cd9aee7909f374",
+    "updatedAt": "2026-11-13T09:54:54.521Z",
+    "stale": false
   },
   "processed": {
     "file": "data/external-processed.json",
-    "generatedAt": "2026-11-13T09:46:51.736Z",
+    "generatedAt": "2026-11-13T09:54:54.521Z",
     "inputCount": 3777,
-    "processedCount": 3154,
-    "duplicateCount": 601,
+    "processedCount": 3165,
+    "duplicateCount": 590,
     "invalidCount": 22,
     "protocols": {
-      "vmess": 361,
+      "vmess": 364,
       "ss": 286,
       "trojan": 172,
-      "vless": 2324,
+      "vless": 2332,
       "hysteria2": 11
     },
     "countries": [
@@ -44,25 +44,25 @@
         "code": "US",
         "flag": "🇺🇸",
         "label": "آمریکا",
-        "count": 602
+        "count": 607
       },
       {
         "code": "CA",
         "flag": "🇨🇦",
         "label": "کانادا",
-        "count": 455
+        "count": 458
       },
       {
         "code": "ZZ",
         "flag": "🏴‍☠️",
         "label": "نامشخص",
-        "count": 413
+        "count": 412
       },
       {
         "code": "DE",
         "flag": "🇩🇪",
         "label": "آلمان",
-        "count": 323
+        "count": 326
       },
       {
         "code": "NL",
@@ -74,7 +74,7 @@
         "code": "FR",
         "flag": "🇫🇷",
         "label": "فرانسه",
-        "count": 238
+        "count": 239
       },
       {
         "code": "JP",
@@ -365,7 +365,14 @@
         "count": 1
       }
     ],
-    "sourceProcessed": {}
+    "sourceProcessed": {
+      "danialsamadi": 644,
+      "shadow-736": 1026,
+      "psg-xray": 309,
+      "shadow-e298": 524,
+      "shadow-e7c": 1103,
+      "igareck": 149
+    }
   },
   "sources": [
     {
@@ -385,7 +392,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "shadow-214",
@@ -404,7 +412,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "epodonios",
@@ -423,7 +432,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "avencores",
@@ -442,7 +452,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "danialsamadi",
@@ -470,7 +481,8 @@
       "etag": "W/\"742f60f60972e7e17feb37f25353baf7cd9d0f939612097db50093b8ba561077\"",
       "lastModified": null,
       "contentSha256": "c5c1e29a1f0b3f789df1999be7741554696e700302c8432188f08bb5a9241699",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 644
     },
     {
       "id": "family-sub",
@@ -489,7 +501,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "igareck",
@@ -516,7 +529,8 @@
       "etag": "W/\"c0ffd677bc629869137f5c31d58661d3571a260fd809ddb71642adf6b90504da\"",
       "lastModified": null,
       "contentSha256": "5c3bb6159dc68f9857fa2ae2a81f438c50b729084a4249acc352507d332d163c",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 149
     },
     {
       "id": "ezaccess-nfz",
@@ -535,7 +549,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 500"
+      "note": "HTTP 500",
+      "processedConfigCount": 0
     },
     {
       "id": "psg-xray",
@@ -562,7 +577,8 @@
       "etag": "W/\"2199895b7aabd2bf3d02cfa130514c69c479e440030c95aa512e6b95705d95fe\"",
       "lastModified": null,
       "contentSha256": "edd8184f483725fa99fd7e3abf6769fb6a438df533c758093ee48531dbc3d1db",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 309
     },
     {
       "id": "shadow-736",
@@ -591,7 +607,8 @@
       "etag": null,
       "lastModified": null,
       "contentSha256": "366cee580627e5a59efc362262d9f96f64c16f4eecc76bf9b9e6da9187718252",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 1026
     },
     {
       "id": "shadow-e298",
@@ -620,7 +637,8 @@
       "etag": null,
       "lastModified": null,
       "contentSha256": "a4b6133ce4f2e8543195222f2d2bc99c4a43b7fffe93eb63d29d70a21a415215",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 524
     },
     {
       "id": "shadow-e7c",
@@ -648,7 +666,8 @@
       "etag": null,
       "lastModified": null,
       "contentSha256": "69542e841de67708d47f13023242880e8d439e87006ac940e4887d122d26711c",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 1103
     }
   ]
 }
