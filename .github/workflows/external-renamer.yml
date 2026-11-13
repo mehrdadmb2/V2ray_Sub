@@ -1,0 +1,55 @@
+name: External Subscriptions · Rename & Index
+
+on:
+  workflow_run:
+    workflows: ["External Subscriptions · Health & Parser"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: external-subscriptions-renamer
+  cancel-in-progress: false
+
+jobs:
+  rename-and-index:
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout latest main (contains the newly fetched raw file)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate scripts and run parser/renamer tests
+        run: |
+          node --check scripts/fetch-external-sources.mjs
+          node --check scripts/process-external-subscriptions.mjs
+          node --test scripts/fetch-external-sources.test.mjs scripts/process-external-subscriptions.test.mjs
+
+      - name: Rename, timestamp, country-tag, deduplicate and build index
+        run: node scripts/process-external-subscriptions.mjs
+
+      - name: Commit processed External.txt and metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add External.txt data/external-processed.json data/external-sources-status.json
+          if git diff --cached --quiet; then
+            echo "Processed external bundle is unchanged."
+            exit 0
+          fi
+          git commit -m "chore(external): rename and index third-party configs"
+          git pull --rebase origin main
+          git push origin HEAD:main

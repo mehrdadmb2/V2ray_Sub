@@ -10,6 +10,8 @@ on:
       - 'data/external-sources.json'
       - 'scripts/fetch-external-sources.mjs'
       - 'scripts/fetch-external-sources.test.mjs'
+      - 'scripts/process-external-subscriptions.mjs'
+      - 'scripts/process-external-subscriptions.test.mjs'
       - '.github/workflows/external-sources-check.yml'
 
 permissions:
@@ -37,7 +39,8 @@ jobs:
       - name: Validate collector syntax and parser tests
         run: |
           node --check scripts/fetch-external-sources.mjs
-          node --test scripts/fetch-external-sources.test.mjs
+          node --check scripts/process-external-subscriptions.mjs
+          node --test scripts/fetch-external-sources.test.mjs scripts/process-external-subscriptions.test.mjs
           node --check telegram-bot/src/index.js
           node --check assets/js/external-sources.js
           node --check assets/js/theme-controller.js
@@ -54,10 +57,10 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add External.txt data/external-sources-status.json
+          git add External-raw.txt data/external-raw-index.json data/external-sources-status.json
           if git diff --cached --quiet; then
             echo "No generated external data changes."
             exit 0
           fi
-          git commit -m "chore(external): refresh isolated subscription health"
+          git commit -m "chore(external): refresh isolated raw subscriptions"
           git push
