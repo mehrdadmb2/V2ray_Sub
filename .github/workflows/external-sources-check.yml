@@ -1,0 +1,63 @@
+name: External Subscriptions · Health & Parser
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'data/external-sources.json'
+      - 'scripts/fetch-external-sources.mjs'
+      - 'scripts/fetch-external-sources.test.mjs'
+      - '.github/workflows/external-sources-check.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: external-subscriptions-check
+  cancel-in-progress: false
+
+jobs:
+  fetch-validate-and-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate collector syntax and parser tests
+        run: |
+          node --check scripts/fetch-external-sources.mjs
+          node --test scripts/fetch-external-sources.test.mjs
+          node --check telegram-bot/src/index.js
+          node --check assets/js/external-sources.js
+          node --check assets/js/theme-controller.js
+
+      - name: Fetch external subscriptions and build isolated report
+        env:
+          EXTERNAL_GITHUB_TOKEN: ${{ secrets.EXTERNAL_GITHUB_TOKEN }}
+          EXTERNAL_FETCH_TIMEOUT_MS: '15000'
+        run: node scripts/fetch-external-sources.mjs
+
+      - name: Commit generated external data only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add External.txt data/external-sources-status.json
+          if git diff --cached --quiet; then
+            echo "No generated external data changes."
+            exit 0
+          fi
+          git commit -m "chore(external): refresh isolated subscription health"
+          git push
