@@ -12,123 +12,129 @@
     "rawFile": "External-raw.txt",
     "url": "https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/External.txt",
     "rawUrl": "https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/External-raw.txt",
-    "configCount": 3565,
+    "configCount": 2387,
     "rawCount": 2756,
-    "uniqueCount": 3565,
-    "bytes": 759945,
+    "uniqueCount": 2387,
+    "bytes": 647477,
     "rawSha256": "d3d07bad31b5ed1d8bed00645ef23d02abf5945bab96e12065dec4a81261fd0e",
     "rawUpdatedAt": "2026-11-14T17:58:45.463Z",
     "rawStale": false,
-    "processedAt": "2026-11-14T06:18:52.953Z",
-    "processedStale": true,
-    "sha256": "da1fbda4f60f2fcd4ed18d66c2edebe774291d6cea825ea9abda6d224f43f88e",
-    "updatedAt": "2026-11-14T06:18:52.953Z",
-    "stale": true
+    "processedAt": "2026-11-14T17:59:04.588Z",
+    "processedStale": false,
+    "sha256": "f20d2330ffe86714cfd8ae49096e1d61e4a50ce9953ca10574ff80cf022c0de1",
+    "updatedAt": "2026-11-14T17:59:04.588Z",
+    "stale": false
   },
   "processed": {
     "file": "data/external-processed.json",
-    "generatedAt": "2026-11-14T06:18:52.953Z",
-    "inputCount": 4220,
-    "processedCount": 3565,
-    "duplicateCount": 633,
-    "invalidCount": 22,
+    "generatedAt": "2026-11-14T17:59:04.588Z",
+    "inputCount": 2756,
+    "processedCount": 2387,
+    "duplicateCount": 355,
+    "invalidCount": 14,
     "protocols": {
-      "ss": 305,
-      "trojan": 227,
-      "vmess": 323,
-      "vless": 2703,
-      "hysteria2": 7
+      "vmess": 380,
+      "ss": 285,
+      "trojan": 189,
+      "vless": 1524,
+      "hysteria2": 9
     },
     "countries": [
-      {
-        "code": "CA",
-        "flag": "🇨🇦",
-        "label": "کانادا",
-        "count": 847
-      },
       {
         "code": "US",
         "flag": "🇺🇸",
         "label": "آمریکا",
-        "count": 620
+        "count": 634
       },
       {
         "code": "ZZ",
         "flag": "🏴‍☠️",
         "label": "نامشخص",
-        "count": 472
+        "count": 414
       },
       {
         "code": "DE",
         "flag": "🇩🇪",
         "label": "آلمان",
-        "count": 445
+        "count": 233
       },
       {
         "code": "NL",
         "flag": "🇳🇱",
         "label": "هلند",
-        "count": 319
+        "count": 227
       },
       {
         "code": "JP",
         "flag": "🇯🇵",
         "label": "ژاپن",
-        "count": 147
-      },
-      {
-        "code": "GB",
-        "flag": "🇬🇧",
-        "label": "بریتانیا",
-        "count": 80
+        "count": 130
       },
       {
         "code": "SG",
         "flag": "🇸🇬",
         "label": "سنگاپور",
-        "count": 77
+        "count": 79
+      },
+      {
+        "code": "CA",
+        "flag": "🇨🇦",
+        "label": "کانادا",
+        "count": 75
       },
       {
         "code": "FR",
         "flag": "🇫🇷",
         "label": "فرانسه",
-        "count": 76
+        "count": 66
       },
       {
-        "code": "AE",
-        "flag": "🇦🇪",
-        "label": "امارات",
-        "count": 43
+        "code": "GB",
+        "flag": "🇬🇧",
+        "label": "بریتانیا",
+        "count": 59
       },
       {
         "code": "PL",
         "flag": "🇵🇱",
         "label": "لهستان",
-        "count": 43
+        "count": 52
       },
       {
         "code": "ES",
         "flag": "🇪🇸",
         "label": "اسپانیا",
-        "count": 37
+        "count": 43
       },
       {
-        "code": "SE",
-        "flag": "🇸🇪",
-        "label": "سوئد",
-        "count": 30
+        "code": "AE",
+        "flag": "🇦🇪",
+        "label": "امارات",
+        "count": 35
       },
       {
         "code": "HK",
         "flag": "🇭🇰",
         "label": "هنگ‌کنگ",
+        "count": 34
+      },
+      {
+        "code": "SE",
+        "flag": "🇸🇪",
+        "label": "سوئد",
         "count": 26
+      },
+      {
+        "code": "TR",
+        "flag": "🇹🇷",
+        "label": "ترکیه",
+        "count": 24
       },
       {
         "code": "FI",
         "flag": "🇫🇮",
         "label": "فنلاند",
-        "count": 26
+        "count": 23
       },
       {
         "code": "CH",
@@ -137,45 +143,39 @@
         "count": 21
       },
       {
-        "code": "TR",
-        "flag": "🇹🇷",
-        "label": "ترکیه",
-        "count": 21
-      },
-      {
         "code": "IR",
         "flag": "🇮🇷",
         "label": "ایران",
-        "count": 20
-      },
-      {
-        "code": "RU",
-        "flag": "🇷🇺",
-        "label": "روسیه",
-        "count": 15
+        "count": 21
       },
       {
         "code": "KR",
         "flag": "🇰🇷",
         "label": "کره‌جنوبی",
-        "count": 15
-      },
-      {
-        "code": "AU",
-        "flag": "🇦🇺",
-        "label": "استرالیا",
-        "count": 15
+        "count": 17
       },
       {
         "code": "NG",
         "flag": "🇳🇬",
         "label": "NG",
-        "count": 15
+        "count": 14
+      },
+      {
+        "code": "AU",
+        "flag": "🇦🇺",
+        "label": "استرالیا",
+        "count": 14
       },
       {
         "code": "IN",
         "flag": "🇮🇳",
         "label": "هند",
+        "count": 14
+      },
+      {
+        "code": "RU",
+        "flag": "🇷🇺",
+        "label": "روسیه",
         "count": 13
       },
       {
@@ -188,66 +188,30 @@
         "code": "BR",
         "flag": "🇧🇷",
         "label": "برزیل",
-        "count": 12
-      },
-      {
-        "code": "BE",
-        "flag": "🇧🇪",
-        "label": "بلژیک",
-        "count": 12
+        "count": 7
       },
       {
         "code": "EE",
         "flag": "🇪🇪",
         "label": "EE",
-        "count": 10
+        "count": 7
       },
       {
         "code": "BG",
         "flag": "🇧🇬",
         "label": "بلغارستان",
-        "count": 7
-      },
-      {
-        "code": "AL",
-        "flag": "🇦🇱",
-        "label": "AL",
-        "count": 7
+        "count": 6
       },
       {
         "code": "CZ",
         "flag": "🇨🇿",
         "label": "چک",
-        "count": 6
+        "count": 5
       },
       {
         "code": "ZA",
         "flag": "🇿🇦",
         "label": "آفریقای جنوبی",
-        "count": 6
-      },
-      {
-        "code": "SC",
-        "flag": "🇸🇨",
-        "label": "SC",
-        "count": 6
-      },
-      {
-        "code": "MY",
-        "flag": "🇲🇾",
-        "label": "مالزی",
-        "count": 6
-      },
-      {
-        "code": "IT",
-        "flag": "🇮🇹",
-        "label": "ایتالیا",
-        "count": 6
-      },
-      {
-        "code": "AT",
-        "flag": "🇦🇹",
-        "label": "اتریش",
         "count": 5
       },
       {
@@ -257,21 +221,75 @@
         "count": 5
       },
       {
+        "code": "VN",
+        "flag": "🇻🇳",
+        "label": "ویتنام",
+        "count": 5
+      },
+      {
         "code": "RO",
         "flag": "🇷🇴",
         "label": "رومانی",
-        "count": 4
+        "count": 5
+      },
+      {
+        "code": "IT",
+        "flag": "🇮🇹",
+        "label": "ایتالیا",
+        "count": 5
       },
       {
         "code": "TH",
         "flag": "🇹🇭",
         "label": "تایلند",
+        "count": 5
+      },
+      {
+        "code": "AL",
+        "flag": "🇦🇱",
+        "label": "AL",
+        "count": 5
+      },
+      {
+        "code": "MY",
+        "flag": "🇲🇾",
+        "label": "مالزی",
+        "count": 4
+      },
+      {
+        "code": "LV",
+        "flag": "🇱🇻",
+        "label": "LV",
+        "count": 4
+      },
+      {
+        "code": "LK",
+        "flag": "🇱🇰",
+        "label": "LK",
+        "count": 4
+      },
+      {
+        "code": "RS",
+        "flag": "🇷🇸",
+        "label": "RS",
+        "count": 4
+      },
+      {
+        "code": "SK",
+        "flag": "🇸🇰",
+        "label": "SK",
+        "count": 4
+      },
+      {
+        "code": "AT",
+        "flag": "🇦🇹",
+        "label": "اتریش",
         "count": 3
       },
       {
-        "code": "CY",
-        "flag": "🇨🇾",
-        "label": "CY",
+        "code": "BE",
+        "flag": "🇧🇪",
+        "label": "بلژیک",
         "count": 3
       },
       {
@@ -281,9 +299,9 @@
         "count": 3
       },
       {
-        "code": "LV",
-        "flag": "🇱🇻",
-        "label": "LV",
+        "code": "MX",
+        "flag": "🇲🇽",
+        "label": "MX",
         "count": 3
       },
       {
@@ -293,34 +311,28 @@
         "count": 2
       },
       {
-        "code": "IE",
-        "flag": "🇮🇪",
-        "label": "ایرلند",
-        "count": 2
-      },
-      {
-        "code": "IL",
-        "flag": "🇮🇱",
-        "label": "IL",
-        "count": 2
-      },
-      {
-        "code": "UA",
-        "flag": "🇺🇦",
-        "label": "اوکراین",
-        "count": 2
-      },
-      {
         "code": "NO",
         "flag": "🇳🇴",
         "label": "نروژ",
         "count": 2
       },
       {
-        "code": "TW",
-        "flag": "🇹🇼",
-        "label": "تایوان",
+        "code": "SC",
+        "flag": "🇸🇨",
+        "label": "SC",
         "count": 2
+      },
+      {
+        "code": "CY",
+        "flag": "🇨🇾",
+        "label": "CY",
+        "count": 2
+      },
+      {
+        "code": "IE",
+        "flag": "🇮🇪",
+        "label": "ایرلند",
+        "count": 1
       },
       {
         "code": "MU",
@@ -329,51 +341,21 @@
         "count": 1
       },
       {
-        "code": "IQ",
-        "flag": "🇮🇶",
-        "label": "IQ",
+        "code": "IL",
+        "flag": "🇮🇱",
+        "label": "IL",
         "count": 1
       },
       {
-        "code": "RS",
-        "flag": "🇷🇸",
-        "label": "RS",
+        "code": "UA",
+        "flag": "🇺🇦",
+        "label": "اوکراین",
         "count": 1
       },
       {
-        "code": "MX",
-        "flag": "🇲🇽",
-        "label": "MX",
-        "count": 1
-      },
-      {
-        "code": "UZ",
-        "flag": "🇺🇿",
-        "label": "UZ",
-        "count": 1
-      },
-      {
-        "code": "DK",
-        "flag": "🇩🇰",
-        "label": "دانمارک",
-        "count": 1
-      },
-      {
-        "code": "NZ",
-        "flag": "🇳🇿",
-        "label": "نیوزیلند",
-        "count": 1
-      },
-      {
-        "code": "HU",
-        "flag": "🇭🇺",
-        "label": "مجارستان",
-        "count": 1
-      },
-      {
-        "code": "VN",
-        "flag": "🇻🇳",
-        "label": "ویتنام",
+        "code": "TW",
+        "flag": "🇹🇼",
+        "label": "تایوان",
         "count": 1
       },
       {
@@ -381,33 +363,15 @@
         "flag": "🇬🇷",
         "label": "یونان",
         "count": 1
-      },
-      {
-        "code": "LU",
-        "flag": "🇱🇺",
-        "label": "LU",
-        "count": 1
-      },
-      {
-        "code": "AM",
-        "flag": "🇦🇲",
-        "label": "AM",
-        "count": 1
-      },
-      {
-        "code": "AR",
-        "flag": "🇦🇷",
-        "label": "AR",
-        "count": 1
       }
     ],
     "sourceProcessed": {
-      "danialsamadi": 603,
-      "shadow-736": 1256,
-      "psg-xray": 306,
-      "shadow-e298": 535,
-      "shadow-e7c": 1348,
-      "igareck": 150
+      "danialsamadi": 548,
+      "shadow-736": 990,
+      "psg-xray": 308,
+      "shadow-e298": 395,
+      "shadow-e7c": 359,
+      "igareck": 142
     }
   },
   "sources": [
@@ -428,7 +392,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "shadow-214",
@@ -447,7 +412,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "epodonios",
@@ -466,7 +432,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "avencores",
@@ -485,7 +452,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "danialsamadi",
@@ -513,7 +481,8 @@
       "etag": "W/\"c00066a55cd77d11109dccca607fc88c88ee99c43dc3c7e8b5297aeefe9b5599\"",
       "lastModified": null,
       "contentSha256": "30d2229d3455a7bc10010af5ef6a069f4d58b0fd7dcffd2c3d6da70ea7159776",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 548
     },
     {
       "id": "family-sub",
@@ -532,7 +501,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404"
+      "note": "HTTP 404",
+      "processedConfigCount": 0
     },
     {
       "id": "igareck",
@@ -558,7 +528,8 @@
       "etag": "W/\"7e472431a8378584cbd6287767d8bb32a6a7e3a4de508988d00d8aae9dac860c\"",
       "lastModified": null,
       "contentSha256": "f5a0187a5f0d60514127a5b35e6918dbe5dbf18b43975966eda55278807af6bd",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 142
     },
     {
       "id": "ezaccess-nfz",
@@ -577,7 +548,8 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 500"
+      "note": "HTTP 500",
+      "processedConfigCount": 0
     },
     {
       "id": "psg-xray",
@@ -604,7 +576,8 @@
       "etag": "W/\"0f894f90dcd9d284c06cd8ce54af7cb738431b2b27249c42c809a91a0481bfd8\"",
       "lastModified": null,
       "contentSha256": "d6365787d35142fead293c6499af5bec4d0dada7a72fc29601554b68aef72a25",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 308
     },
     {
       "id": "shadow-736",
@@ -633,7 +606,8 @@
       "etag": null,
       "lastModified": null,
       "contentSha256": "0fb6d696ee0744bc15eb9a4ba484a66aafb9ec0b93acc6647d6e894443e060f9",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 990
     },
     {
       "id": "shadow-e298",
@@ -662,7 +636,8 @@
       "etag": null,
       "lastModified": null,
       "contentSha256": "8a2d5b53b0fce1e6f70b492bef585a3d5e2d293e9e1e860a0b58b766fadfc661",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 395
     },
     {
       "id": "shadow-e7c",
@@ -691,7 +666,8 @@
       "etag": null,
       "lastModified": null,
       "contentSha256": "ccc8e058ea38f70ee923e2a6df8b567b68fc0618bc8b1acfca24713a9466fca3",
-      "note": ""
+      "note": "",
+      "processedConfigCount": 359
     }
   ]
 }
