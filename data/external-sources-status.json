@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-18T07:25:00.917Z",
+  "generatedAt": "2026-11-18T20:28:40.965Z",
   "checkMode": "github-actions",
   "checkNotice": "Source reachability and URI syntax are checked. This is not a live proxy connectivity test.",
   "totalSources": 12,
@@ -13,17 +13,17 @@
     "url": "https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/External.txt",
     "rawUrl": "https://raw.githubusercontent.com/mehrdadmb2/V2ray_Sub/refs/heads/main/External-raw.txt",
     "configCount": 3395,
-    "rawCount": 4064,
+    "rawCount": 2708,
     "uniqueCount": 3395,
-    "bytes": 899471,
-    "rawSha256": "2afda61a2a4d017904a7eadc7be305605b614d7128c1d3f8a40b801861a84fb3",
-    "rawUpdatedAt": "2026-11-18T07:25:00.917Z",
+    "bytes": 752050,
+    "rawSha256": "e671c5bd7075b30ebb44abf213544ba493785209456c310138e3fda9c8db6826",
+    "rawUpdatedAt": "2026-11-18T20:28:40.965Z",
     "rawStale": false,
     "processedAt": "2026-11-18T07:25:30.756Z",
-    "processedStale": false,
+    "processedStale": true,
     "sha256": "ee36eb5d9dbc61c9b03c4f680611f43269a23b03566c9fd694d2bb1171aa3c25",
     "updatedAt": "2026-11-18T07:25:30.756Z",
-    "stale": false
+    "stale": true
   },
   "processed": {
     "file": "data/external-processed.json",
@@ -402,7 +402,7 @@
       "url": "https://sub.shadowproxy66.workers.dev/sub/be80a76c-6044-417c-9bff-e587f9380d05#ShadowProxy66(1)",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "offline",
       "httpStatus": 404,
       "configCount": 0,
@@ -411,8 +411,7 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404",
-      "processedConfigCount": 0
+      "note": "HTTP 404"
     },
     {
       "id": "shadow-214",
@@ -422,7 +421,7 @@
       "url": "https://sub.shadowproxy66.workers.dev/sub/214abfe9-791e-44ba-bd8e-0afe298119f6#ShadowProxy66(2)",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "offline",
       "httpStatus": 404,
       "configCount": 0,
@@ -431,8 +430,7 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404",
-      "processedConfigCount": 0
+      "note": "HTTP 404"
     },
     {
       "id": "epodonios",
@@ -442,7 +440,7 @@
       "url": "https://github.com/Epodonios/v2ray-configs/raw/main/All_Configs_Sub.txt",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "offline",
       "httpStatus": 404,
       "configCount": 0,
@@ -451,8 +449,7 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404",
-      "processedConfigCount": 0
+      "note": "HTTP 404"
     },
     {
       "id": "avencores",
@@ -462,7 +459,7 @@
       "url": "https://raw.githubusercontent.com/AvenCores/goida-vpn-configs/refs/heads/main/githubmirror/1.txt",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "offline",
       "httpStatus": 404,
       "configCount": 0,
@@ -471,8 +468,7 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404",
-      "processedConfigCount": 0
+      "note": "HTTP 404"
     },
     {
       "id": "danialsamadi",
@@ -482,26 +478,25 @@
       "url": "https://raw.githubusercontent.com/Danialsamadi/v2go/refs/heads/main/AllConfigsSub.txt",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "available",
       "httpStatus": 200,
-      "configCount": 599,
-      "validConfigCount": 599,
+      "configCount": 553,
+      "validConfigCount": 553,
       "invalidConfigCount": 0,
       "duplicateCount": 0,
       "protocols": {
-        "ss": 218,
-        "trojan": 107,
-        "vmess": 60,
-        "vless": 214
+        "vless": 172,
+        "vmess": 65,
+        "trojan": 84,
+        "ss": 232
       },
-      "latencyMs": 83,
-      "bytes": 145789,
-      "etag": "W/\"73d2c4363018c4fc23f615cedae9dfea18e47cfd897c643b9e20c426541fdb1f\"",
+      "latencyMs": 22,
+      "bytes": 131567,
+      "etag": "W/\"cd374d9b99d85c60148e196cca7442f8b0811fc39850d8a3e700940edead338b\"",
       "lastModified": null,
-      "contentSha256": "f307d04f7df43abee78928b1bea25969c88735d429ba1668861f3a21517dc0c2",
-      "note": "",
-      "processedConfigCount": 599
+      "contentSha256": "0411a69a7ed084f317292c9b8a4571fa2eb9a1a391c748a43aed911bb1472b50",
+      "note": ""
     },
     {
       "id": "family-sub",
@@ -511,7 +506,7 @@
       "url": "https://raw.githubusercontent.com/mehrdadmb2/Family-Sub/refs/heads/main/Sub.text",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "unknown",
       "httpStatus": 404,
       "configCount": 0,
@@ -520,8 +515,7 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 404",
-      "processedConfigCount": 0
+      "note": "HTTP 404"
     },
     {
       "id": "igareck",
@@ -531,7 +525,7 @@
       "url": "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/BLACK_VLESS_RUS_mobile.txt",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "available",
       "httpStatus": 200,
       "configCount": 150,
@@ -539,17 +533,18 @@
       "invalidConfigCount": 0,
       "duplicateCount": 0,
       "protocols": {
-        "vless": 146,
-        "vmess": 1,
-        "trojan": 3
+        "vless": 131,
+        "ss": 1,
+        "hysteria2": 1,
+        "vmess": 9,
+        "trojan": 8
       },
-      "latencyMs": 11,
-      "bytes": 44935,
-      "etag": "W/\"bb79dc47dee2791ca2ff8e1924772d6c2e2ec13a8b9d3ed9f4e9ab961fc218f0\"",
+      "latencyMs": 9,
+      "bytes": 48191,
+      "etag": "W/\"5ea6efbca87543eb3a4b9cf2debaa48809448255b996e8406a02f513284a92b1\"",
       "lastModified": null,
-      "contentSha256": "6f9205b407763336e37d2d763b5cfdda01b97f3228d5baaeb17c0ed8eaad9cf6",
-      "note": "",
-      "processedConfigCount": 150
+      "contentSha256": "e847cd44e1c417e3f0dca9d89a67b66bbb7005569ca741184a6e42b8f8d90a5b",
+      "note": ""
     },
     {
       "id": "ezaccess-nfz",
@@ -559,7 +554,7 @@
       "url": "https://ez-c12347.ezaccess125d3a7.workers.dev/feed/NFZ",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "offline",
       "httpStatus": 500,
       "configCount": 0,
@@ -568,8 +563,7 @@
       "duplicateCount": 0,
       "protocols": {},
       "latencyMs": null,
-      "note": "HTTP 500",
-      "processedConfigCount": 0
+      "note": "HTTP 500"
     },
     {
       "id": "psg-xray",
@@ -579,25 +573,24 @@
       "url": "https://raw.githubusercontent.com/itsyebekhe/PSG/main/subscriptions/xray/mix",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "partial",
       "httpStatus": 200,
-      "configCount": 305,
-      "validConfigCount": 302,
+      "configCount": 299,
+      "validConfigCount": 296,
       "invalidConfigCount": 3,
       "duplicateCount": 0,
       "protocols": {
-        "vless": 260,
-        "ss": 17,
+        "vless": 255,
+        "ss": 16,
         "vmess": 25
       },
-      "latencyMs": 91,
-      "bytes": 94447,
-      "etag": "W/\"3e098dc4355c4e5b67f0aa9ff27949ab42fd8310b2defb81526db8730107f081\"",
+      "latencyMs": 54,
+      "bytes": 92457,
+      "etag": "W/\"dbb8a4da480bad5b460897724f17ab9952596ead74473f2eab8385ad1ad79fff\"",
       "lastModified": null,
-      "contentSha256": "852491538b97718c09c145dcc772288f3c816efa7180f6dba1a2cec54650b4f4",
-      "note": "",
-      "processedConfigCount": 302
+      "contentSha256": "8ba5c10dc670fa146e99312da0aab6454e33fe9558b3bdd784ba888090c60a77",
+      "note": ""
     },
     {
       "id": "shadow-736",
@@ -607,27 +600,25 @@
       "url": "https://sub.shadowproxy66.workers.dev/sub/736218dc-3cdf-4e93-bb5b-1d726418e43e#ShadowProxy66(1)",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "partial",
       "httpStatus": 200,
-      "configCount": 1237,
-      "validConfigCount": 1235,
+      "configCount": 1023,
+      "validConfigCount": 1021,
       "invalidConfigCount": 2,
       "duplicateCount": 0,
       "protocols": {
-        "vless": 874,
-        "vmess": 193,
-        "hysteria2": 3,
-        "ss": 117,
-        "trojan": 48
+        "vmess": 174,
+        "vless": 694,
+        "ss": 111,
+        "trojan": 42
       },
-      "latencyMs": 633,
-      "bytes": 463580,
+      "latencyMs": 234,
+      "bytes": 377308,
       "etag": null,
       "lastModified": null,
-      "contentSha256": "3f9293390c3c26fd7938dc959b2efb181e0fb4750500249fd4e968d1ae17d715",
-      "note": "",
-      "processedConfigCount": 1235
+      "contentSha256": "28d9d3693ca9557cdfa9ed8ff128aac994e77bac8d147e6c7137fb625610225c",
+      "note": ""
     },
     {
       "id": "shadow-e298",
@@ -637,27 +628,26 @@
       "url": "https://sub.shadowproxy66.workers.dev/sub/e298329f-2274-4b24-8d7c-84183c77dba8#ShadowProxy66(2)",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "partial",
       "httpStatus": 200,
-      "configCount": 439,
-      "validConfigCount": 437,
+      "configCount": 327,
+      "validConfigCount": 325,
       "invalidConfigCount": 2,
       "duplicateCount": 0,
       "protocols": {
-        "vless": 374,
-        "trojan": 13,
-        "ss": 44,
-        "vmess": 5,
+        "vless": 259,
+        "vmess": 6,
+        "ss": 45,
+        "trojan": 14,
         "wireguard": 1
       },
-      "latencyMs": 387,
-      "bytes": 167084,
+      "latencyMs": 182,
+      "bytes": 118452,
       "etag": null,
       "lastModified": null,
-      "contentSha256": "9432a8d10e6325c26b6341e49e55fcb57014bd7f36500ef6315f54b452fc8c2f",
-      "note": "",
-      "processedConfigCount": 437
+      "contentSha256": "2373d887ca265b1641861fecc04c6c37af3ef4c5ae007dbbab1c64efa7149ba1",
+      "note": ""
     },
     {
       "id": "shadow-e7c",
@@ -667,26 +657,26 @@
       "url": "https://sub.shadowproxy66.workers.dev/sub/e7c122fa-35f6-4962-9ff4-70ab55e6fbac#ShadowProxy66(3)",
       "enabled": true,
       "includeInAggregate": true,
-      "lastCheckedAt": "2026-11-18T07:25:00.917Z",
+      "lastCheckedAt": "2026-11-18T20:28:40.965Z",
       "health": "partial",
       "httpStatus": 200,
-      "configCount": 1343,
-      "validConfigCount": 1341,
+      "configCount": 365,
+      "validConfigCount": 363,
       "invalidConfigCount": 2,
       "duplicateCount": 0,
       "protocols": {
-        "vless": 1236,
-        "trojan": 40,
-        "hysteria2": 1,
-        "vmess": 64
+        "vless": 326,
+        "ss": 1,
+        "vmess": 6,
+        "trojan": 29,
+        "hysteria2": 1
       },
-      "latencyMs": 591,
-      "bytes": 522712,
+      "latencyMs": 201,
+      "bytes": 148152,
       "etag": null,
       "lastModified": null,
-      "contentSha256": "ccd4e853bb77e9c1af13a425e4888642ffcda9882a383dc390e4644fe3eb9ed2",
-      "note": "",
-      "processedConfigCount": 1326
+      "contentSha256": "885e5ece9b2856ba730e6900798e225985a10e2f5284fb61a6f07c25aafd48cd",
+      "note": ""
     }
   ]
 }
